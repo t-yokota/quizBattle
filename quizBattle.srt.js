@@ -1,4 +1,4 @@
-00:00:00,000 --> 00:00;01,000
+00:00:00,000 --> 00:00;03,460
 //text to speech example
 //loadScript('http://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js');
 var g=document.createElement("textarea");
