@@ -3,7 +3,7 @@
 //loadScript('http://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js');
 var g=document.createElement("textarea");
 g.id = "answer";
-g.value = "test";
+g.value = "太郎君";
 document.getElementsByTagName( 'body' )[ 0 ].appendChild(g);
 
 2
