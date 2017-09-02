@@ -1,7 +1,8 @@
 0
 00:00:00,000 --> 00:00:01,000
 doOnce[index] = true;
-var g=document.createElement("textarea");
-g.id = "name";
-g.value = "test";
-document.getElementsByTagName('body')[0].appendChild(g);
+//var quesCount = documnt.createElement()
+var ansArea = document.createElement("h1");
+ansArea.id = "answer";
+ansArea.value = "write answer here.";
+document.getElementsByTagName('body')[0].appendChild(ansAea);
