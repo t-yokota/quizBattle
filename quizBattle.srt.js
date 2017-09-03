@@ -7,5 +7,5 @@ var ansArea = document.createElement("textarea");
 numQues.value = "question 1";
 //ansArea.id = "answer";
 ansArea.value = "Write answer here.";
-document.getElementsByTagName('body')[0].appendChils(numQues);
+document.getElementsByTagName('body')[0].appendChild(numQues);
 document.getElementsByTagName('body')[1].appendChild(ansArea);
