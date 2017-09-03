@@ -12,4 +12,4 @@ document.getElementsByTagName("body")[0].appendChild(ansArea);
 
 0
 00:00:05,000 --> 00:00:06,000
-cuntQues += 1;
+cuntQues = "2";
