@@ -12,7 +12,7 @@ ansBtn.id = "ansbtn";
 00:00:10,000 --> 00:00:11,000
 // 問題数
 cntQues = 1;
-getElementById("numques").innerHTML = "第"+cntQues+"問";
+document.getElementById("numques").innerHTML = "第"+cntQues+"問";
 //numQuesText = document.createTextNode("第"+cntQues+"問");
 //numQues.appendChild(numQuesText);
 // 解答欄
