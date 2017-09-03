@@ -3,5 +3,5 @@
 doOnce[index] = true;
 var ansArea = document.createElement("textarea");
 ansArea.id = "answer";
-ansArea.value = "Here";
+ansArea.value = "Write answer here.";
 document.getElementsByTagName('body')[0].appendChild(ansArea);
