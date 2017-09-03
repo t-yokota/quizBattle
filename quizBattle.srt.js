@@ -12,8 +12,9 @@ ansBtn.id = "ansbtn";
 00:00:10,000 --> 00:00:11,000
 // 問題数
 cntQues = 1;
-numQuesText = document.createTextNode("第"+cntQues+"問");
-numQues.appendChild(numQuesText);
+getElementById("numques").innerHTML = "第"+cntQues+"問";
+//numQuesText = document.createTextNode("第"+cntQues+"問");
+//numQues.appendChild(numQuesText);
 // 解答欄
 ansCol.value = "ここに解答を記入して下さい";
 // 解答ボタン
