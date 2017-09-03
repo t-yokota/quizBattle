@@ -3,17 +3,17 @@
 doOnce[index] = true;
 numQues = document.createElement("h1");
 ansCol = document.createElement("textarea");
-ansBtn = document.createElement("input");
+ansBtn = document.createElement("button");
 numQues.id = "numques";
 ansCol.id = "anscol";
 ansBtn.id = "ansbtn";
 numQuesText = document.createTextNode("");
 numQues.appendChild(numQuesText);
-ansBtn.type = "button";
+//ansBtn.type = "button";
 ansBtn.value = "解答を送信";
 document.getElementsByTagName("body")[0].appendChild(numQues);
 document.getElementsByTagName("body")[0].appendChild(ansCol);
-document.getElementsByTagName("body")[0].appendChild(andBtn);
+document.getElementsByTagName("body")[0].appendChild(ansBtn);
 
 1
 00:00:05,000 --> 00:00:06,000
