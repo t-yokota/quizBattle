@@ -9,10 +9,10 @@ ansCol.id = "anscol";
 ansBtn.id = "ansbtn";
 
 1
-00:00:10,000 --> 00:00:11,000
+00:00:05,000 --> 00:00:06,000
 // 問題数
-cntQues = 1;
-numQuesText = document.createTextNode("");
+var cntQues = 1;
+numQuesText = document.createTextNode("第"+cntQues+"問");
 numQues.appendChild(numQuesText);
 // 解答欄
 ansCol.value = "ここに解答を記入して下さい";
@@ -22,10 +22,9 @@ ansBtn.value = "解答を送信";
 document.getElementsByTagName("body")[0].appendChild(numQues);
 document.getElementsByTagName("body")[0].appendChild(ansCol);
 document.getElementsByTagName("body")[0].appendChild(andBtn);
-//
-document.getElementById("numques").innerHTML = "第"+cntQues+"問";
+//document.getElementById("numques").innerHTML = "第"+cntQues+"問";
 
 2
-00:00:15,000 --> 00:00:16,000
-cntQues += 1;
+00:00:10,000 --> 00:00:11,000
+var cntQues = 2;
 document.getElementById("numques").innerHTML = "第"+cntQues+"問";
