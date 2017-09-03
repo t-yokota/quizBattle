@@ -3,13 +3,14 @@
 doOnce[index] = true;
 numQues = document.createElement("h1");
 ansCol = document.createElement("textarea");
-ansBtn = document.createElement("button");
+ansBtn = document.createElement("input");
 numQues.id = "numques";
 ansCol.id = "anscol";
 ansBtn.id = "ansbtn";
 numQuesText = document.createTextNode("");
 numQues.appendChild(numQuesText);
-ansBtn.innerHTML = "解答を送信";
+ansBtn.type = "button";
+ansBtn.value = "解答を送信";
 document.getElementsByTagName("body")[0].appendChild(numQues);
 document.getElementsByTagName("body")[0].appendChild(ansCol);
 document.getElementsByTagName("body")[0].appendChild(andBtn);
