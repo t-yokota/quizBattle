@@ -1,21 +1,28 @@
 0
-00:00:00,000 --> 00:00:01,000
-//doOnce[index] = true;
-// 問題数を表示
-cntQues = 1;
+00:00:00,000 --> 00:00:00,100
+doOnce[index] = true;
 var numQues = document.createElement("h1");
+var ansCol = document.createElement("textarea");
+var ansBtn = document.createElement("button");
 numQues.id = "numques";
-numQuesText = document.createTextNode("第"+cntQues+"問");
-numQues.appendChild(numQuesText);
-// 回答欄を表示
-var ansArea = document.createElement("textarea");
-ansArea.id = "ansarea";
-ansArea.value = "ここに回答を記入して下さい";
-//
-document.getElementsByTagName("body")[0].appendChild(numQues);
-document.getElementsByTagName("body")[0].appendChild(ansArea);
+ansCol.id = "anscol";
+ansBtn.id = "ansbtn";
 
 1
-00:00:05,000 --> 00:00:06,000
+00:00:10,000 --> 00:00:11,000
+// 問題数
+cntQues = 1;
+numQuesText = document.createTextNode("第"+cntQues+"問");
+numQues.appendChild(numQuesText);
+// 解答欄
+ansCol.value = "ここに解答を記入して下さい";
+// 解答ボタン
+ansBtn.value = "解答を送信";
+document.getElementsByTagName("body")[0].appendChild(numQues);
+document.getElementsByTagName("body")[0].appendChild(ansCol);
+document.getElementsByTagName("body")[0].appendChild(andBtn);
+
+2
+00:00:15,000 --> 00:00:16,000
 cntQues += 1;
 document.getElementById("numques").innerHTML = "第"+cntQues+"問";
