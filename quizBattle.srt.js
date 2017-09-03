@@ -9,8 +9,7 @@ ansCol.id = "anscol";
 ansBtn.id = "ansbtn";
 numQuesText = document.createTextNode("");
 numQues.appendChild(numQuesText);
-ansBtnText = document.createTextNode("解答を送信")
-ansBtn.appendChild(ansBtnText);
+ansBtn.textContent = "解答を送信";
 document.getElementsByTagName("body")[0].appendChild(numQues);
 document.getElementsByTagName("body")[0].appendChild(ansCol);
 document.getElementsByTagName("body")[0].appendChild(andBtn);
