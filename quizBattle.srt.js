@@ -1,9 +1,9 @@
 0
 00:00:00,000 --> 00:00:00,100
 doOnce[index] = true;
-var numQues = document.createElement("h1");
-var ansCol = document.createElement("textarea");
-var ansBtn = document.createElement("button");
+numQues = document.createElement("h1");
+ansCol = document.createElement("textarea");
+ansBtn = document.createElement("button");
 numQues.id = "numques";
 ansCol.id = "anscol";
 ansBtn.id = "ansbtn";
