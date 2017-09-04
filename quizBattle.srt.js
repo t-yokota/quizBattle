@@ -11,6 +11,9 @@ numQuesText = document.createTextNode("");
 numQues.appendChild(numQuesText);
 ansCol.value = "ここに解答を記入して下さい";
 ansBtn.innerHTML = "解答を送信";
+
+0
+00:00:0,200 --> 00:00:00,300
 document.getElementsByTagName("body")[0].appendChild(numQues);
 document.getElementsByTagName("body")[0].appendChild(ansCol);
 document.getElementsByTagName("body")[0].appendChild(ansBtn);
