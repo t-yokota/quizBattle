@@ -23,7 +23,7 @@ numOX.appendChild(cntOX);
 document.getElementsByTagName("body")[0].appendChild(numQues);
 document.getElementsByTagName("body")[0].appendChild(ansCol);
 document.getElementsByTagName("body")[0].appendChild(ansBtn);
-document.getElementsByTagName("body")[0].appendChild(cntOX);
+document.getElementsByTagName("body")[0].appendChild(numOX);
 
 0
 00:00:05,000 --> 00:00:06,000
