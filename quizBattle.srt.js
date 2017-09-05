@@ -9,8 +9,8 @@ numQues.id = "numques";
 ansCol.id = "anscol";
 ansBtn.id = "ansbtn";
 numOX.id = "numox";
-QuizName = document.createTextNode("");
-cntOX = document.createTextNode("");
+QuizName = document.createTextNode();
+cntOX = document.createTextNode();
 numQues.appendChild(QuizName);
 numOX.appendChild(cntOX);
 
