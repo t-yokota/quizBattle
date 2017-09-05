@@ -7,13 +7,10 @@ ansBtn = document.createElement("button");
 numQues.id = "numques";
 ansCol.id = "anscol";
 ansBtn.id = "ansbtn";
-numQuesText = document.createTextNode("");
-numQues.appendChild(numQuesText);
-ansCol.value = "ここに解答を記入して下さい";
+QuizName = document.createTextNode("動画の相手とクイズ対決");
+ansCol.value = "ここに解答を入力して下さい";
 ansBtn.innerHTML = "解答を送信";
-
-0
-00:00:0,200 --> 00:00:00,300
+numQues.appendChild(QuizName);
 document.getElementsByTagName("body")[0].appendChild(numQues);
 document.getElementsByTagName("body")[0].appendChild(ansCol);
 document.getElementsByTagName("body")[0].appendChild(ansBtn);
