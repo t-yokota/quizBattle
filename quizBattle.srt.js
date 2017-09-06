@@ -5,13 +5,13 @@ numQues = document.createElement("h1"); //問題数を表示（はじめはク�
 ansCol = document.createElement("textarea"); //解答を入力するテキストエリア
 ansBtn = document.createElement("button"); //解答を送信するボタン
 numOX = document.createElement("h1"); //◯正解数と✖不正解数を表示
-sndPusx = document.createElement("audio"); 
+sndPush = document.createElement("audio"); 
 numQues.id = "numques";
 ansCol.id = "anscol";
 ansBtn.id = "ansbtn";
 numOX.id = "numox";
 sndPush.id = "sndpush";
-sndPush.
+sndPush.src = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/sounds/push.mp3";
 QuizName = document.createTextNode("");
 cntOX = document.createTextNode("");
 numQues.appendChild(QuizName);
@@ -31,6 +31,7 @@ document.getElementById("numox").innerHTML = "◯: "+cntO+"  ✖: "+cntX;
 
 0
 00:00:05,000 --> 00:00:06,000
+console.log(sndPush);
 var cntQues = 1;
 document.getElementById("numques").innerHTML = "第"+cntQues+"問";
 
