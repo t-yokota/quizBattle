@@ -5,10 +5,13 @@ numQues = document.createElement("h1"); //問題数を表示（はじめはク�
 ansCol = document.createElement("textarea"); //解答を入力するテキストエリア
 ansBtn = document.createElement("button"); //解答を送信するボタン
 numOX = document.createElement("h1"); //◯正解数と✖不正解数を表示
+sndPusx = document.createElement("audio"); 
 numQues.id = "numques";
 ansCol.id = "anscol";
 ansBtn.id = "ansbtn";
 numOX.id = "numox";
+sndPush.id = "sndpush";
+sndPush.
 QuizName = document.createTextNode("");
 cntOX = document.createTextNode("");
 numQues.appendChild(QuizName);
@@ -24,7 +27,7 @@ document.getElementById("numques").innerHTML = "動画内の相手とクイズ�
 ansCol.value = "ここに解答を入力して下さい";
 ansBtn.innerHTML = "解答を送信";
 cntO = 0; cntX = 0;
-document.getElementById("numox").innerHTML = "◯: "+cntO+"\n✖: "+cntX;
+document.getElementById("numox").innerHTML = "◯: "+cntO+"  ✖: "+cntX;
 
 0
 00:00:05,000 --> 00:00:06,000
