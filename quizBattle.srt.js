@@ -21,6 +21,7 @@ document.getElementsByTagName("body")[0].appendChild(numQues);
 document.getElementsByTagName("body")[0].appendChild(ansCol);
 document.getElementsByTagName("body")[0].appendChild(ansBtn);
 document.getElementsByTagName("body")[0].appendChild(numOX);
+//document.getElementsByTagName("body")[0].appendChild(sndPush);
 
 0
 00:00:00,200 --> 00:00:00,300
@@ -32,7 +33,7 @@ document.getElementById("numox").innerHTML = "◯: "+cntO+"  ✖: "+cntX;
 
 0
 00:00:05,000 --> 00:00:06,000
-console.log(sndPush);
+sndPush.play();
 var cntQues = 1;
 document.getElementById("numques").innerHTML = "第"+cntQues+"問";
 
