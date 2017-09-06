@@ -20,8 +20,9 @@ document.getElementsByTagName("body")[0].appendChild(numQues);
 document.getElementsByTagName("body")[0].appendChild(ansCol);
 document.getElementsByTagName("body")[0].appendChild(ansBtn);
 document.getElementsByTagName("body")[0].appendChild(numOX);
-document.onkeydown = pushButton;
-function pushButton(){if(event.keyCode == 32){sndPush.play(); player.pauseVideo();}}
+document.onkeydown = pushButton1;
+function pushButton1(){if(event.keyCode == 32){sndPush.play(); player.pauseVideo();}}
+function pushButton2(){if(player.getPlayerState() == 2){sndPush.play();}}
 
 0
 00:00:00,200 --> 00:00:00,300
