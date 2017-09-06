@@ -20,6 +20,8 @@ document.getElementsByTagName("body")[0].appendChild(numQues);
 document.getElementsByTagName("body")[0].appendChild(ansCol);
 document.getElementsByTagName("body")[0].appendChild(ansBtn);
 document.getElementsByTagName("body")[0].appendChild(numOX);
+document.onkeydown = pushButton;
+function pushButton(){if(event.keyCode == 32){sndPush.play(); player.pauseVideo();}}
 
 0
 00:00:00,200 --> 00:00:00,300
@@ -28,8 +30,6 @@ ansCol.value = "ここに解答を入力して下さい";
 ansBtn.innerHTML = "解答を送信";
 cntO = 0; cntX = 0;
 document.getElementById("numox").innerHTML = "◯: "+cntO+"  ✖: "+cntX;
-document.onkeydown = pushButton;
-function pushButton(){ if(event.keyCode == 32){ sndPush.play(); } }
 
 0
 00:00:05,000 --> 00:00:06,000
