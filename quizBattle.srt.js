@@ -29,7 +29,7 @@ ansBtn.innerHTML = "解答を送信";
 cntO = 0; cntX = 0;
 document.getElementById("numox").innerHTML = "◯: "+cntO+"  ✖: "+cntX;
 document.onkeydown = pushButton;
-function pushButton(){ if(event.keyCode == 32){ sndPush.play() } }
+function pushButton(){ if(event.keyCode == 32){ sndPush.play(); } }
 
 0
 00:00:05,000 --> 00:00:06,000
