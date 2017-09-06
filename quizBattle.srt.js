@@ -21,9 +21,9 @@ document.getElementsByTagName("body")[0].appendChild(ansCol);
 document.getElementsByTagName("body")[0].appendChild(ansBtn);
 document.getElementsByTagName("body")[0].appendChild(numOX);
 document.onkeydown = pushButton1;
-document.onStateChange = pushButton2;
 function pushButton1(){if(event.keyCode == 32){sndPush.play(); player.pauseVideo();}}
-function pushButton2(){if(player.getPlayerState()==2){sndPush.play();}}
+player.addEventListener('onStateChange', pushButton2);
+function pushButton2(event){if(event.data == 2){sndPush.play();}}
 
 0
 00:00:00,200 --> 00:00:00,300
