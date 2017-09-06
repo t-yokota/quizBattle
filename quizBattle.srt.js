@@ -12,7 +12,6 @@ ansBtn.id = "ansbtn";
 numOX.id = "numox";
 sndPush.id = "sndpush";
 sndPush.src = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/sounds/push.mp3";
-//sndPush.src = "http://santaside.com/hayaoshiki/images/Original.mp3";
 QuizName = document.createTextNode("");
 cntOX = document.createTextNode("");
 numQues.appendChild(QuizName);
@@ -21,7 +20,8 @@ document.getElementsByTagName("body")[0].appendChild(numQues);
 document.getElementsByTagName("body")[0].appendChild(ansCol);
 document.getElementsByTagName("body")[0].appendChild(ansBtn);
 document.getElementsByTagName("body")[0].appendChild(numOX);
-//document.getElementsByTagName("body")[0].appendChild(sndPush);
+document.onkeydown = pushButton;
+function pushButton(){ if(event.keyCode == 32){ sndPush.play() } }
 
 0
 00:00:00,200 --> 00:00:00,300
