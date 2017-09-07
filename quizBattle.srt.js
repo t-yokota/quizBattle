@@ -34,7 +34,7 @@ cntO = 0; cntX = 0;
 document.getElementById("numques").innerHTML = "動画内の相手とクイズ対決";
 ansCol.value = "ここに解答を入力して下さい";
 ansBtn.innerHTML = "解答を送信";
-document.getElementById("numox").innerHTML = "◯: "+cntO+"\n✖: "+cntX;
+document.getElementById("numox").innerHTML = "◯: "+cntO+"  ✖: "+cntX;
 
 0
 00:00:05,000 --> 00:00:06,000
