@@ -23,8 +23,7 @@ document.getElementsByTagName("body")[0].appendChild(numOX);
 document.onkeydown = pushButton1;
 function pushButton1(){if(event.keyCode == 32){sndPush.play(); player.pauseVideo();}}
 player.addEventListener('onStateChange', pushButton2);
-//function pushButton2(event){if(event.data == 2){sndPush.play();}}
-function pushButton2(event){if(event.data == player.PlayerState.PAUSED){sndPush.play();}}
+function pushButton2(event){if(event.data == 2){sndPush.play();}}
 
 0
 00:00:00,200 --> 00:00:00,300
