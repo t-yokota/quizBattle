@@ -1,23 +1,13 @@
 0
 00:00:00,000 --> 00:00:00,100
 doOnce[index] = true;
-/*
-var srtBool = 0;
-srtBtn = document.createElement("button");   //動画の再生ボタン
-srtBtn.id = "srtbtn";
-srtBtn.innerHTML = "動画を再生";
-srtBtn.onClick = "startVideoInit();";
-player.addEventListener('onStageChange', stopVideoInit)
-function startVideoInit(){ srtBool = 1; }
-function stopVideoInit(){ if(srtBool = 0){player.pauseVideo();} }
-*/
-numQues = document.createElement("h1");      //問題数を表示（はじめはクイズの企画名を表示）
-ansCol = document.createElement("textarea"); //解答を入力するテキストエリア
-ansBtn = document.createElement("button");   //解答を送信するボタン
-numOX = document.createElement("h1");        //◯正解数と✖不正解数を表示
-sndPush = document.createElement("audio");   //ボタンの押下音
-sndO = document.createElement("audio");      //正解音
-sndX = document.createElement("audio");      //不正解音
+numQues = document.createElement("h1");     //問題数を表示（はじめはクイズの企画名を表示）
+ansCol = document.createElement("textarea");//解答を入力するテキストエリア
+ansBtn = document.createElement("button");  //解答を送信するボタン
+numOX = document.createElement("h1");       //◯正解数と✖不正解数を表示
+sndPush = document.createElement("audio");  //ボタンの押下音
+sndO = document.createElement("audio");     //正解音
+sndX = document.createElement("audio");     //不正解音
 numQues.id = "numques";
 ansCol.id = "anscol";
 ansBtn.id = "ansbtn";
@@ -25,7 +15,7 @@ numOX.id = "numox";
 sndPush.src = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/sounds/push.mp3";
 sndO.src = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/sounds/correct.mp3";
 sndX.src = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/sounds/discorrect.mp3";
-QuizName = document.createTextNode("");
+QuizName = document.createTextNode("");//書き換えが多いTextNodeの内容はdoOnce内のcreateElement(～appendChildまで)から隔離し、他のindex内でinnerHTMLを用いて編集する
 cntOX = document.createTextNode("");
 numQues.appendChild(QuizName);
 numOX.appendChild(cntOX);
@@ -33,13 +23,12 @@ document.getElementsByTagName("body")[0].appendChild(numQues);
 document.getElementsByTagName("body")[0].appendChild(ansCol);
 document.getElementsByTagName("body")[0].appendChild(ansBtn);
 document.getElementsByTagName("body")[0].appendChild(numOX);
-document.getElementById("ansbtn").focus();
-document.getElementById("ansbtn").blur();
+document.getElementById("ansbtn").focus();//再生直後にカーソルのフォーカスをjsの描画範囲(のボタンUI)に移動する->すぐにキーイベントが呼び出せるようになる
+document.getElementById("ansbtn").blur(); //ボタン自体にフォーカスをしている意味はないため、すぐにbulrでそれを解除
 document.onkeydown = pushButton1;
-player.addEventListener('onStateChange', pushButton2);
-function pushButton1(){if(event.keyCode == 80){sndPush.play(); player.pauseVideo();}}
-//function pushButton1(){if(event.keyCode == 32){sndPush.play(); player.pauseVideo();}}
-//function pushButton2(event){if(event.data == 2){sndPush.play();}}
+player.addEventListener('onStateChange', pushButton2);//カーソルのフォーカスがplayer内の場合キーイベントが呼べないため、onStageChange時に起動するイベントリスナー関数も用意する
+function pushButton1(){if(event.keyCode == 32){if(player.getPlayerState = 1){sndPush.play(); player.pauseVideo();}}}
+function pushButton2(event){if(event.data == 2){sndPush.play();}}
 
 0
 00:00:00,200 --> 00:00:00,300
