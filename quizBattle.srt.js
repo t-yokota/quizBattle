@@ -1,6 +1,16 @@
 0
 00:00:00,000 --> 00:00:00,100
 doOnce[index] = true;
+/*
+var srtBool = 0;
+srtBtn = document.createElement("button");   //動画の再生ボタン
+srtBtn.id = "srtbtn";
+srtBtn.innerHTML = "動画を再生";
+srtBtn.onClick = "startVideoInit();";
+player.addEventListener('onStageChange', stopVideoInit)
+function startVideoInit(){ srtBool = 1; }
+function stopVideoInit(){ if(srtBool = 0){player.pauseVideo();} }
+*/
 numQues = document.createElement("h1");      //問題数を表示（はじめはクイズの企画名を表示）
 ansCol = document.createElement("textarea"); //解答を入力するテキストエリア
 ansBtn = document.createElement("button");   //解答を送信するボタン
@@ -27,6 +37,7 @@ document.onkeydown = pushButton1;
 player.addEventListener('onStateChange', pushButton2);
 function pushButton1(){if(event.keyCode == 32){sndPush.play(); player.pauseVideo();}}
 function pushButton2(event){if(event.data == 2){sndPush.play();}}
+//document.getElementsByTagName("body")[0].focus();
 
 0
 00:00:00,200 --> 00:00:00,300
