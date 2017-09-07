@@ -33,7 +33,7 @@ document.getElementsByTagName("body")[0].appendChild(numQues);
 document.getElementsByTagName("body")[0].appendChild(ansCol);
 document.getElementsByTagName("body")[0].appendChild(ansBtn);
 document.getElementsByTagName("body")[0].appendChild(numOX);
-document.getElementsByTagName("body")[0].focus();
+document.getElementsById("numques").focus();
 document.onkeydown = pushButton1;
 player.addEventListener('onStateChange', pushButton2);
 function pushButton1(){if(event.keyCode == 32){sndPush.play(); player.pauseVideo();}}
