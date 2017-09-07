@@ -37,8 +37,9 @@ document.getElementById("ansbtn").focus();
 document.getElementById("ansbtn").blur();
 document.onkeydown = pushButton1;
 player.addEventListener('onStateChange', pushButton2);
-function pushButton1(){if(event.keyCode == 32){sndPush.play(); player.pauseVideo();}}
-function pushButton2(event){if(event.data == 2){sndPush.play();}}
+function pushButton1(){if(event.keyCode == 80){sndPush.play(); player.pauseVideo();}}
+//function pushButton1(){if(event.keyCode == 32){sndPush.play(); player.pauseVideo();}}
+//function pushButton2(event){if(event.data == 2){sndPush.play();}}
 
 0
 00:00:00,200 --> 00:00:00,300
