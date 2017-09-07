@@ -34,6 +34,7 @@ document.getElementsByTagName("body")[0].appendChild(ansCol);
 document.getElementsByTagName("body")[0].appendChild(ansBtn);
 document.getElementsByTagName("body")[0].appendChild(numOX);
 document.getElementById("ansbtn").focus();
+document.getElementById("ansbtn").blur();
 document.onkeydown = pushButton1;
 player.addEventListener('onStateChange', pushButton2);
 function pushButton1(){if(event.keyCode == 32){sndPush.play(); player.pauseVideo();}}
