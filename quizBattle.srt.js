@@ -27,7 +27,7 @@ document.getElementById("ansbtn").focus();//再生直後にカーソルのフォ
 document.getElementById("ansbtn").blur(); //ボタン自体にフォーカスをしている意味はないため、すぐにbulrでそれを解除
 document.onkeydown = pushButton1;
 player.addEventListener('onStateChange', pushButton2);//カーソルのフォーカスがplayer内の場合キーイベントが呼べないため、onStageChange時に起動するイベントリスナー関数も用意する
-function pushButton1(){if(event.keyCode == 32){if(player.getPlayerState == 1){sndPush.play(); player.pauseVideo();}}}
+function pushButton1(){if(event.keyCode == 32){if(player.getPlayerState() == 1){sndPush.play(); player.pauseVideo();}}}
 function pushButton2(event){if(event.data == 2){sndPush.play();}}
 
 0
