@@ -36,7 +36,7 @@ function checkAnswer(){sndPush.play();}
 //player.addEventListener('onStateChange', pushButton2);//カーソルのフォーカスがplayer内の場合キーイベントが呼べないため、onStageChange時に起動するイベントリスナー関数も用意する
 //function pushButton2(event){if(event.data == 2){sndPush.play();}}//スペースキーを押下->動画が停止(これをonStageChangeが取得)->音が鳴るという流れになるため、押下から音が鳴るまで若干遅延が生まれてしまう
 //
-correctAns1 = "ここに解答を入力して下さい";
+correctAns1 = new String("ここに解答を入力して下さい");
 
 0
 00:00:00,200 --> 00:00:00,300
@@ -49,7 +49,7 @@ document.getElementById("numox").innerHTML = "◯: "+cntO+"  ✖: "+cntX;
 0
 00:00:05,000 --> 00:00:06,000
 var cntQues = 1;
-ans1 = ansCol.value;
+ans1 = new String(ansCol.value);
 document.getElementById("numques").innerHTML = "第"+cntQues+"問";
 ansBtn.onclick = checkAnswer1;
 function checkAnswer1(correctAns1, ans1){if(ans1.equals(correctAns1)){sndO.play();}}
