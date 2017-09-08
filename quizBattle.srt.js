@@ -49,7 +49,7 @@ document.getElementById("numox").innerHTML = "◯: "+cntO+"  ✖: "+cntX;
 0
 00:00:05,000 --> 00:00:06,000
 var cntQues = 1;
-ans1 = ansCol.value.vlaueOf();
+ans1 = ansCol.value;
 document.getElementById("numques").innerHTML = "第"+cntQues+"問";
 ansBtn.onclick = checkAnswer1;
 //function checkAnswer1(ans1, correctAns1){if(ans1.valueOf() === correctAns1){sndO.play();}}
