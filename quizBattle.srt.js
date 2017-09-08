@@ -33,7 +33,7 @@ function focusJS(event){if(event.data == 1){document.getElementById("ansbtn").fo
 function pushButton1(){if(event.keyCode == 32){if(player.getPlayerState() == 1){sndPush.play(); player.pauseVideo();}}}
 function pushButton2(){if(player.getPlayerState() == 1){sndPush.play(); player.pauseVideo();}}
 //function checkAnswer(){sndPush.play();}
-function checkAnswer(correctAns){ans1 = ansCol.value; document.getElementById("numques").innerHTML = ans+", "+correctAns;}
+//function checkAnswer(correctAns){var ans = ansCol.value; document.getElementById("numques").innerHTML = ans+", "+correctAns;}
 //player.addEventListener('onStateChange', pushButton2);//カーソルのフォーカスがplayer内の場合キーイベントが呼べないため、onStageChange時に起動するイベントリスナー関数も用意する
 //function pushButton2(event){if(event.data == 2){sndPush.play();}}//スペースキーを押下->動画が停止(これをonStageChangeが取得)->音が鳴るという流れになるため、押下から音が鳴るまで若干遅延が生まれてしまう
 //
@@ -53,6 +53,7 @@ var cntQues = 1;
 document.getElementById("numques").innerHTML = "第"+cntQues+"問";
 ansBtn.onclick = checkAnswer(correctAns1);
 //function checkAnswer1(ans1, correctAns1){if(ans1.valueOf() === correctAns1){sndO.play();}}
+function checkAnswer(correctAns){var ans = ansCol.value; document.getElementById("numques").innerHTML = ans+", "+correctAns;}
 
 0
 00:00:10,000 --> 00:00:11,000
