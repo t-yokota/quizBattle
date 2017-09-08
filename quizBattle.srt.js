@@ -28,10 +28,11 @@ document.getElementById("ansbtn").blur(); //ボタン自体にフォーカスを
 document.onkeydown = pushButton1;
 document.ontouchstart = pushButton2;
 player.addEventListener('onStateChange', focusJS);
-//player.addEventListener('onStateChange', pushButton2);//カーソルのフォーカスがplayer内の場合キーイベントが呼べないため、onStageChange時に起動するイベントリスナー関数も用意する
+ansBtn.onclick = "sndPush.play();";
 function focusJS(event){if(event.data == 1){document.getElementById("ansbtn").focus();document.getElementById("ansbtn").blur();}}//再生開始後に必ずカーソルのフォーカスをjs描画範囲内に移動すれば、いつでもキーイベントが呼び出せる
 function pushButton1(){if(event.keyCode == 32){if(player.getPlayerState() == 1){sndPush.play(); player.pauseVideo();}}}
 function pushButton2(){if(player.getPlayerState() == 1){sndPush.play(); player.pauseVideo();}}
+//player.addEventListener('onStateChange', pushButton2);//カーソルのフォーカスがplayer内の場合キーイベントが呼べないため、onStageChange時に起動するイベントリスナー関数も用意する
 //function pushButton2(event){if(event.data == 2){sndPush.play();}}//スペースキーを押下->動画が停止(これをonStageChangeが取得)->音が鳴るという流れになるため、押下から音が鳴るまで若干遅延が生まれてしまう
 
 0
