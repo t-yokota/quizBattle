@@ -52,7 +52,7 @@ document.getElementById("numox").innerHTML = "◯: "+cntO+"  ✖: "+cntX;
 var cntQues = 1;
 document.getElementById("numques").innerHTML = "第"+cntQues+"問";
 ansBtn.onclick = checkAnswer(correctAns1);
-function checkAnswer1(correctAns){var ans = ansCol.value; if(ans.valueOf() === correctAns.valueOf()){sndO.play();}}
+function checkAnswer(correctAns){var ans = ansCol.value; if(ans.valueOf() === correctAns.valueOf()){sndO.play();}}
 //function checkAnswer(correctAns){var ans = ansCol.value; document.getElementById("numques").innerHTML = ans+", "+correctAns;}
 
 0
