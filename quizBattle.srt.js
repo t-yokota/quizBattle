@@ -28,7 +28,7 @@ document.getElementById("ansbtn").blur(); //ボタン自体にフォーカスを
 document.onkeydown = pushButton1;
 document.ontouchstart = pushButton2;
 player.addEventListener('onStateChange', focusJS);
-ansBtn.onclick = "sndPush.play();";
+ansBtn.onclick = sndPush.play();
 function focusJS(event){if(event.data == 1){document.getElementById("ansbtn").focus();document.getElementById("ansbtn").blur();}}//再生開始後に必ずカーソルのフォーカスをjs描画範囲内に移動すれば、いつでもキーイベントが呼び出せる
 function pushButton1(){if(event.keyCode == 32){if(player.getPlayerState() == 1){sndPush.play(); player.pauseVideo();}}}
 function pushButton2(){if(player.getPlayerState() == 1){sndPush.play(); player.pauseVideo();}}
