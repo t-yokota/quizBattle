@@ -52,7 +52,7 @@ var cntQues = 1;
 ans1 = ansCol.value;
 document.getElementById("numques").innerHTML = "第"+cntQues+"問";
 ansBtn.onclick = checkAnswer1;
-function checkAnswer1(correctAns1, ans1){if(ans1 == correctAns1){sndO.play();}}
+function checkAnswer1(correctAns1, ans1){if(ans1 != correctAns1){sndO.play();}}
 
 0
 00:00:10,000 --> 00:00:11,000
