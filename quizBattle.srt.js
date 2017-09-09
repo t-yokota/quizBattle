@@ -51,8 +51,8 @@ document.getElementById("numox").innerHTML = "◯: "+cntO+"  ✖: "+cntX;
 00:00:05,000 --> 00:00:06,000
 var cntQues = 1;
 document.getElementById("numques").innerHTML = "第"+cntQues+"問";
-ansBtn.onclick = checkAnswer(correctAns1);
-function checkAnswer(correctAns){var ans = ansCol.value; if(ans.valueOf() === correctAns.valueOf()){sndO.play();}}
+ansBtn.onclick = checkAnswer;
+function checkAnswer(){var ans = ansCol.value; if(ans.valueOf() === correctAns1.valueOf()){sndO.play();}}
 //function checkAnswer(correctAns){var ans = ansCol.value; document.getElementById("numques").innerHTML = ans+", "+correctAns;}
 
 0
