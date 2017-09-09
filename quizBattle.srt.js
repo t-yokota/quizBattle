@@ -67,6 +67,7 @@ checkAnswer = function(correctAns, cntO, cntX){
     }
     document.getElementById("numox").innerHTML = "◯: "+cntO+"  ✖: "+cntX;    
     player.playVideo();
+    return cntO, cntX;
 }
 
 0
