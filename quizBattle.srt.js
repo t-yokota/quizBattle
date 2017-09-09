@@ -53,7 +53,7 @@ var cntQues = 1;
 document.getElementById("numques").innerHTML = "第"+cntQues+"問";
 ansBtn.onclick = function(){ window.setTimeout( function(){ checkAnswer(correctAns1)}, 1000 ); }
 //ansBtn.onclick = new Function("function(){window.setTimeout(function(){checkAnswer(correctAns1)}, 1000 );}}");
-function checkAnswer(correctAns){var ans = ansCol.value; if(ans.valueOf() === correctAns.valueOf()){sndO.play();}}
+function checkAnswer(correctAns){var ans = ansCol.value; if(ans.valueOf() === correctAns.valueOf()){sndO.play();}else{sndX.play();}}
 
 0
 00:00:10,000 --> 00:00:11,000
