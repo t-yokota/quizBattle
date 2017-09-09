@@ -23,21 +23,39 @@ document.getElementsByTagName("body")[0].appendChild(numQues);
 document.getElementsByTagName("body")[0].appendChild(ansCol);
 document.getElementsByTagName("body")[0].appendChild(ansBtn);
 document.getElementsByTagName("body")[0].appendChild(numOX);
-document.getElementById("anscol").focus();//再生直後にカーソルのフォーカスをjsの描画範囲(のボタンUI)に移動する->すぐにキーイベントが呼び出せるようになる
-document.getElementById("anscol").blur(); //ボタン自体にフォーカスをしている意味はないため、すぐにbulrでそれを解除
-document.onkeydown = pushButton1;
-document.ontouchstart = pushButton2;
+document.getElementById("ansbtn").focus();//再生直後にカーソルのフォーカスをjsの描画範囲(のボタンUI)に移動する->すぐにキーイベントが呼び出せるようになる
+document.getElementById("ansbtn").blur(); //ボタン自体にフォーカスをしている意味はないため、すぐにbulrでそれを解除
+document.onkeydown = pushButton_key;
+document.ontouchstart = pushButton_touch;
 player.addEventListener('onStateChange', focusJS);
-function focusJS(event){if(event.data == 1){document.getElementById("ansbtn").focus();document.getElementById("ansbtn").blur();}}//再生開始後に必ずカーソルのフォーカスをjs描画範囲内に移動すれば、いつでもキーイベントが呼び出せる
-function pushButton1(){if(event.keyCode == 32){if(player.getPlayerState() == 1){sndPush.play(); player.pauseVideo();}}}
-function pushButton2(){if(player.getPlayerState() == 1){sndPush.play(); player.pauseVideo();}}
-//function checkAnswer(){sndPush.play();}
-//function checkAnswer(correctAns){var ans = ansCol.value; document.getElementById("numques").innerHTML = ans+", "+correctAns;}
 //player.addEventListener('onStateChange', pushButton2);//カーソルのフォーカスがplayer内の場合キーイベントが呼べないため、onStageChange時に起動するイベントリスナー関数も用意する
 //function pushButton2(event){if(event.data == 2){sndPush.play();}}//スペースキーを押下->動画が停止(これをonStageChangeが取得)->音が鳴るという流れになるため、押下から音が鳴るまで若干遅延が生まれてしまう
-//
-//ansBtn.onclick = new Function("");
-//function checkAnswer(correctAns){var ans = ansCol.value; if(ans.valueOf() === correctAns.valueOf()){sndO.play();}else{sndX.play();}}
+//解答の設定
+correctAns1 = "ここに解答を入力して下さい";
+correctAns2 = "ここに解答を入力して下さ";
+//関数の定義
+function focusJS(event){//再生開始後に必ずカーソルのフォーカスをjs描画範囲内に移動すれば、いつでもキーイベントが呼び出せる
+    if(event.data == 1){
+        document.getElementById("ansbtn").focus();
+        document.getElementById("ansbtn").blur();
+    }
+}
+function pushButton_key(){
+    if(event.keyCode == 32){
+        if(player.getPlayerState() == 1){
+            sndPush.play(); 
+            player.pauseVideo();
+            document.getElementById("anscol").focus();            
+        }
+    }
+}
+function pushButton_touch(){
+    if(player.getPlayerState() == 1){
+        sndPush.play(); 
+        player.pauseVideo();
+        document.getElementById("anscol").focus();        
+    }
+}
 checkAnswer = function(correctAns){
     var ans = ansCol.value; 
     if(ans.valueOf() === correctAns.valueOf()){
@@ -45,9 +63,8 @@ checkAnswer = function(correctAns){
     }else{
         sndX.play();
     }
+    player.playVideo();
 }
-correctAns1 = "ここに解答を入力して下さい";
-correctAns2 = "ここに解答を入力して下さ";
 
 0
 00:00:00,200 --> 00:00:00,300
