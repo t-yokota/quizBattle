@@ -83,10 +83,12 @@ document.getElementById("numox").innerHTML = "◯: "+cntO+"  ✖: "+cntX;
 var cntQues = 1;
 document.getElementById("numques").innerHTML = "第"+cntQues+"問";
 //ansBtn.onclick = function(){ window.setTimeout( function(){ checkAnswer(correctAns1, cntO, cntX) }, 1000 ); };
-window.setTimeout( function(){ (cntO, cntX) = checkAnswer(correctAns1, cntO, cntX) }, 1000 );
+window.setTimeout( function(){ OX = checkAnswer(correctAns1, cntO, cntX) }, 1000 );
 
 0
 00:00:10,000 --> 00:00:11,000
 var cntQues = 2;
+cntO = OX[0];
+cntX = OX[1];
 document.getElementById("numques").innerHTML = "第"+cntQues+"問";
 ansBtn.onclick = function(){ window.setTimeout( function(){ checkAnswer(correctAns2, cntO, cntX) }, 1000 ); };
