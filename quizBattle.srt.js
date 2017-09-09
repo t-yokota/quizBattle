@@ -56,7 +56,7 @@ function pushButton_touch(){
         document.getElementById("anscol").focus();        
     }
 }
-checkAnswer = function(correctAns, cntO, cntX){
+function _checkAnswer(correctAns, cntO, cntX){
     var ans = ansCol.value; 
     if(ans.valueOf() === correctAns.valueOf()){
         sndO.play();
@@ -69,6 +69,9 @@ checkAnswer = function(correctAns, cntO, cntX){
     player.playVideo();
     return (cntO, cntX);
 }
+checkAnswer = function(correctAns, cntO, cntX){
+    window.setTimeout( function(){ _checkAnswer(correctAns, cntO, cntX) }, 1000 ); 
+};
 
 0
 00:00:00,200 --> 00:00:00,300
@@ -82,10 +85,10 @@ document.getElementById("numox").innerHTML = "◯: "+cntO+"  ✖: "+cntX;
 00:00:05,000 --> 00:00:06,000
 var cntQues = 1;
 document.getElementById("numques").innerHTML = "第"+cntQues+"問";
-ansBtn.onclick = function(){ window.setTimeout( function(){ checkAnswer(correctAns1, cntO, cntX) }, 1000 ); };
+ansBtn.onclick = checkAnswer(correctAns1, cntO, cntX);
 
 0
 00:00:10,000 --> 00:00:11,000
 var cntQues = 2;
 document.getElementById("numques").innerHTML = "第"+cntQues+"問";
-ansBtn.onclick = function(){ window.setTimeout( function(){ checkAnswer(correctAns2, cntO, cntX) }, 1000 ); };
+//ansBtn.onclick = function(){ window.setTimeout( function(){ checkAnswer(correctAns2, cntO, cntX) }, 1000 ); };
