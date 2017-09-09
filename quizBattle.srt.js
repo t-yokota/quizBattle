@@ -38,7 +38,14 @@ function pushButton2(){if(player.getPlayerState() == 1){sndPush.play(); player.p
 //
 //ansBtn.onclick = new Function("");
 //function checkAnswer(correctAns){var ans = ansCol.value; if(ans.valueOf() === correctAns.valueOf()){sndO.play();}else{sndX.play();}}
-checkAnswer = function(correctAns){var ans = ansCol.value; if(ans.valueOf() === correctAns.valueOf()){sndO.play();}else{sndX.play();}}
+checkAnswer = function(correctAns){
+    var ans = ansCol.value; 
+    if(ans.valueOf() === correctAns.valueOf()){
+        sndO.play();
+    }else{
+        sndX.play();
+    }
+}
 correctAns1 = "ここに解答を入力して下さい";
 correctAns2 = "ここに解答を入力して下さ";
 
