@@ -54,7 +54,7 @@ document.getElementById("numox").innerHTML = "◯: "+cntO+"  ✖: "+cntX;
 00:00:05,000 --> 00:00:06,000
 var cntQues = 1;
 document.getElementById("numques").innerHTML = "第"+cntQues+"問";
-ansBtn.onclick = function(){ window.setTimeout( function(){ checkAnswer(correctAns1)}, 1000 ); };
+ansBtn.onclick = function(){ window.setTimeout( function(){ checkAnswer(correctAns1) }, 1000 ); };
 //f = function(){ window.setTimeout( function(){ checkAnswer(correctAns1) }, 1000 ); };
 //ansBtn.onclick = new Function("f();");
 
@@ -62,4 +62,4 @@ ansBtn.onclick = function(){ window.setTimeout( function(){ checkAnswer(correctA
 00:00:10,000 --> 00:00:11,000
 var cntQues = 2;
 document.getElementById("numques").innerHTML = "第"+cntQues+"問";
-ansBtn.onclick = function(){ window.setTimeout( function(){ checkAnswer(correctAns2)}, 1000 ); };
+ansBtn.onclick = function(){ window.setTimeout( function(){ checkAnswer(correctAns2) }, 1000 ); };
