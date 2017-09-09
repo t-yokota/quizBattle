@@ -37,6 +37,7 @@ function pushButton2(){if(player.getPlayerState() == 1){sndPush.play(); player.p
 //player.addEventListener('onStateChange', pushButton2);//カーソルのフォーカスがplayer内の場合キーイベントが呼べないため、onStageChange時に起動するイベントリスナー関数も用意する
 //function pushButton2(event){if(event.data == 2){sndPush.play();}}//スペースキーを押下->動画が停止(これをonStageChangeが取得)->音が鳴るという流れになるため、押下から音が鳴るまで若干遅延が生まれてしまう
 //
+function checkAnswer(correctAns){var ans = ansCol.value; if(ans.valueOf() === correctAns.valueOf()){sndO.play();}}
 correctAns1 = "ここに解答を入力して下さい";
 
 0
@@ -52,7 +53,6 @@ document.getElementById("numox").innerHTML = "◯: "+cntO+"  ✖: "+cntX;
 var cntQues = 1;
 document.getElementById("numques").innerHTML = "第"+cntQues+"問";
 ansBtn.onclick = function(){checkAnswer(correctAns1)};
-function checkAnswer(correctAns){var ans = ansCol.value; if(ans.valueOf() === correctAns.valueOf()){sndO.play();}}
 //function checkAnswer(correctAns){var ans = ansCol.value; document.getElementById("numques").innerHTML = ans+", "+correctAns;}
 
 0
