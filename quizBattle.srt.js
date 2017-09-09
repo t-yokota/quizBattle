@@ -40,6 +40,7 @@ function pushButton2(){if(player.getPlayerState() == 1){sndPush.play(); player.p
 //function checkAnswer(correctAns){var ans = ansCol.value; if(ans.valueOf() === correctAns.valueOf()){sndO.play();}else{sndX.play();}}
 checkAnswer = function(correctAns){var ans = ansCol.value; if(ans.valueOf() === correctAns.valueOf()){sndO.play();}else{sndX.play();}}
 correctAns1 = "ここに解答を入力して下さい";
+correctAns2 = "ここに解答を入力して下さ";
 
 0
 00:00:00,200 --> 00:00:00,300
@@ -61,3 +62,4 @@ ansBtn.onclick = function(){ window.setTimeout( function(){ checkAnswer(correctA
 00:00:10,000 --> 00:00:11,000
 var cntQues = 2;
 document.getElementById("numques").innerHTML = "第"+cntQues+"問";
+ansBtn.onclick = function(){ window.setTimeout( function(){ checkAnswer(correctAns2)}, 1000 ); };
