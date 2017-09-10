@@ -25,8 +25,7 @@ document.getElementsByTagName("body")[0].appendChild(ansBtn);
 document.getElementsByTagName("body")[0].appendChild(numOX);
 document.getElementById("ansbtn").focus();//再生直後にカーソルのフォーカスをjsの描画範囲(のボタンUI)に移動する->すぐにキーイベントが呼び出せるようになる
 document.getElementById("ansbtn").blur(); //ボタン自体にフォーカスをしている意味はないため、すぐにbulrでそれを解除
-document.onkeydown = pushButton_keydown;
-document.onkeyup = pushButton_keyup;
+document.onkeypress = pushButton_keydown;
 document.ontouchstart = pushButton_touchsrt;
 document.ontouchend = pushButton_touchend;
 player.addEventListener('onStateChange', focusJS);
@@ -49,13 +48,9 @@ function pushButton_keydown(){
         if(player.getPlayerState() == 1){
             sndPush.play(); 
             player.pauseVideo();
+            document.getElementById("anscol").focus();
+            ansCol.value = "";    
         }
-    }
-}
-function pushButton_keyup(){
-    if(event.keyCode == 32){
-        document.getElementById("anscol").focus();
-        ansCol.value = "";            
     }
 }
 function pushButton_touchsrt(){
