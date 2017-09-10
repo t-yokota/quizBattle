@@ -80,7 +80,7 @@ ansBtn.innerHTML = "解答を送信";
 0
 00:00:05,000 --> 00:00:06,000
 var cntQues = 1;
-cntOX = 0; cntX = 0;
+cntO = 0; cntX = 0;
 document.getElementById("numques").innerHTML = "第"+cntQues+"問";
 document.getElementById("numox").innerHTML = "◯: "+cntO+" ✖: "+cntX;    
 ansBtn.onclick = function(){ window.setTimeout( function(){ cntOX = checkAnswer(correctAns1, cntO, cntX) }, 1000 ); };
