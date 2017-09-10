@@ -31,8 +31,9 @@ player.addEventListener('onStateChange', focusJS);
 //player.addEventListener('onStateChange', pushButton2);//カーソルのフォーカスがplayer内の場合キーイベントが呼べないため、onStageChange時に起動するイベントリスナー関数も用意する
 //function pushButton2(event){if(event.data == 2){sndPush.play();}}//スペースキーを押下->動画が停止(これをonStageChangeが取得)->音が鳴るという流れになるため、押下から音が鳴るまで若干遅延が生まれてしまう
 //解答の設定
-correctAns1 = "ここに解答を入力して下さい";
-correctAns2 = "ここに解答を入力して下さ";
+correctAns[0] = "ここに解答を入力して下さい";
+correctAns[1] = "ここに解答を入力して下さ";
+correctAns[2] = "ここに解答を入力して下さ";
 //関数の定義
 function focusJS(event){//再生開始後に必ずカーソルのフォーカスをjs描画範囲内に移動すれば、いつでもキーイベントが呼び出せる
     if(event.data == 1){
@@ -83,11 +84,11 @@ var cntQues = 1;
 cntO = 0; cntX = 0;
 document.getElementById("numques").innerHTML = "第"+cntQues+"問";
 document.getElementById("numox").innerHTML = "◯: "+cntO+" ✖: "+cntX;    
-ansBtn.onclick = function(){ window.setTimeout( function(){ [cntO, cntX] = checkAnswer(correctAns1, cntO, cntX) }, 1000 ); };
+ansBtn.onclick = function(){ window.setTimeout( function(){ [cntO, cntX] = checkAnswer(correctAns[0], cntO, cntX) }, 1000 ); };
 
 0
 00:00:10,000 --> 00:00:11,000
 var cntQues = 2;
 document.getElementById("numques").innerHTML = "第"+cntQues+"問";
 document.getElementById("numox").innerHTML = "◯: "+cntO+" ✖: "+cntX;    
-ansBtn.onclick = function(){ window.setTimeout( function(){ [cntO, cntX] = checkAnswer(correctAns2, cntO, cntX) }, 1000 ); };
+ansBtn.onclick = function(){ window.setTimeout( function(){ [cntO, cntX] = checkAnswer(correctAns[1], cntO, cntX) }, 1000 ); };
