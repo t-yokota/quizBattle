@@ -47,7 +47,8 @@ function pushButton_key(){
         if(player.getPlayerState() == 1){
             sndPush.play(); 
             player.pauseVideo();
-            document.getElementById("anscol").focus();            
+            document.getElementById("anscol").focus();
+            ansCol.value = "";            
         }
     }
 }
@@ -55,7 +56,8 @@ function pushButton_touch(){
     if(player.getPlayerState() == 1){
         sndPush.play(); 
         player.pauseVideo();
-        document.getElementById("anscol").focus();        
+        document.getElementById("anscol").focus();  
+        ansCol.value = "";      
     }
 }
 checkAnswer = function(correctAns, cntO, cntX){
