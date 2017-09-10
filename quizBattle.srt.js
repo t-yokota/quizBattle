@@ -65,22 +65,22 @@ checkAnswer = function(correctAns, cntO, cntX){
         sndX.play();
         cntX += 1;
     }
-    document.getElementById("numox").innerHTML = "◯: "+cntO+"  ✖: "+cntX;    
+    document.getElementById("numox").innerHTML = "◯: "+cntO+" ✖: "+cntX;    
     player.playVideo();
     return [cntO, cntX];
 }
 
 0
 00:00:00,200 --> 00:00:00,300
-cntO = 0; cntX = 0;
-document.getElementById("numques").innerHTML = "動画内の相手とクイズ対決";
+document.getElementById("numques").innerHTML = "クイズ対決";
+document.getElementById("numox").innerHTML = "◯: 0 ✖: 0";
 ansCol.value = "ここに解答を入力して下さい";
 ansBtn.innerHTML = "解答を送信";
-document.getElementById("numox").innerHTML = "◯: "+cntO+"  ✖: "+cntX;
 
 0
 00:00:05,000 --> 00:00:06,000
 var cntQues = 1;
+cntO = 0; cntX = 0;
 document.getElementById("numques").innerHTML = "第"+cntQues+"問";
 ansBtn.onclick = function(){ window.setTimeout( function(){ cntOX = checkAnswer(correctAns1, cntO, cntX) }, 1000 ); };
 
@@ -88,7 +88,6 @@ ansBtn.onclick = function(){ window.setTimeout( function(){ cntOX = checkAnswer(
 00:00:10,000 --> 00:00:11,000
 var cntQues = 2;
 cntO = cntOX[0];
-cntX = cntOX[1]
-document.getElementById("numox").innerHTML = "◯: "+cntOX[0]+"  ✖: "+cntOX[1];
+cntX = cntOX[1];
 document.getElementById("numques").innerHTML = "第"+cntQues+"問";
 ansBtn.onclick = function(){ window.setTimeout( function(){ cntOX = checkAnswer(correctAns2, cntO, cntX) }, 1000 ); };
