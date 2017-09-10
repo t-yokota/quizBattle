@@ -31,6 +31,7 @@ player.addEventListener('onStateChange', focusJS);
 //player.addEventListener('onStateChange', pushButton2);//カーソルのフォーカスがplayer内の場合キーイベントが呼べないため、onStageChange時に起動するイベントリスナー関数も用意する
 //function pushButton2(event){if(event.data == 2){sndPush.play();}}//スペースキーを押下->動画が停止(これをonStageChangeが取得)->音が鳴るという流れになるため、押下から音が鳴るまで若干遅延が生まれてしまう
 //解答の設定
+correctAns = [];
 correctAns[0] = "ここに解答を入力して下さい";
 correctAns[1] = "ここに解答を入力して下さ";
 correctAns[2] = "ここに解答を入力して下さ";
