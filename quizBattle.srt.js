@@ -25,18 +25,17 @@ document.getElementsByTagName("body")[0].appendChild(ansBtn);
 document.getElementsByTagName("body")[0].appendChild(numOX);
 document.getElementById("ansbtn").focus();//再生直後にカーソルのフォーカスをjsの描画範囲(のボタンUI)に移動する->すぐにキーイベントが呼び出せるようになる
 document.getElementById("ansbtn").blur(); //ボタン自体にフォーカスをしている意味はないため、すぐにbulrでそれを解除
+player.addEventListener('onStateChange', focusJS);
 document.onkeydown = pushButton_keydown;
 document.onkeyup = pushButton_keyup;
-document.ontouchstart = pushButton_touchsrt;
-document.ontouchend = pushButton_touchend;
-player.addEventListener('onStateChange', focusJS);
+document.ontouchstart = pushButton_touch;
 //player.addEventListener('onStateChange', pushButton2);//カーソルのフォーカスがplayer内の場合キーイベントが呼べないため、onStageChange時に起動するイベントリスナー関数も用意する
 //function pushButton2(event){if(event.data == 2){sndPush.play();}}//スペースキーを押下->動画が停止(これをonStageChangeが取得)->音が鳴るという流れになるため、押下から音が鳴るまで若干遅延が生まれてしまう
 //解答の設定
 correctAns = [];
-correctAns[0] = "ここに解答を入力して下さい";
-correctAns[1] = "ここに解答を入力して下さ";
-correctAns[2] = "ここに解答を入力して下さ";
+correctAns[0] = "1";
+correctAns[1] = "2";
+correctAns[2] = "3";
 //関数の定義
 function focusJS(event){//再生開始後に必ずカーソルのフォーカスをjs描画範囲内に移動すれば、いつでもキーイベントが呼び出せる
     if(event.data == 1){
@@ -64,15 +63,13 @@ function pushButton_keyup(){
         }
     }
 }
-function pushButton_touchsrt(){
+function pushButton_touch(){
     if(player.getPlayerState() == 1){
         sndPush.play();
         player.pauseVideo();
+        document.getElementById("anscol").focus();
+        ansCol.value = "";                
     }
-}
-function pushButton_touchend(){
-    document.getElementById("anscol").focus();
-    ansCol.value = "";            
 }
 checkAnswer = function(correctAns, cntO, cntX){
     var ans = ansCol.value; 
@@ -109,3 +106,10 @@ var cntQues = 2;
 document.getElementById("numques").innerHTML = "第"+cntQues+"問";
 document.getElementById("numox").innerHTML = "◯: "+cntO+" ✖: "+cntX;    
 ansBtn.onclick = function(){ window.setTimeout( function(){ [cntO, cntX] = checkAnswer(correctAns[1], cntO, cntX) }, 1000 ); };
+
+0
+00:00:15,000 --> 00:00:16,000
+var cntQues = 3;
+document.getElementById("numques").innerHTML = "第"+cntQues+"問";
+document.getElementById("numox").innerHTML = "◯: "+cntO+" ✖: "+cntX;    
+ansBtn.onclick = function(){ window.setTimeout( function(){ [cntO, cntX] = checkAnswer(correctAns[2], cntO, cntX) }, 1000 ); };
