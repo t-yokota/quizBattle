@@ -64,7 +64,7 @@ function pushButton_touchsrt(){
         player.pauseVideo();
     }
 }
-function pushButton_toudhend(){
+function pushButton_touchend(){
     document.getElementById("anscol").focus();
     ansCol.value = "";            
 }
