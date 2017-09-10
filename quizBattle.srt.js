@@ -25,8 +25,10 @@ document.getElementsByTagName("body")[0].appendChild(ansBtn);
 document.getElementsByTagName("body")[0].appendChild(numOX);
 document.getElementById("ansbtn").focus();//再生直後にカーソルのフォーカスをjsの描画範囲(のボタンUI)に移動する->すぐにキーイベントが呼び出せるようになる
 document.getElementById("ansbtn").blur(); //ボタン自体にフォーカスをしている意味はないため、すぐにbulrでそれを解除
-document.onkeyup = pushButton_key;
-document.ontouchend = pushButton_touch;
+document.onkeydown = pushButton_keydown;
+document.onkeyup = pushButton_keyup;
+document.ontouchstart = pushButton_touchsrt;
+document.ontouchend = pushButton_touchend;
 player.addEventListener('onStateChange', focusJS);
 //player.addEventListener('onStateChange', pushButton2);//カーソルのフォーカスがplayer内の場合キーイベントが呼べないため、onStageChange時に起動するイベントリスナー関数も用意する
 //function pushButton2(event){if(event.data == 2){sndPush.play();}}//スペースキーを押下->動画が停止(これをonStageChangeが取得)->音が鳴るという流れになるため、押下から音が鳴るまで若干遅延が生まれてしまう
@@ -42,23 +44,29 @@ function focusJS(event){//再生開始後に必ずカーソルのフォーカス
         document.getElementById("ansbtn").blur();
     }
 }
-function pushButton_key(){
+function pushButton_keydown(){
     if(event.keyCode == 32){
         if(player.getPlayerState() == 1){
             sndPush.play(); 
             player.pauseVideo();
-            document.getElementById("anscol").focus();
-            ansCol.value = "";            
         }
     }
 }
-function pushButton_touch(){
+function pushButton_keyup(){
+    if(event.keyCode == 32){
+        document.getElementById("anscol").focus();
+        ansCol.value = "";            
+    }
+}
+function pushButton_touchsrt(){
     if(player.getPlayerState() == 1){
         sndPush.play();
         player.pauseVideo();
-        document.getElementById("anscol").focus();  
-        ansCol.value = "";      
     }
+}
+function pushButton_toudhend(){
+    document.getElementById("anscol").focus();
+    ansCol.value = "";            
 }
 checkAnswer = function(correctAns, cntO, cntX){
     var ans = ansCol.value; 
