@@ -86,12 +86,12 @@ checkAnswer = function(correctAns, cntO, cntX){
 0
 00:00:00,100 --> 00:00:00,200
 document.getElementsByTagName("body")[0].appendChild(numQues);
+document.getElementsByTagName("body")[0].appendChild(text);
 document.getElementById("numques").innerHTML = "クイズ対決";
 
 0
 00:00:04,000 --> 00:00:04,100
 player.pauseVideo();
-document.getElementsByTagName("body")[0].appendChild(text);
 document.getElementById("numques").innerHTML = "ボタンチェック";
 document.getElementById("text").innerHTML = "スペースキーを押してボタンの動作を確認してください";
 //
@@ -113,7 +113,7 @@ pushButton_keyup = function(){
     }
 }
 document.onkeydown = pushButton_keydown;
-document.onkeyup = function(){ window.setTimeout( function(){ pushButton_keyup }, 500 ) };
+document.onkeyup = function(){ window.setTimeout( function(){ pushButton_keyup }, 500 ); };
 
 0
 00:00:05,000 --> 00:00:06,000
