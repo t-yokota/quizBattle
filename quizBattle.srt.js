@@ -97,7 +97,7 @@ document.getElementById("text").innerHTML = "スペースキーを押してボ�
 //
 pushButton_keydown = function(){
     if(event.keyCode == 32){
-        if(player.getPlayerState() == 1){
+        if(player.getPlayerState() == 2){
             sndPush.play(); 
             pushBool = 1;    
         }
@@ -106,7 +106,7 @@ pushButton_keydown = function(){
 pushButton_keyup = function(){
     if(event.keyCode == 32){
         if(pushBool == 1){
-            player.pauseVideo();
+            player.playVideo();
             pushBool = 0;  
         }
     }
