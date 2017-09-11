@@ -82,22 +82,21 @@ checkAnswer = function(correctAns, cntO, cntX){
 0
 00:00:00,200 --> 00:00:00,300
 document.getElementsByTagName("body")[0].appendChild(numQues);
-document.getElementsByTagName("body")[0].appendChild(ansCol);
-document.getElementsByTagName("body")[0].appendChild(ansBtn);
-document.getElementsByTagName("body")[0].appendChild(numOX);
-document.getElementById("ansbtn").focus();//再生直後にカーソルのフォーカスをjsの描画範囲(のボタンUI)に移動する->すぐにキーイベントが呼び出せるようになる
-document.getElementById("ansbtn").blur(); //ボタン自体にフォーカスをしている意味はないため、すぐにbulrでそれを解除
 document.getElementById("numques").innerHTML = "クイズ対決";
-document.getElementById("numox").innerHTML = "◯: 0 ✖: 0";
-ansCol.value = "ここに解答を入力して下さい";
-ansBtn.innerHTML = "解答を送信";
 
 0
 00:00:05,000 --> 00:00:06,000
 var cntQues = 1;
 cntO = 0; cntX = 0;
+document.getElementsByTagName("body")[0].appendChild(ansCol);
+document.getElementsByTagName("body")[0].appendChild(ansBtn);
+document.getElementsByTagName("body")[0].appendChild(numOX);
+document.getElementById("ansbtn").focus();//再生直後にカーソルのフォーカスをjsの描画範囲(のボタンUI)に移動する->すぐにキーイベントが呼び出せるようになる
+document.getElementById("ansbtn").blur(); //ボタン自体にフォーカスをしている意味はないため、すぐにbulrでそれを解除
 document.getElementById("numques").innerHTML = "第"+cntQues+"問";
 document.getElementById("numox").innerHTML = "◯: "+cntO+" ✖: "+cntX;    
+ansCol.value = "ここに解答を入力して下さい";
+ansBtn.innerHTML = "解答を送信";
 ansBtn.onclick = function(){ window.setTimeout( function(){ [cntO, cntX] = checkAnswer(correctAns[0], cntO, cntX) }, 1000 ); };
 
 0
