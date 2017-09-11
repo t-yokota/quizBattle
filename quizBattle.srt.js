@@ -106,13 +106,14 @@ pushButton_keydown = function(){
 pushButton_keyup = function(){
     if(event.keyCode == 32){
         if(pushBool == 1){
+            sndO.play(); 
             player.playVideo();
             pushBool = 0;  
         }
     }
 }
 document.onkeydown = pushButton_keydown;
-document.onkeyup = pushButton_keyup;
+document.onkeyup = function(){ window.setTimeout( function(){ pushButton_keyup }, 500 ) };
 
 0
 00:00:05,000 --> 00:00:06,000
