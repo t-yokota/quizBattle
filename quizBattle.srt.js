@@ -95,6 +95,7 @@ buttonCheck[index] = function(){
     if(event.keyCode == 32){
         if(player.getPlayerState() == 1){
             sndPush.play(); 
+            sndO.play();
         }
     }
 }
