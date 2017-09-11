@@ -105,14 +105,14 @@ pushButton_keydown = function(){
 }
 pushButton_keyup = function(){
     if(event.keyCode == 32){
-        func = function(){
+        //func = function(){
             if(pushBool == 1){
                 sndO.play(); 
                 player.playVideo();
                 pushBool = 0;  
             }
-        }
-        window.setTimeout( function(){ func }, 1000 );
+        //}
+        //window.setTimeout( function(){ func }, 1000 );
     }
 }
 document.onkeydown = pushButton_keydown;
