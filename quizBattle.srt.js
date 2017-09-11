@@ -39,7 +39,7 @@ function focusJS(event){//再生開始後に必ずカーソルのフォーカス
         document.getElementById("ansbtn").blur();
     }
 }
-function pushButton_keydown(){
+pushButton_keydown = function(){
     if(event.keyCode == 32){
         if(player.getPlayerState() == 1){
             sndPush.play(); 
@@ -50,7 +50,7 @@ function pushButton_keydown(){
         }
     }
 }
-function pushButton_keyup(){
+pushButton_keyup = function(){
     if(event.keyCode == 32){
         if(pushBool == 1){
             document.getElementById("anscol").focus();
@@ -59,7 +59,7 @@ function pushButton_keyup(){
         }
     }
 }
-function pushButton_touch(){
+pushButton_touch = function(){
     if(player.getPlayerState() == 1){
         sndPush.play();
         player.pauseVideo();
@@ -88,18 +88,10 @@ document.getElementById("numques").innerHTML = "クイズ対決";
 
 0
 00:00:04,000 --> 00:00:04,100
+player.pauseVideo();
 document.getElementsByTagName("body")[0].appendChild(text);
-document.getElementById("text").innerHTML = "スペースキーを押してボタンの動作をチェックをしてください";
-document.onkeydown = buttonCheck;
-buttonCheck[index] = function(){
-    if(event.keyCode == 32){
-        if(player.getPlayerState() == 1){
-            sndPush.play(); 
-            sndO.play();
-        }
-    }
-}
-
+document.getElementById("numques").innerHTML = "ボタンチェック";
+document.getElementById("text").innerHTML = "スペースキーを押してボタンの動作を確認してください";
 
 0
 00:00:05,000 --> 00:00:06,000
