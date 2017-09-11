@@ -24,8 +24,8 @@ numQues.appendChild(_numQues);
 numOX.appendChild(_numOX);
 text.appendChild(_text);
 player.addEventListener('onStateChange', focusJS);
-document.onkeydown = pushButton_keydown;
-document.onkeyup = pushButton_keyup;
+//document.onkeydown = pushButton_keydown;
+//document.onkeyup = pushButton_keyup;
 document.ontouchstart = pushButton_touch;
 //解答の設定
 correctAns = [];
@@ -39,6 +39,7 @@ function focusJS(event){//再生開始後に必ずカーソルのフォーカス
         document.getElementById("ansbtn").blur();
     }
 }
+/*
 pushButton_keydown = function(){
     if(event.keyCode == 32){
         if(player.getPlayerState() == 1){
@@ -59,7 +60,8 @@ pushButton_keyup = function(){
         }
     }
 }
-pushButton_touch = function(){
+*/
+function pushButton_touch(){
     if(player.getPlayerState() == 1){
         sndPush.play();
         player.pauseVideo();
@@ -92,6 +94,25 @@ player.pauseVideo();
 document.getElementsByTagName("body")[0].appendChild(text);
 document.getElementById("numques").innerHTML = "ボタンチェック";
 document.getElementById("text").innerHTML = "スペースキーを押してボタンの動作を確認してください";
+//
+pushButton_keydown = function(){
+    if(event.keyCode == 32){
+        if(player.getPlayerState() == 1){
+            sndPush.play(); 
+            pushBool = 1;    
+        }
+    }
+}
+pushButton_keyup = function(){
+    if(event.keyCode == 32){
+        if(pushBool == 1){
+            player.pauseVideo();
+            pushBool = 0;  
+        }
+    }
+}
+document.onkeydown = pushButton_keydown;
+document.onkeyup = pushButton_keyup;
 
 0
 00:00:05,000 --> 00:00:06,000
@@ -107,6 +128,29 @@ document.getElementById("numox").innerHTML = "◯: "+cntO+" ✖: "+cntX;
 ansCol.value = "ここに解答を入力して下さい";
 ansBtn.innerHTML = "解答を送信";
 ansBtn.onclick = function(){ window.setTimeout( function(){ [cntO, cntX] = checkAnswer(correctAns[0], cntO, cntX) }, 1000 ); };
+//
+pushButton_keydown = function(){
+    if(event.keyCode == 32){
+        if(player.getPlayerState() == 1){
+            sndPush.play(); 
+            player.pauseVideo();
+            document.getElementById("anscol").focus();
+            ansCol.value = "";
+            pushBool = 1;    
+        }
+    }
+}
+pushButton_keyup = function(){
+    if(event.keyCode == 32){
+        if(pushBool == 1){
+            document.getElementById("anscol").focus();
+            ansCol.value = "";          
+            pushBool = 0;  
+        }
+    }
+}
+document.onkeydown = pushButton_keydown;
+document.onkeyup = pushButton_keyup;
 
 0
 00:00:10,000 --> 00:00:11,000
