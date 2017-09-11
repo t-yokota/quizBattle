@@ -104,16 +104,19 @@ pushButton_keydown = function(){
     }
 }
 pushButton_keyup = function(){
-    if(event.keyCode == 32){
-        if(pushBool == 1){
-            sndO.play(); 
-            player.playVideo();
-            pushBool = 0;  
+    func = function(){
+        if(event.keyCode == 32){
+            if(pushBool == 1){
+                sndO.play(); 
+                player.playVideo();
+                pushBool = 0;  
+            }
         }
     }
+    window.setTimeout( function(){ func }, 1000 );
 }
 document.onkeydown = pushButton_keydown;
-document.onkeyup = function(){ window.setTimeout( function(){ pushButton_keyup }, 500 ); };
+document.onkeyup = pushButton_keyup;
 
 0
 00:00:05,000 --> 00:00:06,000
