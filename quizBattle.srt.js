@@ -94,6 +94,8 @@ document.getElementById("numques").innerHTML = "クイズ対決";
 player.pauseVideo();
 document.getElementById("numques").innerHTML = "ボタンチェック";
 document.getElementById("text").innerHTML = "スペースキーを押してボタンの動作を確認してください";
+document.getElementById("ansbtn").focus();//カーソルのフォーカスをjsの描画範囲(のボタンUI)に移動する->キーイベントが呼び出せるようになる
+document.getElementById("ansbtn").blur(); //ボタン自体にフォーカスをしている意味はないため、すぐにbulrでそれを解除
 //
 pushButton_keydown = function(){
     if(event.keyCode == 32){
@@ -105,18 +107,18 @@ pushButton_keydown = function(){
 }
 pushButton_keyup = function(){
     if(event.keyCode == 32){
-        func = function(){
+        //func = function(){
             if(pushBool == 1){
                 sndO.play(); 
                 player.playVideo();
                 pushBool = 0;  
             }
-        }
-        setTimeout( function(){ func }, 1000 );
+        //}
+        //setTimeout( function(){ func }, 1000 );
     }
 }
 document.onkeydown = pushButton_keydown;
-document.onkeyup = pushButton_keyup;
+document.onkeyup = function(){ window.setTimeout( function(){ pushButton_keyup }, 1000); };
 
 0
 00:00:05,000 --> 00:00:06,000
