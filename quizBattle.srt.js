@@ -3,7 +3,7 @@
 doOnce[index] = true;
 numQues = document.createElement("h1");     //問題数を表示（はじめはクイズの企画名を表示）
 numOX = document.createElement("h1");       //◯正解数と✖不正解数を表示
-text = document.createElement("h2");        //その他文章を表示
+text = document.createElement("h3");        //その他文章を表示
 ansCol = document.createElement("textarea");//解答を入力するテキストエリア
 ansBtn = document.createElement("button");  //解答を送信するボタン
 sndPush = document.createElement("audio");  //ボタンの押下音
@@ -91,6 +91,8 @@ checkAnswer = function(correctAns, cntO, cntX){
 0
 00:00:00,100 --> 00:00:00,200
 document.getElementById("numques").innerHTML = "クイズ対決";
+ansCol.value = "ここに解答を入力して下さい";
+ansBtn.innerHTML = "解答を送信";
 
 0
 00:00:04,000 --> 00:00:04,100
@@ -128,8 +130,6 @@ var cntQues = 1;
 cntO = 0; cntX = 0;
 document.getElementById("numques").innerHTML = "第"+cntQues+"問";
 document.getElementById("numox").innerHTML = "◯: "+cntO+" ✖: "+cntX;    
-ansCol.value = "ここに解答を入力して下さい";
-ansBtn.innerHTML = "解答を送信";
 ansBtn.onclick = function(){ window.setTimeout( function(){ [cntO, cntX] = checkAnswer(correctAns[0], cntO, cntX) }, 1000 ); };
 //
 pushButton_keydown = function(){
