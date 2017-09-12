@@ -23,6 +23,11 @@ _text = document.createTextNode("");
 numQues.appendChild(_numQues);
 numOX.appendChild(_numOX);
 text.appendChild(_text);
+document.getElementsByTagName("body")[0].appendChild(numQues);
+document.getElementsByTagName("body")[0].appendChild(text);
+document.getElementsByTagName("body")[0].appendChild(ansCol);
+document.getElementsByTagName("body")[0].appendChild(ansBtn);
+document.getElementsByTagName("body")[0].appendChild(numOX);
 player.addEventListener('onStateChange', focusJS);
 //document.onkeydown = pushButton_keydown;
 //document.onkeyup = pushButton_keyup;
@@ -85,14 +90,11 @@ checkAnswer = function(correctAns, cntO, cntX){
 
 0
 00:00:00,100 --> 00:00:00,200
-document.getElementsByTagName("body")[0].appendChild(numQues);
-document.getElementsByTagName("body")[0].appendChild(text);
 document.getElementById("numques").innerHTML = "クイズ対決";
 
 0
 00:00:04,000 --> 00:00:04,100
 player.pauseVideo();
-document.getElementById("numques").innerHTML = "ボタンチェック";
 document.getElementById("text").innerHTML = "スペースキーを押してボタンの動作を確認してください";
 document.getElementById("ansbtn").focus();//カーソルのフォーカスをjsの描画範囲(のボタンUI)に移動する->キーイベントが呼び出せるようになる
 document.getElementById("ansbtn").blur(); //ボタン自体にフォーカスをしている意味はないため、すぐにbulrでそれを解除
@@ -124,11 +126,6 @@ document.onkeydown = pushButton_keydown;
 00:00:05,000 --> 00:00:06,000
 var cntQues = 1;
 cntO = 0; cntX = 0;
-document.getElementsByTagName("body")[0].appendChild(ansCol);
-document.getElementsByTagName("body")[0].appendChild(ansBtn);
-document.getElementsByTagName("body")[0].appendChild(numOX);
-document.getElementById("ansbtn").focus();//カーソルのフォーカスをjsの描画範囲(のボタンUI)に移動する->キーイベントが呼び出せるようになる
-document.getElementById("ansbtn").blur(); //ボタン自体にフォーカスをしている意味はないため、すぐにbulrでそれを解除
 document.getElementById("numques").innerHTML = "第"+cntQues+"問";
 document.getElementById("numox").innerHTML = "◯: "+cntO+" ✖: "+cntX;    
 ansCol.value = "ここに解答を入力して下さい";
