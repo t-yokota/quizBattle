@@ -118,7 +118,7 @@ pushButton_keyup = function(){
     }
 }
 document.onkeydown = pushButton_keydown;
-document.onkeyup = function(){ window.setTimeout( function(){ pushButton_keyup }, 1000); };
+//document.onkeyup = function(){ window.setTimeout( function(){ pushButton_keyup }, 1000); };
 
 0
 00:00:05,000 --> 00:00:06,000
