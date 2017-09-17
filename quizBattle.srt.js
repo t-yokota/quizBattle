@@ -102,20 +102,20 @@ document.getElementById("ansbtn").blur(); //ボタン自体にフォーカスを
 00:00:05,000 --> 00:00:06,000
 var cntQues = 1;
 cntO = 0; cntX = 0;
-document.getElementById("subTex").innerHTML = "第"+cntQues+"問";
+document.getElementById("subtex").innerHTML = "第"+cntQues+"問";
 document.getElementById("numox").innerHTML = "◯: "+cntO+" ✖: "+cntX;    
 ansBtn.onclick = function(){ window.setTimeout( function(){ [cntO, cntX] = checkAnswer(correctAns[0], cntO, cntX) }, 1000 ); };
 
 0
 00:00:10,000 --> 00:00:11,000
 var cntQues = 2;
-document.getElementById("subTex").innerHTML = "第"+cntQues+"問";
+document.getElementById("subtex").innerHTML = "第"+cntQues+"問";
 document.getElementById("numox").innerHTML = "◯: "+cntO+" ✖: "+cntX;    
 ansBtn.onclick = function(){ window.setTimeout( function(){ [cntO, cntX] = checkAnswer(correctAns[1], cntO, cntX) }, 1000 ); };
 
 0
 00:00:15,000 --> 00:00:16,000
 var cntQues = 3;
-document.getElementById("subTex").innerHTML = "第"+cntQues+"問";
+document.getElementById("subtex").innerHTML = "第"+cntQues+"問";
 document.getElementById("numox").innerHTML = "◯: "+cntO+" ✖: "+cntX;    
 ansBtn.onclick = function(){ window.setTimeout( function(){ [cntO, cntX] = checkAnswer(correctAns[2], cntO, cntX) }, 1000 ); };
