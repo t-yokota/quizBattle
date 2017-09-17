@@ -18,20 +18,20 @@ sndPush.src = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/soun
 sndO.src = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/sounds/correct.mp3";
 sndX.src = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/sounds/discorrect.mp3";
 _title = document.createTextNode("クイズ対決");
-_numOX = document.createTextNode("");//書き換えが多いTextNodeの内容はdoOnce内から隔離し、他のindex内でinnerHTMLを用いて編集する
 _subTex = document.createTextNode("");
+_numOX = document.createTextNode("");//書き換えが多いTextNodeの内容はdoOnce内から隔離し、他のindex内でinnerHTMLを用いて編集する
 title.appendChild(_title);
-numOX.appendChild(_numOX);
 subTex.appendChild(_subTex);
+numOX.appendChild(_numOX);
 document.getElementsByTagName("body")[0].appendChild(title);
 document.getElementsByTagName("body")[0].appendChild(subTex);
 document.getElementsByTagName("body")[0].appendChild(ansCol);
 document.getElementsByTagName("body")[0].appendChild(ansBtn);
 document.getElementsByTagName("body")[0].appendChild(numOX);
-player.addEventListener('onStateChange', focusJS);
 document.onkeydown = pushButton_keydown;
 document.onkeyup = pushButton_keyup;
 document.ontouchstart = pushButton_touch;
+player.addEventListener('onStateChange', focusJS);
 //解答の設定
 correctAns = [];
 correctAns[0] = "1";
@@ -88,14 +88,13 @@ checkAnswer = function(correctAns, cntO, cntX){
 
 0
 00:00:00,100 --> 00:00:00,200
-document.getElementById("title").innerHTML = "クイズ対決";
 ansCol.value = "ここに解答を入力して下さい";
 ansBtn.innerHTML = "解答を送信";
 
 0
 00:00:04,000 --> 00:00:04,100
 player.pauseVideo();
-document.getElementById("subTex").innerHTML = "スペースキーを押してボタンの動作を確認してください";
+document.getElementById("subtex").innerHTML = "スペースキーを押してボタンの動作を確認してください";
 document.getElementById("ansbtn").focus();//カーソルのフォーカスをjsの描画範囲(のボタンUI)に移動する->キーイベントが呼び出せるようになる
 document.getElementById("ansbtn").blur(); //ボタン自体にフォーカスをしている意味はないため、すぐにbulrでそれを解除
 
