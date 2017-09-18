@@ -94,12 +94,9 @@ ansBtn.innerHTML = "解答を送信";
 0
 00:00:04,000 --> 00:00:04,100
 player.pauseVideo();
-document.getElementById("ansbtn").focus();
-document.getElementById("ansbtn").blur();
 document.getElementById("subtex").innerHTML = "スペースキーを押してボタンの動作を確認してください";
 document.getElementById("ansbtn").focus();//カーソルのフォーカスをjsの描画範囲(のボタンUI)に移動する->キーイベントが呼び出せるようになる
 document.getElementById("ansbtn").blur(); //ボタン自体にフォーカスをしている意味はないため、すぐにbulrでそれを解除
-
 
 0
 00:00:05,000 --> 00:00:06,000
