@@ -46,13 +46,15 @@ function focusJS(event){//再生開始後に必ずカーソルのフォーカス
 }
 function pushButton_keydown(){
     if(event.keyCode == 32){
+        //ボタンチェック
         if(player.getPlayerState() == 2){
             if(index == 2){
                 sndPush.play();
-                window.setTimeout( function(){ sndO.play() }, 2000 );
+                window.setTimeout( function(){ sndO.play() }, 1000 );
                 window.setTimeout( function(){ player.playVideo() }, 4000 );
             }
         }
+        //押し（動画を停止）
         if(player.getPlayerState() == 1){
             sndPush.play();
             player.pauseVideo();
@@ -64,6 +66,7 @@ function pushButton_keydown(){
 }
 function pushButton_keyup(){
     if(event.keyCode == 32){
+        //押し（キーを離した瞬間に解答欄にフォーカス）
         if(pushBool == 1){
             document.getElementById("anscol").focus();
             ansCol.value = "";          
@@ -72,6 +75,15 @@ function pushButton_keyup(){
     }
 }
 function pushButton_touch(){
+    //ボタンチェック
+    if(player.getPlayerState() == 2){
+        if(index == 2){
+            sndPush.play();
+            window.setTimeout( function(){ sndO.play() }, 1000 );
+            window.setTimeout( function(){ player.playVideo() }, 4000 );
+        }
+    }
+    //押し
     if(player.getPlayerState() == 1){
         sndPush.play();
         player.pauseVideo();
@@ -95,38 +107,41 @@ checkAnswer = function(correctAns, cntO, cntX){
 
 1
 00:00:00,100 --> 00:00:00,200
-//TextNodeの内容をdoOnce内から隔離し、他のindex内でinnerHTMLを用いて編集する
-//これにより、動画をはじめに戻したときに表示をリセットすることができる
-document.getElementById("title").innerHTML = "クイズ対決";
-document.getElementById("subtex").innerHTML = "サブタイトル";
+document.getElementById("text").innerHTML = "クイズ対決";
 ansCol.value = "ここに解答を入力して下さい";
 ansBtn.innerHTML = "解答を送信";
+//TextNodeの内容をdoOnce内から隔離し、他のindex内でinnerHTMLを用いて編集する
+//これにより、動画をはじめに戻したときに表示をリセットすることができる
 
 2
 00:00:04,000 --> 00:00:04,100
+//ボタンチェック
 player.pauseVideo();
-document.getElementById("subtex").innerHTML = "スペースキーを押してボタンの動作を確認してください";
+document.getElementById("text").innerHTML = "スペースキーを押してボタンの動作を確認してください";
 document.getElementById("ansbtn").focus();//カーソルのフォーカスをjsの描画範囲(のボタンUI)に移動する->キーイベントが呼び出せるようになる
 document.getElementById("ansbtn").blur(); //ボタン自体にフォーカスをしている意味はないため、すぐにbulrでそれを解除
 
 0
 00:00:05,000 --> 00:00:06,000
+//第１問
 var cntQues = 1;
 cntO = 0; cntX = 0;
-document.getElementById("subtex").innerHTML = "第"+cntQues+"問";
+document.getElementById("text").innerHTML = "第"+cntQues+"問";
 document.getElementById("numox").innerHTML = "◯: "+cntO+" ✖: "+cntX;    
 ansBtn.onclick = function(){ window.setTimeout( function(){ [cntO, cntX] = checkAnswer(correctAns[0], cntO, cntX) }, 1000 ); };
 
 0
 00:00:10,000 --> 00:00:11,000
+//第２問
 var cntQues = 2;
-document.getElementById("subtex").innerHTML = "第"+cntQues+"問";
+document.getElementById("text").innerHTML = "第"+cntQues+"問";
 document.getElementById("numox").innerHTML = "◯: "+cntO+" ✖: "+cntX;    
 ansBtn.onclick = function(){ window.setTimeout( function(){ [cntO, cntX] = checkAnswer(correctAns[1], cntO, cntX) }, 1000 ); };
 
 0
 00:00:15,000 --> 00:00:16,000
+//第３問
 var cntQues = 3;
-document.getElementById("subtex").innerHTML = "第"+cntQues+"問";
+document.getElementById("text").innerHTML = "第"+cntQues+"問";
 document.getElementById("numox").innerHTML = "◯: "+cntO+" ✖: "+cntX;    
 ansBtn.onclick = function(){ window.setTimeout( function(){ [cntO, cntX] = checkAnswer(correctAns[2], cntO, cntX) }, 1000 ); };
