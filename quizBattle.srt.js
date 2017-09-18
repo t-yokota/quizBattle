@@ -1,7 +1,7 @@
 0
 00:00:00,000 --> 00:00:00,100
 doOnce[index] = true;
-title = document.createElement("h1");       //動画のタイトルを表示
+text = document.createElement("h1");       //動画のタイトルを表示
 subTex = document.createElement("h2");      //その他文章を表示
 numOX = document.createElement("h1");       //◯正解数と✖不正解数を表示
 ansCol = document.createElement("textarea");//解答を入力するテキストエリア
@@ -9,7 +9,7 @@ ansBtn = document.createElement("button");  //解答を送信するボタン
 sndPush = document.createElement("audio");  //ボタンの押下音
 sndO = document.createElement("audio");     //正解音
 sndX = document.createElement("audio");     //不正解音
-title.id = "title";
+text.id = "text";
 subTex.id = "subtex";
 numOX.id = "numox";
 ansCol.id = "anscol";
@@ -17,13 +17,13 @@ ansBtn.id = "ansbtn";
 sndPush.src = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/sounds/push.mp3";
 sndO.src = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/sounds/correct.mp3";
 sndX.src = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/sounds/discorrect.mp3";
-_title = document.createTextNode("");
+_text = document.createTextNode("");
 _subTex = document.createTextNode("");
 _numOX = document.createTextNode("");
-title.appendChild(_title);
+text.appendChild(_text);
 subTex.appendChild(_subTex);
 numOX.appendChild(_numOX);
-document.getElementsByTagName("body")[0].appendChild(title);
+document.getElementsByTagName("body")[0].appendChild(text);
 document.getElementsByTagName("body")[0].appendChild(subTex);
 document.getElementsByTagName("body")[0].appendChild(ansCol);
 document.getElementsByTagName("body")[0].appendChild(ansBtn);
