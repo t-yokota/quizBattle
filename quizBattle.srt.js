@@ -48,6 +48,7 @@ function pushButton_keydown(){
     if(event.keyCode == 32){
         if(player.getPlayerState() == 2){
             sndPush.play();
+            window.setTimeout( function(){ sndO.play() }, 1000 );
             player.playVideo();
         }
         if(player.getPlayerState() == 1){
