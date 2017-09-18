@@ -17,8 +17,8 @@ ansBtn.id = "ansbtn";
 sndPush.src = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/sounds/push.mp3";
 sndO.src = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/sounds/correct.mp3";
 sndX.src = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/sounds/discorrect.mp3";
-_title = document.createTextNode("クイズ対決");
-_subTex = document.createTextNode("");//書き換えが多いTextNodeの内容はdoOnce内から隔離し、他のindex内でinnerHTMLを用いて編集する
+_title = document.createTextNode("");
+_subTex = document.createTextNode("");
 _numOX = document.createTextNode("");
 title.appendChild(_title);
 subTex.appendChild(_subTex);
@@ -46,6 +46,10 @@ function focusJS(event){//再生開始後に必ずカーソルのフォーカス
 }
 function pushButton_keydown(){
     if(event.keyCode == 32){
+        if(palyer.getPlayerState() == 2){
+            sndPush.play();
+            palyer.playVideo();
+        }
         if(player.getPlayerState() == 1){
             sndPush.play(); 
             player.pauseVideo();
@@ -86,12 +90,16 @@ checkAnswer = function(correctAns, cntO, cntX){
     return [cntO, cntX];
 }
 
-0
+1
 00:00:00,100 --> 00:00:00,200
+//TextNodeの内容をdoOnce内から隔離し、他のindex内でinnerHTMLを用いて編集する
+//これにより、動画をはじめに戻したときに表示をリセットすることができる
+document.getElementById("title").innerHTML = "クイズ対決";
+document.getElementById("subtex").innerHTML = "サブタイトル";
 ansCol.value = "ここに解答を入力して下さい";
 ansBtn.innerHTML = "解答を送信";
 
-0
+2
 00:00:04,000 --> 00:00:04,100
 player.pauseVideo();
 document.getElementById("subtex").innerHTML = "スペースキーを押してボタンの動作を確認してください";
