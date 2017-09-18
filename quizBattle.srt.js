@@ -46,12 +46,12 @@ function focusJS(event){//再生開始後に必ずカーソルのフォーカス
 }
 function pushButton_keydown(){
     if(event.keyCode == 32){
-        if(palyer.getPlayerState() == 2){
+        if(player.getPlayerState() == 2){
             sndPush.play();
-            palyer.playVideo();
+            player.playVideo();
         }
         if(player.getPlayerState() == 1){
-            sndPush.play(); 
+            sndPush.play();
             player.pauseVideo();
             document.getElementById("anscol").focus();
             ansCol.value = "";
