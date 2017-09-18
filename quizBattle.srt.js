@@ -47,11 +47,11 @@ function focusJS(event){//再生開始後に必ずカーソルのフォーカス
 function pushButton_keydown(){
     if(event.keyCode == 32){
         if(player.getPlayerState() == 2){
-            //if(index == 2){
+            if(index == 2){
                 sndPush.play();
                 window.setTimeout( function(){ sndO.play() }, 2000 );
                 window.setTimeout( function(){ player.playVideo() }, 4000 );
-            //}
+            }
         }
         if(player.getPlayerState() == 1){
             sndPush.play();
