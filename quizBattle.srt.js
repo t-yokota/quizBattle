@@ -1,7 +1,7 @@
 0
 00:00:00,000 --> 00:00:00,100
 doOnce[index] = true;
-for (var idx = 1; idx < 20; idx++) {
+for(var idx = 1; idx < 5; idx++){
     doOnce[idx] = true;
 }
 text = document.createElement("h1");       //動画のタイトルを表示
@@ -124,7 +124,7 @@ document.getElementById("text").innerHTML = "スペースキーを押してボ�
 document.getElementById("ansbtn").focus();//カーソルのフォーカスをjsの描画範囲(のボタンUI)に移動する->キーイベントが呼び出せるようになる
 document.getElementById("ansbtn").blur(); //ボタン自体にフォーカスをしている意味はないため、すぐにbulrでそれを解除
 
-0
+3
 00:00:05,000 --> 00:00:06,000
 //第１問
 var cntQues = 1;
@@ -133,7 +133,7 @@ document.getElementById("text").innerHTML = "第"+cntQues+"問";
 document.getElementById("numox").innerHTML = "◯: "+cntO+" ✖: "+cntX;    
 ansBtn.onclick = function(){ window.setTimeout( function(){ [cntO, cntX] = checkAnswer(correctAns[0], cntO, cntX) }, 1000 ); };
 
-0
+4
 00:00:10,000 --> 00:00:11,000
 //第２問
 var cntQues = 2;
@@ -141,7 +141,7 @@ document.getElementById("text").innerHTML = "第"+cntQues+"問";
 document.getElementById("numox").innerHTML = "◯: "+cntO+" ✖: "+cntX;    
 ansBtn.onclick = function(){ window.setTimeout( function(){ [cntO, cntX] = checkAnswer(correctAns[1], cntO, cntX) }, 1000 ); };
 
-0
+5
 00:00:15,000 --> 00:00:16,000
 //第３問
 var cntQues = 3;
