@@ -1,8 +1,12 @@
 0
 00:00:00,000 --> 00:00:00,100
 doOnce[index] = true;
+doOnce[1] = true;    
+doOnce[2] = true;    
+doOnce[3] = true;    
+doOnce[4] = true;    
+doOnce[5] = true;    
 for(idx = 1; idx < 5; idx++){
-    doOnce[idx] = true;    
 }
 text = document.createElement("h1");       //動画のタイトルを表示
 subTex = document.createElement("h2");      //その他文章を表示
