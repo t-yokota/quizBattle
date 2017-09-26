@@ -1,6 +1,9 @@
 0
 00:00:00,000 --> 00:00:00,100
 doOnce[index] = true;
+for (var idx = 1; idx < 20; idx++) {
+    doOnce[idx] = true;
+}
 text = document.createElement("h1");       //動画のタイトルを表示
 subTex = document.createElement("h2");      //その他文章を表示
 numOX = document.createElement("h1");       //◯正解数と✖不正解数を表示
