@@ -1,8 +1,7 @@
 0
 00:00:00,000 --> 00:00:00,100
 doOnce[index] = true;
-for(var idx = 1; idx < 5; idx++){
-    doOnce[idx] = true;
+for(idx = 1; idx < 5; idx++){
 }
 text = document.createElement("h1");       //動画のタイトルを表示
 subTex = document.createElement("h2");      //その他文章を表示
@@ -129,7 +128,7 @@ document.getElementById("ansbtn").blur(); //ボタン自体にフォーカスを
 //第１問
 var cntQues = 1;
 cntO = 0; cntX = 0;
-document.getElementById("text").innerHTML = "第"+cntQues+"問";
+document.getElementById("text").innerHTML = "第"+idx+"問";
 document.getElementById("numox").innerHTML = "◯: "+cntO+" ✖: "+cntX;    
 ansBtn.onclick = function(){ window.setTimeout( function(){ [cntO, cntX] = checkAnswer(correctAns[0], cntO, cntX) }, 1000 ); };
 
