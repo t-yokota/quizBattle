@@ -79,7 +79,7 @@ function pushButton_touch(){
     if(player.getPlayerState() == 2){
         if(index == 2){
             sndPush.play();
-            window.setTimeout( function(){ sndO.play() }, 1000 );
+            window.setTimeout( function(){ sndO.play() }, 500 );
             window.setTimeout( function(){ player.playVideo() }, 1000 );
         }
     }
