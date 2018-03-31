@@ -51,7 +51,7 @@ function pushButton_keydown(){
             if(index == 2){
                 sndPush.play();
                 window.setTimeout( function(){ sndO.play() }, 1000 );
-                window.setTimeout( function(){ player.playVideo() }, 4000 );
+                window.setTimeout( function(){ player.playVideo() }, 2000 );
             }
         }
         //押し（動画を停止）
