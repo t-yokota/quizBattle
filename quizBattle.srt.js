@@ -50,7 +50,7 @@ function pushButton_keydown(){
         if(player.getPlayerState() == 2){
             if(index == 2){
                 sndPush.play();
-                window.setTimeout( function(){ sndO.play() }, 500 );
+                window.setTimeout( function(){ sndO.play() }, 800 );
                 window.setTimeout( function(){ player.playVideo() }, 1000 );
             }
         }
@@ -79,7 +79,7 @@ function pushButton_touch(){
     if(player.getPlayerState() == 2){
         if(index == 2){
             sndPush.play();
-            window.setTimeout( function(){ sndO.play() }, 500 );
+            window.setTimeout( function(){ sndO.play() }, 800 );
             window.setTimeout( function(){ player.playVideo() }, 1000 );
         }
     }
