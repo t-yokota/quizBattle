@@ -1,5 +1,6 @@
 0
 00:00:00,000 --> 00:00:00,100
+doOnce[index] = true;
 //crateElement
 text = document.createElement("h1");        //動画のタイトルを表示
 subTex = document.createElement("h2");      //説明文等を表示
@@ -104,7 +105,6 @@ checkAnswer = function(correctAns, cntO, cntX){
     player.playVideo();
     return [cntO, cntX];
 }
-doOnce[index] = true;
 
 1
 00:00:00,100 --> 00:00:00,200
@@ -123,18 +123,19 @@ doOnce[index] = true;
 player.pauseVideo();
 document.getElementById("text").innerHTML = "ボタンチェック";
 document.getElementById("subtex").innerHTML = "スペースキーを押してボタンの動作を確認してください";
-document.getElementById("ansbtn").focus();//カーソルのフォーカスをjsの描画範囲(のボタンUI)に移動する->キーイベントが呼び出せるようになる
-document.getElementById("ansbtn").blur(); //ボタン自体にフォーカスをしている意味はないため、すぐにbulrでそれを解除
+//document.getElementById("ansbtn").focus();//カーソルのフォーカスをjsの描画範囲(のボタンUI)に移動する->キーイベントが呼び出せるようになる
+//document.getElementById("ansbtn").blur(); //ボタン自体にフォーカスをしている意味はないため、すぐにbulrでそれを解除
 
 3
 00:00:05,000 --> 00:00:06,000
+doOnce[index] = true;
+//解答入力欄と解答送信ボタンを表示
 document.getElementsByTagName("body")[0].appendChild(ansCol);
 document.getElementsByTagName("body")[0].appendChild(ansBtn);
 document.getElementsByTagName("body")[0].appendChild(numOX);
 ansCol.value = "ここに解答を入力して下さい";
 ansBtn.innerHTML = "解答を送信";
 //第１問
-doOnce[index] = true;
 var cntQues = 1;
 cntO = 0; cntX = 0;
 document.getElementById("text").innerHTML = "第"+cntQues+"問";
@@ -144,20 +145,18 @@ ansBtn.onclick = function(){ window.setTimeout( function(){ [cntO, cntX] = check
 
 4
 00:00:10,000 --> 00:00:11,000
-//第２問
 doOnce[index] = true;
+//第２問
 var cntQues = 2;
 document.getElementById("text").innerHTML = "第"+cntQues+"問";
-document.getElementById("subtex").innerHTML = "解答はすべてひらがなと半角数字で入力ください";
 document.getElementById("numox").innerHTML = "◯: "+cntO+" ✖: "+cntX;
 ansBtn.onclick = function(){ window.setTimeout( function(){ [cntO, cntX] = checkAnswer(correctAns[1], cntO, cntX) }, 1000 ); };
 
 5
 00:00:15,000 --> 00:00:16,000
-//第３問
 doOnce[index] = true;
+//第３問
 var cntQues = 3;
 document.getElementById("text").innerHTML = "第"+cntQues+"問";
-document.getElementById("subtex").innerHTML = "解答はすべてひらがなと半角数字で入力ください";
 document.getElementById("numox").innerHTML = "◯: "+cntO+" ✖: "+cntX;    
 ansBtn.onclick = function(){ window.setTimeout( function(){ [cntO, cntX] = checkAnswer(correctAns[2], cntO, cntX) }, 1000 ); };
