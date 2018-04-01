@@ -114,15 +114,15 @@ checkAnswer = function(correctAns, cntO, cntX){
 
 1
 00:00:00,100 --> 00:00:00,200
+doOnce[index] = true;
 document.getElementById("text").innerHTML = "quizBattle.srt.js";
 document.getElementById("subtex").innerHTML = "動画中の相手とクイズ対決";
-ansCol.value = "ここに解答を入力して下さい";
-ansBtn.innerHTML = "解答を送信";
 //TextNodeの内容をdoOnce内から隔離し、他のindex内でinnerHTMLを用いて編集する
-//これにより、動画をはじめに戻したときに表示をリセットすることができる
+//->動画をはじめに戻したときに表示をリセットすることができる
 
 2
 00:00:04,000 --> 00:00:04,100
+doOnce[index] = true;
 //ボタンチェック
 player.pauseVideo();
 document.getElementById("text").innerHTML = "ボタンチェック";
@@ -132,6 +132,9 @@ document.getElementById("ansbtn").blur(); //ボタン自体にフォーカスを
 
 3
 00:00:05,000 --> 00:00:06,000
+doOnce[index] = true;
+ansCol.value = "ここに解答を入力して下さい";
+ansBtn.innerHTML = "解答を送信";
 //第１問
 var cntQues = 1;
 cntO = 0; cntX = 0;
@@ -142,6 +145,7 @@ ansBtn.onclick = function(){ window.setTimeout( function(){ [cntO, cntX] = check
 
 4
 00:00:10,000 --> 00:00:11,000
+doOnce[index] = true;
 //第２問
 var cntQues = 2;
 document.getElementById("text").innerHTML = "第"+cntQues+"問";
@@ -151,6 +155,7 @@ ansBtn.onclick = function(){ window.setTimeout( function(){ [cntO, cntX] = check
 
 5
 00:00:15,000 --> 00:00:16,000
+doOnce[index] = true;
 //第３問
 var cntQues = 3;
 document.getElementById("text").innerHTML = "第"+cntQues+"問";
