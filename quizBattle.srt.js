@@ -16,38 +16,29 @@ subTex.id = "subtex";
 numOX.id = "numox";
 ansCol.id = "anscol";
 ansBtn.id = "ansbtn";
-//音のデータを指定
-sndPush.src = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/sounds/push.mp3";
-sndO.src = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/sounds/correct.mp3";
-sndX.src = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/sounds/discorrect.mp3";
-//textNodeを作成し，はじめに作成したElementに追加
+//textNodeを作成し，見出しのElementに追加
 _text = document.createTextNode("");
 _subTex = document.createTextNode("");
 _numOX = document.createTextNode("");
 text.appendChild(_text);
 subTex.appendChild(_subTex);
 numOX.appendChild(_numOX);
-//
+//音のデータを指定
+sndPush.src = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/sounds/push.mp3";
+sndO.src = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/sounds/correct.mp3";
+sndX.src = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/sounds/discorrect.mp3";
+//キーイベントを設定（押しによる解答権の取得）
+//キーボード押下
 document.onkeydown = pushButton_keydown;
 document.onkeyup = pushButton_keyup;
+//画面にタッチ
 document.ontouchstart = pushButton_touch;
-//
+//イベントリスナーの設定（キーイベント実行のためにJSの描画範囲にフォーカス）
 player.addEventListener('onStateChange', focusJS);
-//解答の設定
-correctAns = [];
-correctAns[0] = "1";
-correctAns[1] = "2";
-correctAns[2] = "3";
 //関数の定義
-function focusJS(event){//再生開始後に必ずカーソルのフォーカスをjs描画範囲内に移動し、キーイベントが呼び出せるようにする
-    if(event.data == 1){
-        document.getElementById("ansbtn").focus();
-        document.getElementById("ansbtn").blur();
-    }
-}
 function pushButton_keydown(){
     if(event.keyCode == 32){
-        //ボタンチェック（問題開始前に動画を自動停止->ボタンチェック後に再び再生）
+        //ボタンチェック（問題開始前に動画を自動停止->スペースキーが押されたら再び再生）
         if(player.getPlayerState() == 2){
             if(index == 2){
                 sndPush.play();
@@ -105,6 +96,17 @@ checkAnswer = function(correctAns, cntO, cntX){
     player.playVideo();
     return [cntO, cntX];
 }
+function focusJS(event){//動画の再生又は停止後に必ずカーソルのフォーカスをjs描画範囲内に移動し、キーイベントが呼び出せるようにする
+    if(event.data == 1){
+        document.getElementById("ansbtn").focus();
+        document.getElementById("ansbtn").blur();
+    }
+}
+//解答の設定
+correctAns = [];
+correctAns[0] = "1";
+correctAns[1] = "2";
+correctAns[2] = "3";
 
 1
 00:00:00,100 --> 00:00:00,200
@@ -140,7 +142,7 @@ var cntQues = 1;
 cntO = 0; cntX = 0;
 document.getElementById("text").innerHTML = "第"+cntQues+"問";
 document.getElementById("subtex").innerHTML = "解答はすべてひらがなと半角数字で入力ください";
-document.getElementById("numox").innerHTML = "◯: "+cntO+" ✖: "+cntX;    
+document.getElementById("numox").innerHTML = "◯: "+cntO+" \n ✖: "+cntX;    
 ansBtn.onclick = function(){ window.setTimeout( function(){ [cntO, cntX] = checkAnswer(correctAns[0], cntO, cntX) }, 1000 ); };
 
 4
