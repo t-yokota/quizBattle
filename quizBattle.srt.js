@@ -51,7 +51,7 @@ function pushButton_keydown(){
         if(player.getPlayerState() == 2){
             if(index == 2){
                 sndPush.play();
-                window.setTimeout( function(){ sndO.play() }, 700 );
+                window.setTimeout( function(){ sndO.play() }, 800 );
                 window.setTimeout( function(){ player.playVideo() }, 1000 );
             }
         }
@@ -80,7 +80,7 @@ function pushButton_touch(){
     if(player.getPlayerState() == 2){
         if(index == 2){
             sndPush.play();
-            window.setTimeout( function(){ sndO.play() }, 700 );
+            window.setTimeout( function(){ sndO.play() }, 800 );
             window.setTimeout( function(){ player.playVideo() }, 1000 );
         }
     }
@@ -119,22 +119,22 @@ document.getElementById("subtex").innerHTML = "動画の中の相手とクイズ
 2
 00:00:04,000 --> 00:00:04,100
 doOnce[index] = true;
-//ボタンチェック
-player.pauseVideo();
-document.getElementById("text").innerHTML = "ボタンチェック";
-document.getElementById("subtex").innerHTML = "スペースキーを押してボタンの動作を確認してください";
-document.getElementById("text").focus();//カーソルのフォーカスをjsの描画範囲(のボタンUI)に移動する->キーイベントが呼び出せるようになる
-//document.getElementById("ansbtn").blur(); //ボタン自体にフォーカスをしている意味はないため、すぐにbulrでそれを解除
-
-3
-00:00:05,000 --> 00:00:06,000
-doOnce[index] = true;
 //解答入力欄と解答送信ボタンを表示
 document.getElementsByTagName("body")[0].appendChild(ansCol);
 document.getElementsByTagName("body")[0].appendChild(ansBtn);
 document.getElementsByTagName("body")[0].appendChild(numOX);
 ansCol.value = "ここに解答を入力して下さい";
 ansBtn.innerHTML = "解答を送信";
+//ボタンチェック
+player.pauseVideo();
+document.getElementById("text").innerHTML = "ボタンチェック";
+document.getElementById("subtex").innerHTML = "スペースキーを押してボタンの動作を確認してください";
+document.getElementById("anscol").focus();//カーソルのフォーカスをjsの描画範囲(のボタンUI)に移動する->キーイベントが呼び出せるようになる
+document.getElementById("anscol").blur(); //ボタン自体にフォーカスをしている意味はないため、すぐにbulrでそれを解除
+
+3
+00:00:05,000 --> 00:00:06,000
+doOnce[index] = true;
 //第１問
 var cntQues = 1;
 cntO = 0; cntX = 0;
