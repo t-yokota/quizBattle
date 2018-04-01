@@ -28,12 +28,6 @@ text.appendChild(_text);
 subTex.appendChild(_subTex);
 numOX.appendChild(_numOX);
 //
-document.getElementsByTagName("body")[0].appendChild(text);
-document.getElementsByTagName("body")[0].appendChild(subTex);
-document.getElementsByTagName("body")[0].appendChild(ansCol);
-document.getElementsByTagName("body")[0].appendChild(ansBtn);
-document.getElementsByTagName("body")[0].appendChild(numOX);
-//
 document.onkeydown = pushButton_keydown;
 document.onkeyup = pushButton_keyup;
 document.ontouchstart = pushButton_touch;
@@ -115,6 +109,8 @@ checkAnswer = function(correctAns, cntO, cntX){
 1
 00:00:00,100 --> 00:00:00,200
 doOnce[index] = true;
+document.getElementsByTagName("body")[0].appendChild(text);
+document.getElementsByTagName("body")[0].appendChild(subTex);
 document.getElementById("text").innerHTML = "quizBattle.srt.js";
 document.getElementById("subtex").innerHTML = "動画中の相手とクイズ対決";
 //TextNodeの内容をdoOnce内から隔離し、他のindex内でinnerHTMLを用いて編集する
@@ -132,10 +128,13 @@ document.getElementById("ansbtn").blur(); //ボタン自体にフォーカスを
 
 3
 00:00:05,000 --> 00:00:06,000
-doOnce[index] = true;
+document.getElementsByTagName("body")[0].appendChild(ansCol);
+document.getElementsByTagName("body")[0].appendChild(ansBtn);
+document.getElementsByTagName("body")[0].appendChild(numOX);
 ansCol.value = "ここに解答を入力して下さい";
 ansBtn.innerHTML = "解答を送信";
 //第１問
+doOnce[index] = true;
 var cntQues = 1;
 cntO = 0; cntX = 0;
 document.getElementById("text").innerHTML = "第"+cntQues+"問";
