@@ -10,6 +10,7 @@ ansBtn = document.createElement("button");  //解答を送信するボタン
 sndPush = document.createElement("audio");  //ボタンの押下音
 sndO = document.createElement("audio");     //正解音
 sndX = document.createElement("audio");     //不正解音
+br = document.createElement("br");
 //idを用意
 text.id = "text";
 subTex.id = "subtex";
@@ -123,10 +124,10 @@ document.getElementById("subtex").innerHTML = "動画の中の相手とクイズ
 doOnce[index] = true;
 //解答入力欄と解答送信ボタンを表示
 document.getElementsByTagName("body")[0].appendChild(ansCol);
+document.getElementsByTagName("body")[0].appendChild(br);
 document.getElementsByTagName("body")[0].appendChild(ansBtn);
 document.getElementsByTagName("body")[0].appendChild(numOX);
 ansCol.value = "ここに解答を入力して下さい";
-document.getElementByTagName("body")[0].innerHTML = "<p></p>";
 ansBtn.innerHTML = "解答を送信";
 //ボタンチェック
 player.pauseVideo();
