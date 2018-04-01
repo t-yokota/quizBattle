@@ -92,7 +92,7 @@ checkAnswer = function(correctAns, cntO, cntX){
         sndX.play();
         cntX += 1;
     }
-    document.getElementById("numox").innerHTML = "◯: "+cntO+" ✖: "+cntX;    
+    document.getElementById("numox").innerHTML = "◯: "+cntO+", ✖: "+cntX;    
     player.playVideo();
     return [cntO, cntX];
 }
@@ -125,8 +125,8 @@ doOnce[index] = true;
 document.getElementsByTagName("body")[0].appendChild(ansCol);
 document.getElementsByTagName("body")[0].appendChild(ansBtn);
 document.getElementsByTagName("body")[0].appendChild(numOX);
-ansCol.value = "ここに解答を入力して下さい";
-ansBtn.innerHTML = "解答を送信";
+//ansCol.value = "ここに解答を入力して下さい";
+//ansBtn.innerHTML = "解答を送信";
 //ボタンチェック
 player.pauseVideo();
 document.getElementById("text").innerHTML = "ボタンチェック";
@@ -142,7 +142,7 @@ var cntQues = 1;
 cntO = 0; cntX = 0;
 document.getElementById("text").innerHTML = "第"+cntQues+"問";
 document.getElementById("subtex").innerHTML = "解答はすべてひらがなと半角数字で入力ください";
-document.getElementById("numox").innerHTML = "◯: "+cntO+" \n ✖: "+cntX;    
+document.getElementById("numox").innerHTML = "◯: "+cntO+", ✖: "+cntX;    
 ansBtn.onclick = function(){ window.setTimeout( function(){ [cntO, cntX] = checkAnswer(correctAns[0], cntO, cntX) }, 1000 ); };
 
 4
@@ -151,7 +151,7 @@ doOnce[index] = true;
 //第２問
 var cntQues = 2;
 document.getElementById("text").innerHTML = "第"+cntQues+"問";
-document.getElementById("numox").innerHTML = "◯: "+cntO+" ✖: "+cntX;
+document.getElementById("numox").innerHTML = "◯: "+cntO+", ✖: "+cntX;
 ansBtn.onclick = function(){ window.setTimeout( function(){ [cntO, cntX] = checkAnswer(correctAns[1], cntO, cntX) }, 1000 ); };
 
 5
@@ -160,5 +160,5 @@ doOnce[index] = true;
 //第３問
 var cntQues = 3;
 document.getElementById("text").innerHTML = "第"+cntQues+"問";
-document.getElementById("numox").innerHTML = "◯: "+cntO+" ✖: "+cntX;    
+document.getElementById("numox").innerHTML = "◯: "+cntO+", ✖: "+cntX;    
 ansBtn.onclick = function(){ window.setTimeout( function(){ [cntO, cntX] = checkAnswer(correctAns[2], cntO, cntX) }, 1000 ); };
