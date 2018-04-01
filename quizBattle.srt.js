@@ -126,7 +126,7 @@ document.getElementsByTagName("body")[0].appendChild(ansCol);
 document.getElementsByTagName("body")[0].appendChild(ansBtn);
 document.getElementsByTagName("body")[0].appendChild(numOX);
 ansCol.value = "ここに解答を入力して下さい";
-document.getElementById("body").innerHTML = "<p></p>";
+document.getElementByTagName("body").innerHTML = "<p></p>";
 ansBtn.innerHTML = "解答を送信";
 //ボタンチェック
 player.pauseVideo();
