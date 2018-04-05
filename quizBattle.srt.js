@@ -61,7 +61,7 @@ function pushButton_keyup(){
     if(event.keyCode == 32){
         //押し（キーを離した瞬間に解答欄にフォーカス）
         if(pushBool == 1){
-            document.getElementById("subtex").innerHTML = "解答はすべてひらがなと半角数字で入力ください";
+            document.getElementById("subtex").innerHTML = "解答はひらがなと半角数字で入力してください。誤答をした場合、";
             document.getElementById("anscol").focus();
             ansCol.value = "";          
             pushBool = 0;  
@@ -96,9 +96,11 @@ checkAnswer = function(correctAns, cntO, cntX){
     if(ans.valueOf() === correctAns.valueOf()){
         sndO.play();
         cntO += 1;
+        document.getElementById("subtex").innerHTML = "正解です！";
     }else{
         sndX.play();
         cntX += 1;
+        document.getElementById("subtex").innerHTML = "不正解です。相手が正解するまで回答することができます";
     }
     document.getElementById("numox").innerHTML = "◯: "+cntO+", ✖: "+cntX;    
     player.playVideo();
@@ -154,6 +156,7 @@ doOnce[index] = true;
 //第２問
 var cntQues = 2;
 document.getElementById("text").innerHTML = "第"+cntQues+"問";
+document.getElementById("subtex").innerHTML = "答えが分かったらスペースキーを押して解答権を得る！";
 document.getElementById("numox").innerHTML = "◯: "+cntO+", ✖: "+cntX;
 ansBtn.onclick = function(){ window.setTimeout( function(){ [cntO, cntX] = checkAnswer(correctAns[1], cntO, cntX) }, 1000 ); };
 
@@ -163,5 +166,6 @@ doOnce[index] = true;
 //第３問
 var cntQues = 3;
 document.getElementById("text").innerHTML = "第"+cntQues+"問";
+document.getElementById("subtex").innerHTML = "答えが分かったらスペースキーを押して解答権を得る！";
 document.getElementById("numox").innerHTML = "◯: "+cntO+", ✖: "+cntX;    
 ansBtn.onclick = function(){ window.setTimeout( function(){ [cntO, cntX] = checkAnswer(correctAns[2], cntO, cntX) }, 1000 ); };
