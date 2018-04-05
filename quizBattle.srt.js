@@ -102,7 +102,7 @@ checkAnswer = function(correctAns, cntO, cntX){
     }else{
         sndX.play();
         cntX += 1;
-        document.getElementById("subtex").innerHTML = "不正解です！ あと"+limAnswer-cntAnswer+"回まで解答できます。";
+        document.getElementById("subtex").innerHTML = "不正解です！ "+limAnswer+"回まで解答できます。";
     }
     document.getElementById("numox").innerHTML = "◯: "+cntO+", ✖: "+cntX;    
     player.playVideo();
@@ -155,7 +155,7 @@ cntO = 0; cntX = 0;
 document.getElementById("text").innerHTML = "第"+cntQues+"問";
 document.getElementById("subtex").innerHTML = "答えが分かったらスペースキーを押して解答権を得る！";
 document.getElementById("numox").innerHTML = "◯: "+cntO+", ✖: "+cntX;
-ansBtn.onclick = function(){ cntAnswer+=1; window.setTimeout( function(){ [cntO, cntX] = checkAnswer(correctAns[0], cntO, cntX) }, 1000 ); };
+ansBtn.onclick = function(){ cntAnswer++; window.setTimeout( function(){ [cntO, cntX] = checkAnswer(correctAns[0], cntO, cntX) }, 1000 ); };
 
 4
 00:00:10,000 --> 00:00:11,000
@@ -166,7 +166,7 @@ cntAnswer = 0;
 document.getElementById("text").innerHTML = "第"+cntQues+"問";
 document.getElementById("subtex").innerHTML = "答えが分かったらスペースキーを押して解答権を得る！";
 document.getElementById("numox").innerHTML = "◯: "+cntO+", ✖: "+cntX;
-ansBtn.onclick = function(){ cntAnswer+=1; window.setTimeout( function(){ [cntO, cntX] = checkAnswer(correctAns[1], cntO, cntX) }, 1000 ); };
+ansBtn.onclick = function(){ cntAnswer++; window.setTimeout( function(){ [cntO, cntX] = checkAnswer(correctAns[1], cntO, cntX) }, 1000 ); };
 
 5
 00:00:15,000 --> 00:00:16,000
@@ -177,4 +177,4 @@ cntAnswer = 0;
 document.getElementById("text").innerHTML = "第"+cntQues+"問";
 document.getElementById("subtex").innerHTML = "答えが分かったらスペースキーを押して解答権を得る！";
 document.getElementById("numox").innerHTML = "◯: "+cntO+", ✖: "+cntX;    
-ansBtn.onclick = function(){ cntAnswer+=1; window.setTimeout( function(){ [cntO, cntX] = checkAnswer(correctAns[2], cntO, cntX) }, 1000 ); };
+ansBtn.onclick = function(){ cntAnswer++; window.setTimeout( function(){ [cntO, cntX] = checkAnswer(correctAns[2], cntO, cntX) }, 1000 ); };
