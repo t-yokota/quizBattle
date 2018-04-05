@@ -49,13 +49,13 @@ function pushButton_keydown(){
         }
         //押し（問題中に動画を停止）
         if(player.getPlayerState() == 1){
-            if(limAnswer-cntAnswer>0){
+            //if(limAnswer-cntAnswer>0){
                 sndPush.play();
                 player.pauseVideo();
                 document.getElementById("anscol").focus();
                 ansCol.value = "";
                 pushBool = 1;
-            }
+            //}
         }
     }
 }
@@ -94,7 +94,7 @@ function focusJS(event){//動画の再生又は停止後に必ずカーソルの
     }
 }
 checkAnswer = function(correctAns, cntO, cntX){
-    cntAnswer++; 
+    cntAnswer++;
     var ans = ansCol.value; 
     if(ans.valueOf() === correctAns.valueOf()){
         sndO.play();
@@ -177,5 +177,5 @@ var cntQues = 3;
 var cntAnswer = 0;
 document.getElementById("text").innerHTML = "第"+cntQues+"問";
 document.getElementById("subtex").innerHTML = "答えが分かったらスペースキーを押して解答権を得る！";
-document.getElementById("numox").innerHTML = "◯: "+cntO+", ✖: "+cntX;    
+document.getElementById("numox").innerHTML = "◯: "+cntO+", ✖: "+cntX;
 ansBtn.onclick = function(){ window.setTimeout( function(){ [cntO, cntX] = checkAnswer(correctAns[2], cntO, cntX) }, 1000 ); };
