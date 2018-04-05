@@ -102,7 +102,7 @@ checkAnswer = function(correctAns, cntO, cntX){
     }else{
         sndX.play();
         cntX += 1;
-        document.getElementById("subtex").innerHTML = "不正解です！ "+limAnswer+"回まで解答できます。";
+        document.getElementById("subtex").innerHTML = "不正解です！ "+cntAnswer+"回目の解答です。";
     }
     document.getElementById("numox").innerHTML = "◯: "+cntO+", ✖: "+cntX;    
     player.playVideo();
