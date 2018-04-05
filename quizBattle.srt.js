@@ -10,7 +10,7 @@ ansBtn = document.createElement("button");  //解答を送信するボタン
 sndPush = document.createElement("audio");  //ボタンの押下音
 sndO = document.createElement("audio");     //正解音
 sndX = document.createElement("audio");     //不正解音
-br = document.createElement("br");
+br = document.createElement("br");          //改行用
 //idを用意
 text.id = "text";
 subTex.id = "subtex";
@@ -84,6 +84,12 @@ function pushButton_touch(){
         ansCol.value = "";                
     }
 }
+function focusJS(event){//動画の再生又は停止後に必ずカーソルのフォーカスをjs描画範囲内に移動し、キーイベントが呼び出せるようにする
+    if(event.data == 1){
+        document.getElementById("ansbtn").focus();
+        document.getElementById("ansbtn").blur();
+    }
+}
 checkAnswer = function(correctAns, cntO, cntX){
     var ans = ansCol.value; 
     if(ans.valueOf() === correctAns.valueOf()){
@@ -96,12 +102,6 @@ checkAnswer = function(correctAns, cntO, cntX){
     document.getElementById("numox").innerHTML = "◯: "+cntO+", ✖: "+cntX;    
     player.playVideo();
     return [cntO, cntX];
-}
-function focusJS(event){//動画の再生又は停止後に必ずカーソルのフォーカスをjs描画範囲内に移動し、キーイベントが呼び出せるようにする
-    if(event.data == 1){
-        document.getElementById("ansbtn").focus();
-        document.getElementById("ansbtn").blur();
-    }
 }
 //解答の設定
 correctAns = [];
@@ -132,7 +132,7 @@ ansBtn.innerHTML = "解答を送信";
 //ボタンチェック
 player.pauseVideo();
 document.getElementById("text").innerHTML = "ボタンチェック";
-document.getElementById("subtex").innerHTML = "スペースキーを押してボタンの動作を確認してください";
+document.getElementById("subtex").innerHTML = "スペースキーが早押しボタンです。キーを押して動作を確認してください";
 document.getElementById("anscol").focus();//カーソルのフォーカスをjsの描画範囲(のボタンUI)に移動する->キーイベントが呼び出せるようになる
 document.getElementById("anscol").blur(); //ボタン自体にフォーカスをしている意味はないため、すぐにbulrでそれを解除
 
