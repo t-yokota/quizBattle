@@ -24,16 +24,16 @@ _numOX = document.createTextNode("");
 text.appendChild(_text);
 subTex.appendChild(_subTex);
 numOX.appendChild(_numOX);
-//音のデータを指定
+//音のデータ
 sndPush.src = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/sounds/push.mp3";
 sndO.src = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/sounds/correct.mp3";
 sndX.src = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/sounds/discorrect.mp3";
 //キーイベントを設定（押しによる解答権の取得）
-//キーボード押下
+//キー押下
 document.onkeydown = pushButton_keydown;
 document.onkeyup = pushButton_keyup;
-//画面にタッチ
-document.ontouchstart = pushButton_touch;
+//画面にタッチ(スマホでの視聴用に実装したい)
+//document.ontouchstart = pushButton_touch;
 //イベントリスナーの設定（キーイベント実行のためにJSの描画範囲にフォーカス）
 player.addEventListener('onStateChange', focusJS);
 //関数の定義
@@ -49,11 +49,13 @@ function pushButton_keydown(){
         }
         //押し（問題中に動画を停止）
         if(player.getPlayerState() == 1){
-            sndPush.play();
-            player.pauseVideo();
-            document.getElementById("anscol").focus();
-            ansCol.value = "";
-            pushBool = 1;    
+            if(limAnswer-cntAnswer>0){
+                sndPush.play();
+                player.pauseVideo();
+                document.getElementById("anscol").focus();
+                ansCol.value = "";
+                pushBool = 1;
+            }
         }
     }
 }
@@ -61,14 +63,14 @@ function pushButton_keyup(){
     if(event.keyCode == 32){
         //押し（キーを離した瞬間に解答欄にフォーカス）
         if(pushBool == 1){
-            document.getElementById("subtex").innerHTML = "解答はひらがなと半角数字で入力してください。誤答をした場合、";
+            document.getElementById("subtex").innerHTML = "解答はひらがなと半角数字で入力してください。";
             document.getElementById("anscol").focus();
             ansCol.value = "";          
             pushBool = 0;  
         }
     }
 }
-function pushButton_touch(){
+/*function pushButton_touch(){
     //ボタンチェック
     if(player.getPlayerState() == 2){
         if(index == 2){
@@ -84,7 +86,7 @@ function pushButton_touch(){
         document.getElementById("anscol").focus();
         ansCol.value = "";                
     }
-}
+}*/
 function focusJS(event){//動画の再生又は停止後に必ずカーソルのフォーカスをjs描画範囲内に移動し、キーイベントが呼び出せるようにする
     if(event.data == 1){
         document.getElementById("ansbtn").focus();
@@ -100,7 +102,7 @@ checkAnswer = function(correctAns, cntO, cntX){
     }else{
         sndX.play();
         cntX += 1;
-        document.getElementById("subtex").innerHTML = "不正解です。相手が正解するまで回答することができます";
+        document.getElementById("subtex").innerHTML = "不正解です！ あと"+limAnswer-cntAnswer+"回まで解答できます。";
     }
     document.getElementById("numox").innerHTML = "◯: "+cntO+", ✖: "+cntX;    
     player.playVideo();
@@ -111,6 +113,8 @@ correctAns = [];
 correctAns[0] = "1";
 correctAns[1] = "2";
 correctAns[2] = "3";
+//解答可能回数の設定
+var limAnswer = 2;
 
 1
 00:00:00,100 --> 00:00:00,200
@@ -135,7 +139,7 @@ ansBtn.innerHTML = "解答を送信";
 //ボタンチェック
 player.pauseVideo();
 document.getElementById("text").innerHTML = "ボタンチェック";
-document.getElementById("subtex").innerHTML = "スペースキーが早押しボタンです。キーを押してボタンの動作を確認してください";
+document.getElementById("subtex").innerHTML = "スペースキーが早押しボタンです。キーを押してボタンの動作を確認してください。";
 document.getElementById("anscol").focus();//カーソルのフォーカスをjsの描画範囲(のボタンUI)に移動する->キーイベントが呼び出せるようになる
 document.getElementById("anscol").blur(); //ボタン自体にフォーカスをしている意味はないため、すぐにbulrでそれを解除
 
@@ -144,28 +148,31 @@ document.getElementById("anscol").blur(); //ボタン自体にフォーカスを
 doOnce[index] = true;
 //第１問
 var cntQues = 1;
+var cntAnswer = 0;
 cntO = 0; cntX = 0;
 document.getElementById("text").innerHTML = "第"+cntQues+"問";
 document.getElementById("subtex").innerHTML = "答えが分かったらスペースキーを押して解答権を得る！";
-document.getElementById("numox").innerHTML = "◯: "+cntO+", ✖: "+cntX;    
-ansBtn.onclick = function(){ window.setTimeout( function(){ [cntO, cntX] = checkAnswer(correctAns[0], cntO, cntX) }, 1000 ); };
+document.getElementById("numox").innerHTML = "◯: "+cntO+", ✖: "+cntX;
+ansBtn.onclick = function(){ cntAnswer+=1; window.setTimeout( function(){ [cntO, cntX] = checkAnswer(correctAns[0], cntO, cntX) }, 1000 ); };
 
 4
 00:00:10,000 --> 00:00:11,000
 doOnce[index] = true;
 //第２問
 var cntQues = 2;
+var cntAnswer = 0;
 document.getElementById("text").innerHTML = "第"+cntQues+"問";
 document.getElementById("subtex").innerHTML = "答えが分かったらスペースキーを押して解答権を得る！";
 document.getElementById("numox").innerHTML = "◯: "+cntO+", ✖: "+cntX;
-ansBtn.onclick = function(){ window.setTimeout( function(){ [cntO, cntX] = checkAnswer(correctAns[1], cntO, cntX) }, 1000 ); };
+ansBtn.onclick = function(){ cntAnswer+=1; window.setTimeout( function(){ [cntO, cntX] = checkAnswer(correctAns[1], cntO, cntX) }, 1000 ); };
 
 5
 00:00:15,000 --> 00:00:16,000
 doOnce[index] = true;
 //第３問
 var cntQues = 3;
+var cntAnswer = 0;
 document.getElementById("text").innerHTML = "第"+cntQues+"問";
 document.getElementById("subtex").innerHTML = "答えが分かったらスペースキーを押して解答権を得る！";
 document.getElementById("numox").innerHTML = "◯: "+cntO+", ✖: "+cntX;    
-ansBtn.onclick = function(){ window.setTimeout( function(){ [cntO, cntX] = checkAnswer(correctAns[2], cntO, cntX) }, 1000 ); };
+ansBtn.onclick = function(){ cntAnswer+=1; window.setTimeout( function(){ [cntO, cntX] = checkAnswer(correctAns[2], cntO, cntX) }, 1000 ); };
