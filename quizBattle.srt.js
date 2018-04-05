@@ -94,6 +94,7 @@ function focusJS(event){//動画の再生又は停止後に必ずカーソルの
     }
 }
 checkAnswer = function(correctAns, cntO, cntX){
+    cntAnswer++; 
     var ans = ansCol.value; 
     if(ans.valueOf() === correctAns.valueOf()){
         sndO.play();
@@ -155,7 +156,7 @@ cntO = 0; cntX = 0;
 document.getElementById("text").innerHTML = "第"+cntQues+"問";
 document.getElementById("subtex").innerHTML = "答えが分かったらスペースキーを押して解答権を得る！";
 document.getElementById("numox").innerHTML = "◯: "+cntO+", ✖: "+cntX;
-ansBtn.onclick = function(){ cntAnswer++; window.setTimeout( function(){ [cntO, cntX] = checkAnswer(correctAns[0], cntO, cntX) }, 1000 ); };
+ansBtn.onclick = function(){ window.setTimeout( function(){ [cntO, cntX] = checkAnswer(correctAns[0], cntO, cntX) }, 1000 ); };
 
 4
 00:00:10,000 --> 00:00:11,000
@@ -166,7 +167,7 @@ cntAnswer = 0;
 document.getElementById("text").innerHTML = "第"+cntQues+"問";
 document.getElementById("subtex").innerHTML = "答えが分かったらスペースキーを押して解答権を得る！";
 document.getElementById("numox").innerHTML = "◯: "+cntO+", ✖: "+cntX;
-ansBtn.onclick = function(){ cntAnswer++; window.setTimeout( function(){ [cntO, cntX] = checkAnswer(correctAns[1], cntO, cntX) }, 1000 ); };
+ansBtn.onclick = function(){ window.setTimeout( function(){ [cntO, cntX] = checkAnswer(correctAns[1], cntO, cntX) }, 1000 ); };
 
 5
 00:00:15,000 --> 00:00:16,000
@@ -177,4 +178,4 @@ cntAnswer = 0;
 document.getElementById("text").innerHTML = "第"+cntQues+"問";
 document.getElementById("subtex").innerHTML = "答えが分かったらスペースキーを押して解答権を得る！";
 document.getElementById("numox").innerHTML = "◯: "+cntO+", ✖: "+cntX;    
-ansBtn.onclick = function(){ cntAnswer++; window.setTimeout( function(){ [cntO, cntX] = checkAnswer(correctAns[2], cntO, cntX) }, 1000 ); };
+ansBtn.onclick = function(){ window.setTimeout( function(){ [cntO, cntX] = checkAnswer(correctAns[2], cntO, cntX) }, 1000 ); };
