@@ -61,6 +61,7 @@ function pushButton_keyup(){
     if(event.keyCode == 32){
         //押し（キーを離した瞬間に解答欄にフォーカス）
         if(pushBool == 1){
+            document.getElementById("subtex").innerHTML = "解答はすべてひらがなと半角数字で入力ください";
             document.getElementById("anscol").focus();
             ansCol.value = "";          
             pushBool = 0;  
@@ -132,7 +133,7 @@ ansBtn.innerHTML = "解答を送信";
 //ボタンチェック
 player.pauseVideo();
 document.getElementById("text").innerHTML = "ボタンチェック";
-document.getElementById("subtex").innerHTML = "スペースキーが早押しボタンです。キーを押して動作を確認してください";
+document.getElementById("subtex").innerHTML = "スペースキーが早押しボタンです。キーを押してボタンの動作を確認してください";
 document.getElementById("anscol").focus();//カーソルのフォーカスをjsの描画範囲(のボタンUI)に移動する->キーイベントが呼び出せるようになる
 document.getElementById("anscol").blur(); //ボタン自体にフォーカスをしている意味はないため、すぐにbulrでそれを解除
 
@@ -143,7 +144,7 @@ doOnce[index] = true;
 var cntQues = 1;
 cntO = 0; cntX = 0;
 document.getElementById("text").innerHTML = "第"+cntQues+"問";
-document.getElementById("subtex").innerHTML = "解答はすべてひらがなと半角数字で入力ください";
+document.getElementById("subtex").innerHTML = "答えが分かったらスペースキーを押して解答権を得る！";
 document.getElementById("numox").innerHTML = "◯: "+cntO+", ✖: "+cntX;    
 ansBtn.onclick = function(){ window.setTimeout( function(){ [cntO, cntX] = checkAnswer(correctAns[0], cntO, cntX) }, 1000 ); };
 
