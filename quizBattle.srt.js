@@ -115,6 +115,8 @@ correctAns[1] = "2";
 correctAns[2] = "3";
 //解答可能回数の設定
 var limAnswer = 2;
+//解答回数カウント用の変数
+var cntAnswer = 0;
 
 1
 00:00:00,100 --> 00:00:00,200
@@ -148,7 +150,7 @@ document.getElementById("anscol").blur(); //ボタン自体にフォーカスを
 doOnce[index] = true;
 //第１問
 var cntQues = 1;
-var cntAnswer = 0;
+cntAnswer = 0;
 cntO = 0; cntX = 0;
 document.getElementById("text").innerHTML = "第"+cntQues+"問";
 document.getElementById("subtex").innerHTML = "答えが分かったらスペースキーを押して解答権を得る！";
@@ -160,7 +162,7 @@ ansBtn.onclick = function(){ cntAnswer+=1; window.setTimeout( function(){ [cntO,
 doOnce[index] = true;
 //第２問
 var cntQues = 2;
-var cntAnswer = 0;
+cntAnswer = 0;
 document.getElementById("text").innerHTML = "第"+cntQues+"問";
 document.getElementById("subtex").innerHTML = "答えが分かったらスペースキーを押して解答権を得る！";
 document.getElementById("numox").innerHTML = "◯: "+cntO+", ✖: "+cntX;
@@ -171,7 +173,7 @@ ansBtn.onclick = function(){ cntAnswer+=1; window.setTimeout( function(){ [cntO,
 doOnce[index] = true;
 //第３問
 var cntQues = 3;
-var cntAnswer = 0;
+cntAnswer = 0;
 document.getElementById("text").innerHTML = "第"+cntQues+"問";
 document.getElementById("subtex").innerHTML = "答えが分かったらスペースキーを押して解答権を得る！";
 document.getElementById("numox").innerHTML = "◯: "+cntO+", ✖: "+cntX;    
