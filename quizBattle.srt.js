@@ -139,7 +139,7 @@ checkAnswer = function(correctAns, cntAns, cntO, cntX){
     }else{
         sndX.play();
         cntX += 1;
-        document.getElementById("subtex").innerHTML = "不正解です！ あと"+(limAns-cntAns)+"回目できます。";
+        document.getElementById("subtex").innerHTML = "不正解です！ あと"+(limAns-cntAns)+"回目解答できます。";
     }
     document.getElementById("numox").innerHTML = "◯: "+cntO+", ✖: "+cntX;    
     player.playVideo();
@@ -151,7 +151,7 @@ correctAns[0] = "1";
 correctAns[1] = "2";
 correctAns[2] = "3";
 //解答可能回数の設定
-var limAns = 2;
+var limAns = 3;
 
 1
 00:00:00,100 --> 00:00:00,200
