@@ -148,6 +148,12 @@ checkAnswer = function(correctAns, cntAns, cntO, cntX){
     player.playVideo();
     return [cntO, cntX];
 }
+function disableButton(){
+    this.disabled = true;
+}
+function ableButton(){
+    this.disabled = false;
+}
 //解答の設定
 correctAns = [];
 correctAns[0] = "1";
@@ -198,7 +204,7 @@ document.getElementById("subtex").innerHTML = "答えが分かったら、スペ
 document.getElementById("numox").innerHTML = "◯: "+cntO+", ✖: "+cntX;
 document.onkeyup = pushButton_keyup;
 document.onkeydown = function(){ cntAns = pushButton_keydown(cntAns); };
-ansBtn.onclick = function(){ window.setTimeout( function(){ [cntO, cntX] = checkAnswer(correctAns[cntQues-1], cntAns, cntO, cntX) }, 1000 ); this.disabled = true; };
+ansBtn.onclick = function(){ window.setTimeout( function(){ [cntO, cntX] = checkAnswer(correctAns[cntQues-1], cntAns, cntO, cntX) }, 1000 ); disableButton(); window.setTimeout( ableButton(), 1000 );};
 
 4
 00:00:10,000 --> 00:00:11,000
