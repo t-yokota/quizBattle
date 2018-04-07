@@ -57,7 +57,7 @@ pushButton_keydown = function(cntAns){
     if(event.keyCode == 32){
         if(player.getPlayerState() == 1){
             cntAns++;
-            if(limAns-cntAns>=0){
+            if(limAns-cntAns >= 0){
                 sndPush.play();
                 player.pauseVideo();
                 document.getElementById("anscol").focus();
@@ -132,17 +132,19 @@ function pushButton_keyup(){
 }*/
 checkAnswer = function(correctAns, cntAns, cntO, cntX){
     var ans = ansCol.value; 
-    if(ans.valueOf() === correctAns.valueOf()){
-        sndO.play();
-        cntO += 1;
-        cntAns = limAns;
-        document.getElementById("subtex").innerHTML = "正解です！";
-    }else{
-        sndX.play();
-        cntX += 1;
-        document.getElementById("subtex").innerHTML = "不正解です！ あと"+(limAns-cntAns)+"回解答できます。";
+    if(limAns-cntAns >= 0 && player.getPlayerState() == 2){
+        if(ans.valueOf() === correctAns.valueOf()){
+            sndO.play();
+            cntO += 1;
+            cntAns = limAns;
+            document.getElementById("subtex").innerHTML = "正解です！";
+        }else{
+            sndX.play();
+            cntX += 1;
+            document.getElementById("subtex").innerHTML = "不正解です！ あと"+(limAns-cntAns)+"回解答できます。";
+        }
+        document.getElementById("numox").innerHTML = "◯: "+cntO+", ✖: "+cntX;    
     }
-    document.getElementById("numox").innerHTML = "◯: "+cntO+", ✖: "+cntX;    
     player.playVideo();
     return [cntO, cntX];
 }
