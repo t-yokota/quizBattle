@@ -160,7 +160,7 @@ correctAns[0] = "1";
 correctAns[1] = "2";
 correctAns[2] = "3";
 //解答可能回数の設定
-var limAns = 1;
+var limAns = 5;
 
 1
 00:00:00,100 --> 00:00:00,200
@@ -204,7 +204,11 @@ document.getElementById("subtex").innerHTML = "答えが分かったら、スペ
 document.getElementById("numox").innerHTML = "◯: "+cntO+", ✖: "+cntX;
 document.onkeyup = pushButton_keyup;
 document.onkeydown = function(){ cntAns = pushButton_keydown(cntAns); };
-ansBtn.onclick = function(){ window.setTimeout( function(){ [cntO, cntX] = checkAnswer(correctAns[cntQues-1], cntAns, cntO, cntX) }, 1000 ); disableButton(); window.setTimeout( ableButton(), 1000 );};
+ansBtn.onclick = function(){ 
+    window.setTimeout( function(){ [cntO, cntX] = checkAnswer(correctAns[cntQues-1], cntAns, cntO, cntX) }, 1000 );
+    disableButton();
+    //window.setTimeout( ableButton(), 1000 );
+};
 
 4
 00:00:10,000 --> 00:00:11,000
