@@ -206,9 +206,10 @@ document.getElementById("numox").innerHTML = "◯: "+cntO+", ✖: "+cntX;
 document.onkeyup = pushButton_keyup;
 document.onkeydown = function(){ cntAns = pushButton_keydown(cntAns); };
 ansBtn.onclick = function(){ 
+    var btn = this;
     window.setTimeout( function(){ [cntAns, cntO, cntX] = checkAnswer(correctAns[cntQues-1], cntAns, cntO, cntX) }, 1000 );
     this.disabled = true;
-    window.setTimeout( (function(){ this.disabled = false; }()), 1000 );
+    window.setTimeout( function(){ btn.disabled = false; }, 1000 );
 };
 
 4
