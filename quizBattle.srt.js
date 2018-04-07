@@ -57,7 +57,7 @@ pushButton_keydown = function(cntAns){
     if(event.keyCode == 32){
         if(player.getPlayerState() == 1){
             cntAns++;
-            if(limAns-cntAns>0){
+            if(limAns-cntAns>=0){
                 sndPush.play();
                 player.pauseVideo();
                 document.getElementById("anscol").focus();
