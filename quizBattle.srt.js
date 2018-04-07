@@ -79,40 +79,6 @@ pushButton_keyup = function(){
         }
     }
 }
-/*function pushButton_keydown(cntAns){
-    if(event.keyCode == 32){
-        //ボタンチェック（問題開始前に動画を自動停止->スペースキーが押されたら再び再生）
-        if(player.getPlayerState() == 2){
-            if(index == 2){
-                sndPush.play();
-                window.setTimeout( function(){ sndO.play() }, 800 );
-                window.setTimeout( function(){ player.playVideo() }, 1000 );
-            }
-        }
-        //押し（問題中に動画を停止）
-        if(player.getPlayerState() == 1){
-            cntAns++;
-            //if(limAnswer-cntAns>0){
-                sndPush.play();
-                player.pauseVideo();
-                document.getElementById("anscol").focus();
-                ansCol.value = "";
-                pushBool = 1;
-            //}
-        }
-    }
-}
-function pushButton_keyup(){
-    if(event.keyCode == 32){
-        //押し（キーを離した瞬間に解答欄にフォーカス）
-        if(pushBool == 1){
-            document.getElementById("subtex").innerHTML = "解答はひらがなと半角数字で入力してください。";
-            document.getElementById("anscol").focus();
-            ansCol.value = "";          
-            pushBool = 0;  
-        }
-    }
-}*/
 /*function pushButton_touch(){
     //ボタンチェック
     if(player.getPlayerState() == 2){
@@ -137,7 +103,7 @@ checkAnswer = function(correctAns, cntAns, cntO, cntX){
             sndO.play();
             cntO += 1;
             cntAns = limAns;
-            ansBtn.disabled = true;
+            document.getElementById("ansbtn").disabled = true;
             document.getElementById("subtex").innerHTML = "正解です！";
         }else{
             sndX.play();
@@ -180,6 +146,7 @@ document.getElementsByTagName("body")[0].appendChild(ansBtn);
 document.getElementsByTagName("body")[0].appendChild(numOX);
 ansCol.value = "ここに解答を入力";
 ansBtn.innerHTML = "解答を送信";
+ansCol.disabled = true;
 ansBtn.disabled = true;
 //ボタンチェック
 player.pauseVideo();
@@ -197,6 +164,7 @@ cntQues = 1;
 cntAns = 0;
 cntO = 0; 
 cntX = 0;
+ansCol.disabled = false;
 ansBtn.disabled = false;
 document.getElementById("text").innerHTML = "第"+cntQues+"問";
 document.getElementById("subtex").innerHTML = "答えが分かったら、スペースキーを押して解答権を得る！";
