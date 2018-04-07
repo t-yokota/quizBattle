@@ -117,7 +117,7 @@ correctAns[2] = "3";
 //解答可能回数の設定
 var limAnswer = 2;
 //解答回数カウント用の変数
-//var cntAnswer = 0;
+var cntAnswer = 0;
 
 1
 00:00:00,100 --> 00:00:00,200
