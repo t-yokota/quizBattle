@@ -182,6 +182,7 @@ document.getElementsByTagName("body")[0].appendChild(ansBtn);
 document.getElementsByTagName("body")[0].appendChild(numOX);
 ansCol.value = "ここに解答を入力";
 ansBtn.innerHTML = "解答を送信";
+document.getElementById("ansbtn").disabled = true;
 //disableButton();
 //ボタンチェック
 player.pauseVideo();
