@@ -208,7 +208,7 @@ document.onkeydown = function(){ cntAns = pushButton_keydown(cntAns); };
 ansBtn.onclick = function(){ 
     window.setTimeout( function(){ [cntAns, cntO, cntX] = checkAnswer(correctAns[cntQues-1], cntAns, cntO, cntX) }, 1000 );
     this.disabled = true;
-    //window.setTimeout( ableButton(), 1000 );
+    window.setTimeout( function(){ this.disabled = false; }, 1000 );
 };
 
 4
