@@ -146,7 +146,7 @@ checkAnswer = function(correctAns, cntAns, cntO, cntX){
         document.getElementById("numox").innerHTML = "◯: "+cntO+", ✖: "+cntX;    
     }
     player.playVideo();
-    return [cntO, cntX];
+    return [cntAns, cntO, cntX];
 }
 function disableButton(){
     document.getElementById("ansbtn").disabled = true;
@@ -206,8 +206,8 @@ document.getElementById("numox").innerHTML = "◯: "+cntO+", ✖: "+cntX;
 document.onkeyup = pushButton_keyup;
 document.onkeydown = function(){ cntAns = pushButton_keydown(cntAns); };
 ansBtn.onclick = function(){ 
-    window.setTimeout( function(){ [cntO, cntX] = checkAnswer(correctAns[cntQues-1], cntAns, cntO, cntX) }, 1000 );
-    //disableButton();
+    window.setTimeout( function(){ [cntAns, cntO, cntX] = checkAnswer(correctAns[cntQues-1], cntAns, cntO, cntX) }, 1000 );
+    this.disabled = true;
     //window.setTimeout( ableButton(), 1000 );
 };
 
@@ -221,7 +221,7 @@ document.getElementById("text").innerHTML = "第"+cntQues+"問";
 document.getElementById("subtex").innerHTML = "答えが分かったら、スペースキーを押して解答権を得る！";
 document.getElementById("numox").innerHTML = "◯: "+cntO+", ✖: "+cntX;
 document.onkeydown = function(){ cntAns = pushButton_keydown(cntAns); };
-ansBtn.onclick = function(){ window.setTimeout( function(){ [cntO, cntX] = checkAnswer(correctAns[cntQues-1], cntAns, cntO, cntX) }, 1000 ); };
+ansBtn.onclick = function(){ window.setTimeout( function(){ [cntAns, cntO, cntX] = checkAnswer(correctAns[cntQues-1], cntAns, cntO, cntX) }, 1000 ); };
 
 5
 00:00:15,000 --> 00:00:16,000
@@ -233,4 +233,4 @@ document.getElementById("text").innerHTML = "第"+cntQues+"問";
 document.getElementById("subtex").innerHTML = "答えが分かったら、スペースキーを押して解答権を得る！";
 document.getElementById("numox").innerHTML = "◯: "+cntO+", ✖: "+cntX;
 document.onkeydown = function(){ cntAns = pushButton_keydown(cntAns); };
-ansBtn.onclick = function(){ window.setTimeout( function(){ [cntO, cntX] = checkAnswer(correctAns[cntQues-1], cntAns, cntO, cntX) }, 1000 ); };
+ansBtn.onclick = function(){ window.setTimeout( function(){ [cntAns, cntO, cntX] = checkAnswer(correctAns[cntQues-1], cntAns, cntO, cntX) }, 1000 ); };
