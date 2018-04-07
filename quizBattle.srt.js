@@ -148,12 +148,6 @@ checkAnswer = function(correctAns, cntAns, cntO, cntX){
     player.playVideo();
     return [cntAns, cntO, cntX];
 }
-function disableButton(){
-    document.getElementById("ansbtn").disabled = true;
-}
-function ableButton(){
-    document.getElementById("ansbtn").disabled = false;
-}
 //解答の設定
 correctAns = [];
 correctAns[0] = "1";
@@ -182,6 +176,12 @@ document.getElementsByTagName("body")[0].appendChild(ansBtn);
 document.getElementsByTagName("body")[0].appendChild(numOX);
 ansCol.value = "ここに解答を入力";
 ansBtn.innerHTML = "解答を送信";
+function disableButton(){
+    document.getElementById("ansbtn").disabled = true;
+}
+function ableButton(){
+    document.getElementById("ansbtn").disabled = false;
+}
 //disableButton();
 //ボタンチェック
 player.pauseVideo();
@@ -207,8 +207,9 @@ document.onkeyup = pushButton_keyup;
 document.onkeydown = function(){ cntAns = pushButton_keydown(cntAns); };
 ansBtn.onclick = function(){ 
     window.setTimeout( function(){ [cntAns, cntO, cntX] = checkAnswer(correctAns[cntQues-1], cntAns, cntO, cntX) }, 1000 );
-    this.disabled = true;
-    window.setTimeout( function(){ this.disabled = false; }, 1000 );
+    disableButton();
+    //    this.disabled = true;
+//    window.setTimeout( function(){ this.disabled = false; }, 1000 );
 };
 
 4
