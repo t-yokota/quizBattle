@@ -49,6 +49,7 @@ function pushButton_keydown(){
         }
         //押し（問題中に動画を停止）
         if(player.getPlayerState() == 1){
+            cntAnswer++;
             //if(limAnswer-cntAnswer>0){
                 sndPush.play();
                 player.pauseVideo();
@@ -94,7 +95,6 @@ function focusJS(event){//動画の再生又は停止後に必ずカーソルの
     }
 }
 checkAnswer = function(correctAns, cntO, cntX){
-    cntAnswer++;
     var ans = ansCol.value; 
     if(ans.valueOf() === correctAns.valueOf()){
         sndO.play();
@@ -121,7 +121,7 @@ var cntAnswer = 0;
 
 1
 00:00:00,100 --> 00:00:00,200
-doOnce[index] = true;
+//doOnce[index] = true;
 document.getElementsByTagName("body")[0].appendChild(text);
 document.getElementsByTagName("body")[0].appendChild(subTex);
 document.getElementById("text").innerHTML = "quizBattle.srt.js";
@@ -131,7 +131,7 @@ document.getElementById("subtex").innerHTML = "動画の中の相手とクイズ
 
 2
 00:00:04,000 --> 00:00:04,100
-doOnce[index] = true;
+//doOnce[index] = true;
 //解答入力欄と解答送信ボタンを表示
 document.getElementsByTagName("body")[0].appendChild(ansCol);
 document.getElementsByTagName("body")[0].appendChild(br);
@@ -148,7 +148,7 @@ document.getElementById("anscol").blur(); //ボタン自体にフォーカスを
 
 3
 00:00:05,000 --> 00:00:06,000
-doOnce[index] = true;
+//doOnce[index] = true;
 //第１問
 var cntQues = 1;
 var cntAnswer = 0;
@@ -160,7 +160,7 @@ ansBtn.onclick = function(){ window.setTimeout( function(){ [cntO, cntX] = check
 
 4
 00:00:10,000 --> 00:00:11,000
-doOnce[index] = true;
+//doOnce[index] = true;
 //第２問
 var cntQues = 2;
 var cntAnswer = 0;
@@ -171,7 +171,7 @@ ansBtn.onclick = function(){ window.setTimeout( function(){ [cntO, cntX] = check
 
 5
 00:00:15,000 --> 00:00:16,000
-doOnce[index] = true;
+//doOnce[index] = true;
 //第３問
 var cntQues = 3;
 var cntAnswer = 0;
