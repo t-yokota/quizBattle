@@ -37,7 +37,7 @@ document.onkeyup = pushButton_keyup;
 //イベントリスナーの設定（キーイベント実行のためにJSの描画範囲にフォーカス）
 player.addEventListener('onStateChange', focusJS);
 //関数の定義
-function pushButton_keydown(){
+function pushButton_keydown(cntAnswer){
     if(event.keyCode == 32){
         //ボタンチェック（問題開始前に動画を自動停止->スペースキーが押されたら再び再生）
         if(player.getPlayerState() == 2){
@@ -116,8 +116,6 @@ correctAns[1] = "2";
 correctAns[2] = "3";
 //解答可能回数の設定
 var limAnswer = 2;
-//解答回数カウント用の変数
-var cntAnswer = 0;
 
 1
 00:00:00,100 --> 00:00:00,200
@@ -151,7 +149,7 @@ document.getElementById("anscol").blur(); //ボタン自体にフォーカスを
 //doOnce[index] = true;
 //第１問
 var cntQues = 1;
-cntAnswer = 1;
+var cntAnswer = 1;
 var cntO = 0; var cntX = 0;
 document.getElementById("text").innerHTML = "第"+cntQues+"問";
 document.getElementById("subtex").innerHTML = "答えが分かったらスペースキーを押して解答権を得る！";
@@ -163,7 +161,7 @@ ansBtn.onclick = function(){ window.setTimeout( function(){ [cntO, cntX] = check
 //doOnce[index] = true;
 //第２問
 var cntQues = 2;
-cntAnswer = 2;
+var cntAnswer = 2;
 document.getElementById("text").innerHTML = "第"+cntQues+"問";
 document.getElementById("subtex").innerHTML = "答えが分かったらスペースキーを押して解答権を得る！";
 document.getElementById("numox").innerHTML = "◯: "+cntO+", ✖: "+cntX;
@@ -174,7 +172,7 @@ ansBtn.onclick = function(){ window.setTimeout( function(){ [cntO, cntX] = check
 //doOnce[index] = true;
 //第３問
 var cntQues = 3;
-cntAnswer = 3;
+var cntAnswer = 3;
 document.getElementById("text").innerHTML = "第"+cntQues+"問";
 document.getElementById("subtex").innerHTML = "答えが分かったらスペースキーを押して解答権を得る！";
 document.getElementById("numox").innerHTML = "◯: "+cntO+", ✖: "+cntX;
