@@ -191,9 +191,9 @@ cntAns = 0;
 document.getElementById("text").innerHTML = "第"+cntQues+"問";
 document.getElementById("subtex").innerHTML = "答えが分かったら、スペースキーを押して解答権を得る！";
 document.getElementById("numox").innerHTML = "◯: "+cntO+", ✖: "+cntX;
-ansBtn.onclick = function(){ window.setTimeout( function(){ [cntO, cntX] = checkAnswer(correctAns[0], cntAns, cntO, cntX) }, 1000 ); };
 document.onkeydown = function(){ cntAns = pushButton_keydown(cntAns); };
 document.onkeyup = pushButton_keyup;
+ansBtn.onclick = function(){ window.setTimeout( function(){ [cntO, cntX] = checkAnswer(correctAns[0], cntAns, cntO, cntX) }, 1000 ); };
 
 4
 00:00:10,000 --> 00:00:11,000
@@ -204,8 +204,8 @@ cntAns = 0;
 document.getElementById("text").innerHTML = "第"+cntQues+"問";
 document.getElementById("subtex").innerHTML = "答えが分かったら、スペースキーを押して解答権を得る！";
 document.getElementById("numox").innerHTML = "◯: "+cntO+", ✖: "+cntX;
+//document.onkeydown = function(){ cntAns = pushButton_keydown(cntAns); };
 ansBtn.onclick = function(){ window.setTimeout( function(){ [cntO, cntX] = checkAnswer(correctAns[1], cntAns, cntO, cntX) }, 1000 ); };
-document.onkeydown = function(){ cntAns = pushButton_keydown(cntAns); };
 
 5
 00:00:15,000 --> 00:00:16,000
@@ -216,5 +216,5 @@ cntAns = 0;
 document.getElementById("text").innerHTML = "第"+cntQues+"問";
 document.getElementById("subtex").innerHTML = "答えが分かったら、スペースキーを押して解答権を得る！";
 document.getElementById("numox").innerHTML = "◯: "+cntO+", ✖: "+cntX;
+//document.onkeydown = function(){ cntAns = pushButton_keydown(cntAns); };
 ansBtn.onclick = function(){ window.setTimeout( function(){ [cntO, cntX] = checkAnswer(correctAns[2], cntAns, cntO, cntX) }, 1000 ); };
-document.onkeydown = function(){ cntAns = pushButton_keydown(cntAns); };
