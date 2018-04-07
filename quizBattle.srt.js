@@ -57,13 +57,13 @@ pushButton_keydown = function(cntAns){
     if(event.keyCode == 32){
         if(player.getPlayerState() == 1){
             cntAns++;
-            //if(limAnswer-cntAns>0){
+            if(limAnswer-cntAns>0){
                 sndPush.play();
                 player.pauseVideo();
                 document.getElementById("anscol").focus();
                 ansCol.value = "";
                 pushBool = 1;
-            //}
+            }
         }
     }
     return cntAns;
@@ -139,7 +139,7 @@ checkAnswer = function(correctAns, cntAns, cntO, cntX){
     }else{
         sndX.play();
         cntX += 1;
-        document.getElementById("subtex").innerHTML = "不正解です！ "+cntAns+"回目の解答です。";
+        document.getElementById("subtex").innerHTML = "不正解です！ あと"+(limAns-cntAns)+"回目できます。";
     }
     document.getElementById("numox").innerHTML = "◯: "+cntO+", ✖: "+cntX;    
     player.playVideo();
