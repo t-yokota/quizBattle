@@ -135,6 +135,7 @@ checkAnswer = function(correctAns, cntAns, cntO, cntX){
     if(ans.valueOf() === correctAns.valueOf()){
         sndO.play();
         cntO += 1;
+        cntAns = limAns;
         document.getElementById("subtex").innerHTML = "正解です！";
     }else{
         sndX.play();
@@ -151,7 +152,7 @@ correctAns[0] = "1";
 correctAns[1] = "2";
 correctAns[2] = "3";
 //解答可能回数の設定
-var limAns = 3;
+var limAns = 1;
 
 1
 00:00:00,100 --> 00:00:00,200
@@ -166,33 +167,35 @@ document.getElementById("subtex").innerHTML = "動画の中の相手とクイズ
 2
 00:00:04,000 --> 00:00:04,100
 //doOnce[index] = true;
-//解答入力欄と解答送信ボタンを表示
+//各種UIを表示
 document.getElementsByTagName("body")[0].appendChild(ansCol);
 document.getElementsByTagName("body")[0].appendChild(br);
 document.getElementsByTagName("body")[0].appendChild(ansBtn);
 document.getElementsByTagName("body")[0].appendChild(numOX);
-ansCol.value = "ここに解答を入力して下さい";
+ansCol.value = "ここに解答を入力";
 ansBtn.innerHTML = "解答を送信";
+document.getElementById("numox").innerHTML = "◯: -, ✖: -";
 //ボタンチェック
 player.pauseVideo();
+document.onkeydown = buttonCheck;
 document.getElementById("text").innerHTML = "ボタンチェック";
 document.getElementById("subtex").innerHTML = "スペースキーが早押しボタンです。キーを押してボタンの動作を確認してください。";
 document.getElementById("anscol").focus();//カーソルのフォーカスをjsの描画範囲(のボタンUI)に移動する->キーイベントが呼び出せるようになる
 document.getElementById("anscol").blur(); //ボタン自体にフォーカスをしている意味はないため、すぐにbulrでそれを解除
-document.onkeydown = buttonCheck;
 
 3
 00:00:05,000 --> 00:00:06,000
 //doOnce[index] = true;
 //第１問
 cntQues = 1;
-var cntO = 0; var cntX = 0;
 cntAns = 0;
+cntO = 0; 
+cntX = 0;
 document.getElementById("text").innerHTML = "第"+cntQues+"問";
 document.getElementById("subtex").innerHTML = "答えが分かったら、スペースキーを押して解答権を得る！";
 document.getElementById("numox").innerHTML = "◯: "+cntO+", ✖: "+cntX;
-document.onkeydown = function(){ cntAns = pushButton_keydown(cntAns); };
 document.onkeyup = pushButton_keyup;
+document.onkeydown = function(){ cntAns = pushButton_keydown(cntAns); };
 ansBtn.onclick = function(){ window.setTimeout( function(){ [cntO, cntX] = checkAnswer(correctAns[cntQues-1], cntAns, cntO, cntX) }, 1000 ); };
 
 4
