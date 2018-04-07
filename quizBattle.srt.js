@@ -36,6 +36,10 @@ document.onkeyup = pushButton_keyup;
 //document.ontouchstart = pushButton_touch;
 //イベントリスナーの設定（キーイベント実行のためにJSの描画範囲にフォーカス）
 player.addEventListener('onStateChange', focusJS);
+//解答可能回数の設定
+var limAnswer = 2;
+//解答回数カウント用の変数
+var cntAnswer = 0;
 //関数の定義
 function pushButton_keydown(){
     if(event.keyCode == 32){
@@ -114,10 +118,6 @@ correctAns = [];
 correctAns[0] = "1";
 correctAns[1] = "2";
 correctAns[2] = "3";
-//解答可能回数の設定
-var limAnswer = 2;
-//解答回数カウント用の変数
-var cntAnswer = 0;
 
 1
 00:00:00,100 --> 00:00:00,200
