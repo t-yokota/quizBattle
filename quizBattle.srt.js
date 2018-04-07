@@ -185,7 +185,7 @@ document.onkeydown = buttonCheck;
 00:00:05,000 --> 00:00:06,000
 //doOnce[index] = true;
 //第１問
-var cntQues = 1;
+cntQues = 1;
 var cntO = 0; var cntX = 0;
 cntAns = 0;
 document.getElementById("text").innerHTML = "第"+cntQues+"問";
@@ -199,7 +199,7 @@ ansBtn.onclick = function(){ window.setTimeout( function(){ [cntO, cntX] = check
 00:00:10,000 --> 00:00:11,000
 //doOnce[index] = true;
 //第２問
-var cntQues = 2;
+cntQues = 2;
 cntAns = 0;
 document.getElementById("text").innerHTML = "第"+cntQues+"問";
 document.getElementById("subtex").innerHTML = "答えが分かったら、スペースキーを押して解答権を得る！";
@@ -211,7 +211,7 @@ ansBtn.onclick = function(){ window.setTimeout( function(){ [cntO, cntX] = check
 00:00:15,000 --> 00:00:16,000
 //doOnce[index] = true;
 //第３問
-var cntQues = 3;
+cntQues = 3;
 cntAns = 0;
 document.getElementById("text").innerHTML = "第"+cntQues+"問";
 document.getElementById("subtex").innerHTML = "答えが分かったら、スペースキーを押して解答権を得る！";
