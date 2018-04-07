@@ -30,13 +30,23 @@ sndO.src = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/sounds/
 sndX.src = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/sounds/discorrect.mp3";
 //キーイベントを設定（押しによる解答権の取得）
 //キー押下
-document.onkeydown = pushButton_keydown;
-document.onkeyup = pushButton_keyup;
+//document.onkeydown = pushButton_keydown;
+//document.onkeyup = pushButton_keyup;
 //画面にタッチ(スマホでの視聴用に実装したい)
 //document.ontouchstart = pushButton_touch;
 //イベントリスナーの設定（キーイベント実行のためにJSの描画範囲にフォーカス）
 player.addEventListener('onStateChange', focusJS);
 //関数の定義
+buttonCheck = function(){
+    if(event.keyCode == 32){
+        //ボタンチェック（問題開始前に動画を自動停止->スペースキーが押されたら再び再生）
+        if(player.getPlayerState() == 2){
+            sndPush.play();
+            window.setTimeout( function(){ sndO.play() }, 800 );
+            window.setTimeout( function(){ player.playVideo() }, 1000 );
+        }
+    }
+}
 function pushButton_keydown(cntAns){
     if(event.keyCode == 32){
         //ボタンチェック（問題開始前に動画を自動停止->スペースキーが押されたら再び再生）
@@ -143,6 +153,7 @@ document.getElementById("text").innerHTML = "ボタンチェック";
 document.getElementById("subtex").innerHTML = "スペースキーが早押しボタンです。キーを押してボタンの動作を確認してください。";
 document.getElementById("anscol").focus();//カーソルのフォーカスをjsの描画範囲(のボタンUI)に移動する->キーイベントが呼び出せるようになる
 document.getElementById("anscol").blur(); //ボタン自体にフォーカスをしている意味はないため、すぐにbulrでそれを解除
+document.onkeydown = buttonCheck;
 
 3
 00:00:05,000 --> 00:00:06,000
