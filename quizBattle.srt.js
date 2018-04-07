@@ -131,7 +131,7 @@ function pushButton_keyup(){
     }
 }*/
 checkAnswer = function(correctAns, cntAns, cntO, cntX){
-    var ans = ansCol.value; 
+    var ans = ansCol.value;
     if(limAns-cntAns >= 0 && player.getPlayerState() == 2){
         if(ans.valueOf() === correctAns.valueOf()){
             sndO.play();
@@ -198,7 +198,7 @@ document.getElementById("subtex").innerHTML = "答えが分かったら、スペ
 document.getElementById("numox").innerHTML = "◯: "+cntO+", ✖: "+cntX;
 document.onkeyup = pushButton_keyup;
 document.onkeydown = function(){ cntAns = pushButton_keydown(cntAns); };
-ansBtn.onclick = function(){ window.setTimeout( function(){ [cntO, cntX] = checkAnswer(correctAns[cntQues-1], cntAns, cntO, cntX) }, 1000 ); };
+ansBtn.onclick = function(){ window.setTimeout( function(){ [cntO, cntX] = checkAnswer(correctAns[cntQues-1], cntAns, cntO, cntX) }, 1000 ); this.disabled = true; };
 
 4
 00:00:10,000 --> 00:00:11,000
