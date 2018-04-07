@@ -103,7 +103,7 @@ checkAnswer = function(correctAns, cntAns, cntO, cntX){
             sndO.play();
             cntO += 1;
             cntAns = limAns;
-            document.getElementById("ansbtn").disabled = true;
+            document.getElementById("ansbtn").disabled = "true";
             document.getElementById("subtex").innerHTML = "正解です！";
         }else{
             sndX.play();
