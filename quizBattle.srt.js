@@ -37,6 +37,12 @@ sndX.src = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/sounds/
 //イベントリスナーの設定（キーイベント実行のためにJSの描画範囲にフォーカス）
 player.addEventListener('onStateChange', focusJS);
 //関数の定義
+function focusJS(event){//動画の再生又は停止後に必ずカーソルのフォーカスをjs描画範囲内に移動し、キーイベントが呼び出せるようにする
+    if(event.data == 1){
+        document.getElementById("ansbtn").focus();
+        document.getElementById("ansbtn").blur();
+    }
+}
 buttonCheck = function(){
     if(event.keyCode == 32){
         //ボタンチェック（問題開始前に動画を自動停止->スペースキーが押されたら再び再生）
@@ -47,7 +53,33 @@ buttonCheck = function(){
         }
     }
 }
-function pushButton_keydown(cntAns){
+pushButton_keydown = function(cntAns){
+    if(event.keyCode == 32){
+        if(player.getPlayerState() == 1){
+            cntAns++;
+            //if(limAnswer-cntAns>0){
+                sndPush.play();
+                player.pauseVideo();
+                document.getElementById("anscol").focus();
+                ansCol.value = "";
+                pushBool = 1;
+            //}
+        }
+    }
+    return cntAns;
+}
+pushButton_keyup = function(){
+    if(event.keyCode == 32){
+        //押し（キーを離した瞬間に解答欄にフォーカス）
+        if(pushBool == 1){
+            document.getElementById("subtex").innerHTML = "解答はひらがなと半角数字で入力してください。";
+            document.getElementById("anscol").focus();
+            ansCol.value = "";          
+            pushBool = 0;  
+        }
+    }
+}
+/*function pushButton_keydown(cntAns){
     if(event.keyCode == 32){
         //ボタンチェック（問題開始前に動画を自動停止->スペースキーが押されたら再び再生）
         if(player.getPlayerState() == 2){
@@ -80,7 +112,7 @@ function pushButton_keyup(){
             pushBool = 0;  
         }
     }
-}
+}*/
 /*function pushButton_touch(){
     //ボタンチェック
     if(player.getPlayerState() == 2){
@@ -98,12 +130,6 @@ function pushButton_keyup(){
         ansCol.value = "";                
     }
 }*/
-function focusJS(event){//動画の再生又は停止後に必ずカーソルのフォーカスをjs描画範囲内に移動し、キーイベントが呼び出せるようにする
-    if(event.data == 1){
-        document.getElementById("ansbtn").focus();
-        document.getElementById("ansbtn").blur();
-    }
-}
 checkAnswer = function(correctAns, cntAns, cntO, cntX){
     var ans = ansCol.value; 
     if(ans.valueOf() === correctAns.valueOf()){
@@ -165,6 +191,8 @@ cntAns = 0;
 document.getElementById("text").innerHTML = "第"+cntQues+"問";
 document.getElementById("subtex").innerHTML = "答えが分かったらスペースキーを押して解答権を得る！";
 document.getElementById("numox").innerHTML = "◯: "+cntO+", ✖: "+cntX;
+document.onkeydown = function(){ cntAns = pushButton_keydown };
+document.onkeyup = pushButton_keyup;
 ansBtn.onclick = function(){ window.setTimeout( function(){ [cntO, cntX] = checkAnswer(correctAns[0], cntAns, cntO, cntX) }, 1000 ); };
 
 4
@@ -176,6 +204,7 @@ cntAns = 0;
 document.getElementById("text").innerHTML = "第"+cntQues+"問";
 document.getElementById("subtex").innerHTML = "答えが分かったらスペースキーを押して解答権を得る！";
 document.getElementById("numox").innerHTML = "◯: "+cntO+", ✖: "+cntX;
+document.onkeydown = function(){ cntAns = pushButton_keydown };
 ansBtn.onclick = function(){ window.setTimeout( function(){ [cntO, cntX] = checkAnswer(correctAns[1], cntAns, cntO, cntX) }, 1000 ); };
 
 5
@@ -187,4 +216,5 @@ cntAns = 0;
 document.getElementById("text").innerHTML = "第"+cntQues+"問";
 document.getElementById("subtex").innerHTML = "答えが分かったらスペースキーを押して解答権を得る！";
 document.getElementById("numox").innerHTML = "◯: "+cntO+", ✖: "+cntX;
+document.onkeydown = function(){ cntAns = pushButton_keydown };
 ansBtn.onclick = function(){ window.setTimeout( function(){ [cntO, cntX] = checkAnswer(correctAns[2], cntAns, cntO, cntX) }, 1000 ); };
