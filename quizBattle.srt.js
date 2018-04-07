@@ -182,7 +182,7 @@ document.getElementsByTagName("body")[0].appendChild(ansBtn);
 document.getElementsByTagName("body")[0].appendChild(numOX);
 ansCol.value = "ここに解答を入力";
 ansBtn.innerHTML = "解答を送信";
-disableButton();
+//disableButton();
 //ボタンチェック
 player.pauseVideo();
 document.onkeydown = buttonCheck;
@@ -199,7 +199,7 @@ cntQues = 1;
 cntAns = 0;
 cntO = 0; 
 cntX = 0;
-ableButton();
+//ableButton();
 document.getElementById("text").innerHTML = "第"+cntQues+"問";
 document.getElementById("subtex").innerHTML = "答えが分かったら、スペースキーを押して解答権を得る！";
 document.getElementById("numox").innerHTML = "◯: "+cntO+", ✖: "+cntX;
