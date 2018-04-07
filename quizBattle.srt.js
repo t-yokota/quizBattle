@@ -149,10 +149,10 @@ checkAnswer = function(correctAns, cntAns, cntO, cntX){
     return [cntO, cntX];
 }
 function disableButton(){
-    this.disabled = true;
+    ansBtn.disabled = true;
 }
 function ableButton(){
-    this.disabled = false;
+    ansBtn.disabled = false;
 }
 //解答の設定
 correctAns = [];
