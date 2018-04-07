@@ -130,7 +130,7 @@ function pushButton_keyup(){
         ansCol.value = "";                
     }
 }*/
-checkAnswer = function(correctAns, /*cntAns,*/ cntO, cntX){
+checkAnswer = function(correctAns, cntAns, cntO, cntX){
     var ans = ansCol.value; 
     if(ans.valueOf() === correctAns.valueOf()){
         sndO.play();
@@ -139,7 +139,7 @@ checkAnswer = function(correctAns, /*cntAns,*/ cntO, cntX){
     }else{
         sndX.play();
         cntX += 1;
-        document.getElementById("subtex").innerHTML = "不正解です！";// あと"+(limAns-cntAns)+"回解答できます。";
+        document.getElementById("subtex").innerHTML = "不正解です！ あと"+(limAns-cntAns)+"回解答できます。";
     }
     document.getElementById("numox").innerHTML = "◯: "+cntO+", ✖: "+cntX;    
     player.playVideo();
@@ -193,7 +193,7 @@ document.getElementById("subtex").innerHTML = "答えが分かったら、スペ
 document.getElementById("numox").innerHTML = "◯: "+cntO+", ✖: "+cntX;
 document.onkeydown = function(){ cntAns = pushButton_keydown(cntAns); };
 document.onkeyup = pushButton_keyup;
-ansBtn.onclick = function(){ window.setTimeout( function(){ [cntO, cntX] = checkAnswer(correctAns[0], /*cntAns,*/ cntO, cntX) }, 1000 ); };
+ansBtn.onclick = function(){ window.setTimeout( function(){ [cntO, cntX] = checkAnswer(correctAns[cntQues-1], cntAns, cntO, cntX) }, 1000 ); };
 
 4
 00:00:10,000 --> 00:00:11,000
@@ -205,7 +205,7 @@ document.getElementById("text").innerHTML = "第"+cntQues+"問";
 document.getElementById("subtex").innerHTML = "答えが分かったら、スペースキーを押して解答権を得る！";
 document.getElementById("numox").innerHTML = "◯: "+cntO+", ✖: "+cntX;
 document.onkeydown = function(){ cntAns = pushButton_keydown(cntAns); };
-ansBtn.onclick = function(){ window.setTimeout( function(){ [cntO, cntX] = checkAnswer(correctAns[1], /*cntAns,*/ cntO, cntX) }, 1000 ); };
+ansBtn.onclick = function(){ window.setTimeout( function(){ [cntO, cntX] = checkAnswer(correctAns[cntQues-1], cntAns, cntO, cntX) }, 1000 ); };
 
 5
 00:00:15,000 --> 00:00:16,000
@@ -217,4 +217,4 @@ document.getElementById("text").innerHTML = "第"+cntQues+"問";
 document.getElementById("subtex").innerHTML = "答えが分かったら、スペースキーを押して解答権を得る！";
 document.getElementById("numox").innerHTML = "◯: "+cntO+", ✖: "+cntX;
 document.onkeydown = function(){ cntAns = pushButton_keydown(cntAns); };
-ansBtn.onclick = function(){ window.setTimeout( function(){ [cntO, cntX] = checkAnswer(correctAns[2], /*cntAns,*/ cntO, cntX) }, 1000 ); };
+ansBtn.onclick = function(){ window.setTimeout( function(){ [cntO, cntX] = checkAnswer(correctAns[cntQues-1], cntAns, cntO, cntX) }, 1000 ); };
