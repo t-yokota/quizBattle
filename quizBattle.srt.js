@@ -74,7 +74,7 @@ pushButton_keyup = function(){
 }
 //正誤判定
 checkAnswer = function(correctAnswer, cntAns, cntO, cntX){
-    if(pushBool == 1 /* && player.getPlayerState() == 2*/ ){
+    if(pushBool == 1 && player.getPlayerState() == 2 ){
         var ans = ansCol.value;
         if(ans.valueOf() === correctAnswer.valueOf()){
             sndO.play();
@@ -96,7 +96,30 @@ checkAnswer = function(correctAnswer, cntAns, cntO, cntX){
     player.playVideo();
     return [cntAns, cntO, cntX];
 }
-player.addEventListener('onStateChange', function(){ [cntAns, cntO, cntX] = checkAnswer(correctAnswer[cntQues-1][0], cntAns, cntO, cntX) } );
+player.addEventListener('onStateChange', function(){ [cntAns, cntO, cntX] = checkAnswer(correctAnswer2[cntQues-1][0], cntAns, cntO, cntX) } );
+checkAnswer2 = function(correctAnswer, cntAns, cntO, cntX){
+    if(pushBool == 1 && player.getPlayerState() == 1 ){
+        var ans = ansCol.value;
+        if(ans.valueOf() === correctAnswer.valueOf()){
+            sndO.play();
+            cntO += 1;
+            cntAns = limAns;
+            document.getElementById("ansbtn").disabled = true;
+            document.getElementById("subtext").innerHTML = "正解です！";
+        }else{
+            sndX.play();
+            cntX += 1;
+            document.getElementById("subtext").innerHTML = "不正解です！ あと"+(limAns-cntAns)+"回解答できます。";
+            if(limAns-cntAns == 0){
+                document.getElementById("ansbtn").disabled = true;                
+            }
+        }
+        document.getElementById("numox").innerHTML = "◯: "+cntO+", ✖: "+cntX;    
+    }
+    pushBool = 0;
+    player.playVideo();
+    return [cntAns, cntO, cntX];
+}
 //CSVファイルを開いて正答を読み込む
 var answerCSV = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/answer.csv";
 file = new XMLHttpRequest();
