@@ -68,14 +68,13 @@ pushButton_keyup = function(){
             //document.getElementById("ansbtn").disabled = true;
             document.getElementById("subtext").innerHTML = "解答はひらがなと半角数字で入力してください。";
             document.getElementById("anscol").focus();
-            ansCol.value = "";     
-            pushBool = 0;  
+            ansCol.value = "";
         }
     }
 }
 //正誤判定
 checkAnswer = function(correctAnswer, cntAns, cntO, cntX){
-    if(/*limAns-cntAns > 0 && */player.getPlayerState() == 2){
+    if(pushBool == 1 && player.getPlayerState() == 2){
         var ans = ansCol.value;
         if(ans.valueOf() === correctAnswer.valueOf()){
             sndO.play();
@@ -93,6 +92,7 @@ checkAnswer = function(correctAnswer, cntAns, cntO, cntX){
         }
         document.getElementById("numox").innerHTML = "◯: "+cntO+", ✖: "+cntX;    
     }
+    pushBool == 0;
     player.playVideo();
     return [cntAns, cntO, cntX];
 }
