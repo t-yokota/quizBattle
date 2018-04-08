@@ -70,13 +70,13 @@ pushButton_keyup = function(){
             document.getElementById("anscol").focus();
             ansCol.value = "";
             pushBool = 0;
-            checkBool = 0;
+            checkBool = 1;
         }
     }
 }
 //正誤判定
 checkAnswer = function(correctAnswer, cntAns, cntO, cntX){
-    if(checkBool == 0 && player.getPlayerState() == 2 ){
+    if(checkBool == 1 && player.getPlayerState() == 2 ){
         var ans = ansCol.value;
         if(ans.valueOf() === correctAnswer.valueOf()){
             sndO.play();
@@ -94,7 +94,7 @@ checkAnswer = function(correctAnswer, cntAns, cntO, cntX){
         }
         document.getElementById("numox").innerHTML = "◯: "+cntO+", ✖: "+cntX;    
     }
-    checkBool = 1;
+    checkBool = 0;
     player.playVideo();
     return [cntAns, cntO, cntX];
 }
