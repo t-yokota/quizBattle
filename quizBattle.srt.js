@@ -124,6 +124,9 @@ function setAnswerArray(str){
     for (var i = 0; i < tmp.length; i++) {
         correctAnswer[i] = tmp[i].split(",");
     }
+    alert(correctAnswer[1][1]);
+    alert(correctAnswer[2][1]);
+    alert(correctAnswer[3][1]);
 }
 /*
 correctAns = [];
