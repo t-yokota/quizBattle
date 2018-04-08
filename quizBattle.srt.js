@@ -124,9 +124,9 @@ function setAnswerArray(str){
     for (var i = 0; i < tmp.length; i++) {
         correctAnswer[i] = tmp[i].split(",");
     }
-    alert(correctAnswer[0][0]);
-    alert(correctAnswer[1][0]);
-    alert(correctAnswer[2][0]);
+    alert(correctAnswer[0]);
+    alert(correctAnswer[1]);
+    alert(correctAnswer[2]);
 }
 /*
 correctAns = [];
@@ -184,7 +184,7 @@ document.onkeyup = pushButton_keyup;
 document.onkeydown = function(){ cntAns = pushButton_keydown(cntAns); };
 ansBtn.onclick = function(){ 
     var btn = this;
-    window.setTimeout( function(){ [cntAns, cntO, cntX] = checkAnswer(correctAnswer[cntQues-1][1], cntAns, cntO, cntX) }, 1000 );
+    window.setTimeout( function(){ [cntAns, cntO, cntX] = checkAnswer(correctAnswer[cntQues-1][0], cntAns, cntO, cntX) }, 1000 );
     this.disabled = true;
     window.setTimeout( function(){ btn.disabled = false; }, 1000 );
 };
@@ -202,7 +202,7 @@ document.getElementById("numox").innerHTML = "◯: "+cntO+", ✖: "+cntX;
 document.onkeydown = function(){ cntAns = pushButton_keydown(cntAns); };
 ansBtn.onclick = function(){ 
     var btn = this;
-    window.setTimeout( function(){ [cntAns, cntO, cntX] = checkAnswer(correctAnswer[cntQues-1][1], cntAns, cntO, cntX) }, 1000 );
+    window.setTimeout( function(){ [cntAns, cntO, cntX] = checkAnswer(correctAnswer[cntQues-1][0], cntAns, cntO, cntX) }, 1000 );
     this.disabled = true;
     window.setTimeout( function(){ btn.disabled = false; }, 1000 );
 };
@@ -220,7 +220,7 @@ document.getElementById("numox").innerHTML = "◯: "+cntO+", ✖: "+cntX;
 document.onkeydown = function(){ cntAns = pushButton_keydown(cntAns); };
 ansBtn.onclick = function(){ 
     var btn = this;
-    window.setTimeout( function(){ [cntAns, cntO, cntX] = checkAnswer(correctAnswer[cntQues-1][1], cntAns, cntO, cntX) }, 1000 );
+    window.setTimeout( function(){ [cntAns, cntO, cntX] = checkAnswer(correctAnswer[cntQues-1][0], cntAns, cntO, cntX) }, 1000 );
     this.disabled = true;
     window.setTimeout( function(){ btn.disabled = false; }, 1000 );
 };
