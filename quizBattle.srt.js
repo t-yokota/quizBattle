@@ -17,25 +17,25 @@ subText.id = "subtext";
 numOX.id = "numox";
 ansCol.id = "anscol";
 ansBtn.id = "ansbtn";
-//textNodeを作成して見出しのElementに追加
+//textNodeを作成してtextのElementに追加
 _text = document.createTextNode("");
 _subText = document.createTextNode("");
 _numOX = document.createTextNode("");
 text.appendChild(_text);
 subText.appendChild(_subText);
 numOX.appendChild(_numOX);
-//サウンドデータの設定
+//audioデータの設定
 sndPush.src = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/sounds/push.mp3";
 sndO.src = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/sounds/correct.mp3";
 sndX.src = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/sounds/discorrect.mp3";
 //キーイベントを実行するためのイベントリスナー
 player.addEventListener('onStateChange', focusJS);
 //動画の再生又は停止後に必ずフォーカスをjsの描画範囲内に移動し、いつでもキーイベントが呼び出せるようにする
-function focusJS(event){
-    if(event.data == 1){
+function focusJS(){
+//    if(event.data == 1){
         document.getElementById("ansbtn").focus();
         document.getElementById("ansbtn").blur();
-    }
+//    }
 }
 //ボタンチェック（問題開始前に動画を自動停止->スペースキーが押されたら再び再生）
 buttonCheck = function(){
