@@ -119,7 +119,7 @@ file.open("get", answerCSV, true);
 file.send(null);
 file.onload = function(){ setAnswerArray(file.responseText); }
 function setAnswerArray(str){
-    correctAnswer = [];
+    correctAnswer = new Array();
     var tmp = str.split("\n");
     for (var i = 0; i < tmp.length; i++) {
         correctAnswer[i] = tmp[i].split(",");
