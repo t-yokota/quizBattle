@@ -113,10 +113,21 @@ checkAnswer = function(correctAns, cntAns, cntO, cntX){
     return [cntAns, cntO, cntX];
 }
 //解答の設定
+var answerCSV = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/answer.csv";
+file = new XMLHttpRequest();
+file.open("get", answerCSV, true);
+file.send(null);
+file.onload = function(){ setAnswerArray(file.responseText); }
+function setAnswerArray(str){
+    correctAns = [];
+    var tmp = str.split("\n");
+}
+/*
 correctAns = [];
 correctAns[0] = "1";
 correctAns[1] = "2";
 correctAns[2] = "3";
+*/
 //解答可能回数の設定
 var limAns = 2;
 
