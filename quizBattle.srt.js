@@ -96,6 +96,7 @@ checkAnswer = function(correctAnswer, cntAns, cntO, cntX){
     player.playVideo();
     return [cntAns, cntO, cntX];
 }
+/*
 player.addEventListener('onStateChange', function(){ [cntAns, cntO, cntX] = checkAnswer2(correctAnswer[cntQues-1][0], cntAns, cntO, cntX) } );
 checkAnswer2 = function(correctAnswer, cntAns, cntO, cntX){
     if(pushBool == 1 && player.getPlayerState() == 1 ){
@@ -120,6 +121,7 @@ checkAnswer2 = function(correctAnswer, cntAns, cntO, cntX){
     player.playVideo();
     return [cntAns, cntO, cntX];
 }
+*/
 //CSVファイルを開いて正答を読み込む
 var answerCSV = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/answer.csv";
 file = new XMLHttpRequest();
