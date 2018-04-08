@@ -96,7 +96,7 @@ checkAnswer = function(correctAnswer, cntAns, cntO, cntX){
     player.playVideo();
     return [cntAns, cntO, cntX];
 }
-player.addEventListener('onStateChange', function(){ [cntAns, cntO, cntX] = checkAnswer(correctAnswer2[cntQues-1][0], cntAns, cntO, cntX) } );
+player.addEventListener('onStateChange', function(){ [cntAns, cntO, cntX] = checkAnswer2(correctAnswer[cntQues-1][0], cntAns, cntO, cntX) } );
 checkAnswer2 = function(correctAnswer, cntAns, cntO, cntX){
     if(pushBool == 1 && player.getPlayerState() == 1 ){
         var ans = ansCol.value;
