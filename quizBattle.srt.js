@@ -75,7 +75,7 @@ pushButton_keyup = function(){
 }
 //正誤判定
 checkAnswer = function(correctAnswer, cntAns, cntO, cntX){
-    if(limAns-cntAns > 0 && player.getPlayerState() == 2){
+    if(/*limAns-cntAns > 0 && */player.getPlayerState() == 2){
         var ans = ansCol.value;
         if(ans.valueOf() === correctAnswer.valueOf()){
             sndO.play();
