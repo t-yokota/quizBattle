@@ -67,6 +67,7 @@ pushButton_keyup = function(){
         //押し（キーを離した瞬間に解答欄にフォーカス）
         if(pushBool == 1){
             document.getElementById("subtext").innerHTML = "解答はひらがなと半角数字で入力してください。";
+            document.getElementById("ansbtn").disabled = true;
             document.getElementById("anscol").focus();
             ansCol.value = "";          
             pushBool = 0;  
