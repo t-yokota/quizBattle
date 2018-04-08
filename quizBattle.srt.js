@@ -31,7 +31,7 @@ sndX.src = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/sounds/
 //キーイベントを実行するためのイベントリスナー
 player.addEventListener('onStateChange', focusJS);
 //動画の再生又は停止後に必ずフォーカスをjsの描画範囲内に移動し、いつでもキーイベントが呼び出せるようにする
-function focusJS(){
+function focusJS(/*event*/){
 //    if(event.data == 1){
         document.getElementById("ansbtn").focus();
         document.getElementById("ansbtn").blur();
@@ -74,7 +74,7 @@ pushButton_keyup = function(){
 }
 //正誤判定
 checkAnswer = function(correctAnswer, cntAns, cntO, cntX){
-    if(pushBool == 1 && player.getPlayerState() == 2){
+    if(pushBool == 1 /* && player.getPlayerState() == 2*/ ){
         var ans = ansCol.value;
         if(ans.valueOf() === correctAnswer.valueOf()){
             sndO.play();
@@ -96,6 +96,7 @@ checkAnswer = function(correctAnswer, cntAns, cntO, cntX){
     player.playVideo();
     return [cntAns, cntO, cntX];
 }
+player.addEventListener('onStateChange', function(){ [cntAns, cntO, cntX] = checkAnswer(correctAnswer[cntQues-1][0], cntAns, cntO, cntX) } );
 //CSVファイルを開いて正答を読み込む
 var answerCSV = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/answer.csv";
 file = new XMLHttpRequest();
