@@ -92,7 +92,7 @@ checkAnswer = function(correctAnswer, cntAns, cntO, cntX){
         }
         document.getElementById("numox").innerHTML = "◯: "+cntO+", ✖: "+cntX;    
     }
-    pushBool == 0;
+    pushBool = 0;
     player.playVideo();
     return [cntAns, cntO, cntX];
 }
