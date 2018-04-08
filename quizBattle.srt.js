@@ -97,7 +97,7 @@ checkAnswer = function(correctAnswer, cntAns, cntO, cntX){
             sndO.play();
             cntO += 1;
             cntAns = limAns;
-            document.getElementById("ansbtn").disabled = "true";
+            document.getElementById("ansbtn").disabled = true;
             document.getElementById("subtext").innerHTML = "正解です！";
         }else{
             sndX.play();
@@ -124,16 +124,12 @@ function setAnswerArray(str){
     for (var i = 0; i < tmp.length; i++) {
         correctAnswer[i] = tmp[i].split(",");
     }
+/*
     alert(correctAnswer[0]);
     alert(correctAnswer[1]);
     alert(correctAnswer[2]);
-}
-/*
-correctAns = [];
-correctAns[0] = "1";
-correctAns[1] = "2";
-correctAns[2] = "3";
 */
+}
 //解答可能回数の設定
 var limAns = 2;
 
@@ -165,7 +161,8 @@ document.getElementById("subtext").innerHTML = "スペースキーが早押し�
 document.getElementById("anscol").focus();//カーソルのフォーカスをjsの描画範囲(のボタンUI)に移動する->キーイベントが呼び出せるようになる
 document.getElementById("anscol").blur(); //ボタン自体にフォーカスをしている意味はないため、すぐにbulrでそれを解除
 ansCol.disabled = true;
-ansBtn.disabled = true;
+document.getElementById("ansbtn").disabled = true;
+//ansBtn.disabled = true;
 
 3
 00:00:05,000 --> 00:00:06,000
