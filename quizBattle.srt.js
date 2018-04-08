@@ -17,29 +17,29 @@ subText.id = "subtext";
 numOX.id = "numox";
 ansCol.id = "anscol";
 ansBtn.id = "ansbtn";
-//textNodeを作成し，見出しのElementに追加
+//textNodeを作成して見出しのElementに追加
 _text = document.createTextNode("");
 _subText = document.createTextNode("");
 _numOX = document.createTextNode("");
 text.appendChild(_text);
 subText.appendChild(_subText);
 numOX.appendChild(_numOX);
-//サウンドデータ
+//サウンドデータの設定
 sndPush.src = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/sounds/push.mp3";
 sndO.src = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/sounds/correct.mp3";
 sndX.src = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/sounds/discorrect.mp3";
-//キーイベント実行のためのイベントリスナー
+//キーイベントを実行するためのイベントリスナー
 player.addEventListener('onStateChange', focusJS);
-//関数の定義
-function focusJS(event){//動画の再生又は停止後に必ずカーソルのフォーカスをjs描画範囲内に移動し、キーイベントが呼び出せるようにする
+//動画の再生又は停止後に必ずフォーカスをjsの描画範囲内に移動し、いつでもキーイベントが呼び出せるようにする
+function focusJS(event){
     if(event.data == 1){
         document.getElementById("ansbtn").focus();
         document.getElementById("ansbtn").blur();
     }
 }
+//ボタンチェック（問題開始前に動画を自動停止->スペースキーが押されたら再び再生）
 buttonCheck = function(){
     if(event.keyCode == 32){
-        //ボタンチェック（問題開始前に動画を自動停止->スペースキーが押されたら再び再生）
         if(player.getPlayerState() == 2){
             sndPush.play();
             window.setTimeout( function(){ sndO.play() }, 800 );
@@ -47,53 +47,36 @@ buttonCheck = function(){
         }
     }
 }
+//押し➀（動画の再生中にスペースキー押下で動画を停止）
 pushButton_keydown = function(cntAns){
     if(event.keyCode == 32){
         if(player.getPlayerState() == 1){
-            cntAns++;
-            if(limAns-cntAns >= 0){
+            if(limAns-cntAns > 0){
                 sndPush.play();
                 player.pauseVideo();
-                document.getElementById("anscol").focus();
-                ansCol.value = "";
                 pushBool = 1;
+                cntAns++;
             }
         }
     }
     return cntAns;
 }
+//押し➁（キーを離した瞬間に解答欄にフォーカス．キーを押したタイミングでfocusすると，離した瞬間にカラムに文字（スペース）を入力してしまう）
 pushButton_keyup = function(){
     if(event.keyCode == 32){
-        //押し（キーを離した瞬間に解答欄にフォーカス）
         if(pushBool == 1){
+            //document.getElementById("ansbtn").disabled = true;
             document.getElementById("subtext").innerHTML = "解答はひらがなと半角数字で入力してください。";
-            document.getElementById("ansbtn").disabled = true;
             document.getElementById("anscol").focus();
-            ansCol.value = "";          
+            ansCol.value = "";     
             pushBool = 0;  
         }
     }
 }
-/*function pushButton_touch(){
-    //ボタンチェック
-    if(player.getPlayerState() == 2){
-        if(index == 2){
-            sndPush.play();
-            window.setTimeout( function(){ sndO.play() }, 800 );
-            window.setTimeout( function(){ player.playVideo() }, 1000 );
-        }
-    }
-    //押し
-    if(player.getPlayerState() == 1){
-        sndPush.play();
-        player.pauseVideo();
-        document.getElementById("anscol").focus();
-        ansCol.value = "";                
-    }
-}*/
+//正誤判定
 checkAnswer = function(correctAnswer, cntAns, cntO, cntX){
-    var ans = ansCol.value;
-    if(limAns-cntAns >= 0 && player.getPlayerState() == 2){
+    if(limAns-cntAns > 0 && player.getPlayerState() == 2){
+        var ans = ansCol.value;
         if(ans.valueOf() === correctAnswer.valueOf()){
             sndO.play();
             cntO += 1;
@@ -105,7 +88,7 @@ checkAnswer = function(correctAnswer, cntAns, cntO, cntX){
             cntX += 1;
             document.getElementById("subtext").innerHTML = "不正解です！ あと"+(limAns-cntAns)+"回解答できます。";
             if(limAns-cntAns == 0){
-                ansBtn.disabled = true;                
+                document.getElementById("ansbtn").disabled = true;                
             }
         }
         document.getElementById("numox").innerHTML = "◯: "+cntO+", ✖: "+cntX;    
@@ -162,8 +145,7 @@ document.getElementById("subtext").innerHTML = "スペースキーが早押し�
 document.getElementById("anscol").focus();//カーソルのフォーカスをjsの描画範囲(のボタンUI)に移動する->キーイベントが呼び出せるようになる
 document.getElementById("anscol").blur(); //ボタン自体にフォーカスをしている意味はないため、すぐにbulrでそれを解除
 ansCol.disabled = true;
-document.getElementById("ansbtn").disabled = true;
-//ansBtn.disabled = true;
+ansBtn.disabled = true;
 
 3
 00:00:05,000 --> 00:00:06,000
