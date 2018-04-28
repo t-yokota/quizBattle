@@ -2,42 +2,43 @@
 00:00:00,000 --> 00:00:00,100
 doOnce[index] = true;
 //crateElement
-text = document.createElement("h1");        //動画のタイトルを表示
-subText = document.createElement("h2");      //説明文等を表示
-numOX = document.createElement("h1");       //◯正解数と✖不正解数を表示
-ansCol = document.createElement("textarea");//解答を入力するテキストエリア
-ansBtn = document.createElement("button");  //解答を送信するボタン
-sndPush = document.createElement("audio");  //ボタンの押下音
-sndO = document.createElement("audio");     //正解音
-sndX = document.createElement("audio");     //不正解音
-br = document.createElement("br");          //改行用
-//idを用意
-text.id = "text";
+text    = document.createElement("h1");      //動画のタイトル等
+subText = document.createElement("h2");      //説明文等
+numOX   = document.createElement("h1");      //◯正解数と✖不正解数
+ansCol  = document.createElement("textarea");//解答を入力するテキストエリア
+ansBtn  = document.createElement("button");  //解答を送信するボタン
+sndPush = document.createElement("audio");   //ボタンの押下音
+sndO    = document.createElement("audio");   //正解音
+sndX    = document.createElement("audio");   //不正解音
+br      = document.createElement("br");      //改行用
+//elementのidを用意
+text.id    = "text";
 subText.id = "subtext";
-numOX.id = "numox";
-ansCol.id = "anscol";
-ansBtn.id = "ansbtn";
-//textNodeを作成してtextのElementに追加
-_text = document.createTextNode("");
+numOX.id   = "numox";
+ansCol.id  = "anscol";
+ansBtn.id  = "ansbtn";
+//textNodeを作成してelementに追加
+_text    = document.createTextNode("");
 _subText = document.createTextNode("");
-_numOX = document.createTextNode("");
+_numOX   = document.createTextNode("");
 text.appendChild(_text);
 subText.appendChild(_subText);
 numOX.appendChild(_numOX);
 //audioデータの設定
 sndPush.src = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/sounds/push.mp3";
-sndO.src = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/sounds/correct.mp3";
-sndX.src = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/sounds/discorrect.mp3";
-//キーイベントを実行するためのイベントリスナー
+sndO.src    = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/sounds/correct.mp3";
+sndX.src    = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/sounds/discorrect.mp3";
+//キーイベントを実行のためのイベントリスナーの定義
+//動画の再生・停止後に必ずjsの描画範囲内にフォーカスし、常にキーイベントが呼び出せるようにする
 player.addEventListener('onStateChange', focusJS);
-//動画の再生又は停止後に必ずフォーカスをjsの描画範囲内に移動し、いつでもキーイベントが呼び出せるようにする
 function focusJS(/*event*/){
 //    if(event.data == 1){
         document.getElementById("ansbtn").focus();
         document.getElementById("ansbtn").blur();
 //    }
 }
-//ボタンチェック（問題開始前に動画を自動停止->スペースキーが押されたら再び再生）
+//ボタンチェックのキーイベント
+//（問題開始前に一度動画を自動停止し、）スペースキーを押して音のチェック＋動画の再生
 buttonCheck = function(){
     if(event.keyCode == 32){
         if(player.getPlayerState() == 2){
@@ -47,7 +48,8 @@ buttonCheck = function(){
         }
     }
 }
-//押し➀（動画の再生中にスペースキー押下で動画を停止）
+//押しのキーイベント１
+//問題中にスペースキー押下で動画を停止
 pushButton_keydown = function(cntAns){
     if(event.keyCode == 32){
         if(player.getPlayerState() == 1){
@@ -61,7 +63,9 @@ pushButton_keydown = function(cntAns){
     }
     return cntAns;
 }
-//押し➁（キーを離した瞬間に解答欄にフォーカス．キーを押したタイミングでfocusすると，離した瞬間にカラムに文字（スペース）を入力してしまう）
+//押しのキーイベント２
+//キーを離した瞬間に解答欄にフォーカス
+//...キーを押したタイミングで解答欄にフォーカスすると，離した瞬間に解答欄にスペースを入力してしまう
 pushButton_keyup = function(){
     if(event.keyCode == 32){
         if(pushBool == 1){
@@ -137,6 +141,7 @@ function setAnswerArray(str){
         correctAnswer[i] = tmp[i].split(",");
     }
 /*
+    //check answer
     alert(correctAnswer[0]);
     alert(correctAnswer[1]);
     alert(correctAnswer[2]);
@@ -181,7 +186,7 @@ ansBtn.disabled = true;
 //第１問
 cntQues = 1;
 cntAns = 0;
-cntO = 0; 
+cntO = 0;
 cntX = 0;
 ansCol.disabled = false;
 ansBtn.disabled = false;
