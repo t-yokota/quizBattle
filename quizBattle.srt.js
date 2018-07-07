@@ -23,7 +23,8 @@ sndPush.src = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/soun
 sndO.src    = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/sounds/correct.mp3";
 sndX.src    = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/sounds/discorrect.mp3";
 //正答リストの設定
-var answerCSV = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/answer.csv";
+//fileName = "";
+var answerCSV = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/answer2.csv";
 file = new XMLHttpRequest();
 file.open("get", answerCSV, true);
 file.send(null);
@@ -92,10 +93,23 @@ pushButton_keyup = function(){
     }
 }
 //正誤判定の関数
-checkAnswer = function(correctAnswer, cntPush, cntO, cntX){
+//2018/05/13 ひらがなの比較ができていない
+checkAnswer = function(correctAnswer, cntQues, cntPush, cntO, cntX){
     if(enableCheck == 1){
+        var correctBool = 0;
         var ans = ansCol.value;
-        if(ans.valueOf() === correctAnswer.valueOf()){
+        var length = correctAnswer[cntQues-1].length;
+        alert(correctAnswer[cntQues-1][0].valueOf());
+        alert(correctAnswer[cntQues-1][1].valueOf());
+        alert(correctAnswer[cntQues-1][2].valueOf());
+        for(var i = 0; i < length; i++){
+            if(ans.valueOf() === correctAnswer[cntQues-1][i].valueOf()){
+            //if(ans.valueOf() === "あ"){
+                correctBool = 1;
+            }
+        }
+        //alert(correctBool);
+        if(correctBool == 1){
             cntO += 1;
             sndO.play();
             cntPush = limPush;
@@ -155,13 +169,13 @@ document.onkeyup   = pushButton_keyup;
 ansBtn.onclick = function(){
     var btn = this;
     btn.disabled = true;
-    window.setTimeout( function(){ [cntPush, cntO, cntX] = checkAnswer(correctAnswer[cntQues-1][0], cntPush, cntO, cntX) }, 1000 );
+    window.setTimeout( function(){ [cntPush, cntO, cntX] = checkAnswer(correctAnswer, cntQues, cntPush, cntO, cntX) }, 1000 );
 };
 //解答を送信する前に動画を再生した場合は、その時点の入力内容で正誤判定をする
 player.addEventListener('onStateChange', whenNoSendAnswer);
 function whenNoSendAnswer(){
     if(player.getPlayerState() == 1){
-        [cntPush, cntO, cntX] = checkAnswer(correctAnswer[cntQues-1][0], cntPush, cntO, cntX);
+        [cntPush, cntO, cntX] = checkAnswer(correctAnswer, cntQues, cntPush, cntO, cntX);
     }
 }
 //解答送信ボタンは動画の停止中のみ有効にする
@@ -176,7 +190,7 @@ function ansBtnDisbled(){
 
 4
 00:00:05,000 --> 00:00:06,000
-doOnce[index] = true;
+//doOnce[index] = true;
 //問題開始
 ansCol.disabled = false;
 cntO = 0;
@@ -190,7 +204,7 @@ numOX.innerHTML = "◯: "+cntO+", ✖: "+cntX;
 
 5
 00:00:10,000 --> 00:00:11,000
-doOnce[index] = true;
+//doOnce[index] = true;
 //第２問
 cntQues = 2;
 cntPush = 0;
@@ -199,7 +213,7 @@ subText.innerHTML = "答えが分かったら、スペースキーを押して�
 
 6
 00:00:15,000 --> 00:00:16,000
-doOnce[index] = true;
+//doOnce[index] = true;
 //第３問
 cntQues = 3;
 cntPush = 0;
