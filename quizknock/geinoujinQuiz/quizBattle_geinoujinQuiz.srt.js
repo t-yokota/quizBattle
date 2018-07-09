@@ -23,7 +23,7 @@ sndPush.src = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/soun
 sndO.src    = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/sounds/correct.mp3";
 sndX.src    = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/sounds/discorrect.mp3";
 //正答リストの設定
-var answerCSV = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/answers/answer_geinou.csv";
+var answerCSV = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/quizknock/geinoujinQuiz/answer_geinoujinQuiz.csv";
 file = new XMLHttpRequest();
 file.open("get", answerCSV, true);
 file.send(null);
@@ -92,10 +92,19 @@ pushButton_keyup = function(){
     }
 }
 //正誤判定の関数
-checkAnswer = function(correctAnswer, cntPush, cntO, cntX){
+//正答のcsvファイルはUTF-8でエンコードすること
+checkAnswer = function(correctAnswer, cntQues, cntPush, cntO, cntX){
     if(enableCheck == 1){
+        var correctBool = 0;
         var ans = ansCol.value;
-        if(ans.valueOf() === correctAnswer.valueOf()){
+        var length = correctAnswer[cntQues-1].length;
+        for(var i = 0; i < length; i++){
+            //alert(correctAnswer[cntQues-1][i].valueOf());
+            if(ans.valueOf() === correctAnswer[cntQues-1][i].valueOf()){
+                correctBool = 1;
+            }
+        }
+        if(correctBool == 1){
             cntO += 1;
             sndO.play();
             cntPush = limPush;
