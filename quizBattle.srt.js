@@ -23,8 +23,8 @@ sndPush.src = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/soun
 sndO.src    = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/sounds/correct.mp3";
 sndX.src    = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/sounds/discorrect.mp3";
 //正答リストの設定
-//fileName = "";
-var answerCSV = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/answer2.csv";
+var fileName = "answer_UTF-8.csv";
+var answerCSV = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/"+fileName;
 file = new XMLHttpRequest();
 file.open("get", answerCSV, true);
 file.send(null);
@@ -35,8 +35,6 @@ function setAnswerArray(str){
     for (var i = 0; i < tmp.length; i++) {
         correctAnswer[i] = tmp[i].split(",");
     }
-    //check answer
-    //alert(correctAnswer[0]);
 }
 //キーイベント発生のためのイベントリスナーの設定
 //動画の再生・停止後に必ずjsの描画範囲内にフォーカスし、常にキーイベントが発生するようにする
@@ -93,22 +91,18 @@ pushButton_keyup = function(){
     }
 }
 //正誤判定の関数
-//2018/05/13 ひらがなの比較ができていない
+//正答のcsvファイルはUTF-8でエンコードすること
 checkAnswer = function(correctAnswer, cntQues, cntPush, cntO, cntX){
     if(enableCheck == 1){
         var correctBool = 0;
         var ans = ansCol.value;
         var length = correctAnswer[cntQues-1].length;
-        alert(correctAnswer[cntQues-1][0].valueOf());
-        alert(correctAnswer[cntQues-1][1].valueOf());
-        alert(correctAnswer[cntQues-1][2].valueOf());
         for(var i = 0; i < length; i++){
+            //alert(correctAnswer[cntQues-1][i].valueOf());
             if(ans.valueOf() === correctAnswer[cntQues-1][i].valueOf()){
-            //if(ans.valueOf() === "あ"){
                 correctBool = 1;
             }
         }
-        //alert(correctBool);
         if(correctBool == 1){
             cntO += 1;
             sndO.play();
