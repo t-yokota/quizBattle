@@ -98,7 +98,7 @@ checkAnswer = function(correctAnswer, cntQues, cntPush, cntO, cntX){
         var ans = ansCol.value;
         var length = correctAnswer[cntQues-1].length;
         for(var i = 0; i < length; i++){
-            //alert(correctAnswer[cntQues-1][i].valueOf());
+            alert(correctAnswer[cntQues-1][i].valueOf());
             if(ans.valueOf() === correctAnswer[cntQues-1][i].valueOf()){
                 correctBool = 1;
             }
