@@ -34,8 +34,6 @@ function setAnswerArray(str){
     for (var i = 0; i < tmp.length; i++) {
         correctAnswer[i] = tmp[i].split(",");
     }
-    //check answer
-    //alert(correctAnswer[0]);
 }
 //キーイベント発生のためのイベントリスナーの設定
 //動画の再生・停止後に必ずjsの描画範囲内にフォーカスし、常にキーイベントが発生するようにする
@@ -99,7 +97,7 @@ checkAnswer = function(correctAnswer, cntQues, cntPush, cntO, cntX){
         var ans = ansCol.value;
         var length = correctAnswer[cntQues-1].length;
         for(var i = 0; i < length; i++){
-            //alert(correctAnswer[cntQues-1][i].valueOf());
+            alert(correctAnswer[cntQues-1][i].valueOf());
             if(ans.valueOf() === correctAnswer[cntQues-1][i].valueOf()){
                 correctBool = 1;
             }
