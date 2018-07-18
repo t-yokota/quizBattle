@@ -2,7 +2,7 @@
 00:00:00,000 --> 00:00:00,100
 doOnce[index] = true;
 //
-player.playerVars = { "controls": 0 };
+player.playerVars = { "autoplay": 1, "controls": 0 };
 //crateElement
 text    = document.createElement("h1");       //動画のタイトル等
 subText = document.createElement("h2");       //説明文等
