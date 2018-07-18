@@ -1,6 +1,8 @@
 0
 00:00:00,000 --> 00:00:00,100
 doOnce[index] = true;
+//
+player.playerVars = { "controls": 0 };
 //crateElement
 text    = document.createElement("h1");       //動画のタイトル等
 subText = document.createElement("h2");       //説明文等
@@ -24,7 +26,8 @@ sndO.src    = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/soun
 sndX.src    = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/sounds/discorrect.mp3";
 //正答リストの設定
 var fileName = "answer_UTF-8.csv";
-var answerCSV = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/"+fileName;
+//var answerCSV = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/"+fileName;
+var answerCSV = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/quizknock/geinoujinQuiz/answer_geinoujinQuiz.csv";
 file = new XMLHttpRequest();
 file.open("get", answerCSV, true);
 file.send(null);

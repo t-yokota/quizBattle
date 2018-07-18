@@ -23,6 +23,8 @@ sndPush.src = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/soun
 sndO.src    = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/sounds/correct.mp3";
 sndX.src    = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/sounds/discorrect.mp3";
 //正答リストの設定
+var fileName = "answer_UTF-8.csv";
+//var answerCSV = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/"+fileName;
 var answerCSV = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/quizknock/geinoujinQuiz/answer_geinoujinQuiz.csv";
 file = new XMLHttpRequest();
 file.open("get", answerCSV, true);
@@ -162,13 +164,13 @@ document.onkeyup   = pushButton_keyup;
 ansBtn.onclick = function(){
     var btn = this;
     btn.disabled = true;
-    window.setTimeout( function(){ [cntPush, cntO, cntX] = checkAnswer(correctAnswer[cntQues-1][0], cntPush, cntO, cntX) }, 1000 );
+    window.setTimeout( function(){ [cntPush, cntO, cntX] = checkAnswer(correctAnswer, cntQues, cntPush, cntO, cntX) }, 1000 );
 };
 //解答を送信する前に動画を再生した場合は、その時点の入力内容で正誤判定をする
 player.addEventListener('onStateChange', whenNoSendAnswer);
 function whenNoSendAnswer(){
     if(player.getPlayerState() == 1){
-            [cntPush, cntO, cntX] = checkAnswer(correctAnswer[cntQues-1][0], cntPush, cntO, cntX);
+        [cntPush, cntO, cntX] = checkAnswer(correctAnswer, cntQues, cntPush, cntO, cntX);
     }
 }
 //解答送信ボタンは動画の停止中のみ有効にする
