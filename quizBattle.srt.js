@@ -11,13 +11,20 @@ sndPush = document.createElement("audio");    //ボタンの押下音
 sndO    = document.createElement("audio");    //正解音
 sndX    = document.createElement("audio");    //不正解音
 br      = document.createElement("br");       //改行用
+//elementを表示
+document.getElementsByTagName("body")[0].appendChild(text);
+document.getElementsByTagName("body")[0].appendChild(subText);
+document.getElementsByTagName("body")[0].appendChild(ansCol);
+document.getElementsByTagName("body")[0].appendChild(br);
+document.getElementsByTagName("body")[0].appendChild(ansBtn);
+document.getElementsByTagName("body")[0].appendChild(numOX);
 //textNodeを作成してelementに追加
-_text    = document.createTextNode("");
-_subText = document.createTextNode("");
-_numOX   = document.createTextNode("");
-text.appendChild(_text);
-subText.appendChild(_subText);
-numOX.appendChild(_numOX);
+node_text    = document.createTextNode("");
+node_subText = document.createTextNode("");
+node_numOX   = document.createTextNode("");
+text.appendChild(node_text);
+subText.appendChild(node_subText);
+numOX.appendChild(node_numOX);
 //audioデータの設定
 sndPush.src = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/sounds/push.mp3";
 sndO.src    = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/sounds/correct.mp3";
@@ -54,8 +61,8 @@ buttonCheck = function(){
 }
 //早押しのキーイベント関数１
 //問題中にスペースキーが押下されると動画を停止する
-var cntPush;
-var limPush     = 50;
+var cntPush = 0;
+var limPush = 50;
 var enablePush  = 1; //1のとき早押し可能
 var enableKeyup = 0; //1のときkeyupイベントが発生
 var enableCheck = 0; //1のとき答え合わせ可能
@@ -72,7 +79,7 @@ pushButton_keydown = function(cntPush){
                 }
             }
         }
-    }
+    } 
     return cntPush;
 }
 //早押しのキーイベント関数２
@@ -119,6 +126,20 @@ checkAnswer = function(correctAnswer, cntQues, cntPush, cntO, cntX){
     enableCheck = 0;
     player.playVideo();
     return [cntPush, cntO, cntX];
+}
+//正誤判定を実行するonclickイベント
+//(解答送信ボタンを押すと１秒後に正誤を判定する。押された後はボタンをdisabledにする)
+ansBtn.onclick = function(){
+    var btn = this;
+    btn.disabled = true;
+    window.setTimeout( function(){ [cntPush, cntO, cntX] = checkAnswer(correctAnswer, cntQues, cntPush, cntO, cntX) }, 1000 );
+};
+//解答送信前に動画を再生した場合は、その時点の入力内容で正誤判定する
+player.addEventListener('onStateChange', whenNoSendAnswer);
+function whenNoSendAnswer(){
+    if(player.getPlayerState() == 1){
+        [cntPush, cntO, cntX] = checkAnswer(correctAnswer, cntQues, cntPush, cntO, cntX);
+    }
 }
 //解答入力の制限時間を設定
 inputTime = 10;//[sec]
@@ -167,17 +188,23 @@ function getTime2(){
         }
     }
 }
+//解答入力フォーム、解答送信ボタンは動画の停止中のみ有効にする
+player.addEventListener('onStateChange', ansBtnDisbled);
+function ansBtnDisbled(){
+    if(player.getPlayerState() == 1 && index != 2){
+        ansBtn.disabled = true;
+        ansCol.disabled = true;
+        ansCol.value = "ここに解答を入力";
+    }else if(player.getPlayerState() == 2 && index != 2){
+        ansBtn.disabled = false;
+        ansCol.disabled = false;
+    }
+}
 
 1
 00:00:00,100 --> 00:00:00,200
 doOnce[index] = true;
-//各種elementを表示
-document.getElementsByTagName("body")[0].appendChild(text);
-document.getElementsByTagName("body")[0].appendChild(subText);
-document.getElementsByTagName("body")[0].appendChild(ansCol);
-document.getElementsByTagName("body")[0].appendChild(br);
-document.getElementsByTagName("body")[0].appendChild(ansBtn);
-document.getElementsByTagName("body")[0].appendChild(numOX);
+//タイトル表示
 text.innerHTML = "quizBattle.srt.js";
 subText.innerHTML = "動画の中の相手とクイズ対決";
 ansCol.value = "ここに解答を入力";
@@ -188,11 +215,11 @@ ansBtn.disabled = true;
 2
 00:00:04,000 --> 00:00:04,100
 doOnce[index] = true;
+//ボタンチェック
 text.innerHTML = "ボタンチェック";
 subText.innerHTML = "スペースキーが早押しボタンです。キーを押して音と動作を確認してください。";
 //ボタンチェックのキーイベントを設定
 document.onkeydown = buttonCheck;
-//jsの描画範囲(のelement)にfocusすることで、キーイベントが呼び出せるようになる
 ansCol.disabled = false;
 ansCol.focus();
 ansCol.blur();
@@ -204,33 +231,8 @@ player.pauseVideo();
 00:00:04,500 --> 00:00:04,600
 doOnce[index] = true;
 //早押しのキーイベントを設定
-document.onkeydown = function(){ cntPush = pushButton_keydown(cntPush); };
+document.onkeydown = function(){ cntPush = pushButton_keydown(cntPush); };//この位置を探る
 document.onkeyup   = pushButton_keyup;
-//正誤判定をするonclickイベントを設定 (解答送信ボタンを押すと１秒後に正誤を判定する。押された後はボタンをdisabledにする)
-ansBtn.onclick = function(){
-    var btn = this;
-    btn.disabled = true;
-    window.setTimeout( function(){ [cntPush, cntO, cntX] = checkAnswer(correctAnswer, cntQues, cntPush, cntO, cntX) }, 1000 );
-};
-//解答を送信する前に動画を再生した場合は、その時点の入力内容で正誤判定をする
-player.addEventListener('onStateChange', whenNoSendAnswer);
-function whenNoSendAnswer(){
-    if(player.getPlayerState() == 1){
-        [cntPush, cntO, cntX] = checkAnswer(correctAnswer, cntQues, cntPush, cntO, cntX);
-    }
-}
-//解答入力フォーム、解答送信ボタンは動画の停止中のみ有効にする
-player.addEventListener('onStateChange', ansBtnDisbled);
-function ansBtnDisbled(){
-    if(player.getPlayerState() == 1){
-        ansBtn.disabled = true;
-        ansCol.disabled = true;
-        ansCol.value = "ここに解答を入力";
-    }else if(player.getPlayerState() == 2){
-        ansBtn.disabled = false;
-        ansCol.disabled = false;
-    }
-}
 
 4
 00:00:05,000 --> 00:00:06,000
