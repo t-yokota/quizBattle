@@ -53,7 +53,7 @@ sndO.src    = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/soun
 sndX.src    = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/sounds/discorrect.mp3";
 //
 //正答リストの指定・読み込み
-var ansCSV = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/quizknock/geinoujinQuiz/answer_geinoujinQuiz.csv"; //UTF-8
+var ansCSV = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/answer_UTF-8.csv"; //UTF-8
 var ansArray;
 var file = new XMLHttpRequest();
 file.open("get", ansCSV, true);
