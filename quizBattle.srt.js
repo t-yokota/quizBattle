@@ -62,7 +62,7 @@ file.onload = function(){
 //
 //状態の定義
 myState = {
-    ButtonCheck  : 0, //ボタンチェック待ち
+    ButtonCheck  : 0, //ボタンチェック待機
     Question     : 1, //問い読み中（早押し可能）
     MyAnswer     : 2, //自分が解答権を所持（解答の入力と送信が可能）
     OthersAnswer : 3, //他者が解答権を所持（早押し不可）
@@ -78,8 +78,8 @@ var myButtonCode = 32 //スペースキー
 document.onkeydown = myKeyDownEvent;
 document.onkeyup   = myKeyUpEvent;
 function myKeyDownEvent(){
-    /* ボタンチェック待ち状態のとき */
-    /* 注）ボタンチェック待ち状態の字幕区間では、初めに動画を自動停止する */
+    /* ボタンチェック待機状態のとき */
+    /* 注）ボタンチェック待機状態の字幕区間では、初めに動画を自動停止する */
     if(gVals.status == myState.ButtonCheck){ 
         buttonCheck(myButtonCode);
         gVals.status = myState.Talk;
@@ -103,8 +103,8 @@ function myKeyUpEvent(){
 //
 //動画の再生・停止時のイベントリスナーの設定
 var correctBool = false;
-var currTime1 = 0;
-var currTime2 = 0;
+var currTime1   = 0;
+var currTime2   = 0;
 var watchedTime = 0;
 var diffTime;
 player.addEventListener('onStateChange', myEventListener);
@@ -181,7 +181,7 @@ function myIntervalEvent(){
         currTime1 = player.getCurrentTime();
         watchedTime = getWatchedTime(currTime1, watchedTime);
     }
-    /* ボタンチェック待ち・問い読み中状態のとき */
+    /* ボタンチェック待機・問い読み中状態のとき */
     if(gVals.status == myState.ButtonCheck || gVals.status == myState.Question || gVals.status == myState.OthersAnswer){
         elapsedTime = 0;
         focusToJS();
@@ -189,7 +189,8 @@ function myIntervalEvent(){
     /* 自分が解答権を所持した状態のとき */
     if(gVals.status == myState.MyAnswer){
         elapsedTime += 100;
-        gElems.subText.innerHTML = "あと"+(timeLimit-Math.floor(elapsedTime/1000))+"秒で解答を送信してください";       if(Math.floor(elapsedTime) >= timeLimit*1000){
+        gElems.subText.innerHTML = "あと"+(timeLimit-Math.floor(elapsedTime/1000))+"秒で解答を送信してください";
+        if(Math.floor(elapsedTime) >= timeLimit*1000){
             correctBool = checkAnswer(gVals, gElems);
             if(correctBool == true || limPush - gVals.cntPush == 0){
                 gVals.status = myState.OthersAnswer;
