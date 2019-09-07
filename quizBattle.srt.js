@@ -121,8 +121,8 @@ function myEventListener(){
             /* 一時停止 -> その時点の入力内容で正誤判定をして適切な状態へ移行 -> 動画を再生 */
             player.pauseVideo();
             correctBool = checkAnswer(gVals, gElems);
-            if(correctBool == true){
-                gVals.status = myState.Talk;
+            if(correctBool == true || limPush - gVals.cntPush == 0){
+                gVals.status = myState.OthersAnswer;
             }else{
                 gVals.status = myState.Question;
             }
@@ -184,7 +184,7 @@ function myIntervalEvent(){
         watchedTime = getWatchedTime(currTime1, watchedTime);
     }
     /* ボタンチェック待ち・問い読み中状態のとき */
-    if(gVals.status == myState.ButtonCheck || gVals.status == myState.Question){
+    if(gVals.status == myState.ButtonCheck || gVals.status == myState.Question || gVals.status == myState.OthersAnswer){
         elapsedTime = 0;
         focusToJS();
     }
@@ -192,11 +192,17 @@ function myIntervalEvent(){
     if(gVals.status == myState.MyAnswer){
         elapsedTime += 100;
         gElems.subText.innerHTML = "あと"+(timeLimit-Math.floor(elapsedTime/1000))+"秒で解答を送信してください";       if(Math.floor(elapsedTime) >= timeLimit*1000){
+            correctBool = checkAnswer(gVals, gElems);
+            if(correctBool == true || limPush - gVals.cntPush == 0){
+                gVals.status = myState.OthersAnswer;
+            }else{
+                gVals.status = myState.Question;
+            }
             player.playVideo();
         }
     }
     /* デバッグ用 */
-    printAllParam(gVals, gElems);
+    // printAllParam(gVals, gElems);
 }
 //
 //解答送信ボタンのクリックイベントを設定
@@ -205,11 +211,11 @@ function myOnClickEvent(){
     /* 自分か解答権を所持した状態のとき */
     if(gVals.status == myState.MyAnswer){ 
         var btn = this;
-        var correctBool;
+        // var correctBool;
         btn.disabled = true;
         window.setTimeout( correctBool = checkAnswer(gVals, gElems), 1000 );
-        if(correctBool == true){
-            gVals.status = myState.Talk;
+        if(correctBool == true || limPush - gVals.cntPush == 0){
+            gVals.status = myState.OthersAnswer;
         }else{
             gVals.status = myState.Question;
         }
@@ -259,10 +265,8 @@ var limPush   = 1; //1問あたりの解答可能な回数
 gVals.cntPush = 0; //解答した回数
 function pushButton(_gVals, _myButtonCode){
     if(event.keyCode == _myButtonCode){
-        if(limPush-_gVals.cntPush > 0){ //上限(limPush)を超えたら押し不可
-            sndPush.play();
-            _gVals.cntPush++;
-        }
+        sndPush.play();
+        _gVals.cntPush++;
     }
 }
 /**
@@ -335,7 +339,7 @@ doOnce[index] = true;
 gVals.status = myState.ButtonCheck;
 //
 gElems.text.innerHTML = "ボタンチェック";
-gElems.subText.innerHTML = "スペースキーが早押しボタンです。キーを押して音と動作を確認してください。";
+gElems.subText.innerHTML = "スペースキーが早押しボタンです。<br>キーを押して音と動作を確認してください。";
 //
 //動画の停止
 player.pauseVideo();
