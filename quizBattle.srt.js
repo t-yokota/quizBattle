@@ -29,10 +29,6 @@ document.getElementsByTagName("body")[0].appendChild(br);
 document.getElementsByTagName("body")[0].appendChild(ansBtn);
 document.getElementsByTagName("body")[0].appendChild(gElems.numOX);
 //
-//解答用elementの初期状態の設定
-ansCol.disabled = true;
-ansBtn.disabled = true;
-//
 //textNodeを作成してelementに追加
 var node_text    = document.createTextNode("");
 var node_subText = document.createTextNode("");
@@ -41,11 +37,13 @@ gElems.text.appendChild(node_text);
 gElems.subText.appendChild(node_subText);
 gElems.numOX.appendChild(node_numOX);
 //
-//elementの初期内容の設定
+//elementの初期値の設定
 gElems.text.innerHTML    = "quizBattle.srt.js";     //動画タイトル
 gElems.subText.innerHTML = "動画の中の相手とクイズ対決"; //動画の説明
 ansCol.value             = "ここに解答を入力";
 ansBtn.innerHTML         = "解答を送信";
+ansCol.disabled          = true;
+ansBtn.disabled          = true;
 //
 //audioデータの指定
 sndPush.src = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/sounds/push.mp3";
