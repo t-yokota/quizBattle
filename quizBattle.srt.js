@@ -39,7 +39,7 @@ gElems.numOX.appendChild(node_numOX);
 //
 //elementの初期値の設定
 gElems.text.innerHTML    = "quizBattle.srt.js";     //動画タイトル
-gElems.subText.innerHTML = "動画の中の相手とクイズ対決"; //動画の説明
+gElems.subText.innerHTML = "動画の相手とクイズ対決"; //動画の説明
 ansCol.value             = "ここに解答を入力";
 ansBtn.innerHTML         = "解答を送信";
 ansCol.disabled          = true;
@@ -51,7 +51,8 @@ sndO.src    = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/soun
 sndX.src    = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/sounds/discorrect.mp3";
 //
 //正答リストの指定・読み込み
-var ansCSV = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/answer_UTF-8.csv"; //UTF-8
+// var ansCSV = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/answer_UTF-8.csv"; //UTF-8
+var ansCSV = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/quizknock/geinoujinQuiz/answer_geinoujinQuiz.csv"; //UTF-8
 var ansArray;
 var file = new XMLHttpRequest();
 file.open("get", ansCSV, true);
@@ -62,11 +63,11 @@ file.onload = function(){
 //
 //状態の定義
 myState = {
-    ButtonCheck  : 0, //ボタンチェック待機
-    Question     : 1, //問い読み中（早押し可能）
-    MyAnswer     : 2, //自分が解答権を所持（解答の入力と送信が可能）
-    OthersAnswer : 3, //他者が解答権を所持（早押し不可）
-    Talk         : 4, //導入,解説,閑話,締めなど（動画のコントロールバーの操作が可能）
+    ButtonCheck   : 0, //ボタンチェック待機
+    Question      : 1, //問い読み中（早押し可能）
+    MyAnswer      : 2, //自分が解答権を所持（解答の入力と送信が可能）
+    OthersAnswer  : 3, //他者が解答権を所持（早押し不可）
+    Talk          : 4, //導入,解説,閑話,締めなど（動画のコントロールバーの操作が可能）
 }
 gVals.status = myState.Talk;
 var keyDownBool = false; //keydown->keyupの整順用
@@ -79,7 +80,7 @@ document.onkeydown = myKeyDownEvent;
 document.onkeyup   = myKeyUpEvent;
 function myKeyDownEvent(){
     /* ボタンチェック待機状態のとき */
-    /* 注）ボタンチェック待機状態の字幕区間では、初めに動画を自動停止する */
+    /* 注）ボタンチェック待機状態の字幕区間では、初めに動画が自動停止される */
     if(gVals.status == myState.ButtonCheck){ 
         buttonCheck(myButtonCode);
         gVals.status = myState.Talk;
@@ -102,25 +103,27 @@ function myKeyUpEvent(){
 }
 //
 //動画の再生・停止時のイベントリスナーの設定
-var correctBool = false;
+gVals.cntPush   = 0; //解答した回数
+var limPush     = 10; //1問あたりの解答可能な回数
 var currTime1   = 0;
 var currTime2   = 0;
 var watchedTime = 0;
-var diffTime;
+var diffTime    = 0;
+var correctBool = false;
 player.addEventListener('onStateChange', myEventListener);
 function myEventListener(){
-    /* 再生された瞬間の処理 */
+    /* 再生されたとき */
     if(player.getPlayerState() == 1){
         currTime1 = player.getCurrentTime();
         watchedTime = getWatchedTime(currTime1, watchedTime);
-        /* 解答中状態のとき */
+        /* 自分が解答権を所持した状態のとき */
         if(gVals.status == myState.MyAnswer){
             /* 解答を送信していないのに動画が再生されたときの処理 */
             /* 一時停止 -> その時点の入力内容で正誤判定をして適切な状態へ移行 -> 動画を再生 */
             player.pauseVideo();
             correctBool = checkAnswer(gVals, gElems);
             if(correctBool == true || limPush - gVals.cntPush == 0){
-                gVals.status = myState.OthersAnswer;
+                gVals.status = myState.Talk;
             }else{
                 gVals.status = myState.Question;
             }
@@ -129,7 +132,7 @@ function myEventListener(){
         /* 問い読み中状態のとき */
         if(gVals.status == myState.Question){
             /* コントロールバーが操作されたときの処理 */
-            /* シークバーによる再生位置のジャンプ : 不可能 */
+            /* シークバーによる再生位置のジャンプ -> 無効 */
             diffTime = Math.abs(currTime1 - watchedTime)
             if(diffTime > 1.0){
                 player.seekTo(watchedTime);
@@ -137,21 +140,21 @@ function myEventListener(){
         /* それ以外の状態のとき */
         }else{
             /* コントロールバーが操作されたときの処理 */
-            /* シークバーによる再生位置のジャンプ : 再生済みの範囲のみ可能 */
+            /* シークバーによる再生位置のジャンプ-> 前へ戻る場合のみ有効 */
             diffTime = currTime1 - watchedTime;
             if(diffTime > 1.0){
                 player.seekTo(watchedTime);
             }
         }
     }
-    /* 停止された瞬間の処理 */
+    /* 停止されたとき */
     if(player.getPlayerState() == 2){
         currTime2 = player.getCurrentTime();
         /* 問い読み中状態のとき */
         if(gVals.status == myState.Question){
             /* コントロールバーが操作されたときの処理 */
-            /* 一時停止 : 不可能 */
-            /* シークバーによる再生位置のジャンプ : 不可能 */
+            /* 動画の一時停止 -> 無効 */
+            /* シークバーによる再生位置のジャンプ -> 無効 */
             diffTime = Math.abs(currTime2 - watchedTime);
             if(diffTime > 1.0){
                 player.seekTo(watchedTime);
@@ -160,8 +163,8 @@ function myEventListener(){
         /* それ以外の状態のとき */
         }else{
             /* コントロールバーが操作されたときの処理 */
-            /* 一時停止 : 可能 */
-            /* シークバーによる再生位置のジャンプ : 再生済みの範囲のみ可能 */
+            /* 動画の一時停止 -> 有効 */
+            /* シークバーによる再生位置のジャンプ -> 前へ戻る場合のみ有効 */
             diffTime = currTime2 - watchedTime;
             if(diffTime > 1.0){
                 player.seekTo(watchedTime);
@@ -173,35 +176,34 @@ function myEventListener(){
 //
 //定期実行する関数の設定
 var elapsedTime;
-var timeLimit = 10; //[s]
-setInterval(myIntervalEvent, 100); //[ms]
+var timeLimit = 20; //[s]
+setInterval(myIntervalEvent, interval = 100); //[ms]
 function myIntervalEvent(){
     /* 再生中のとき */
     if(player.getPlayerState() == 1){
         currTime1 = player.getCurrentTime();
         watchedTime = getWatchedTime(currTime1, watchedTime);
     }
-    /* ボタンチェック待機・問い読み中状態のとき */
-    if(gVals.status == myState.ButtonCheck || gVals.status == myState.Question || gVals.status == myState.OthersAnswer){
-        elapsedTime = 0;
-        focusToJS();
-    }
     /* 自分が解答権を所持した状態のとき */
     if(gVals.status == myState.MyAnswer){
-        elapsedTime += 100;
+        elapsedTime += interval;
         gElems.subText.innerHTML = "あと"+(timeLimit-Math.floor(elapsedTime/1000))+"秒で解答を送信してください";
         if(Math.floor(elapsedTime) >= timeLimit*1000){
             correctBool = checkAnswer(gVals, gElems);
             if(correctBool == true || limPush - gVals.cntPush == 0){
-                gVals.status = myState.OthersAnswer;
-            }else{
+                gVals.status = myState.Talk;
+            }else{  
                 gVals.status = myState.Question;
             }
             player.playVideo();
         }
+    /* それ以外の状態のとき */
+    }else{
+        elapsedTime = 0;
+        focusToJS();
     }
     /* デバッグ用 */
-    // printAllParam(gVals, gElems);
+    printAllParam(gVals, gElems);
 }
 //
 //解答送信ボタンのクリックイベントを設定
@@ -210,11 +212,10 @@ function myOnClickEvent(){
     /* 自分か解答権を所持した状態のとき */
     if(gVals.status == myState.MyAnswer){ 
         var btn = this;
-        // var correctBool;
         btn.disabled = true;
         window.setTimeout( correctBool = checkAnswer(gVals, gElems), 1000 );
         if(correctBool == true || limPush - gVals.cntPush == 0){
-            gVals.status = myState.OthersAnswer;
+            gVals.status = myState.Talk;
         }else{
             gVals.status = myState.Question;
         }
@@ -260,8 +261,6 @@ function buttonCheck(_myButtonCode){
  * 早押しのキーイベント用の関数
  * 問題中に特定のキーが押下されたら押下音を再生して解答回数を記録
  */
-var limPush   = 1; //1問あたりの解答可能な回数
-gVals.cntPush = 0; //解答した回数
 function pushButton(_gVals, _myButtonCode){
     if(event.keyCode == _myButtonCode){
         sndPush.play();
@@ -322,17 +321,20 @@ function getWatchedTime(_currTime1, _watchedTime){
  * パラメータ表示（デバッグ用） 
  */
 function printAllParam(_gVals, _gElems){
-    _gElems.subText.innerHTML = 
-        "Stateus: "+_gVals.status+"<br>"+
-        "Time1: "+currTime1.toFixed(3)+"<br>"+
-        "Time2: "+currTime2.toFixed(3)+"<br>"+
-        "WatchedTime: "+watchedTime.toFixed(3)+"<br>"+
-        "diffTime: "+diffTime.toFixed(3)+"<br>"+
-        "correctBool: "+correctBool;
+    gElems.text.innerHTML = index;
+    // _gElems.text.innerHTML = "answer: "+ansArray[_gVals.numQues-1][2].valueOf();
+    // _gElems.subText.innerHTML = 
+    //     "Stateus: "+_gVals.status+"<br>"+
+    //     "Time1: "+currTime1.toFixed(3)+"<br>"+
+    //     "Time2: "+currTime2.toFixed(3)+"<br>"+
+    //     "WatchedTime: "+watchedTime.toFixed(3)+"<br>"+
+    //     "diffTime: "+diffTime.toFixed(3)+"<br>"+
+    //     "timeLimit: "+(timeLimit-Math.floor(elapsedTime/1000))+"<br>"+
+    //     "correctBool: "+correctBool;
 }
 
 1
-00:00:01,333 --> 00:00:01,433
+00:00:01,000 --> 00:00:01,100
 /* ボタンチェック開始 */
 doOnce[index] = true;
 gVals.status = myState.ButtonCheck;
