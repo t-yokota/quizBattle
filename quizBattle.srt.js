@@ -1,5 +1,5 @@
 0
-00:00:00,000 --> 00:00:00,100
+00:00:00,000 --> 00:00:00,999
 /* CAUTION : 字幕区間ごとにスコープは独立している */
 /* 各種宣言 */
 doOnce[index] = true;
@@ -51,8 +51,8 @@ sndO.src    = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/soun
 sndX.src    = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/sounds/discorrect.mp3";
 //
 //正答リストの指定・読み込み
-// var ansCSV = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/answer_UTF-8.csv"; //UTF-8
-var ansCSV = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/quizknock/geinoujinQuiz/answer_geinoujinQuiz.csv"; //UTF-8
+var ansCSV = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/answer_UTF-8.csv"; //UTF-8
+// var ansCSV = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/quizknock/geinoujinQuiz/answer_geinoujinQuiz.csv"; //UTF-8
 var ansArray;
 var file = new XMLHttpRequest();
 file.open("get", ansCSV, true);
@@ -70,7 +70,7 @@ myState = {
     Talk          : 4, //導入,解説,閑話,締めなど（動画のコントロールバーの操作が可能）
 }
 gVals.status = myState.Talk;
-var keyDownBool = false; //keydown->keyupの整順用
+var keyDownBool = false; //keydown -> keyupの整順用
 //
 //早押しボタン用のキーコードの設定
 var myButtonCode = 32 //スペースキー
@@ -90,6 +90,8 @@ function myKeyDownEvent(){
     if(gVals.status == myState.Question && keyDownBool == false){
         pushButton(gVals, myButtonCode);
         gVals.status = myState.MyAnswer;
+        /* statusがMyAnswerになってから、pauseVideo()が実行されるまでの間で字幕区間をまたいでしまう場合あり */
+        /* その場合statusがTalkになり解答送信ができなくなるので注意 */
         keyDownBool = true;
         player.pauseVideo();
     }
@@ -114,6 +116,7 @@ player.addEventListener('onStateChange', myEventListener);
 function myEventListener(){
     /* 再生されたとき */
     if(player.getPlayerState() == 1){
+        /* 時間取得 */
         currTime1 = player.getCurrentTime();
         watchedTime = getWatchedTime(currTime1, watchedTime);
         /* 自分が解答権を所持した状態のとき */
@@ -140,7 +143,7 @@ function myEventListener(){
         /* それ以外の状態のとき */
         }else{
             /* コントロールバーが操作されたときの処理 */
-            /* シークバーによる再生位置のジャンプ-> 前へ戻る場合のみ有効 */
+            /* シークバーによる再生位置のジャンプ -> 前に戻る場合のみ有効 */
             diffTime = currTime1 - watchedTime;
             if(diffTime > 1.0){
                 player.seekTo(watchedTime);
@@ -149,12 +152,12 @@ function myEventListener(){
     }
     /* 停止されたとき */
     if(player.getPlayerState() == 2){
+        /* 時間取得 */
         currTime2 = player.getCurrentTime();
         /* 問い読み中状態のとき */
         if(gVals.status == myState.Question){
             /* コントロールバーが操作されたときの処理 */
-            /* 動画の一時停止 -> 無効 */
-            /* シークバーによる再生位置のジャンプ -> 無効 */
+            /* 動画の一時停止 -> 無効 & シークバーによる再生位置のジャンプ -> 無効 */
             diffTime = Math.abs(currTime2 - watchedTime);
             if(diffTime > 1.0){
                 player.seekTo(watchedTime);
@@ -163,8 +166,7 @@ function myEventListener(){
         /* それ以外の状態のとき */
         }else{
             /* コントロールバーが操作されたときの処理 */
-            /* 動画の一時停止 -> 有効 */
-            /* シークバーによる再生位置のジャンプ -> 前へ戻る場合のみ有効 */
+            /* 動画の一時停止 -> 有効 & シークバーによる再生位置のジャンプ -> 前に戻る場合のみ有効 */
             diffTime = currTime2 - watchedTime;
             if(diffTime > 1.0){
                 player.seekTo(watchedTime);
@@ -175,20 +177,23 @@ function myEventListener(){
 }
 //
 //定期実行する関数の設定
-var elapsedTime;
-var timeLimit = 20; //[s]
+var elapsedTime;       //[ms]
+var limitTime = 20000; //[ms]
 setInterval(myIntervalEvent, interval = 100); //[ms]
 function myIntervalEvent(){
     /* 再生中のとき */
     if(player.getPlayerState() == 1){
+        /* 時間取得 */
         currTime1 = player.getCurrentTime();
         watchedTime = getWatchedTime(currTime1, watchedTime);
     }
     /* 自分が解答権を所持した状態のとき */
     if(gVals.status == myState.MyAnswer){
+        /* 解答権を所持したまま一定時間経過したときの処理 */
+        /* 一定時間経過 -> その時点の入力内容で正誤判定をして適切な状態へ移行 -> 動画を再生 */
         elapsedTime += interval;
-        gElems.subText.innerHTML = "あと"+(timeLimit-Math.floor(elapsedTime/1000))+"秒で解答を送信してください";
-        if(Math.floor(elapsedTime) >= timeLimit*1000){
+        gElems.subText.innerHTML = "あと"+Math.floor((limitTime-elapsedTime)/1000)+"秒で解答を送信してください";
+        if(elapsedTime >= limitTime){
             correctBool = checkAnswer(gVals, gElems);
             if(correctBool == true || limPush - gVals.cntPush == 0){
                 gVals.status = myState.Talk;
@@ -211,9 +216,12 @@ ansBtn.onclick = myOnClickEvent;
 function myOnClickEvent(){
     /* 自分か解答権を所持した状態のとき */
     if(gVals.status == myState.MyAnswer){ 
+        /* 解答送信ボタンを押したときの処理 */
+        /* 1秒間を空けてから正誤判定をして適切な状態へ移行 -> 動画を再生 */
         var btn = this;
         btn.disabled = true;
-        window.setTimeout( correctBool = checkAnswer(gVals, gElems), 1000 );
+        window.setTimeout(function(){ correctBool = checkAnswer(gVals, gElems); }, 1000);
+        busySleep(1000);
         if(correctBool == true || limPush - gVals.cntPush == 0){
             gVals.status = myState.Talk;
         }else{
@@ -317,6 +325,11 @@ function getWatchedTime(_currTime1, _watchedTime){
     }
     return _watchedTime;
 }
+function busySleep(waitMsec) {
+    var startMsec = new Date();
+    // 指定ミリ秒間だけループさせる（CPUは常にビジー状態）
+    while (new Date() - startMsec < waitMsec);
+}
 /**
  * パラメータ表示（デバッグ用） 
  */
@@ -329,12 +342,12 @@ function printAllParam(_gVals, _gElems){
     //     "Time2: "+currTime2.toFixed(3)+"<br>"+
     //     "WatchedTime: "+watchedTime.toFixed(3)+"<br>"+
     //     "diffTime: "+diffTime.toFixed(3)+"<br>"+
-    //     "timeLimit: "+(timeLimit-Math.floor(elapsedTime/1000))+"<br>"+
+    //     "limitTime: "+(limitTime-Math.floor(elapsedTime/1000))+"<br>"+
     //     "correctBool: "+correctBool;
 }
 
 1
-00:00:01,000 --> 00:00:01,100
+00:00:01,000 --> 00:00:02,999
 /* ボタンチェック開始 */
 doOnce[index] = true;
 gVals.status = myState.ButtonCheck;
@@ -346,7 +359,7 @@ gElems.subText.innerHTML = "スペースキーが早押しボタンです。<br>
 player.pauseVideo();
 
 2
-00:00:03,000 --> 00:00:06,900
+00:00:03,000 --> 00:00:06,999
 /* 第１問 */
 doOnce[index] = true;
 gVals.status = myState.Question;
@@ -358,12 +371,13 @@ gElems.subText.innerHTML = "答えが分かったら、スペースキーを押�
 gElems.numOX.innerHTML = "◯: "+gVals.cntO+", ✖: "+gVals.cntX;
 
 3
-00:00:07,000 --> 00:00:10,900
+00:00:07,000 --> 00:00:10,999
 /* 閑話1 */
 gVals.status = myState.Talk
+gElems.subText.innerHTML = "解説";
 
 4
-00:00:11,000 --> 00:00:14,900
+00:00:11,000 --> 00:00:14,999
 /* 第２問 */
 doOnce[index] = true;
 gVals.status = myState.Question;
@@ -374,12 +388,13 @@ gElems.text.innerHTML = "第"+gVals.numQues+"問";
 gElems.subText.innerHTML = "答えが分かったら、スペースキーを押して解答権を得る！";
 
 5
-00:00:15,000 --> 00:00:18,900
+00:00:15,000 --> 00:00:18,999
 /* 閑話2 */
 gVals.status = myState.Talk
+gElems.subText.innerHTML = "解説";
 
 6
-00:00:19,000 --> 00:00:22,900
+00:00:19,000 --> 00:00:22,999
 /* 第３問 */
 doOnce[index] = true;
 gVals.status = myState.Question;
@@ -390,6 +405,7 @@ gElems.text.innerHTML = "第"+gVals.numQues+"問";
 gElems.subText.innerHTML = "答えが分かったら、スペースキーを押して解答権を得る！";
 
 7
-00:00:23,000 --> 00:00:26,900
+00:00:23,000 --> 00:00:26,999
 /* 閑話3 */
 gVals.status = myState.Talk
+gElems.subText.innerHTML = "解説";
