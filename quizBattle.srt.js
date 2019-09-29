@@ -4,51 +4,85 @@
 /* 各種宣言 */
 doOnce[index] = true;
 //
-//global変数用のnamespaceを作成
-gElems = {}; //namespave for global elements
-gVals  = {}; //namespave for global values
-//
-//elementを作成
-//global変数で宣言(他の字幕区間内で直接呼び出される)
-gElems.text    = document.createElement("h1");       //動画タイトル等
-gElems.subText = document.createElement("h2");       //動画の説明文等
-gElems.numOX   = document.createElement("h1");       //◯正解数と✖不正解数
-//local変数で宣言(他の字幕区間内では直接呼び出されない)
-var ansCol     = document.createElement("textarea"); //解答を入力するテキストエリア
-var ansBtn     = document.createElement("button");   //解答を送信するボタン
-var br         = document.createElement("br");       //改行用
-var sndPush    = document.createElement("audio");    //ボタンの押下音
-var sndO       = document.createElement("audio");    //正解音
-var sndX       = document.createElement("audio");    //不正解音
+var myApp = {
+    state: { 
+        ButtonCheck   : 0, //ボタンチェックの待機
+        Question      : 1, //問い読み中（早押し可能）
+        MyAnswer      : 2, //自分が解答権を所持（解答の入力と送信が可能）
+        OthersAnswer  : 3, //他者が解答権を所持（早押し不可）
+        Talk          : 4, //導入,解説,閑話,締めなど（コントロールバーの操作が可能）
+    },
+    elem: { //elements
+        text    = document.createElement("h1"),       //動画タイトル等
+        subText = document.createElement("h2"),       //動画の説明文等
+        numOX   = document.createElement("h1"),       //◯正解数と✖不正解数
+        ansCol  = document.createElement("textarea"), //解答を入力するテキストエリア
+        ansBtn  = document.createElement("button"),   //解答を送信するボタン
+        br      = document.createElement("br"),       //改行用
+        sndPush = document.createElement("audio"),    //ボタンの押下音
+        sndO    = document.createElement("audio"),    //正解音
+        sndX    = document.createElement("audio")     //不正解音
+    },
+    val: { //values
+        numQues  = 0,  //設問番号
+        cntO     = 0,  //合計正答数
+        cntX     = 0,  //合計誤答数
+        ansArray = [], //正答リスト
+        //
+        /* 早押し用のキーボタン */
+        btnCode = 32, //スペースキー
+        //
+        /* 解答回数の管理(１問あたり) */
+        cntPush = 0, //解答した回数
+        limPush = 5, //1問あたりの解答可能な回数
+        //
+        /* 解答時間の管理 */
+        limTime     = 20000, //[ms], 解答の制限時間
+        elapsedTime = 0,     //[ms], 解答権取得時の経過時間
+        //
+        /* 状態遷移の管理 */
+        status      = this.state.Talk, //現在の状態
+        correctBool = false,           //答え合わせ結果(結果に応じて状態遷移)
+        keyDownBool = false,           //keydown->keyupの整順用(状態遷移時のキーイベント)
+        //
+        /* コントロールバーの監視 */
+        currTime:{ //動画の時間(再生位置)
+            playing = 0, //再生中に取得する時間
+            stopped = 0, //停止時に取得する時間
+        },
+        watchedTime = 0, //視聴済みの範囲
+        diffTime    = 0, //視聴済みの範囲と再生位置の差分
+    },
+}
 //
 //elementを表示
-document.getElementsByTagName("body")[0].appendChild(gElems.text);
-document.getElementsByTagName("body")[0].appendChild(gElems.subText);
-document.getElementsByTagName("body")[0].appendChild(ansCol);
-document.getElementsByTagName("body")[0].appendChild(br);
-document.getElementsByTagName("body")[0].appendChild(ansBtn);
-document.getElementsByTagName("body")[0].appendChild(gElems.numOX);
+document.getElementsByTagName("body")[0].appendChild(myApp.elems.text);
+document.getElementsByTagName("body")[0].appendChild(myApp.elems.subText);
+document.getElementsByTagName("body")[0].appendChild(myApp.elems.ansCol);
+document.getElementsByTagName("body")[0].appendChild(myApp.elems.br);
+document.getElementsByTagName("body")[0].appendChild(myApp.elems.ansBtn);
+document.getElementsByTagName("body")[0].appendChild(myApp.elems.numOX);
 //
 //textNodeを作成してelementに追加
 var node_text    = document.createTextNode("");
 var node_subText = document.createTextNode("");
 var node_numOX   = document.createTextNode("");
-gElems.text.appendChild(node_text);
-gElems.subText.appendChild(node_subText);
-gElems.numOX.appendChild(node_numOX);
+myApp.elems.text.appendChild(node_text);
+myApp.elems.subText.appendChild(node_subText);
+myApp.elems.numOX.appendChild(node_numOX);
 //
 //elementの初期値の設定
-gElems.text.innerHTML    = "quizBattle.srt.js";     //動画タイトル
-gElems.subText.innerHTML = "動画の相手とクイズ対決"; //動画の説明
-ansCol.value             = "ここに解答を入力";
-ansBtn.innerHTML         = "解答を送信";
-ansCol.disabled          = true;
-ansBtn.disabled          = true;
+myApp.elems.text.innerHTML    = "quizBattle.srt.js";     //動画タイトル
+myApp.elems.subText.innerHTML = "動画の相手とクイズ対決"; //動画の説明
+myApp.elems.ansCol.value      = "ここに解答を入力";
+myApp.elems.ansBtn.innerHTML  = "解答を送信";
+myApp.elems.ansCol.disabled   = true;
+myApp.elems.ansBtn.disabled   = true;
 //
 //audioデータの指定
-sndPush.src = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/sounds/push.mp3";
-sndO.src    = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/sounds/correct.mp3";
-sndX.src    = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/sounds/discorrect.mp3";
+myApp.elems.sndPush.src = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/sounds/push.mp3";
+myApp.elems.sndO.src    = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/sounds/correct.mp3";
+myApp.elems.sndX.src    = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/sounds/discorrect.mp3";
 //
 //正答リストの指定・読み込み
 var ansCSV = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/answer_UTF-8.csv"; //UTF-8
@@ -58,60 +92,42 @@ var file = new XMLHttpRequest();
 file.open("get", ansCSV, true);
 file.send(null);
 file.onload = function(){
-    ansArray = CSVtoArray(file.responseText);
+    myApp.val.ansArray = CSVtoArray(file.responseText);
 }
-//
-//状態の定義
-myState = {
-    ButtonCheck   : 0, //ボタンチェック待機
-    Question      : 1, //問い読み中（早押し可能）
-    MyAnswer      : 2, //自分が解答権を所持（解答の入力と送信が可能）
-    OthersAnswer  : 3, //他者が解答権を所持（早押し不可）
-    Talk          : 4, //導入,解説,閑話,締めなど（動画のコントロールバーの操作が可能）
-}
-gVals.status = myState.Talk;
-var keyDownBool = false; //keydown -> keyupの整順用
 //
 //早押しボタン用のキーコードの設定
-var myButtonCode = 32 //スペースキー
 //
 //早押しのためのキーイベントの設定
 document.onkeydown = myKeyDownEvent;
 document.onkeyup   = myKeyUpEvent;
 function myKeyDownEvent(){
-    /* ボタンチェック待機状態のとき */
-    /* 注）ボタンチェック待機状態の字幕区間では、初めに動画が自動停止される */
-    if(gVals.status == myState.ButtonCheck){ 
-        buttonCheck(myButtonCode);
-        gVals.status = myState.Talk;
-        player.playVideo();
-    }
-    /* 問い読み中状態のとき */
-    if(gVals.status == myState.Question && keyDownBool == false){
-        pushButton(gVals, myButtonCode);
-        gVals.status = myState.MyAnswer;
-        /* statusがMyAnswerになってから、pauseVideo()が実行されるまでの間で字幕区間をまたいでしまう場合あり */
-        /* その場合statusがTalkになり解答送信ができなくなるので注意 */
-        keyDownBool = true;
-        player.pauseVideo();
+    if(event.keyCode = myApp.val.btnCode){
+        /* ボタンチェック待機状態のとき */
+        if(myApp.val.status == myApp.state.ButtonCheck){ 
+            buttonCheck();
+            myApp.val.status = myApp.state.Talk;
+            player.playVideo();
+        }
+        /* 問い読み中状態のとき */
+        if(myApp.val.status == myApp.state.Question && myApp.val.keyDownBool == false){
+            pushButton(myApp.val.cntPush);
+            myApp.val.status = myApp.state.MyAnswer;
+            myApp.val.keyDownBool = true;
+            player.pauseVideo();
+        }
     }
 }
 function myKeyUpEvent(){
-    /* 自分が解答権を所持した状態のとき */
-    if(gVals.status == myState.MyAnswer && keyDownBool == true){
-        focusToAnsCol(myButtonCode);
-        keyDownBool = false;
+    if(event.keyCode = myApp.val.btnCode){
+        /* 自分が解答権を所持した状態のとき */
+        if(myApp.val.status == myApp.state.MyAnswer && myApp.val.keyDownBool == true){
+            focusToAnsCol();
+            keyDownBool = false;
+        }
     }
 }
 //
 //動画の再生・停止時のイベントリスナーの設定
-gVals.cntPush   = 0; //解答した回数
-var limPush     = 10; //1問あたりの解答可能な回数
-var currTime1   = 0;
-var currTime2   = 0;
-var watchedTime = 0;
-var diffTime    = 0;
-var correctBool = false;
 player.addEventListener('onStateChange', myEventListener);
 function myEventListener(){
     /* 再生されたとき */
@@ -177,8 +193,6 @@ function myEventListener(){
 }
 //
 //定期実行する関数の設定
-var elapsedTime;       //[ms]
-var limitTime = 20000; //[ms]
 setInterval(myIntervalEvent, interval = 100); //[ms]
 function myIntervalEvent(){
     /* 再生中のとき */
@@ -290,9 +304,6 @@ function focusToAnsCol(_myButtonCode){
 /**
  * 正誤判定用の関数
  */
-gVals.cntO = 0;    //正答数
-gVals.cntX = 0;    //誤答数
-gVals.numQues = 0; //設問番号
 function checkAnswer(_gVals, _gElems){
     var answer = ansCol.value;
     var length = ansArray[_gVals.numQues-1].length;
