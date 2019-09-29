@@ -337,11 +337,12 @@ function busySleep(waitMsec) {
  */
 hist_status = 4;
 function printAllParam(_myVals, _myElems){
-    if(_myVals.status != hist_status - Math.floor(hist_status/10)*10 && hist_status != -1){
-        hist_status = hist_status * 10 + _myVals.status;
-    }
-    _myElems.text.innerHTML = hist_status;
-    _myElems.subText.innerHTML = keyDownBool;
+    _myElems.text.innerHTML = "index: "+index+", cntIndex: "+cntIndex; 
+    // if(_myVals.status != hist_status - Math.floor(hist_status/10)*10 && hist_status != -1){
+    //     hist_status = hist_status * 10 + _myVals.status;
+    // }
+    // _myElems.text.innerHTML = hist_status;
+    // _myElems.subText.innerHTML = keyDownBool;
     // _myElems.text.innerHTML = index;
     // _myElems.text.innerHTML = "answer: "+ansArray[_myVals.numQues-1][2].valueOf();
     // _myElems.subText.innerHTML = 
