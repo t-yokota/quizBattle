@@ -38,7 +38,7 @@ var myApp = {
         elapsedTime : 0,     //[ms], 解答権取得時の経過時間
         /* 状態遷移の管理 */
         status      : this.state.Talk, //現在の状態
-        cntIndex    : 0,               //字幕区間のカウント
+        cntIndex    : 1,               //字幕区間のカウント
         correctBool : false,           //答え合わせ結果(結果に応じて状態遷移)
         keyDownBool : false,           //keydown->keyupの整順用(状態遷移時のキーイベント)
         /* コントロールバーの監視 */
@@ -117,7 +117,7 @@ function myKeyUpEvent(){
         /* 自分が解答権を所持した状態のとき */
         if(myApp.val.status == myApp.state.MyAnswer && myApp.val.keyDownBool == true){
             focusToAnsCol(myApp.elem);
-            keyDownBool = false;
+            myApp.val.keyDownBool = false;
         }
     }
 }
@@ -217,13 +217,13 @@ function myIntervalEvent(){
     }
     /* 自分が解答権を所持していない状態のとき */
     if(myApp.val.status != myApp.state.MyAnswer){
-        if(index　== myApp.val.cntIndex && player.getPlayerState() == 1){
+        if(index == myApp.val.cntIndex && player.getPlayerState() == 1){
             srtFuncArray.shift()();
             myApp.val.cntIndex += 1;
         }
     }
     /* デバッグ用 */
-    printAllParam(myApp.val, myApp.elem);
+    //printAllParam(myApp.val, myApp.elem);
 }
 //
 //解答送信ボタンのクリックイベントを設定
@@ -300,15 +300,14 @@ function focusToAnsCol(elements){
  * 正誤判定用の関数
  */
 function checkAnswer(values, elements){
-    var answer = ansCol.value;
-    var length = ansArray[values.numQues-1].length;
-    var correctBool = false;
+    var answer = elements.ansCol.value;
+    var length = values.ansArray[values.numQues-1].length;
     for(var i = 0; i < length; i++){
         if(answer.valueOf() === values.ansArray[values.numQues-1][i].valueOf()){
-            correctBool = true;
+            values.correctBool = true;
         }
     }
-    if(correctBool == true){
+    if(values.correctBool == true){
         elements.sndO.play();
         values.cntO += 1;
         elements.subText.innerHTML = "正解です！";
