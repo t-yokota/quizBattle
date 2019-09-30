@@ -6,11 +6,11 @@ doOnce[index] = true;
 //
 var myApp = {
     state: {
-        ButtonCheck   : 0, //ボタンチェックの待機
-        Question      : 1, //問い読み中（早押し可能）
-        MyAnswer      : 2, //自分が解答権を所持（解答の入力と送信が可能）
-        OthersAnswer  : 3, //他者が解答権を所持（早押し不可）
-        Talk          : 4, //導入,解説,閑話,締めなど（コントロールバーの操作が可能）
+        ButtonCheck  : 0, //ボタンチェックの待機
+        Question     : 1, //問い読み中（早押し可能）
+        MyAnswer     : 2, //自分が解答権を所持（解答の入力と送信が可能）
+        OthersAnswer : 3, //他者が解答権を所持（早押し不可）
+        Talk         : 4, //導入,解説,閑話,締めなど（コントロールバーの操作が可能）
     },
     elem: { //elements
         text    : document.createElement("h1"),       //動画タイトル等
@@ -28,23 +28,23 @@ var myApp = {
         cntO        : 0,  //合計正答数
         cntX        : 0,  //合計誤答数
         ansArray    : [], //正答リスト
-        /* 早押し用のキーボタン */
+        /* 早押しボタン用のキー設定用 */
         btnCode     : 32, //スペースキー
-        /* 解答回数の管理(１問あたり) */
+        /* 解答回数の管理用(１問あたり) */
         cntPush     : 0, //解答した回数
         limPush     : 5, //1問あたりの解答可能な回数
-        /* 解答時間の管理 */
+        /* 解答時間の管理用(１問あたり) */
         limTime     : 20000, //[ms], 解答の制限時間
         elapsedTime : 0,     //[ms], 解答権取得時の経過時間
-        /* 状態遷移の管理 */
+        /* 状態遷移の管理用 */
         status      : this.state.Talk, //現在の状態
         cntIndex    : 1,               //字幕区間のカウント
         correctBool : false,           //答え合わせ結果(結果に応じて状態遷移)
         keyDownBool : false,           //keydown->keyupの整順用(状態遷移時のキーイベント)
-        /* コントロールバーの監視 */
+        /* コントロールバーの監視用 */
         currTime:{ //動画の時間(再生位置)
-            playing : 0, //再生中に取得する時間
-            stopped : 0, //停止時に取得する時間
+            playing : 0, //再生中に取得
+            stopped : 0, //停止時に取得
         },
         watchedTime : 0, //視聴済みの範囲
         diffTime    : 0, //視聴済みの範囲と再生位置の差分
@@ -96,6 +96,7 @@ file.onload = function(){
 document.onkeydown = myKeyDownEvent;
 document.onkeyup   = myKeyUpEvent;
 function myKeyDownEvent(){
+    /* スペースキーが押されたとき */
     if(event.keyCode == myApp.val.btnCode){
         /* ボタンチェック待機状態のとき */
         if(myApp.val.status == myApp.state.ButtonCheck){ 
@@ -113,8 +114,9 @@ function myKeyDownEvent(){
     }
 }
 function myKeyUpEvent(){
+    /* スペースキーが押されたとき */
     if(event.keyCode == myApp.val.btnCode){
-        /* 自分が解答権を所持した状態のとき */
+        /* 自分が解答権を所持＋押し直後の状態のとき */
         if(myApp.val.status == myApp.state.MyAnswer && myApp.val.keyDownBool == true){
             focusToAnsCol(myApp.elem);
             myApp.val.keyDownBool = false;
