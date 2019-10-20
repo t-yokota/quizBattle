@@ -154,6 +154,7 @@ function myTouchEvent(){
 //動画の再生・停止時のイベントリスナーの設定
 player.addEventListener('onStateChange', myEventListener);
 function myEventListener(){
+    /* */
     focusToJS(myApp.elems);
     /* 動画が再生されたとき */
     if(player.getPlayerState() == 1){
@@ -200,27 +201,27 @@ function myEventListener(){
             /*  */
             focusToAnsCol(myApp.elems);
         }
-        /* 問い読み中状態のとき */
-        if(myApp.vals.status == myApp.state.Question){
-            /* コントロールバーが操作されたときの処理 */
-            /* 動画の一時停止 -> 無効 & シークバーによる再生位置のジャンプ -> 無効 */
-            myApp.vals.diffTime = Math.abs(myApp.vals.currTime_stopped - myApp.vals.watchedTime);
-            if(myApp.vals.diffTime > 1.0){
-                player.seekTo(myApp.vals.watchedTime);
-            }
-            player.playVideo();
-        /* それ以外の状態のとき */
-        }else{
-            /* コントロールバーが操作されたときの処理 */
-            /* 動画の一時停止 -> 有効 & シークバーによる再生位置のジャンプ -> 無効 */
-            myApp.vals.diffTime = Math.abs(myApp.vals.currTime_stopped - myApp.vals.watchedTime);
-            /* 動画の一時停止 -> 有効 & シークバーによる再生位置のジャンプ -> 前に戻る場合のみ有効 */
-            // myApp.vals.diffTime = myApp.vals.currTime_stopped - myApp.vals.watchedTime;
-            if(myApp.vals.diffTime > 1.0){
-                player.seekTo(myApp.vals.watchedTime);
-                player.playVideo();
-            }
-        }      
+        // /* 問い読み中状態のとき */
+        // if(myApp.vals.status == myApp.state.Question){
+        //     /* コントロールバーが操作されたときの処理 */
+        //     /* 動画の一時停止 -> 無効 & シークバーによる再生位置のジャンプ -> 無効 */
+        //     myApp.vals.diffTime = Math.abs(myApp.vals.currTime_stopped - myApp.vals.watchedTime);
+        //     if(myApp.vals.diffTime > 1.0){
+        //         player.seekTo(myApp.vals.watchedTime);
+        //     }
+        //     player.playVideo();
+        // /* それ以外の状態のとき */
+        // }else{
+        //     /* コントロールバーが操作されたときの処理 */
+        //     /* 動画の一時停止 -> 有効 & シークバーによる再生位置のジャンプ -> 無効 */
+        //     myApp.vals.diffTime = Math.abs(myApp.vals.currTime_stopped - myApp.vals.watchedTime);
+        //     /* 動画の一時停止 -> 有効 & シークバーによる再生位置のジャンプ -> 前に戻る場合のみ有効 */
+        //     // myApp.vals.diffTime = myApp.vals.currTime_stopped - myApp.vals.watchedTime;
+        //     if(myApp.vals.diffTime > 1.0){
+        //         player.seekTo(myApp.vals.watchedTime);
+        //         player.playVideo();
+        //     }
+        // }      
     }
 }
 //
