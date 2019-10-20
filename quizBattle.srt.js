@@ -56,6 +56,10 @@ myApp = {
     },
 };
 //
+myApp.elems.ansCol.id = 'anscol';
+myApp.elems.ansBtn.id = 'ansbtn';
+document.getElementsByTagName("body")[0].id = 'body';
+//
 myApp.elems.subText.style.fontSize = '20px'; 
 myApp.elems.subText.style.lineHeight = '32px'
 myApp.elems.ansCol.style.fontSize = '15px'; 
@@ -244,6 +248,9 @@ function myIntervalEvent(){
     }
     /* 自分が解答権を所持した状態のとき */
     if(myApp.vals.status == myApp.state.MyAnswer){
+        // if(document.activeElement() == ){
+        //     myApp.elems.ansCol.focus();
+        // }
         /* 解答権を所持したまま一定時間経過したときの処理 */
         /* 一定時間経過 -> その時点の入力内容で正誤判定をして適切な状態へ移行 -> 動画を再生 */
         myApp.vals.elapsedTime += interval;
@@ -263,7 +270,7 @@ function myIntervalEvent(){
         // focusToJS(myApp.elems);
     }
     /* デバッグ用 */
-    // printParams(myApp.vals, myApp.elems);
+    printParams(myApp.vals, myApp.elems);
 }
 //
 //解答送信ボタンのクリックイベントを設定
@@ -390,6 +397,7 @@ function busySleep(waitMsec) {
  * パラメータ表示（デバッグ用） 
  */
 function printParams(values, elements){
+    elements.text.innerHTML = document.activeElement.id;
     elements.subText.innerHTML = 
         "Stateus: "+values.status+"<br>"+
         "Time1: "+values.currTime_playing.toFixed(3)+"<br>"+
