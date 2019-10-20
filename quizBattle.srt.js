@@ -421,7 +421,7 @@ var srtFuncArray = [
     function(){
         // index = 2
         /* 第１問 */
-        focusToAnsCol();
+        focusToAnsCol(myApp.elems);
         myApp.vals.status = myApp.state.Question;
         myApp.vals.numQues = 1;
         myApp.vals.cntPush = 0;
