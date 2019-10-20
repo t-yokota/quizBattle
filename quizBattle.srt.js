@@ -4,7 +4,7 @@
 /* 各種宣言 */
 doOnce[index] = true;
 //
-var myApp = {
+myApp = {
     state: {
         ButtonCheck  : 0, //ボタンチェックの待機
         Question     : 1, //問い読み中（早押し可能）
@@ -12,114 +12,127 @@ var myApp = {
         OthersAnswer : 3, //他者が解答権を所持（早押し不可）
         Talk         : 4, //導入,解説,閑話,締めなど（コントロールバーの操作が可能）
     },
-    elem: { //elements
+    elems: {
         text    : document.createElement("h1"),       //動画タイトル等
-        subText : document.createElement("h2"),       //動画の説明文等
+        subText : document.createElement("text"),       //動画の説明文等
         numOX   : document.createElement("h1"),       //◯正解数と✖不正解数
         ansCol  : document.createElement("textarea"), //解答を入力するテキストエリア
         ansBtn  : document.createElement("button"),   //解答を送信するボタン
-        br      : document.createElement("br"),       //改行用
+        br1      : document.createElement("br"),       //改行用
+        br2      : document.createElement("br"),       //改行用
+        br3      : document.createElement("br"),       //改行用
         sndPush : document.createElement("audio"),    //ボタンの押下音
         sndO    : document.createElement("audio"),    //正解音
         sndX    : document.createElement("audio")     //不正解音
     },
-    val: { //values
-        numQues     : 0,  //設問番号
-        cntO        : 0,  //合計正答数
-        cntX        : 0,  //合計誤答数
-        ansArray    : [], //正答リスト
+    vals: {
+        numQues  : 0,  //設問番号
+        cntO     : 0,  //合計正答数
+        cntX     : 0,  //合計誤答数
+        ansArray : [], //正答リスト
+        //
         /* 早押しボタン用のキー設定用 */
-        btnCode     : 32, //スペースキー
+        btnCode : 32, //スペースキー
+        //
         /* 解答回数の管理用(１問あたり) */
-        cntPush     : 0, //解答した回数
-        limPush     : 5, //1問あたりの解答可能な回数
+        cntPush : 0, //解答した回数
+        limPush : 5, //1問あたりの解答可能な回数
+        //
         /* 解答時間の管理用(１問あたり) */
-        limTime     : 20000, //[ms], 解答の制限時間
-        elapsedTime : 0,     //[ms], 解答権取得時の経過時間
+        limTime     : 10000, //[ms], 解答の制限時間
+        elapsedTime : 0,     //[ms], 解答権取得後の経過時間
+        //
         /* 状態遷移の管理用 */
         status      : this.state.Talk, //現在の状態
-        cntIndex    : 1,               //字幕区間のカウント
+        cntIndex    : 1,               //字幕区間をカウント
         correctBool : false,           //答え合わせ結果(結果に応じて状態遷移)
         keyDownBool : false,           //keydown->keyupの整順用(状態遷移時のキーイベント)
-        /* コントロールバーの監視用 */
-        currTime:{ //動画の時間(再生位置)
-            playing : 0, //再生中に取得
-            stopped : 0, //停止時に取得
-        },
-        watchedTime : 0, //視聴済みの範囲
-        diffTime    : 0, //視聴済みの範囲と再生位置の差分
+        //
+        /* コントロールバー使用の監視用 */
+        currTime_playing : 0, //再生中に取得する動画位置
+        currTime_stopped : 0, //停止時に取得する動画位置
+        watchedTime      : 0, //視聴済みの範囲
+        diffTime         : 0, //視聴済みの範囲と再生位置の差分
     },
 };
 //
+myApp.elems.subText.style.fontSize = '20px'; 
+myApp.elems.subText.style.lineHeight = '32px'
+myApp.elems.ansCol.style.fontSize = '15px'; 
+myApp.elems.ansBtn.style.fontSize = '15px'; 
+//
 //elementを表示
-document.getElementsByTagName("body")[0].appendChild(myApp.elem.text);
-document.getElementsByTagName("body")[0].appendChild(myApp.elem.subText);
-document.getElementsByTagName("body")[0].appendChild(myApp.elem.ansCol);
-document.getElementsByTagName("body")[0].appendChild(myApp.elem.br);
-document.getElementsByTagName("body")[0].appendChild(myApp.elem.ansBtn);
-document.getElementsByTagName("body")[0].appendChild(myApp.elem.numOX);
+document.getElementsByTagName("body")[0].appendChild(myApp.elems.text);
+document.getElementsByTagName("body")[0].appendChild(myApp.elems.subText);
+document.getElementsByTagName("body")[0].appendChild(myApp.elems.br1);
+document.getElementsByTagName("body")[0].appendChild(myApp.elems.br2);
+document.getElementsByTagName("body")[0].appendChild(myApp.elems.ansCol);
+document.getElementsByTagName("body")[0].appendChild(myApp.elems.br3);
+document.getElementsByTagName("body")[0].appendChild(myApp.elems.ansBtn);
+document.getElementsByTagName("body")[0].appendChild(myApp.elems.numOX);
 //
 //textNodeを作成してelementに追加
 var node_text    = document.createTextNode("");
 var node_subText = document.createTextNode("");
 var node_numOX   = document.createTextNode("");
-myApp.elem.text.appendChild(node_text);
-myApp.elem.subText.appendChild(node_subText);
-myApp.elem.numOX.appendChild(node_numOX);
+myApp.elems.text.appendChild(node_text);
+myApp.elems.subText.appendChild(node_subText);
+myApp.elems.numOX.appendChild(node_numOX);
 //
 //elementの初期値の設定
-myApp.elem.text.innerHTML    = "quizBattle.srt.js";     //動画タイトル
-myApp.elem.subText.innerHTML = "動画の相手とクイズ対決"; //動画の説明
-myApp.elem.ansCol.value      = "ここに解答を入力";
-myApp.elem.ansBtn.innerHTML  = "解答を送信";
-myApp.elem.ansCol.disabled   = true;
-myApp.elem.ansBtn.disabled   = true;
+myApp.elems.text.innerHTML    = "quizBattle.srt.js";  //動画タイトル
+myApp.elems.subText.innerHTML = "動画の相手とクイズ対決"; //動画の説明
+myApp.elems.ansCol.value      = "ここに解答を入力";
+myApp.elems.ansBtn.innerHTML  = "解答を送信";
+myApp.elems.ansCol.disabled   = true;
+myApp.elems.ansBtn.disabled   = true;
 //
 //audioデータの指定
-myApp.elem.sndPush.src = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/sounds/push.mp3";
-myApp.elem.sndO.src    = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/sounds/correct.mp3";
-myApp.elem.sndX.src    = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/sounds/discorrect.mp3";
+myApp.elems.sndPush.src = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/sounds/push.mp3";
+myApp.elems.sndO.src    = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/sounds/correct.mp3";
+myApp.elems.sndX.src    = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/sounds/discorrect.mp3";
+//
+// document.getElementById()
 //
 //正答リストの指定・読み込み
-var ansCSV = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/answer_UTF-8.csv"; //UTF-8
+var ansCSV = "https://raw.githubusercontent.com/t-yokota/quizBattle/develop_change_namespace/answer_UTF-8.csv"; //UTF-8
+// var ansCSV = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/answer_UTF-8.csv"; //UTF-8
 var ansArray;
 var file = new XMLHttpRequest();
 file.open("get", ansCSV, true);
 file.send(null);
 file.onload = function(){
-    myApp.val.ansArray = CSVtoArray(file.responseText);
+    myApp.vals.ansArray = CSVtoArray(file.responseText);
 }
-//
-//早押しボタン用のキーコードの設定
 //
 //早押しのためのキーイベントの設定
 document.onkeydown = myKeyDownEvent;
 document.onkeyup   = myKeyUpEvent;
 function myKeyDownEvent(){
     /* スペースキーが押されたとき */
-    if(event.keyCode == myApp.val.btnCode){
+    if(event.keyCode == myApp.vals.btnCode){
         /* ボタンチェック待機状態のとき */
-        if(myApp.val.status == myApp.state.ButtonCheck){ 
-            buttonCheck(myApp.elem);
-            myApp.val.status = myApp.state.Talk;
+        if(myApp.vals.status == myApp.state.ButtonCheck){ 
+            buttonCheck(myApp.elems);
+            myApp.vals.status = myApp.state.Talk;
             player.playVideo();
         }
         /* 問い読み中状態のとき */
-        if(myApp.val.status == myApp.state.Question && myApp.val.keyDownBool == false){
-            pushButton(myApp.val, myApp.elem);
-            myApp.val.status = myApp.state.MyAnswer;
-            myApp.val.keyDownBool = true;
+        if(myApp.vals.status == myApp.state.Question && myApp.vals.keyDownBool == false){
+            pushButton(myApp.vals, myApp.elems);
+            myApp.vals.status = myApp.state.MyAnswer;
+            myApp.vals.keyDownBool = true;
             player.pauseVideo();
         }
     }
 }
 function myKeyUpEvent(){
     /* スペースキーが押されたとき */
-    if(event.keyCode == myApp.val.btnCode){
+    if(event.keyCode == myApp.vals.btnCode){
         /* 自分が解答権を所持＋押し直後の状態のとき */
-        if(myApp.val.status == myApp.state.MyAnswer && myApp.val.keyDownBool == true){
-            focusToAnsCol(myApp.elem);
-            myApp.val.keyDownBool = false;
+        if(myApp.vals.status == myApp.state.MyAnswer && myApp.vals.keyDownBool == true){
+            focusToAnsCol(myApp.elems);
+            myApp.vals.keyDownBool = false;
         }
     }
 }
@@ -127,62 +140,66 @@ function myKeyUpEvent(){
 //動画の再生・停止時のイベントリスナーの設定
 player.addEventListener('onStateChange', myEventListener);
 function myEventListener(){
-    /* 再生時 */
+    focusToJS(myApp.elems);
+    /* 動画が再生されたとき */
     if(player.getPlayerState() == 1){
-        /* 時間取得 */
-        myApp.val.currTime.playing = player.getCurrentTime();
-        getWatchedTime(myApp.val);
-        /* 自分が解答権を所持した状態のとき */
-        if(myApp.val.status == myApp.state.MyAnswer){
-            /* 解答を送信していないのに動画が再生されたときの処理 */
+        /* 動画の時間を取得 */
+        myApp.vals.currTime_playing = player.getCurrentTime();
+        updateWatchedTime(myApp.vals);
+        /* 自分が解答権を所持していた状態のとき */
+        if(myApp.vals.status == myApp.state.MyAnswer){
             /* 一時停止 -> その時点の入力内容で正誤判定をして適切な状態へ移行 -> 動画を再生 */
             player.pauseVideo();
-            checkAnswer(myApp.val, myApp.elem);
-            if(myApp.val.correctBool == true || myApp.val.limPush - myApp.val.cntPush == 0){
-                myApp.val.status = myApp.state.Talk;
+            checkAnswer(myApp.vals, myApp.elems);
+            if(myApp.vals.correctBool == true || myApp.vals.limPush - myApp.vals.cntPush == 0){
+                myApp.vals.status = myApp.state.Talk;
             }else{
-                myApp.val.status = myApp.state.Question;
+                myApp.vals.status = myApp.state.Question;
             }
             player.playVideo();
         }
         /* 問い読み中状態のとき */
-        if(myApp.val.status = myApp.state.Question){
+        if(myApp.vals.status == myApp.state.Question){
             /* コントロールバーが操作されたときの処理 */
             /* シークバーによる再生位置のジャンプ -> 無効 */
-            myApp.val.diffTime = Math.abs(myApp.val.currTime.playing - myApp.val.watchedTime)
-            if(myApp.val.diffTime > 1.0){
-                player.seekTo(myApp.val.watchedTime);
+            myApp.vals.diffTime = Math.abs(myApp.vals.currTime_playing - myApp.vals.watchedTime)
+            if(myApp.vals.diffTime > 1.0){
+                player.seekTo(myApp.vals.watchedTime);
             }
         /* それ以外の状態のとき */
         }else{
             /* コントロールバーが操作されたときの処理 */
+            /* シークバーによる再生位置のジャンプ -> 無効 */
+            myApp.vals.diffTime = Math.abs(myApp.vals.currTime_playing - myApp.vals.watchedTime)
             /* シークバーによる再生位置のジャンプ -> 前に戻る場合のみ有効 */
-            myApp.val.diffTime = myApp.val.currTime.playing - myApp.val.watchedTime;
-            if(myApp.val.diffTime > 1.0){
-                player.seekTo(myApp.val.watchedTime);
+            // myApp.vals.diffTime = myApp.vals.currTime_playing - myApp.vals.watchedTime;
+            if(myApp.vals.diffTime > 1.0){
+                player.seekTo(myApp.vals.watchedTime);
             }
         }
     }
-    /* 停止時 */
+    /* 動画が停止されたとき */
     if(player.getPlayerState() == 2){
-        /* 時間取得 */
-        myApp.val.currTime.stopped = player.getCurrentTime();
+        /* 動画の時間を取得 */
+        myApp.vals.currTime_stopped = player.getCurrentTime();
         /* 問い読み中状態のとき */
-        if(myApp.val.status == myApp.state.Question){
+        if(myApp.vals.status == myApp.state.Question){
             /* コントロールバーが操作されたときの処理 */
             /* 動画の一時停止 -> 無効 & シークバーによる再生位置のジャンプ -> 無効 */
-            myApp.val.diffTime = Math.abs(myApp.val.currTime.stopped - myApp.val.watchedTime);
-            if(myApp.val.diffTime > 1.0){
-                player.seekTo(myApp.val.watchedTime);
+            myApp.vals.diffTime = Math.abs(myApp.vals.currTime_stopped - myApp.vals.watchedTime);
+            if(myApp.vals.diffTime > 1.0){
+                player.seekTo(myApp.vals.watchedTime);
             }
             player.playVideo();
         /* それ以外の状態のとき */
         }else{
             /* コントロールバーが操作されたときの処理 */
+            /* 動画の一時停止 -> 有効 & シークバーによる再生位置のジャンプ -> 無効 */
+            myApp.vals.diffTime = Math.abs(myApp.vals.currTime_stopped - myApp.vals.watchedTime);
             /* 動画の一時停止 -> 有効 & シークバーによる再生位置のジャンプ -> 前に戻る場合のみ有効 */
-            myApp.val.diffTime = myApp.val.currTime.stopped - myApp.val.watchedTime;
-            if(myApp.val.diffTime > 1.0){
-                player.seekTo(myApp.val.watchedTime);
+            // myApp.vals.diffTime = myApp.vals.currTime_stopped - myApp.vals.watchedTime;
+            if(myApp.vals.diffTime > 1.0){
+                player.seekTo(myApp.vals.watchedTime);
                 player.playVideo();
             }
         }      
@@ -192,57 +209,59 @@ function myEventListener(){
 //定期実行する関数の設定
 setInterval(myIntervalEvent, interval = 100); //[ms]
 function myIntervalEvent(){
-    /* 再生中のとき */
+    /* 動画が再生中のとき */
     if(player.getPlayerState() == 1){
-        /* 時間取得 */
-        myApp.val.currTime.playing = player.getCurrentTime();
-        getWatchedTime(myApp.val);
+        /* 動画の時間を取得 */
+        myApp.vals.currTime_playing = player.getCurrentTime();
+        updateWatchedTime(myApp.vals);
+        //
+        /* 自分が解答権を所持していない状態のとき */
+        if(myApp.vals.status != myApp.state.MyAnswer){
+            if(index == myApp.vals.cntIndex){
+                srtFuncArray.shift()();
+                myApp.vals.cntIndex += 1;
+            }
+        }
     }
     /* 自分が解答権を所持した状態のとき */
-    if(myApp.val.status == myApp.state.MyAnswer){
+    if(myApp.vals.status == myApp.state.MyAnswer){
         /* 解答権を所持したまま一定時間経過したときの処理 */
         /* 一定時間経過 -> その時点の入力内容で正誤判定をして適切な状態へ移行 -> 動画を再生 */
-        myApp.val.elapsedTime += interval;
-        myApp.elem.subText.innerHTML = "あと"+Math.floor((myApp.val.limTime-myApp.val.elapsedTime)/1000)+"秒で解答を送信してください";
-        if(myApp.val.elapsedTime >= myApp.val.limTime){
-            checkAnswer(myApp.val, myApp.elem);
-            if(myApp.val.correctBool == true || myApp.val.limPush - myApp.val.cntPush == 0){
-                myApp.val.status = myApp.state.Talk;
+        myApp.vals.elapsedTime += interval;
+        myApp.elems.subText.innerHTML = "あと"+Math.floor((myApp.vals.limTime-myApp.vals.elapsedTime)/1000)+"秒で解答を送信してください";
+        if(myApp.vals.elapsedTime >= myApp.vals.limTime){
+            checkAnswer(myApp.vals, myApp.elems);
+            if(myApp.vals.correctBool == true || myApp.vals.limPush - myApp.vals.cntPush == 0){
+                myApp.vals.status = myApp.state.Talk;
             }else{  
-                myApp.val.status = myApp.state.Question;
+                myApp.vals.status = myApp.state.Question;
             }
             player.playVideo();
         }
     }else{
-        myApp.val.elapsedTime = 0;
-        focusToJS(myApp.elem);
-    }
-    /* 自分が解答権を所持していない状態のとき */
-    if(myApp.val.status != myApp.state.MyAnswer){
-        if(index == myApp.val.cntIndex && player.getPlayerState() == 1){
-            srtFuncArray.shift()();
-            myApp.val.cntIndex += 1;
-        }
+        myApp.vals.elapsedTime = 0;
+        /* 2019/10/07 forcusToJSで遅延する */
+        // focusToJS(myApp.elems);
     }
     /* デバッグ用 */
-    //printAllParam(myApp.val, myApp.elem);
+    printParams(myApp.vals, myApp.elems);
 }
 //
 //解答送信ボタンのクリックイベントを設定
-myApp.elem.ansBtn.onclick = myOnClickEvent;
+myApp.elems.ansBtn.onclick = myOnClickEvent;
 function myOnClickEvent(){
     /* 自分か解答権を所持した状態のとき */
-    if(myApp.val.status == myApp.state.MyAnswer){ 
+    if(myApp.vals.status == myApp.state.MyAnswer){ 
         /* 解答送信ボタンを押したときの処理 */
         /* 1秒間を空けてから正誤判定をして適切な状態へ移行 -> 動画を再生 */
         var btn = this;
         btn.disabled = true;
-        window.setTimeout(function(){ checkAnswer(myApp.val, myApp.elem); }, 1000);
+        window.setTimeout(function(){ checkAnswer(myApp.vals, myApp.elems); }, 1000);
         busySleep(1000);
-        if(myApp.val.correctBool == true || myApp.val.limPush - myApp.val.cntPush == 0){
-            myApp.val.status = myApp.state.Talk;
-        }else{  
-            myApp.val.status = myApp.state.Question;
+        if(myApp.vals.correctBool == true || myApp.vals.limPush - myApp.vals.cntPush == 0){
+            myApp.vals.status = myApp.state.Talk;
+        }else{
+            myApp.vals.status = myApp.state.Question;
         }
         player.playVideo();
     }
@@ -325,11 +344,14 @@ function checkAnswer(values, elements){
 /**
  * 視聴範囲取得用の関数
  */
-function getWatchedTime(values){
-    if(0.0 < values.currTime.playing - values.watchedTime && values.currTime.playing - values.watchedTime < 1.0){
-        values.watchedTime = values.currTime.playing;
+function updateWatchedTime(values){
+    if(0.0 < values.currTime_playing - values.watchedTime && values.currTime_playing - values.watchedTime < 1.0){
+        values.watchedTime = values.currTime_playing;
     }
 }
+/**
+ * 
+ */
 function busySleep(waitMsec) {
     var startMsec = new Date();
     // 指定ミリ秒間だけループさせる（CPUは常にビジー状態）
@@ -338,137 +360,107 @@ function busySleep(waitMsec) {
 /**
  * パラメータ表示（デバッグ用） 
  */
-hist_status = 4;
-function printAllParam(values, elements){
-    if(values.status != hist_status - Math.floor(hist_status/10)*10 && hist_status != -1){
-        hist_status = hist_status * 10 + values.status;
-    }
-    elements.text.innerHTML = hist_status;
-    elements.subText.innerHTML = values.keyDownBool;
-    elements.text.innerHTML = index;
-    elements.text.innerHTML = "answer: "+values.ansArray[values.numQues-1][2].valueOf();
+function printParams(values, elements){
     elements.subText.innerHTML = 
         "Stateus: "+values.status+"<br>"+
-        "Time1: "+values.currTime.playing.toFixed(3)+"<br>"+
-        "Time2: "+values.currTime.stopped.toFixed(3)+"<br>"+
+        "Time1: "+values.currTime_playing.toFixed(3)+"<br>"+
+        "Time2: "+values.currTime_stopped.toFixed(3)+"<br>"+
         "WatchedTime: "+values.watchedTime.toFixed(3)+"<br>"+
         "diffTime: "+values.diffTime.toFixed(3)+"<br>"+
-        "limTime: "+(values.limTime-Math.floor(values.elapsedTime/1000))+"<br>"+
+        "limTime: "+Math.floor((myApp.vals.limTime-myApp.vals.elapsedTime)/1000)+"<br>"+
+        "answer: "+values.ansArray[values.numQues-1][0].valueOf()+", "+
+            values.ansArray[values.numQues-1][1].valueOf()+", "+
+            values.ansArray[values.numQues-1][2].valueOf()+"<br>"+
+        "answerLength: "+values.ansArray[values.numQues-1].length+"<br>"+
         "correctBool: "+values.correctBool+"<br>"+
-        "index: "+values.cntIndex;
+        "keyDownBool: "+values.keyDownBool+"<br>"+
+        "index: "+index;
 }
+/**
+ * 各字幕区間で実行する関数
+ */
 var srtFuncArray = [
     function(){
+        // index = 1
         /* ボタンチェック開始 */
-        myApp.val.status = myApp.state.ButtonCheck;
+        myApp.vals.status = myApp.state.ButtonCheck;
         player.pauseVideo();
-        //
-        myApp.elem.text.innerHTML = "ボタンチェック";
-        myApp.elem.subText.innerHTML = "スペースキーが早押しボタンです。<br>キーを押して音と動作を確認してください。";
+        myApp.elems.text.innerHTML = "ボタンチェック";
+        myApp.elems.subText.innerHTML = "スペースキーが早押しボタンです。"+
+            "スペースキーを押して音と動作を確認してください。<br>"+
+            "動画の進行に合わせてクイズが始まります。";
     },
     function(){
+        // index = 2
         /* 第１問 */
-        myApp.val.status = myApp.state.Question;
-        //
-        myApp.val.numQues = 1;
-        myApp.val.cntPush = 0;
-        myApp.elem.text.innerHTML = "第"+myApp.val.numQues+"問";
-        myApp.elem.subText.innerHTML = "答えが分かったら、スペースキーを押して解答権を得る！";
-        myApp.elem.numOX.innerHTML = "◯: "+myApp.val.cntO+", ✖: "+myApp.val.cntX;
+        myApp.vals.status = myApp.state.Question;
+        myApp.vals.numQues = 1;
+        myApp.vals.cntPush = 0;
+        myApp.elems.text.innerHTML = "第"+myApp.vals.numQues+"問";
+        myApp.elems.subText.innerHTML = "答えが分かったら、スペースキーを押して解答権を得る！";
+        myApp.elems.numOX.innerHTML = "◯: "+myApp.vals.cntO+", ✖: "+myApp.vals.cntX;
     },
     function(){
+        // index = 3
         /* 閑話1 */
-        myApp.val.status = myApp.state.Talk;
-        myApp.elem.subText.innerHTML = "解説";
+        myApp.vals.status = myApp.state.Talk;
+        myApp.elems.subText.innerHTML = "解説";
     },
     function(){
+        // index = 4
         /* 第２問 */
-        myApp.val.status = myApp.state.Question;
-        //
-        myApp.val.numQues = 2;
-        myApp.val.cntPush = 0;
-        myApp.elem.text.innerHTML = "第"+myApp.val.numQues+"問";
-        myApp.elem.subText.innerHTML = "答えが分かったら、スペースキーを押して解答権を得る！";
+        myApp.vals.status = myApp.state.Question;
+        myApp.vals.numQues = 2;
+        myApp.vals.cntPush = 0;
+        myApp.elems.text.innerHTML = "第"+myApp.vals.numQues+"問";
+        myApp.elems.subText.innerHTML = "答えが分かったら、スペースキーを押して解答権を得る！";
     },
     function(){
+        // index = 5
         /* 閑話2 */
-        myApp.val.status = myApp.state.Talk;
-        myApp.elem.subText.innerHTML = "解説";
+        myApp.vals.status = myApp.state.Talk;
+        myApp.elems.subText.innerHTML = "解説";
     },
     function(){
+        // index = 6
         /* 第３問 */
-        myApp.val.status = myApp.state.Question;
-        //
-        myApp.val.numQues = 3;
-        myApp.val.cntPush = 0;
-        myApp.elem.text.innerHTML = "第"+myApp.val.numQues+"問";
-        myApp.elem.subText.innerHTML = "答えが分かったら、スペースキーを押して解答権を得る！";
+        myApp.vals.status = myApp.state.Question;
+        myApp.vals.numQues = 3;
+        myApp.vals.cntPush = 0;
+        myApp.elems.text.innerHTML = "第"+myApp.vals.numQues+"問";
+        myApp.elems.subText.innerHTML = "答えが分かったら、スペースキーを押して解答権を得る！";
     },
     function(){
+        // index = 7
         /* 閑話3 */
-        myApp.val.status = myApp.state.Talk;
-        myApp.elem.subText.innerHTML = "解説";
+        myApp.vals.status = myApp.state.Talk;
+        myApp.elems.subText.innerHTML = "解説";
     }
 ];
 
 1
 00:00:01,000 --> 00:00:02,999
-// /* ボタンチェック開始 */
-// doOnce[index] = true;
-// myVals.status = myState.ButtonCheck;
-// player.pauseVideo();
-// //
-// myElems.text.innerHTML = "ボタンチェック";
-// myElems.subText.innerHTML = "スペースキーが早押しボタンです。<br>キーを押して音と動作を確認してください。";
+
 
 2
 00:00:03,000 --> 00:00:06,999
-// /* 第１問 */
-// doOnce[index] = true;
-// myVals.status = myState.Question;
-// //
-// myVals.numQues = 1;
-// myVals.cntPush = 0;
-// myElems.text.innerHTML = "第"+myVals.numQues+"問";
-// myElems.subText.innerHTML = "答えが分かったら、スペースキーを押して解答権を得る！";
-// myElems.numOX.innerHTML = "◯: "+myVals.cntO+", ✖: "+myVals.cntX;
+
 
 3
 00:00:07,000 --> 00:00:10,999
-// /* 閑話1 */
-// myVals.status = myState.Talk
-// myElems.subText.innerHTML = "解説";
+
 
 4
 00:00:11,000 --> 00:00:14,999
-// /* 第２問 */
-// doOnce[index] = true;
-// myVals.status = myState.Question;
-// //
-// myVals.numQues = 2;
-// myVals.cntPush = 0;
-// myElems.text.innerHTML = "第"+myVals.numQues+"問";
-// myElems.subText.innerHTML = "答えが分かったら、スペースキーを押して解答権を得る！";
+
 
 5
 00:00:15,000 --> 00:00:18,999
-// /* 閑話2 */
-// myVals.status = myState.Talk
-// myElems.subText.innerHTML = "解説";
+
 
 6
 00:00:19,000 --> 00:00:22,999
-// /* 第３問 */
-// doOnce[index] = true;
-// myVals.status = myState.Question;
-// //
-// myVals.numQues = 3;
-// myVals.cntPush = 0;
-// myElems.text.innerHTML = "第"+myVals.numQues+"問";
-// myElems.subText.innerHTML = "答えが分かったら、スペースキーを押して解答権を得る！";
+
 
 7
 00:00:23,000 --> 00:00:26,999
-// /* 閑話3 */
-// myVals.status = myState.Talk
-// myElems.subText.innerHTML = "解説";
