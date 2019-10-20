@@ -342,7 +342,7 @@ function pushButton(values, elements){
 function focusToAnsCol(elements){
     // elements.ansBtn.disabled = false;
     // elements.ansCol.disabled = false;
-    elements.ansCol.value = "";
+    // elements.ansCol.value = "";
     elements.ansCol.focus();
 }
 /**
@@ -421,7 +421,7 @@ var srtFuncArray = [
     function(){
         // index = 2
         /* 第１問 */
-        myApp.elems.ansCol.focus();
+        // myApp.elems.ansCol.focus();
         myApp.vals.status = myApp.state.Question;
         myApp.vals.numQues = 1;
         myApp.vals.cntPush = 0;
