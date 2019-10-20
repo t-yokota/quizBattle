@@ -108,7 +108,6 @@ file.onload = function(){
 //早押しのためのキーイベントの設定
 document.onkeydown = myKeyDownEvent;
 document.onkeyup   = myKeyUpEvent;
-document.addEventListener("touchstart", myKeyDownEvent)
 function myKeyDownEvent(){
     /* スペースキーが押されたとき */
     if(event.keyCode == myApp.vals.btnCode){
@@ -135,6 +134,22 @@ function myKeyUpEvent(){
             focusToAnsCol(myApp.elems);
             myApp.vals.keyDownBool = false;
         }
+    }
+}
+document.addEventListener("touchstart", myTouchEvent)
+function myTouchEvent(){
+    /* ボタンチェック待機状態のとき */
+    if(myApp.vals.status == myApp.state.ButtonCheck){ 
+        buttonCheck(myApp.elems);
+        myApp.vals.status = myApp.state.Talk;
+        player.playVideo();
+    }
+    /* 問い読み中状態のとき */
+    if(myApp.vals.status == myApp.state.Question){
+        pushButton(myApp.vals, myApp.elems);
+        myApp.vals.status = myApp.state.MyAnswer;
+        focusToAnsCol(myApp.elems);
+        player.pauseVideo();
     }
 }
 //動画の再生・停止時のイベントリスナーの設定
