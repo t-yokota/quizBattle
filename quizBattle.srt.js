@@ -95,8 +95,8 @@ myApp.elems.sndX.src    = "https://raw.githubusercontent.com/t-yokota/quizBattle
 // document.getElementById()
 //
 //正答リストの指定・読み込み
-var ansCSV = "https://raw.githubusercontent.com/t-yokota/quizBattle/develop_change_namespace/answer_UTF-8.csv"; //UTF-8
-// var ansCSV = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/answer_UTF-8.csv"; //UTF-8
+// var ansCSV = "https://raw.githubusercontent.com/t-yokota/quizBattle/develop_change_namespace/answer_UTF-8.csv"; //UTF-8
+var ansCSV = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/answer_UTF-8.csv"; //UTF-8
 var ansArray;
 var file = new XMLHttpRequest();
 file.open("get", ansCSV, true);
@@ -108,6 +108,7 @@ file.onload = function(){
 //早押しのためのキーイベントの設定
 document.onkeydown = myKeyDownEvent;
 document.onkeyup   = myKeyUpEvent;
+document.addEventListener("touchtart", myKeyDownEvent)
 function myKeyDownEvent(){
     /* スペースキーが押されたとき */
     if(event.keyCode == myApp.vals.btnCode){
@@ -136,7 +137,6 @@ function myKeyUpEvent(){
         }
     }
 }
-//
 //動画の再生・停止時のイベントリスナーの設定
 player.addEventListener('onStateChange', myEventListener);
 function myEventListener(){
