@@ -136,7 +136,7 @@ function myKeyDownEvent(){
 //         }
 //     }
 // }
-document.addEventListener("touchstart", myTouchEvent)
+document.addEventListener("touchend", myTouchEvent)
 function myTouchEvent(){
     /* ボタンチェック待機状態のとき */
     if(myApp.vals.status == myApp.state.ButtonCheck){ 
@@ -285,6 +285,15 @@ function myOnClickEvent(){
     }
 }
 //
+document.getElementsByTagName("body")[0].onblur = myBodyOnBlurEvent;
+// document.getElementsByTagName("body")[0].onblur = blurText;
+function myBodyOnBlurEvent(){
+    focusToJS(myApp.elems);
+}
+function blurText(){
+    alert("blur event detected!");
+}
+//
 //各種関数の定義
 /**
  * csvファイルを読み込んで配列に格納する関数
@@ -308,6 +317,7 @@ function focusToJS(elements){
     elements.ansCol.focus();
     elements.ansCol.blur();
     elements.ansCol.disabled = true;
+    // document.getElementsByTagName("body")[0].focus();
 }
 /**
  * ボタンチェックのキーイベント用の関数 
