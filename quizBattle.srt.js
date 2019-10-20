@@ -84,8 +84,8 @@ myApp.elems.text.innerHTML    = "quizBattle.srt.js";  //動画タイトル
 myApp.elems.subText.innerHTML = "動画の相手とクイズ対決"; //動画の説明
 myApp.elems.ansCol.value      = "ここに解答を入力";
 myApp.elems.ansBtn.innerHTML  = "解答を送信";
-myApp.elems.ansCol.disabled   = true;
-myApp.elems.ansBtn.disabled   = true;
+// myApp.elems.ansCol.disabled   = true;
+// myApp.elems.ansBtn.disabled   = true;
 //
 //audioデータの指定
 myApp.elems.sndPush.src = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/sounds/push.mp3";
@@ -272,8 +272,8 @@ function myOnClickEvent(){
     if(myApp.vals.status == myApp.state.MyAnswer){ 
         /* 解答送信ボタンを押したときの処理 */
         /* 1秒間を空けてから正誤判定をして適切な状態へ移行 -> 動画を再生 */
-        var btn = this;
-        btn.disabled = true;
+        // var btn = this;
+        // btn.disabled = true;
         window.setTimeout(function(){ checkAnswer(myApp.vals, myApp.elems); }, 1000);
         busySleep(1000);
         if(myApp.vals.correctBool == true || myApp.vals.limPush - myApp.vals.cntPush == 0){
@@ -313,10 +313,10 @@ function CSVtoArray(str){
  * jsの描画範囲内にフォーカスすることで、キーイベントが発生可能な状態にする
  */
 function focusToJS(elements){
-    elements.ansCol.disabled = false;
+    // elements.ansCol.disabled = false;
     elements.ansCol.focus();
     elements.ansCol.blur();
-    elements.ansCol.disabled = true;
+    // elements.ansCol.disabled = true;
     // document.getElementsByTagName("body")[0].focus();
 }
 /**
@@ -340,8 +340,8 @@ function pushButton(values, elements){
  * 早押し後のkeyup時に解答欄にフォーカスし、解答の送信と正誤判定を可能にする
  */
 function focusToAnsCol(elements){
-    elements.ansBtn.disabled = false;
-    elements.ansCol.disabled = false;
+    // elements.ansBtn.disabled = false;
+    // elements.ansCol.disabled = false;
     elements.ansCol.value = "";
     elements.ansCol.focus();
 }
@@ -366,8 +366,8 @@ function checkAnswer(values, elements){
         elements.subText.innerHTML = "不正解です！ あと"+(values.limPush-values.cntPush)+"回解答できます。";
     }
     elements.numOX.innerHTML = "◯: "+values.cntO+", ✖: "+values.cntX;  
-    elements.ansCol.disabled = true;
-    elements.ansBtn.disabled = true;
+    // elements.ansCol.disabled = true;
+    // elements.ansBtn.disabled = true;
 }
 /**
  * 視聴範囲取得用の関数
@@ -421,6 +421,7 @@ var srtFuncArray = [
     function(){
         // index = 2
         /* 第１問 */
+        myApp.elems.ansCol.focus();
         myApp.vals.status = myApp.state.Question;
         myApp.vals.numQues = 1;
         myApp.vals.cntPush = 0;
