@@ -46,7 +46,7 @@ myApp = {
         status      : this.state.Talk, //現在の状態
         cntIndex    : 1,               //字幕区間をカウント
         correctBool : false,           //答え合わせ結果(結果に応じて状態遷移)
-        keyDownBool : false,           //keydown->keyupの整順用(状態遷移時のキーイベント)
+        // keyDownBool : false,           //keydown->keyupの整順用(状態遷移時のキーイベント)
         //
         /* コントロールバー使用の監視用 */
         currTime_playing : 0, //再生中に取得する動画位置
@@ -107,7 +107,7 @@ file.onload = function(){
 //
 //早押しのためのキーイベントの設定
 document.onkeydown = myKeyDownEvent;
-document.onkeyup   = myKeyUpEvent;
+// document.onkeyup   = myKeyUpEvent;
 function myKeyDownEvent(){
     /* スペースキーが押されたとき */
     if(event.keyCode == myApp.vals.btnCode){
@@ -118,24 +118,24 @@ function myKeyDownEvent(){
             player.playVideo();
         }
         /* 問い読み中状態のとき */
-        if(myApp.vals.status == myApp.state.Question && myApp.vals.keyDownBool == false){
+        if(myApp.vals.status == myApp.state.Question /*&& myApp.vals.keyDownBool == false*/){
             pushButton(myApp.vals, myApp.elems);
             myApp.vals.status = myApp.state.MyAnswer;
-            myApp.vals.keyDownBool = true;
+            // myApp.vals.keyDownBool = true;
             player.pauseVideo();
         }
     }
 }
-function myKeyUpEvent(){
-    /* スペースキーが押されたとき */
-    if(event.keyCode == myApp.vals.btnCode){
-        /* 自分が解答権を所持＋押し直後の状態のとき */
-        if(myApp.vals.status == myApp.state.MyAnswer && myApp.vals.keyDownBool == true){
-            focusToAnsCol(myApp.elems);
-            myApp.vals.keyDownBool = false;
-        }
-    }
-}
+// function myKeyUpEvent(){
+//     /* スペースキーが押されたとき */
+//     if(event.keyCode == myApp.vals.btnCode){
+//         /* 自分が解答権を所持＋押し直後の状態のとき */
+//         if(myApp.vals.status == myApp.state.MyAnswer && myApp.vals.keyDownBool == true){
+//             focusToAnsCol(myApp.elems);
+//             myApp.vals.keyDownBool = false;
+//         }
+//     }
+// }
 document.addEventListener("touchstart", myTouchEvent)
 function myTouchEvent(){
     /* ボタンチェック待機状態のとき */
@@ -149,7 +149,6 @@ function myTouchEvent(){
         pushButton(myApp.vals, myApp.elems);
         myApp.vals.status = myApp.state.MyAnswer;
         player.pauseVideo();
-        focusToAnsCol(myApp.elems);
     }
 }
 //動画の再生・停止時のイベントリスナーの設定
@@ -197,6 +196,10 @@ function myEventListener(){
     if(player.getPlayerState() == 2){
         /* 動画の時間を取得 */
         myApp.vals.currTime_stopped = player.getCurrentTime();
+        if(myApp.vals.status == myApp.state.MyAnswer){
+            /*  */
+            focusToAnsCol(myApp.elems);
+        }
         /* 問い読み中状態のとき */
         if(myApp.vals.status == myApp.state.Question){
             /* コントロールバーが操作されたときの処理 */
@@ -259,7 +262,7 @@ function myIntervalEvent(){
         // focusToJS(myApp.elems);
     }
     /* デバッグ用 */
-    printParams(myApp.vals, myApp.elems);
+    // printParams(myApp.vals, myApp.elems);
 }
 //
 //解答送信ボタンのクリックイベントを設定
