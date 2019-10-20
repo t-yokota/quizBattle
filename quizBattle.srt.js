@@ -108,7 +108,7 @@ file.onload = function(){
 //早押しのためのキーイベントの設定
 document.onkeydown = myKeyDownEvent;
 document.onkeyup   = myKeyUpEvent;
-document.addEventListener("touchtart", myKeyDownEvent)
+document.addEventListener("touchstart", myKeyDownEvent)
 function myKeyDownEvent(){
     /* スペースキーが押されたとき */
     if(event.keyCode == myApp.vals.btnCode){
