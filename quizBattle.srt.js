@@ -148,8 +148,8 @@ function myTouchEvent(){
     if(myApp.vals.status == myApp.state.Question){
         pushButton(myApp.vals, myApp.elems);
         myApp.vals.status = myApp.state.MyAnswer;
-        focusToAnsCol(myApp.elems);
         player.pauseVideo();
+        focusToAnsCol(myApp.elems);
     }
 }
 //動画の再生・停止時のイベントリスナーの設定
