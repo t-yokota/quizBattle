@@ -14,13 +14,13 @@ myApp = {
     },
     elems: {
         text    : document.createElement("h1"),       //動画タイトル等
-        subText : document.createElement("text"),       //動画の説明文等
+        subText : document.createElement("text"),     //動画の説明文等
         numOX   : document.createElement("h1"),       //◯正解数と✖不正解数
         ansCol  : document.createElement("textarea"), //解答を入力するテキストエリア
         ansBtn  : document.createElement("button"),   //解答を送信するボタン
-        br1      : document.createElement("br"),       //改行用
-        br2      : document.createElement("br"),       //改行用
-        br3      : document.createElement("br"),       //改行用
+        br1      : document.createElement("br"),      //改行用
+        br2      : document.createElement("br"),      //改行用
+        br3      : document.createElement("br"),      //改行用
         sndPush : document.createElement("audio"),    //ボタンの押下音
         sndO    : document.createElement("audio"),    //正解音
         sndX    : document.createElement("audio")     //不正解音
@@ -407,6 +407,7 @@ function busySleep(waitMsec) {
 function printParams(values, elements){
     elements.text.innerHTML = document.activeElement.id;
     elements.subText.innerHTML = 
+        "Device: "+navigator.userAgent+"<br>"+
         "Stateus: "+values.status+"<br>"+
         "Time1: "+values.currTime_playing.toFixed(3)+"<br>"+
         "Time2: "+values.currTime_stopped.toFixed(3)+"<br>"+
