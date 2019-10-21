@@ -56,14 +56,16 @@ myApp = {
     },
 };
 //
+// focusが存在するelementにidを設定
 myApp.elems.ansCol.id = 'anscol';
 myApp.elems.ansBtn.id = 'ansbtn';
 document.getElementsByTagName("body")[0].id = 'body';
 //
-myApp.elems.subText.style.fontSize = '20px'; 
-myApp.elems.subText.style.lineHeight = '32px'
-myApp.elems.ansCol.style.fontSize = '15px'; 
-myApp.elems.ansBtn.style.fontSize = '15px'; 
+// 各elementのフォントサイズ等を設定
+myApp.elems.subText.style.fontSize   = '20px'; 
+myApp.elems.subText.style.lineHeight = '32px';
+myApp.elems.ansCol.style.fontSize    = '15px'; 
+myApp.elems.ansBtn.style.fontSize    = '15px'; 
 //
 //elementを表示
 document.getElementsByTagName("body")[0].appendChild(myApp.elems.text);
@@ -88,15 +90,13 @@ myApp.elems.text.innerHTML    = "quizBattle.srt.js";  //動画タイトル
 myApp.elems.subText.innerHTML = "動画の相手とクイズ対決"; //動画の説明
 myApp.elems.ansCol.value      = "ここに解答を入力";
 myApp.elems.ansBtn.innerHTML  = "解答を送信";
-// myApp.elems.ansCol.disabled   = true;
-// myApp.elems.ansBtn.disabled   = true;
+myApp.elems.ansCol.disabled   = true;
+myApp.elems.ansBtn.disabled   = true;
 //
 //audioデータの指定
 myApp.elems.sndPush.src = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/sounds/push.mp3";
 myApp.elems.sndO.src    = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/sounds/correct.mp3";
 myApp.elems.sndX.src    = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/sounds/discorrect.mp3";
-//
-// document.getElementById()
 //
 //正答リストの指定・読み込み
 // var ansCSV = "https://raw.githubusercontent.com/t-yokota/quizBattle/develop_change_namespace/answer_UTF-8.csv"; //UTF-8
@@ -158,8 +158,6 @@ function myTouchEvent(){
 //動画の再生・停止時のイベントリスナーの設定
 player.addEventListener('onStateChange', myEventListener);
 function myEventListener(){
-    /* */
-    focusToJS(myApp.elems);
     /* 動画が再生されたとき */
     if(player.getPlayerState() == 1){
         /* 動画の時間を取得 */
@@ -225,7 +223,9 @@ function myEventListener(){
                 player.seekTo(myApp.vals.watchedTime);
                 player.playVideo();
             }
-        }      
+            /* 動画の一時停止 -> 無効 */
+            // player.playVideo();
+        }
     }
 }
 //
@@ -246,11 +246,18 @@ function myIntervalEvent(){
             }
         }
     }
+    /* 自分が解答権を所持していない状態のとき */
+    if(myApp.vals.status != myApp.state.MyAnswer){
+        /* JSのbodyからfocusが外れたとき */
+        if(document.activeElement.id == "player"){
+            focusToJsBody(myApp.elems);
+        }
+    }
     /* 自分が解答権を所持した状態のとき */
     if(myApp.vals.status == myApp.state.MyAnswer){
-        // if(document.activeElement() == ){
-        //     myApp.elems.ansCol.focus();
-        // }
+        if(document.activeElement.id != "anscol" && myApp.elems.ansCol.value.valueOf() === ""){
+            myApp.elems.ansCol.focus();
+        }
         /* 解答権を所持したまま一定時間経過したときの処理 */
         /* 一定時間経過 -> その時点の入力内容で正誤判定をして適切な状態へ移行 -> 動画を再生 */
         myApp.vals.elapsedTime += interval;
@@ -267,7 +274,7 @@ function myIntervalEvent(){
     }else{
         myApp.vals.elapsedTime = 0;
         /* 2019/10/07 forcusToJSで遅延する */
-        // focusToJS(myApp.elems);
+        // focusToJsBody(myApp.elems);
     }
     /* デバッグ用 */
     printParams(myApp.vals, myApp.elems);
@@ -293,14 +300,14 @@ function myOnClickEvent(){
     }
 }
 //
-document.getElementsByTagName("body")[0].onblur = myBodyOnBlurEvent;
+// document.getElementsByTagName("body")[0].onblur = myBodyOnBlurEvent;
 // document.getElementsByTagName("body")[0].onblur = blurText;
-function myBodyOnBlurEvent(){
-    focusToJS(myApp.elems);
-}
-function blurText(){
-    alert("blur event detected!");
-}
+// function myBodyOnBlurEvent(){
+//     focusToJsBody(myApp.elems);
+// }
+// function blurText(){
+//     alert("blur event detected!");
+// }
 //
 //各種関数の定義
 /**
@@ -320,12 +327,13 @@ function CSVtoArray(str){
  * キーイベントを発生させるためのイベントリスナー用の関数 
  * jsの描画範囲内にフォーカスすることで、キーイベントが発生可能な状態にする
  */
-function focusToJS(elements){
-    // elements.ansCol.disabled = false;
+function focusToJsBody(elements){
+    elements.ansCol.disabled = false;
     elements.ansCol.focus();
     elements.ansCol.blur();
-    // elements.ansCol.disabled = true;
-    // document.getElementsByTagName("body")[0].focus();
+    elements.ansCol.disabled = true;
+    // bodyに直接focusしたい
+    // document.getElementsById("body")[0].focus();
 }
 /**
  * ボタンチェックのキーイベント用の関数 
@@ -348,8 +356,8 @@ function pushButton(values, elements){
  * 早押し後のkeyup時に解答欄にフォーカスし、解答の送信と正誤判定を可能にする
  */
 function focusToAnsCol(elements){
-    // elements.ansBtn.disabled = false;
-    // elements.ansCol.disabled = false;
+    elements.ansBtn.disabled = false;
+    elements.ansCol.disabled = false;
     elements.ansCol.value = "";
     elements.ansCol.focus();
 }
@@ -374,8 +382,8 @@ function checkAnswer(values, elements){
         elements.subText.innerHTML = "不正解です！ あと"+(values.limPush-values.cntPush)+"回解答できます。";
     }
     elements.numOX.innerHTML = "◯: "+values.cntO+", ✖: "+values.cntX;  
-    // elements.ansCol.disabled = true;
-    // elements.ansBtn.disabled = true;
+    elements.ansCol.disabled = true;
+    elements.ansBtn.disabled = true;
 }
 /**
  * 視聴範囲取得用の関数
