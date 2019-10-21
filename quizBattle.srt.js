@@ -230,7 +230,7 @@ function myEventListener(){
 }
 //
 //定期実行する関数の設定
-setInterval(myIntervalEvent, interval = 100); //[ms]
+setInterval(myIntervalEvent, interval = 10); //[ms]
 function myIntervalEvent(){
     /* 動画が再生中のとき */
     if(player.getPlayerState() == 1){
