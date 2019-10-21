@@ -64,8 +64,8 @@ document.getElementsByTagName("body")[0].id = 'body';
 // 各elementのフォントサイズ等を設定
 myApp.elems.subText.style.fontSize   = '20px'; 
 myApp.elems.subText.style.lineHeight = '32px';
-myApp.elems.ansCol.style.fontSize    = '15px'; 
-myApp.elems.ansBtn.style.fontSize    = '15px'; 
+myApp.elems.ansCol.style.fontSize    = '20px'; 
+myApp.elems.ansBtn.style.fontSize    = '20px'; 
 //
 //elementを表示
 document.getElementsByTagName("body")[0].appendChild(myApp.elems.text);
