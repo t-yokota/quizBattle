@@ -9,18 +9,18 @@ myApp = {
         ButtonCheck  : 0, //ボタンチェックの待機
         Question     : 1, //問い読み中（早押し可能）
         MyAnswer     : 2, //自分が解答権を所持（解答の入力と送信が可能）
-        OthersAnswer : 3, //他者が解答権を所持（早押し不可）
+        OthersAnswer : 3, //他者が解答権を所持（早押し不可能）
         Talk         : 4, //導入,解説,閑話,締めなど（コントロールバーの操作が可能）
     },
     elems: {
         text    : document.createElement("h1"),       //動画タイトル等
         subText : document.createElement("text"),     //動画の説明文等
-        numOX   : document.createElement("h1"),       //◯正解数と✖不正解数
+        numOX   : document.createElement("h1"),       //◯正答数と✖誤答数
         ansCol  : document.createElement("textarea"), //解答を入力するテキストエリア
         ansBtn  : document.createElement("button"),   //解答を送信するボタン
-        br1      : document.createElement("br"),      //改行用
-        br2      : document.createElement("br"),      //改行用
-        br3      : document.createElement("br"),      //改行用
+        br1     : document.createElement("br"),      　//改行用
+        br2     : document.createElement("br"),      　//改行用
+        br3     : document.createElement("br"),      　//改行用
         sndPush : document.createElement("audio"),    //ボタンの押下音
         sndO    : document.createElement("audio"),    //正解音
         sndX    : document.createElement("audio")     //不正解音
@@ -47,6 +47,7 @@ myApp = {
         cntIndex    : 1,               //字幕区間をカウント
         correctBool : false,           //答え合わせ結果(結果に応じて状態遷移)
         // keyDownBool : false,           //keydown->keyupの整順用(状態遷移時のキーイベント)
+        composingBool : false,
         //
         /* コントロールバー使用の監視用 */
         currTime_playing : 0, //再生中に取得する動画位置
@@ -79,7 +80,7 @@ document.getElementsByTagName("body")[0].appendChild(myApp.elems.numOX);
 //
 //textNodeを作成してelementに追加
 var node_text    = document.createTextNode("");
-var node_subText = document.createTextNode("");
+var node_subText = document.createTextNode("");　
 var node_numOX   = document.createTextNode("");
 myApp.elems.text.appendChild(node_text);
 myApp.elems.subText.appendChild(node_subText);
@@ -109,6 +110,9 @@ file.onload = function(){
     myApp.vals.ansArray = CSVtoArray(file.responseText);
 }
 //
+document.addEventListener("compositionstart", function(){ myApp.vals.composingBool = true; })
+document.addEventListener('compositionend', function(){ myApp.vals.composingBool = false; })
+//
 //早押しのためのキーイベントの設定
 document.onkeydown = myKeyDownEvent;
 // document.onkeyup   = myKeyUpEvent;
@@ -127,6 +131,11 @@ function myKeyDownEvent(){
             myApp.vals.status = myApp.state.MyAnswer;
             // myApp.vals.keyDownBool = true;
             player.pauseVideo();
+        }
+    }
+    if(event.keyCode == 13){
+        if(myApp.vals.composingBool == false){
+            return false
         }
     }
 }
@@ -160,12 +169,12 @@ player.addEventListener('onStateChange', myEventListener);
 function myEventListener(){
     /* 動画が再生されたとき */
     if(player.getPlayerState() == 1){
-        /* 動画の時間を取得 */
+        // 動画の時間を取得
         myApp.vals.currTime_playing = player.getCurrentTime();
         updateWatchedTime(myApp.vals);
         /* 自分が解答権を所持していた状態のとき */
         if(myApp.vals.status == myApp.state.MyAnswer){
-            /* 一時停止 -> その時点の入力内容で正誤判定をして適切な状態へ移行 -> 動画を再生 */
+            // 一時停止 -> その時点の入力内容で正誤判定をして適切な状態へ移行 -> 動画を再生
             player.pauseVideo();
             checkAnswer(myApp.vals, myApp.elems);
             if(myApp.vals.correctBool == true || myApp.vals.limPush - myApp.vals.cntPush == 0){
@@ -178,7 +187,7 @@ function myEventListener(){
         /* 問い読み中状態のとき */
         if(myApp.vals.status == myApp.state.Question){
             /* コントロールバーが操作されたときの処理 */
-            /* シークバーによる再生位置のジャンプ -> 無効 */
+            // シークバーによる再生位置のジャンプ -> 無効
             myApp.vals.diffTime = Math.abs(myApp.vals.currTime_playing - myApp.vals.watchedTime)
             if(myApp.vals.diffTime > 1.0){
                 player.seekTo(myApp.vals.watchedTime);
@@ -186,9 +195,9 @@ function myEventListener(){
         /* それ以外の状態のとき */
         }else{
             /* コントロールバーが操作されたときの処理 */
-            /* シークバーによる再生位置のジャンプ -> 無効 */
+            // シークバーによる再生位置のジャンプ -> 無効
             myApp.vals.diffTime = Math.abs(myApp.vals.currTime_playing - myApp.vals.watchedTime)
-            /* シークバーによる再生位置のジャンプ -> 前に戻る場合のみ有効 */
+            // シークバーによる再生位置のジャンプ -> 前に戻る場合のみ有効 
             // myApp.vals.diffTime = myApp.vals.currTime_playing - myApp.vals.watchedTime;
             if(myApp.vals.diffTime > 1.0){
                 player.seekTo(myApp.vals.watchedTime);
@@ -197,7 +206,7 @@ function myEventListener(){
     }
     /* 動画が停止されたとき */
     if(player.getPlayerState() == 2){
-        /* 動画の時間を取得 */
+        // 動画の時間を取得
         myApp.vals.currTime_stopped = player.getCurrentTime();
         if(myApp.vals.status == myApp.state.MyAnswer){
             /*  */
@@ -206,7 +215,8 @@ function myEventListener(){
         /* 問い読み中状態のとき */
         if(myApp.vals.status == myApp.state.Question){
             /* コントロールバーが操作されたときの処理 */
-            /* 動画の一時停止 -> 無効 & シークバーによる再生位置のジャンプ -> 無効 */
+            // 動画の一時停止 -> 無効
+            // シークバーによる再生位置のジャンプ -> 無効
             myApp.vals.diffTime = Math.abs(myApp.vals.currTime_stopped - myApp.vals.watchedTime);
             if(myApp.vals.diffTime > 1.0){
                 player.seekTo(myApp.vals.watchedTime);
@@ -215,15 +225,16 @@ function myEventListener(){
         /* それ以外の状態のとき */
         }else{
             /* コントロールバーが操作されたときの処理 */
-            /* 動画の一時停止 -> 有効 & シークバーによる再生位置のジャンプ -> 無効 */
+            // シークバーによる再生位置のジャンプ -> 無効
             myApp.vals.diffTime = Math.abs(myApp.vals.currTime_stopped - myApp.vals.watchedTime);
-            /* 動画の一時停止 -> 有効 & シークバーによる再生位置のジャンプ -> 前に戻る場合のみ有効 */
+            // シークバーによる再生位置のジャンプ -> 前に戻る場合のみ有効
             // myApp.vals.diffTime = myApp.vals.currTime_stopped - myApp.vals.watchedTime;
             if(myApp.vals.diffTime > 1.0){
                 player.seekTo(myApp.vals.watchedTime);
+                // 動画の一時停止 -> 有効
                 player.playVideo();
             }
-            /* 動画の一時停止 -> 無効 */
+            // 動画の一時停止 -> 無効 
             // player.playVideo();
         }
     }
@@ -287,8 +298,9 @@ function myOnClickEvent(){
     if(myApp.vals.status == myApp.state.MyAnswer){ 
         /* 解答送信ボタンを押したときの処理 */
         /* 1秒間を空けてから正誤判定をして適切な状態へ移行 -> 動画を再生 */
-        // var btn = this;
-        // btn.disabled = true;
+        var btn = this;
+        btn.disabled = true;
+        myApp.elems.ansCol.disabled = true;
         window.setTimeout(function(){ checkAnswer(myApp.vals, myApp.elems); }, 1000);
         busySleep(1000);
         if(myApp.vals.correctBool == true || myApp.vals.limPush - myApp.vals.cntPush == 0){
@@ -382,8 +394,8 @@ function checkAnswer(values, elements){
         elements.subText.innerHTML = "不正解です！ あと"+(values.limPush-values.cntPush)+"回解答できます。";
     }
     elements.numOX.innerHTML = "◯: "+values.cntO+", ✖: "+values.cntX;  
-    elements.ansCol.disabled = true;
-    elements.ansBtn.disabled = true;
+    // elements.ansCol.disabled = true;
+    // elements.ansBtn.disabled = true;
 }
 /**
  * 視聴範囲取得用の関数
@@ -407,10 +419,10 @@ function busySleep(waitMsec) {
 function printParams(values, elements){
     elements.text.innerHTML = document.activeElement.id;
     elements.subText.innerHTML = 
-        "Device: "+navigator.userAgent+"<br>"+
-        "Stateus: "+values.status+"<br>"+
-        "Time1: "+values.currTime_playing.toFixed(3)+"<br>"+
-        "Time2: "+values.currTime_stopped.toFixed(3)+"<br>"+
+        "device: "+navigator.userAgent+"<br>"+
+        "stateus: "+values.status+"<br>"+
+        "time1: "+values.currTime_playing.toFixed(3)+"<br>"+
+        "time2: "+values.currTime_stopped.toFixed(3)+"<br>"+
         "WatchedTime: "+values.watchedTime.toFixed(3)+"<br>"+
         "diffTime: "+values.diffTime.toFixed(3)+"<br>"+
         "limTime: "+Math.floor((myApp.vals.limTime-myApp.vals.elapsedTime)/1000)+"<br>"+
@@ -420,6 +432,9 @@ function printParams(values, elements){
         "answerLength: "+values.ansArray[values.numQues-1].length+"<br>"+
         "correctBool: "+values.correctBool+"<br>"+
         "keyDownBool: "+values.keyDownBool+"<br>"+
+        "composing: "+values.composingBool+"<br>"+
+        "nouValue"+nowValue+"<br>"+
+        "rowCount"+rowCount+"<br>"+
         "index: "+index;
 }
 /**
