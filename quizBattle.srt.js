@@ -110,6 +110,8 @@ file.onload = function(){
     myApp.vals.ansArray = CSVtoArray(file.responseText);
 }
 //
+player.setSize(document.body.clientWidth, (document.body.clientWidth/16)*9);
+//
 document.addEventListener("compositionstart", function(){ myApp.vals.composingBool = true; })
 document.addEventListener('compositionend', function(){ myApp.vals.composingBool = false; })
 //
@@ -433,8 +435,6 @@ function printParams(values, elements){
         "correctBool: "+values.correctBool+"<br>"+
         "keyDownBool: "+values.keyDownBool+"<br>"+
         "composing: "+values.composingBool+"<br>"+
-        "nouValue"+nowValue+"<br>"+
-        "rowCount"+rowCount+"<br>"+
         "index: "+index;
 }
 /**
