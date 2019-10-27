@@ -114,6 +114,7 @@ player.setSize(document.body.clientWidth, (document.body.clientWidth/16)*9);
 document.addEventListener("compositionstart", function(){ myApp.vals.composingBool = true; })
 document.addEventListener('compositionend', function(){ myApp.vals.composingBool = false; })
 //
+toucheslength = 0;
 document.addEventListener('touchstart', disablePinchGesture, true);
 function disablePinchGesture(){
     toucheslength = event.touches.length;
