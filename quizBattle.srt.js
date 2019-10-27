@@ -122,16 +122,16 @@ function disablePinchGesture(){
         event.preventDefault();
     }
 }
-let flag = false;
-document.addEventListener('touchend', disableDoubleTapGesture,  {passive: false} );
-function disableDoubleTapGesture(){
-    if(flag){
-        event.preventDefault();
-    }else{
-        flag = true;
-        setTimeout(function(){ flag = false; }, 500);
-    }
-}
+// let flag = false;
+// document.addEventListener('touchend', disableDoubleTapGesture,  {passive: false} );
+// function disableDoubleTapGesture(){
+//     if(flag){
+//         event.preventDefault();
+//     }else{
+//         flag = true;
+//         setTimeout(function(){ flag = false; }, 500);
+//     }
+// }
 //
 //早押しのためのキーイベントの設定
 document.onkeydown = myKeyDownEvent;
