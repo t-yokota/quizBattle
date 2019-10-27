@@ -115,22 +115,22 @@ document.addEventListener("compositionstart", function(){ myApp.vals.composingBo
 document.addEventListener('compositionend', function(){ myApp.vals.composingBool = false; })
 //
 //
-document.addEventListener('touchstart', event => {
-    if (event.touches.length > 1) {
+document.addEventListener('touchstart', disablePinchGesture, true);
+function disablePinchGesture(){
+    if(event.touches.length > 1){
       event.preventDefault();
     }
-  }, true);
+}
 let flag = false;
-document.addEventListener('touchend', event => {
-  if (flag) {
-    event.preventDefault();
-  } else {
-    flag = true;
-    setTimeout(() => {
-      flag = false;
-    }, 500);
-  }
-}, true);
+document.addEventListener('touchend', disableDoubleTapGesture, true);
+function disableDoubleTapGesture{
+    if(flag){
+        event.preventDefault();
+    }else{
+        flag = true;
+        setTimeout(function(){ flag = false; }, 500);
+    }
+}
 //
 //早押しのためのキーイベントの設定
 document.onkeydown = myKeyDownEvent;
