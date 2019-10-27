@@ -120,6 +120,17 @@ document.addEventListener('touchstart', event => {
       event.preventDefault();
     }
   }, true);
+let flag = false;
+document.addEventListener('touchend', event => {
+  if (flag) {
+    event.preventDefault();
+  } else {
+    flag = true;
+    setTimeout(() => {
+      flag = false;
+    }, 500);
+  }
+}, true);
 //
 //早押しのためのキーイベントの設定
 document.onkeydown = myKeyDownEvent;
