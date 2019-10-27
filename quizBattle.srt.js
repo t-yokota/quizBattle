@@ -114,11 +114,11 @@ player.setSize(document.body.clientWidth, (document.body.clientWidth/16)*9);
 document.addEventListener("compositionstart", function(){ myApp.vals.composingBool = true; })
 document.addEventListener('compositionend', function(){ myApp.vals.composingBool = false; })
 //
-//
 document.addEventListener('touchstart', disablePinchGesture, true);
 function disablePinchGesture(){
+    toucheslength = event.touches.length;
     if(event.touches.length > 1){
-      event.preventDefault();
+        event.preventDefault();
     }
 }
 let flag = false;
@@ -452,6 +452,7 @@ function printParams(values, elements){
         "correctBool: "+values.correctBool+"<br>"+
         "keyDownBool: "+values.keyDownBool+"<br>"+
         "composing: "+values.composingBool+"<br>"+
+        "touch length(finger num)"+toucheslength+"<br>"+
         "index: "+index;
 }
 /**
