@@ -115,7 +115,7 @@ document.addEventListener("compositionstart", function(){ myApp.vals.composingBo
 document.addEventListener('compositionend', function(){ myApp.vals.composingBool = false; })
 //
 toucheslength = 0;
-document.addEventListener('touchstart', disablePinchGesture, true);
+document.addEventListener('touchstart', disablePinchGesture,  {passive: false} );
 function disablePinchGesture(){
     toucheslength = event.touches.length;
     if(event.touches.length > 1){
@@ -123,7 +123,7 @@ function disablePinchGesture(){
     }
 }
 let flag = false;
-document.addEventListener('touchend', disableDoubleTapGesture, true);
+document.addEventListener('touchend', disableDoubleTapGesture,  {passive: false} );
 function disableDoubleTapGesture(){
     if(flag){
         event.preventDefault();
