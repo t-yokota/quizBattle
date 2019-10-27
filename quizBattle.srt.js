@@ -123,7 +123,7 @@ function disablePinchGesture(){
 }
 let flag = false;
 document.addEventListener('touchend', disableDoubleTapGesture, true);
-function disableDoubleTapGesture{
+function disableDoubleTapGesture(){
     if(flag){
         event.preventDefault();
     }else{
