@@ -114,14 +114,14 @@ player.setSize(document.body.clientWidth, (document.body.clientWidth/16)*9);
 document.addEventListener("compositionstart", function(){ myApp.vals.composingBool = true; })
 document.addEventListener('compositionend', function(){ myApp.vals.composingBool = false; })
 //
-toucheslength = 0;
-document.addEventListener('touchstart', disablePinchGesture,  {passive: false} );
-function disablePinchGesture(){
-    toucheslength = event.touches.length;
-    if(event.touches.length > 1){
-        event.preventDefault();
-    }
-}
+// toucheslength = 0;
+// document.addEventListener('touchstart', disablePinchGesture, {passive: false});
+// function disablePinchGesture(){
+//     toucheslength = event.touches.length;
+//     if(event.touches.length > 1){
+//         event.preventDefault();
+//     }
+// }
 // let flag = false;
 // document.addEventListener('touchend', disableDoubleTapGesture,  {passive: false} );
 // function disableDoubleTapGesture(){
