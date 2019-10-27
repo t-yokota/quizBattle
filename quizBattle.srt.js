@@ -1,9 +1,8 @@
 0
 00:00:00,000 --> 00:00:00,999
 /* CAUTION : 字幕区間ごとにスコープは独立している */
-/* 各種宣言 */
 doOnce[index] = true;
-//
+/* 各種宣言 */
 myApp = {
     state: {
         ButtonCheck  : 0, //ボタンチェックの待機
@@ -57,7 +56,7 @@ myApp = {
     },
 };
 //
-// focusが存在するelementにidを設定
+// elementにidを設定(ここではfocusがあるモノのみ)
 myApp.elems.ansCol.id = 'anscol';
 myApp.elems.ansBtn.id = 'ansbtn';
 document.getElementsByTagName("body")[0].id = 'body';
@@ -114,6 +113,13 @@ player.setSize(document.body.clientWidth, (document.body.clientWidth/16)*9);
 //
 document.addEventListener("compositionstart", function(){ myApp.vals.composingBool = true; })
 document.addEventListener('compositionend', function(){ myApp.vals.composingBool = false; })
+//
+//
+document.addEventListener('touchstart', event => {
+    if (event.touches.length > 1) {
+      event.preventDefault();
+    }
+  }, true);
 //
 //早押しのためのキーイベントの設定
 document.onkeydown = myKeyDownEvent;
