@@ -4,6 +4,15 @@
 doOnce[index] = true;
 /* 各種宣言 */
 myApp = {
+    devices:{
+        smartphone : 0, 
+        tablet     : 1,
+        computer   : 2,
+    },
+    orientations:{
+        portrait  : 0,
+        landscape : 1,
+    },
     state: {
         ButtonCheck  : 0, //ボタンチェックの待機
         Question     : 1, //問い読み中（早押し可能）
@@ -25,6 +34,10 @@ myApp = {
         sndX    : document.createElement("audio")     //不正解音
     },
     vals: {
+        /* 端末情報 */
+        device      : getDevice(),
+        orientation : getOrientation(),
+        /*  */
         numQues  : 0,  //設問番号
         cntO     : 0,  //合計正答数
         cntX     : 0,  //合計誤答数
@@ -56,7 +69,10 @@ myApp = {
     },
 };
 //
-// elementにidを設定(ここではfocusがあるモノのみ)
+// 動画プレイヤーのサイズ変更
+player.setSize(document.body.clientWidth, (document.body.clientWidth/16)*9);
+//
+// 各elementにidを設定(ここではfocusが存在するもの)
 myApp.elems.ansCol.id = 'anscol';
 myApp.elems.ansBtn.id = 'ansbtn';
 document.getElementsByTagName("body")[0].id = 'body';
@@ -109,19 +125,17 @@ file.onload = function(){
     myApp.vals.ansArray = CSVtoArray(file.responseText);
 }
 //
-player.setSize(document.body.clientWidth, (document.body.clientWidth/16)*9);
-//
 document.addEventListener("compositionstart", function(){ myApp.vals.composingBool = true; })
 document.addEventListener('compositionend', function(){ myApp.vals.composingBool = false; })
 //
-// toucheslength = 0;
-// document.addEventListener('touchstart', disablePinchGesture, {passive: false});
-// function disablePinchGesture(){
-//     toucheslength = event.touches.length;
-//     if(event.touches.length > 1){
-//         event.preventDefault();
-//     }
-// }
+toucheslength = 0;
+document.addEventListener('touchstart', disablePinchGesture, {passive: false});
+function disablePinchGesture(){
+    toucheslength = event.touches.length;
+    if(event.touches.length > 1){
+        event.preventDefault();
+    }
+}
 // let flag = false;
 // document.addEventListener('touchend', disableDoubleTapGesture,  {passive: false} );
 // function disableDoubleTapGesture(){
@@ -169,7 +183,7 @@ function myKeyDownEvent(){
 //         }
 //     }
 // }
-document.addEventListener("touchend", myTouchEvent)
+document.addEventListener("touchstart", myTouchEvent)
 function myTouchEvent(){
     /* ボタンチェック待機状態のとき */
     if(myApp.vals.status == myApp.state.ButtonCheck){ 
@@ -354,6 +368,17 @@ function CSVtoArray(str){
         array[i] = tmp[i].split(",");
     }
     return array;
+}
+/**
+ * 
+ */
+function getDevice(){
+    var device;
+    return device
+}
+function getOrientation(){
+    var orientation;
+    return orientation
 }
 /**
  * キーイベントを発生させるためのイベントリスナー用の関数 
