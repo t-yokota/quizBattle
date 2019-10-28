@@ -137,15 +137,10 @@ function disablePinchGesture(){
     }
 }
 // let flag = false;
-// document.addEventListener('touchend', disableDoubleTapGesture,  {passive: false} );
-// function disableDoubleTapGesture(){
-//     if(flag){
-//         event.preventDefault();
-//     }else{
-//         flag = true;
-//         setTimeout(function(){ flag = false; }, 500);
-//     }
-// }
+document.addEventListener('touchend', disableDoubleTapGesture, {passive: false});
+function disableDoubleTapGesture(){
+    event.preventDefault();
+}
 //
 //早押しのためのキーイベントの設定
 document.onkeydown = myKeyDownEvent;
