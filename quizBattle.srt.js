@@ -2,7 +2,6 @@
 00:00:00,000 --> 00:00:00,999
 /* CAUTION : 字幕区間ごとにスコープは独立している */
 doOnce[index] = true;
-/* Model */
 const myApp = {
     video: {
         Playing : 1,
@@ -29,32 +28,32 @@ const myApp = {
         sndX    : document.createElement("audio"),    //不正解音
     },
     val: {
-        /*  */
         numQues  : 0,  //設問番号
+        ansArray : [], //正答リスト
         cntO     : 0,  //合計正答数
         cntX     : 0,  //合計誤答数
-        ansArray : [], //正答リスト
+        cntPush  : 0,  //解答した回数
+        limPush  : 5,  //1問あたりの解答可能な回数
+        correctBool : false, //答え合わせ結果(結果に応じて状態遷移)
         //
         /* 早押しボタン用のキー設定 */
         btnCode : 32, //スペースキー
         //
-        /* 解答回数の管理(１問あたり) */
-        cntPush : 0, //解答した回数
-        limPush : 5, //1問あたりの解答可能な回数
-        //
-        /* 解答時間の管理(１問あたり) */
-        limAnsTime     : 10000, //[ms], 解答の制限時間
-        elapsedAnsTime : 0,     //[ms], 解答権取得後の経過時間
-        //
-        /* 状態遷移の管理 */
+        /* 状態の管理 */
         status      : this.state.Talk, //現在の状態
         cntIndex    : 0,               //字幕区間をカウント
-        executedIndexFunc : 0,
-        correctBool : false,           //答え合わせ結果(結果に応じて状態遷移)
-        composingBool : false,
-        numFingers : 0,
+        cntExecutedIndex : 0,
         //
-        /* コントロールバー使用の監視用 */
+        /* preventDefault */
+        numFingers    : 0,
+        firstTapBool  : false,
+        composingBool : false,
+        //
+        /* 時間管理 */
+        ansTime: {
+            limit   : 10000, //[ms], 解答の制限時間
+            elapsed : 0,     //[ms], 解答権取得後の経過時間    
+        },
         currTime: {
             playing : 0, //再生中に取得する動画位置
             stopped : 0, //停止時に取得する動画位置
@@ -90,9 +89,9 @@ document.getElementsByTagName("body")[0].appendChild(myApp.elem.ansBtn);
 document.getElementsByTagName("body")[0].appendChild(myApp.elem.numOX);
 //
 // textNodeを作成してelementに追加
-var node_text    = document.createTextNode("");
-var node_subText = document.createTextNode("");　
-var node_numOX   = document.createTextNode("");
+const node_text    = document.createTextNode("");
+const node_subText = document.createTextNode("");　
+const node_numOX   = document.createTextNode("");
 myApp.elem.text.appendChild(node_text);
 myApp.elem.subText.appendChild(node_subText);
 myApp.elem.numOX.appendChild(node_numOX);
@@ -111,17 +110,13 @@ myApp.elem.sndO.src    = "https://raw.githubusercontent.com/t-yokota/quizBattle/
 myApp.elem.sndX.src    = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/sounds/discorrect.mp3";
 //
 //正答リストの指定・読み込み
-var ansCSV = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/answer_UTF-8.csv"; //UTF-8
-var ansArray;
-var file = new XMLHttpRequest();
+const ansCSV = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/answer_UTF-8.csv"; //UTF-8
+const file = new XMLHttpRequest();
 file.open("get", ansCSV, true);
 file.send(null);
 file.onload = function(){
     myApp.val.ansArray = CSVtoArray(file.responseText);
 };
-//
-document.addEventListener("compositionstart", function(){ myApp.val.composingBool = true; });
-document.addEventListener('compositionend', function(){ myApp.val.composingBool = false; });
 //
 document.addEventListener('touchstart', disablePinchGesture, {passive: false});
 function disablePinchGesture(){
@@ -130,29 +125,31 @@ function disablePinchGesture(){
         event.preventDefault();
     }
 }
-// let flag = false;
-// document.addEventListener('touchend', disableDoubleTapGesture,  {passive: false} );
-// function disableDoubleTapGesture(){
-//     if(flag){
-//         event.preventDefault();
-//     }else{
-//         flag = true;
-//         setTimeout(function(){ flag = false; }, 500);
-//     }
-// }
-//
+document.addEventListener('touchend', disableDoubleTapGesture, {passive: false});
+function disableDoubleTapGesture(){
+    if(myApp.val.firstTapBool){
+        event.preventDefault();
+    }else{
+        myApp.val.firstTapBool = true;
+        setTimeout(function(){ myApp.val.firstTapBool = false; }, 500);
+    }
+}
 //早押しのためのキーイベントの設定
+//
+document.addEventListener("compositionstart", function(){ myApp.val.composingBool = true; });
+document.addEventListener('compositionend', function(){ myApp.val.composingBool = false; });
+//
 document.onkeydown = myKeyDownEvent;
 function myKeyDownEvent(){
     if(event.keyCode == myApp.val.btnCode){
         if(myApp.val.status == myApp.state.ButtonCheck){ 
-            buttonCheck(myApp.elem);
+            buttonCheck(myApp.elem.sndPush, myApp.elem.sndO);
             myApp.val.status = myApp.state.Talk;
             player.playVideo();
         }
         if(myApp.val.status == myApp.state.Question){
-            pushButton(myApp.val, myApp.elem);
-            myApp.val.status = myApp.state.MyAnswer;
+            myApp.val.cntPush = pushButton(myApp.val.cntPush, myApp.elem.sndPush);
+            myApp.val.status  = myApp.state.MyAnswer;
             player.pauseVideo();
         }
     }
@@ -165,13 +162,13 @@ function myKeyDownEvent(){
 document.addEventListener("touchstart", myTouchEvent);
 function myTouchEvent(){
     if(myApp.val.status == myApp.state.ButtonCheck){ 
-        buttonCheck(myApp.elem);
+        buttonCheck(myApp.elem.sndPush, myApp.elem.sndO);
         myApp.val.status = myApp.state.Talk;
         player.playVideo();
     }
     if(myApp.val.status == myApp.state.Question){
-        pushButton(myApp.val, myApp.elem);
-        myApp.val.status = myApp.state.MyAnswer;
+        myApp.val.cntPush = pushButton(myApp.val.cntPush, myApp.elem.sndPush);
+        myApp.val.status  = myApp.state.MyAnswer;
         player.pauseVideo();
     }
 }
@@ -180,7 +177,7 @@ player.addEventListener('onStateChange', myEventListener);
 function myEventListener(){
     if(player.getPlayerState() == myApp.video.Playing){
         myApp.val.currTime.playing = player.getCurrentTime();
-        updateWatchedTime(myApp.val);
+        myApp.val.watchedTime = updateWatchedTime(myApp.val.currTime.playing, myApp.val.watchedTime);
         if(myApp.val.status == myApp.state.MyAnswer){
             player.pauseVideo();
             checkAnswer(myApp.val, myApp.elem);
@@ -191,14 +188,13 @@ function myEventListener(){
             }
             player.playVideo();
         }
+        // シークバーによる再生位置のジャンプを無効にする処理
         if(myApp.val.status == myApp.state.Question){
-            // シークバーによる再生位置のジャンプを無効にする処理
             myApp.val.diffTime = Math.abs(myApp.val.currTime.playing - myApp.val.watchedTime);
             if(myApp.val.diffTime > 1.0){
                 player.seekTo(myApp.val.watchedTime);
             }
         }else{
-            // シークバーによる再生位置のジャンプを無効にする処理
             myApp.val.diffTime = Math.abs(myApp.val.currTime.playing - myApp.val.watchedTime);
             // 前に戻る処理は有効とする場合 
             // myApp.val.diffTime = myApp.val.currTime.playing - myApp.val.watchedTime;
@@ -210,18 +206,17 @@ function myEventListener(){
     if(player.getPlayerState() == myApp.video.Stopped){
         myApp.val.currTime.stopped = player.getCurrentTime();
         if(myApp.val.status == myApp.state.MyAnswer){
-            focusToAnsCol(myApp.elem);
+            focusToAnsCol(myApp.elem.ansBtn, myApp.elem.ansCol);
         }
+        // シークバーによる再生位置のジャンプを無効にする処理
+        // 動画の一時停止を無効にする処理
         if(myApp.val.status == myApp.state.Question){
-            // シークバーによる再生位置のジャンプを無効にする処理
             myApp.val.diffTime = Math.abs(myApp.val.currTime.stopped - myApp.val.watchedTime);
             if(myApp.val.diffTime > 1.0){
                 player.seekTo(myApp.val.watchedTime);
             }
-            // 動画の一時停止を無効にする処理
             player.playVideo();
         }else{
-            // シークバーによる再生位置のジャンプに無効にする処理
             myApp.val.diffTime = Math.abs(myApp.val.currTime.stopped - myApp.val.watchedTime);
             // 前に戻る処理は有効とする場合
             // myApp.val.diffTime = myApp.val.currTime.stopped - myApp.val.watchedTime;
@@ -230,7 +225,6 @@ function myEventListener(){
                 // 動画の一時停止は有効にする場合
                 player.playVideo();
             }
-            // 動画の一時停止を無効にする処理
             // player.playVideo();
         }
     }
@@ -241,16 +235,16 @@ setInterval(myIntervalEvent, interval = 10); //[ms]
 function myIntervalEvent(){
     if(player.getPlayerState() == myApp.video.Playing){
         myApp.val.currTime.playing = player.getCurrentTime();
-        updateWatchedTime(myApp.val);
+        myApp.val.watchedTime = updateWatchedTime(myApp.val.currTime.playing, myApp.val.watchedTime);
+        if(myApp.val.status == myApp.state.ButtonCheck){
+            player.pauseVideo();
+        }
         if(myApp.val.status != myApp.state.MyAnswer){
             if(index > myApp.val.cntIndex){
                 srtFuncArray.shift()();
                 myApp.val.cntIndex += 1;
             }
         }
-        // if(myApp.val.status == myApp.state.ButtonCheck){
-        //     player.pauseVideo();
-        // }
     }
     if(myApp.val.status == myApp.state.MyAnswer){
         if(document.activeElement.id != "anscol" && myApp.elem.ansCol.value.valueOf() === ""){
@@ -258,9 +252,9 @@ function myIntervalEvent(){
         }
         /* 解答権を所持したまま一定時間経過したときの処理 */
         /* 一定時間経過 -> その時点の入力内容で正誤判定をして適切な状態へ移行 -> 動画を再生 */
-        myApp.val.elapsedAnsTime += interval;
-        myApp.elem.subText.innerHTML = "あと"+Math.floor((myApp.val.limAnsTime-myApp.val.elapsedAnsTime)/1000)+"秒で解答を送信してください";
-        if(myApp.val.elapsedAnsTime >= myApp.val.limAnsTime){
+        myApp.val.ansTime.elapsed += interval;
+        myApp.elem.subText.innerHTML = "あと"+Math.floor((myApp.val.ansTime.limit-myApp.val.ansTime.elapsed)/1000)+"秒で解答を送信してください";
+        if(myApp.val.ansTime.elapsed >= myApp.val.ansTime.limit){
             checkAnswer(myApp.val, myApp.elem);
             if(myApp.val.correctBool == true || myApp.val.limPush - myApp.val.cntPush == 0){
                 myApp.val.status = myApp.state.Talk;
@@ -271,11 +265,9 @@ function myIntervalEvent(){
         }
     }else{
         if(document.activeElement.id == "player"){
-            focusToJsBody(myApp.elem);
+            focusToBody(myApp.elem.ansCol);
         }
-        myApp.val.elapsedAnsTime = 0;
-        /* 2019/10/07 forcusToJSで遅延する */
-        // focusToJsBody(myApp.elem);
+        myApp.val.ansTime.elapsed = 0;
     }
     /* デバッグ用 */
     printParams(myApp.val, myApp.elem);
@@ -285,10 +277,10 @@ function myIntervalEvent(){
 myApp.elem.ansBtn.onclick = myOnClickEvent;
 function myOnClickEvent(){
     if(myApp.val.status == myApp.state.MyAnswer){ 
-        /* 1秒間を空けてから正誤判定をして適切な状態へ移行 -> 動画を再生 */
-        var btn = this;
+        const btn = this;
         btn.disabled = true;
         myApp.elem.ansCol.disabled = true;
+        /* 1秒間を空けてから正誤判定をして適切な状態へ移行 -> 動画を再生 */
         window.setTimeout(function(){ checkAnswer(myApp.val, myApp.elem); }, 1000);
         busySleep(1000);
         if(myApp.val.correctBool == true || myApp.val.limPush - myApp.val.cntPush == 0){
@@ -299,16 +291,6 @@ function myOnClickEvent(){
         player.playVideo();
     }
 }
-//
-// document.getElementsByTagName("body")[0].onblur = myBodyOnBlurEvent;
-// document.getElementsByTagName("body")[0].onblur = blurText;
-// function myBodyOnBlurEvent(){
-//     focusToJsBody(myApp.elem);
-// }
-// function blurText(){
-//     alert("blur event detected!");
-// }
-//
 //各種関数の定義
 /**
  * csvファイルを読み込んで配列に格納する関数
@@ -316,9 +298,9 @@ function myOnClickEvent(){
  * @returns {array} n行m列の配列を返す（n:問題数, m:最大の解答のパターン数）
  */
 function CSVtoArray(str){
-    var array = new Array();
-    var tmp = str.split("\n");
-    for (var i = 0; i < tmp.length; i++) {
+    const array = new Array();
+    const tmp = str.split("\n");
+    for (let i = 0; i < tmp.length; i++) {
         array[i] = tmp[i].split(",");
     }
     return array;
@@ -327,11 +309,11 @@ function CSVtoArray(str){
  * キーイベントを発生させるためのイベントリスナー用の関数 
  * jsの描画範囲内にフォーカスすることで、キーイベントが発生可能な状態にする
  */
-function focusToJsBody(elements){
-    elements.ansCol.disabled = false;
-    elements.ansCol.focus();
-    elements.ansCol.blur();
-    elements.ansCol.disabled = true;
+function focusToBody(focusUsableElement){
+    focusUsableElement.disabled = false;
+    focusUsableElement.focus();
+    focusUsableElement.blur();
+    focusUsableElement.disabled = true;
     // bodyに直接focusしたい
     // document.getElementsById("body")[0].focus();
 }
@@ -339,35 +321,52 @@ function focusToJsBody(elements){
  * ボタンチェックのキーイベント用の関数 
  * 特定のキーが押されたら押下音+正解音を流して動画を再開する
  */
-function buttonCheck(elements){
-    elements.sndPush.play();
-    window.setTimeout( function(){ elements.sndO.play() }, 800 );
+function buttonCheck(pushSound, correctSound){
+    pushSound.play();
+    window.setTimeout( function(){ correctSound.play() }, 800 );
 }
 /**
  * 早押しのキーイベント用の関数
  * 問題中に特定のキーが押下されたら押下音を再生して解答回数を記録
  */
-function pushButton(values, elements){
-    elements.sndPush.play();
-    values.cntPush++;
+function pushButton(pushCount, pushSound){
+    pushSound.play();
+    pushCount = pushCount+1;
+    return pushCount;
 }
 /**
  * 解答入力欄への遷移するキーイベント用の関数
  * 早押し後のkeyup時に解答欄にフォーカスし、解答の送信と正誤判定を可能にする
  */
-function focusToAnsCol(elements){
-    elements.ansBtn.disabled = false;
-    elements.ansCol.disabled = false;
-    elements.ansCol.value = "";
-    elements.ansCol.focus();
+function focusToAnsCol(answerButtonElement, answerColumnElement){
+    answerButtonElement.disabled = false;
+    answerColumnElement.disabled = false;
+    answerColumnElement.value = "";
+    answerColumnElement.focus();
+}
+/**
+ * 視聴範囲取得用の関数
+ */
+function updateWatchedTime(currentPlayingTime, watchedTime){
+    if(0.0 < currentPlayingTime - watchedTime && currentPlayingTime - watchedTime < 1.0){
+        watchedTime = currentPlayingTime;
+    }
+    return watchedTime;
+}
+/**
+ * sleep関数
+ */
+function busySleep(waitMsec) {
+    const startMsec = new Date();
+    while (new Date() - startMsec < waitMsec);
 }
 /**
  * 正誤判定用の関数
  */
 function checkAnswer(values, elements){
-    var answer = elements.ansCol.value;
-    var length = values.ansArray[values.numQues-1].length;
-    for(var i = 0; i < length; i++){
+    const answer = elements.ansCol.value;
+    const length = values.ansArray[values.numQues-1].length;
+    for(let i = 0; i < length; i++){
         if(answer.valueOf() === values.ansArray[values.numQues-1][i].valueOf()){
             values.correctBool = true;
         }
@@ -382,80 +381,58 @@ function checkAnswer(values, elements){
         elements.subText.innerHTML = "不正解です！ あと"+(values.limPush-values.cntPush)+"回解答できます。";
     }
     elements.numOX.innerHTML = "◯: "+values.cntO+", ✖: "+values.cntX;  
-    // elements.ansCol.disabled = true;
-    // elements.ansBtn.disabled = true;
-}
-/**
- * 視聴範囲取得用の関数
- */
-function updateWatchedTime(values){
-    if(0.0 < values.currTime.playing - values.watchedTime && values.currTime.playing - values.watchedTime < 1.0){
-        values.watchedTime = values.currTime.playing;
-    }
-}
-/**
- * 
- */
-function busySleep(waitMsec) {
-    var startMsec = new Date();
-    while (new Date() - startMsec < waitMsec);
+    elements.ansCol.disabled = true;
+    elements.ansBtn.disabled = true;
 }
 /**
  * パラメータ表示（デバッグ用） 
  */
 function printParams(values, elements){
     // elements.text.innerHTML = document.activeElement.id;
-    elements.text.innerHTML = index+", "+values.cntIndex+", "+values.executedIndexFunc;
+    elements.text.innerHTML = index+", "+values.cntIndex+", "+values.cntExecutedIndex;
     elements.subText.innerHTML = 
-        "device: "      + navigator.userAgent+"<br>"+
-        "stateus: "     + values.status+"<br>"+
-        "time1: "       + values.currTime.playing.toFixed(3)+"<br>"+
-        "time2: "       + values.currTime.stopped.toFixed(3)+"<br>"+
-        "WatchedTime: " + values.watchedTime.toFixed(3)+"<br>"+
-        "diffTime: "    + values.diffTime.toFixed(3)+"<br>"+
-        "limAnsTime: "  + Math.floor((myApp.val.limAnsTime-myApp.val.elapsedAnsTime)/1000)+"<br>"+
-        "answer: "      + values.ansArray[values.numQues-1][0].valueOf()+", "+
-                          values.ansArray[values.numQues-1][1].valueOf()+", "+
-                          values.ansArray[values.numQues-1][2].valueOf()+"<br>"+
-        "answerLength: "+ values.ansArray[values.numQues-1].length+"<br>"+
-        "correctBool: " + values.correctBool+"<br>"+
-        "composing: "   + values.composingBool+"<br>"+
-        "touchLength"   + values.numFingers+"<br>"+
-        "index: "       + index;
+        "device: "           + navigator.userAgent+"<br>"+
+        "activeElem: "       + document.activeElement.id+"<br>"+   
+        "status: "           + values.status+"<br>"+
+        "timePlay: "         + values.currTime.playing.toFixed(3)+"<br>"+
+        "timeStop: "         + values.currTime.stopped.toFixed(3)+"<br>"+
+        "WatchedTime: "      + values.watchedTime.toFixed(3)+"<br>"+
+        "diffTime: "         + values.diffTime.toFixed(3)+"<br>"+
+        "limPush: "          + values.limPush+"<br>"+ 
+        "cntPush: "          + values.cntPush+"<br>"+
+        "remainingAnsTime: " + Math.floor((myApp.val.ansTime.limit-myApp.val.ansTime.elapsed)/1000)+"<br>"+
+        "answer: "           + values.ansArray[values.numQues-1][0].valueOf()+", "+
+                               values.ansArray[values.numQues-1][1].valueOf()+", "+
+                               values.ansArray[values.numQues-1][2].valueOf()+"<br>"+
+        "answerLength: "     + values.ansArray[values.numQues-1].length+"<br>"+
+        "correctBool: "      + values.correctBool+"<br>"+
+        "composing: "        + values.composingBool+"<br>"+
+        "touchLength: "      + values.numFingers+"<br>"+
+        "index: "            + index+"<br>"+
+        "cntIndex: "         + values.cntIndex+"<br>"+
+        "executedIndex: "    + values.cntExecutedIndex; 
 }
 /**
  * 各字幕区間で実行する関数
  */
-var srtFuncArray = [
-    function(){
-        // index = 1
-        /* ボタンチェック開始 */
-        myApp.val.status = myApp.state.ButtonCheck;
-        player.pauseVideo();
-        myApp.elem.text.innerHTML = "ボタンチェック";
-        myApp.elem.subText.innerHTML = "スペースキーが早押しボタンです。"+
-            "スペースキーを押して音と動作を確認してください。<br>"+
-            "動画の進行に合わせてクイズが始まります。";
-        myApp.val.executedIndexFunc += 1;
-    },
+const srtFuncArray = [
     function(){
         // index = 2
         /* 第１問 */
-        // focusToAnsCol(myApp.elem);
         myApp.val.status = myApp.state.Question;
         myApp.val.numQues = 1;
         myApp.val.cntPush = 0;
         myApp.elem.text.innerHTML = "第"+myApp.val.numQues+"問";
         myApp.elem.subText.innerHTML = "答えが分かったら、スペースキーを押して解答権を得る！";
         myApp.elem.numOX.innerHTML = "◯: "+myApp.val.cntO+", ✖: "+myApp.val.cntX;
-        myApp.val.executedIndexFunc += 1;
+        myApp.val.cntExecutedIndex += 1;
     },
     function(){
         // index = 3
         /* 閑話1 */
         myApp.val.status = myApp.state.Talk;
         myApp.elem.subText.innerHTML = "解説";
-        myApp.val.executedIndexFunc += 1;
+        myApp.val.cntExecutedIndex += 1;
     },
     function(){
         // index = 4
@@ -465,14 +442,14 @@ var srtFuncArray = [
         myApp.val.cntPush = 0;
         myApp.elem.text.innerHTML = "第"+myApp.val.numQues+"問";
         myApp.elem.subText.innerHTML = "答えが分かったら、スペースキーを押して解答権を得る！";
-        myApp.val.executedIndexFunc += 1;
+        myApp.val.cntExecutedIndex += 1;
     },
     function(){
         // index = 5
         /* 閑話2 */
         myApp.val.status = myApp.state.Talk;
         myApp.elem.subText.innerHTML = "解説";
-        myApp.val.executedIndexFunc += 1;
+        myApp.val.cntExecutedIndex += 1;
     },
     function(){
         // index = 6
@@ -482,16 +459,24 @@ var srtFuncArray = [
         myApp.val.cntPush = 0;
         myApp.elem.text.innerHTML = "第"+myApp.val.numQues+"問";
         myApp.elem.subText.innerHTML = "答えが分かったら、スペースキーを押して解答権を得る！";
-        myApp.val.executedIndexFunc += 1;
+        myApp.val.cntExecutedIndex += 1;
     },
     function(){
         // index = 7
         /* 閑話3 */
         myApp.val.status = myApp.state.Talk;
         myApp.elem.subText.innerHTML = "解説";
-        myApp.val.executedIndexFunc += 1;
+        myApp.val.cntExecutedIndex += 1;
     }
 ];
+// 
+/* button check */
+myApp.val.status = myApp.state.ButtonCheck;
+player.pauseVideo();
+myApp.elem.text.innerHTML = "ボタンチェック";
+myApp.elem.subText.innerHTML = "スペースキーが早押しボタンです。"+
+    "スペースキーを押して音と動作を確認してください。<br>"+
+    "動画の進行に合わせてクイズが始まります。";
 
 1
 00:00:01,000 --> 00:00:02,999
