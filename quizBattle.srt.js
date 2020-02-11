@@ -26,6 +26,10 @@ const myApp = {
         sndPush : document.createElement("audio"),    //ボタンの押下音
         sndO    : document.createElement("audio"),    //正解音
         sndX    : document.createElement("audio"),    //不正解音
+        pushBtn : new Image(),                        //ボタンの画像
+        imgBtn1 : new Image(),
+        imgBtn2 : new Image(),
+        imgBtn3 : new Image(),
     },
     val: {
         numQues  : 0,  //設問番号
@@ -79,7 +83,17 @@ myApp.elem.subText.style.lineHeight = '32px';
 myApp.elem.ansCol.style.fontSize    = '20px'; 
 myApp.elem.ansBtn.style.fontSize    = '20px'; 
 //
+myApp.elem.imgBtn1.width = document.body.clientWidth;
+myApp.elem.imgBtn2.width = document.body.clientWidth;
+myApp.elem.imgBtn3.width = document.body.clientWidth;
+myApp.elem.imgBtn1.src = "https://github.com/t-yokota/quizBattle/raw/devel/convertToES6/figures/button1.png";
+myApp.elem.imgBtn2.src = "https://github.com/t-yokota/quizBattle/raw/devel/convertToES6/figures/button2.png";
+myApp.elem.imgBtn3.src = "https://github.com/t-yokota/quizBattle/raw/devel/convertToES6/figures/button3.png";
+//
+myApp.elem.pushBtn.width = document.body.clientWidth;
+myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src;
 // elementを表示
+document.getElementsByTagName("body")[0].appendChild(myApp.elem.pushBtn);
 document.getElementsByTagName("body")[0].appendChild(myApp.elem.text);
 document.getElementsByTagName("body")[0].appendChild(myApp.elem.subText);
 document.getElementsByTagName("body")[0].appendChild(myApp.elem.br1);
@@ -390,7 +404,8 @@ function checkAnswer(values, elements){
  */
 function printParams(values, elements){
     // elements.text.innerHTML = document.activeElement.id;
-    elements.text.innerHTML = index+", "+values.cntIndex+", "+values.cntExecutedIndex;
+    //elements.text.innerHTML = index+", "+values.cntIndex+", "+values.cntExecutedIndex;
+    elements.text.innerHTML = elements.imgBtn.naturalWidth+", "+Math.floor(myApp.elem.imgBtn.naturalWidth * 0.5);
     elements.subText.innerHTML = 
         "device: "           + navigator.userAgent+"<br>"+
         "activeElem: "       + document.activeElement.id+"<br>"+   
@@ -420,6 +435,7 @@ const srtFuncArray = [
     function(){
         // index = 2
         /* 第１問 */
+        myApp.elem.pushBtn.src = myApp.elem.imgBtn2.src;
         myApp.val.status = myApp.state.Question;
         myApp.val.numQues = 1;
         myApp.val.cntPush = 0;
@@ -431,6 +447,7 @@ const srtFuncArray = [
     function(){
         // index = 3
         /* 閑話1 */
+        myApp.elem.pushBtn.src = myApp.elem.imgBtn3.src;
         myApp.val.status = myApp.state.Talk;
         myApp.elem.subText.innerHTML = "解説";
         myApp.val.cntExecutedIndex += 1;
@@ -470,7 +487,6 @@ const srtFuncArray = [
         myApp.val.cntExecutedIndex += 1;
     }
 ];
-// 
 /* button check */
 myApp.val.status = myApp.state.ButtonCheck;
 player.pauseVideo();
