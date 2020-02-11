@@ -174,7 +174,7 @@ function myKeyDownEvent(){
         }
     }
 }
-myApp.elem.pushBtn.onclick = myTouchEvent;
+myApp.elem.pushBtn.onmousedown = myTouchEvent;
 // document.addEventListener("touchstart", myTouchEvent);
 function myTouchEvent(){
     if(myApp.val.status == myApp.state.ButtonCheck){ 
@@ -405,8 +405,7 @@ function checkAnswer(values, elements){
  */
 function printParams(values, elements){
     // elements.text.innerHTML = document.activeElement.id;
-    //elements.text.innerHTML = index+", "+values.cntIndex+", "+values.cntExecutedIndex;
-    elements.text.innerHTML = elements.imgBtn.naturalWidth+", "+Math.floor(myApp.elem.imgBtn.naturalWidth * 0.5);
+    // elements.text.innerHTML = index+", "+values.cntIndex+", "+values.cntExecutedIndex;
     elements.subText.innerHTML = 
         "device: "           + navigator.userAgent+"<br>"+
         "activeElem: "       + document.activeElement.id+"<br>"+   
