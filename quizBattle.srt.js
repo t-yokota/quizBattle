@@ -174,7 +174,8 @@ function myKeyDownEvent(){
         }
     }
 }
-document.addEventListener("touchstart", myTouchEvent);
+myApp.elem.pushBtn.onclick = myTouchEvent;
+// document.addEventListener("touchstart", myTouchEvent);
 function myTouchEvent(){
     if(myApp.val.status == myApp.state.ButtonCheck){ 
         buttonCheck(myApp.elem.sndPush, myApp.elem.sndO);
