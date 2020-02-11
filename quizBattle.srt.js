@@ -66,6 +66,7 @@ const myApp = {
 /* View */
 // 動画プレイヤーのサイズ変更
 player.setSize(document.body.clientWidth, (document.body.clientWidth/16)*9);
+document.bgColor = "#EFEFEF";
 //
 // focusが存在するelementにidを設定
 myApp.elem.ansCol.id = 'anscol';
