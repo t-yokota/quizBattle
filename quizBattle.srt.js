@@ -174,18 +174,21 @@ function myKeyDownEvent(){
         }
     }
 }
-myApp.elem.pushBtn.onmousedown = myTouchEvent;
-// document.addEventListener("touchstart", myTouchEvent);
-function myTouchEvent(){
-    if(myApp.val.status == myApp.state.ButtonCheck){ 
-        buttonCheck(myApp.elem.sndPush, myApp.elem.sndO);
-        myApp.val.status = myApp.state.Talk;
-        player.playVideo();
-    }
-    if(myApp.val.status == myApp.state.Question){
-        myApp.val.cntPush = pushButton(myApp.val.cntPush, myApp.elem.sndPush);
-        myApp.val.status  = myApp.state.MyAnswer;
-        player.pauseVideo();
+// myApp.elem.pushBtn.onmousedown = myTouchEvent;
+document.addEventListener("touchstart", myTouchEvent);
+function myTouchEvent(event){
+    const touchObject = event.changedTouches[0];
+    if( (document.body.clientWidth/16)*9 < touchObject.pageY && touchObject.pageY < (document.body.clientWidth/16)*9 + myApp.elem.pushBtn.naturalHeight*(myApp.elem.pushBtn.clientWidth/myApp.elem.pushBtn.naturalWidth)){
+        if(myApp.val.status == myApp.state.ButtonCheck){ 
+            buttonCheck(myApp.elem.sndPush, myApp.elem.sndO);
+            myApp.val.status = myApp.state.Talk;
+            player.playVideo();
+        }
+        if(myApp.val.status == myApp.state.Question){
+            myApp.val.cntPush = pushButton(myApp.val.cntPush, myApp.elem.sndPush);
+            myApp.val.status  = myApp.state.MyAnswer;
+            player.pauseVideo();
+        }
     }
 }
 //動画の再生・停止時のイベントリスナーの設定
