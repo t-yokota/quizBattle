@@ -3,6 +3,7 @@
 /* CAUTION : 字幕区間ごとにスコープは独立している */
 doOnce[index] = true;
 const myApp = {
+    os: null,
     video: {
         Playing : 1,
         Stopped : 2,
@@ -69,7 +70,11 @@ const myApp = {
 //
 /* View */
 // 動画プレイヤーのサイズ変更
-player.setSize(document.body.clientWidth, (document.body.clientWidth/16)*9);
+myApp.os = fetchOSType();
+const playerWidth  = document.body.clientWidth;
+const playerHeight = document.body.clientWidth/16*9;
+player.setSize(playerWidth, playerHeight);
+//
 document.bgColor = "#EFEFEF";
 //
 // focusが存在するelementにidを設定
@@ -78,46 +83,92 @@ myApp.elem.ansBtn.id = 'ansbtn';
 document.getElementsByTagName("body")[0].id = 'body';
 //
 // 各elementのフォントサイズ等を設定
-myApp.elem.subText.style.fontSize   = '20px'; 
-myApp.elem.subText.style.lineHeight = '32px';
-myApp.elem.ansCol.style.fontSize    = '20px'; 
-myApp.elem.ansBtn.style.fontSize    = '20px'; 
-//
-myApp.elem.imgBtn1.width = document.body.clientWidth;
-myApp.elem.imgBtn2.width = document.body.clientWidth;
-myApp.elem.imgBtn3.width = document.body.clientWidth;
-myApp.elem.imgBtn1.src = "https://github.com/t-yokota/quizBattle/raw/devel/convertToES6/figures/button1.png";
-myApp.elem.imgBtn2.src = "https://github.com/t-yokota/quizBattle/raw/devel/convertToES6/figures/button2.png";
-myApp.elem.imgBtn3.src = "https://github.com/t-yokota/quizBattle/raw/devel/convertToES6/figures/button3.png";
-//
-myApp.elem.pushBtn.width = document.body.clientWidth;
-myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src;
-// elementを表示
-document.getElementsByTagName("body")[0].appendChild(myApp.elem.pushBtn);
-document.getElementsByTagName("body")[0].appendChild(myApp.elem.text);
-document.getElementsByTagName("body")[0].appendChild(myApp.elem.subText);
-document.getElementsByTagName("body")[0].appendChild(myApp.elem.br1);
-document.getElementsByTagName("body")[0].appendChild(myApp.elem.br2);
-document.getElementsByTagName("body")[0].appendChild(myApp.elem.ansCol);
-document.getElementsByTagName("body")[0].appendChild(myApp.elem.br3);
-document.getElementsByTagName("body")[0].appendChild(myApp.elem.ansBtn);
-document.getElementsByTagName("body")[0].appendChild(myApp.elem.numOX);
-//
-// textNodeを作成してelementに追加
-const node_text    = document.createTextNode("");
-const node_subText = document.createTextNode("");　
-const node_numOX   = document.createTextNode("");
-myApp.elem.text.appendChild(node_text);
-myApp.elem.subText.appendChild(node_subText);
-myApp.elem.numOX.appendChild(node_numOX);
-//
-// elementの初期値の設定
-myApp.elem.text.innerHTML    = "quizBattle.srt.js";  //動画タイトル
-myApp.elem.subText.innerHTML = "動画の相手とクイズ対決"; //動画の説明
-myApp.elem.ansCol.value      = "ここに解答を入力";
-myApp.elem.ansBtn.innerHTML  = "解答を送信";
-myApp.elem.ansCol.disabled   = true;
-myApp.elem.ansBtn.disabled   = true;
+if (myApp.os != other){
+    myApp.elem.text.style.textAlign     = "center";
+    // myApp.elem.subText.style.fontSize   = '20px';
+    // myApp.elem.subText.style.lineHeight = '32px';
+    myApp.elem.ansCol.style.width = document.body.clientWidth/3*2
+    myApp.elem.ansCol.style.width = document.body.clientWidth/3
+    myApp.elem.ansCol.style.fontSize    = '20px'; 
+    myApp.elem.ansBtn.style.fontSize    = '20px';
+    //
+    myApp.elem.imgBtn1.width = document.body.clientWidth;
+    myApp.elem.imgBtn2.width = document.body.clientWidth;
+    myApp.elem.imgBtn3.width = document.body.clientWidth;
+    myApp.elem.imgBtn1.src = "https://github.com/t-yokota/quizBattle/raw/devel/convertToES6/figures/button1.png";
+    myApp.elem.imgBtn2.src = "https://github.com/t-yokota/quizBattle/raw/devel/convertToES6/figures/button2.png";
+    myApp.elem.imgBtn3.src = "https://github.com/t-yokota/quizBattle/raw/devel/convertToES6/figures/button3.png";
+    //
+    myApp.elem.pushBtn.width = document.body.clientWidth;
+    myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src;
+    // elementを表示
+    document.getElementsByTagName("body")[0].appendChild(myApp.elem.text);
+    document.getElementsByTagName("body")[0].appendChild(myApp.elem.ansCol);
+    document.getElementsByTagName("body")[0].appendChild(myApp.elem.ansBtn); 
+    document.getElementsByTagName("body")[0].appendChild(myApp.elem.pushBtn);
+    // document.getElementsByTagName("body")[0].appendChild(myApp.elem.subText);
+    // document.getElementsByTagName("body")[0].appendChild(myApp.elem.br1);
+    // document.getElementsByTagName("body")[0].appendChild(myApp.elem.br2);
+    // document.getElementsByTagName("body")[0].appendChild(myApp.elem.br3);
+    document.getElementsByTagName("body")[0].appendChild(myApp.elem.numOX);
+    //
+    // textNodeを作成してelementに追加
+    const node_text    = document.createTextNode("");
+    const node_subText = document.createTextNode("");　
+    const node_numOX   = document.createTextNode("");
+    myApp.elem.text.appendChild(node_text);
+    myApp.elem.subText.appendChild(node_subText);
+    myApp.elem.numOX.appendChild(node_numOX);
+    //
+    // elementの初期値の設定
+    myApp.elem.text.innerHTML    = "quizBattle.srt.js";  //動画タイトル
+    myApp.elem.subText.innerHTML = "動画の相手とクイズ対決"; //動画の説明
+    myApp.elem.ansCol.value      = "ここに解答を入力";
+    myApp.elem.ansBtn.innerHTML  = "解答を送信";
+    myApp.elem.ansCol.disabled   = true;
+    myApp.elem.ansBtn.disabled   = true;
+} else {
+    myApp.elem.subText.style.fontSize   = '20px'; 
+    myApp.elem.subText.style.lineHeight = '32px';
+    myApp.elem.ansCol.style.fontSize    = '20px'; 
+    myApp.elem.ansBtn.style.fontSize    = '20px';
+    //
+    myApp.elem.imgBtn1.width = document.body.clientWidth;
+    myApp.elem.imgBtn2.width = document.body.clientWidth;
+    myApp.elem.imgBtn3.width = document.body.clientWidth;
+    myApp.elem.imgBtn1.src = "https://github.com/t-yokota/quizBattle/raw/devel/convertToES6/figures/button1.png";
+    myApp.elem.imgBtn2.src = "https://github.com/t-yokota/quizBattle/raw/devel/convertToES6/figures/button2.png";
+    myApp.elem.imgBtn3.src = "https://github.com/t-yokota/quizBattle/raw/devel/convertToES6/figures/button3.png";
+    //
+    myApp.elem.pushBtn.width = document.body.clientWidth;
+    myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src;
+    // elementを表示
+    document.getElementsByTagName("body")[0].appendChild(myApp.elem.pushBtn);
+    document.getElementsByTagName("body")[0].appendChild(myApp.elem.text);
+    document.getElementsByTagName("body")[0].appendChild(myApp.elem.subText);
+    document.getElementsByTagName("body")[0].appendChild(myApp.elem.br1);
+    document.getElementsByTagName("body")[0].appendChild(myApp.elem.br2);
+    document.getElementsByTagName("body")[0].appendChild(myApp.elem.ansCol);
+    document.getElementsByTagName("body")[0].appendChild(myApp.elem.br3);
+    document.getElementsByTagName("body")[0].appendChild(myApp.elem.ansBtn);
+    document.getElementsByTagName("body")[0].appendChild(myApp.elem.numOX);
+    //
+    // textNodeを作成してelementに追加
+    const node_text    = document.createTextNode("");
+    const node_subText = document.createTextNode("");　
+    const node_numOX   = document.createTextNode("");
+    myApp.elem.text.appendChild(node_text);
+    myApp.elem.subText.appendChild(node_subText);
+    myApp.elem.numOX.appendChild(node_numOX);
+    //
+    // elementの初期値の設定
+    myApp.elem.text.innerHTML    = "quizBattle.srt.js";  //動画タイトル
+    myApp.elem.subText.innerHTML = "動画の相手とクイズ対決"; //動画の説明
+    myApp.elem.ansCol.value      = "ここに解答を入力";
+    myApp.elem.ansBtn.innerHTML  = "解答を送信";
+    myApp.elem.ansCol.disabled   = true;
+    myApp.elem.ansBtn.disabled   = true;
+}
 //
 // audioデータの指定
 myApp.elem.sndPush.src = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/sounds/push.mp3";
@@ -311,6 +362,23 @@ function myOnClickEvent(){
     }
 }
 //各種関数の定義
+function fetchOSType(){
+    let osType = null;
+    const ua = navigator.userAgent;
+    if (ua.match(/Android ([¥.¥d]+)/)){
+        osType = "Android";
+        return osType;
+    } else if (ua.match(/iPhone/)) {
+        osType = "iOS";
+        return osType;
+    } else if (ua.match(/iPad/)) {
+        osType = "iOS";
+        return osType;
+    } else {
+        osType = "other";
+        return osType;
+    }
+}
 /**
  * csvファイルを読み込んで配列に格納する関数
  * @param {string} str
@@ -410,7 +478,7 @@ function printParams(values, elements){
     // elements.text.innerHTML = document.activeElement.id;
     // elements.text.innerHTML = index+", "+values.cntIndex+", "+values.cntExecutedIndex;
     elements.subText.innerHTML = 
-        "device: "           + navigator.userAgent+"<br>"+
+        "device: "           + myApp.os+"<br>"+
         "activeElem: "       + document.activeElement.id+"<br>"+   
         "status: "           + values.status+"<br>"+
         "timePlay: "         + values.currTime.playing.toFixed(3)+"<br>"+
