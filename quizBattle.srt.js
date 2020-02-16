@@ -365,7 +365,7 @@ function myOnClickEvent(){
 function fetchOSType(){
     let osType = null;
     const ua = navigator.userAgent;
-    if (ua.match(/Android ([¥.¥d]+)/)){
+    if (ua.match(/Android/)){
         osType = "Android";
         return osType;
     } else if (ua.match(/iPhone/)) {
