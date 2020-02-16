@@ -83,7 +83,7 @@ myApp.elem.ansBtn.id = 'ansbtn';
 document.getElementsByTagName("body")[0].id = 'body';
 //
 // 各elementのフォントサイズ等を設定
-if (myApp.os != other){
+if (myApp.os != "other"){
     myApp.elem.text.style.textAlign     = "center";
     // myApp.elem.subText.style.fontSize   = '20px';
     // myApp.elem.subText.style.lineHeight = '32px';
