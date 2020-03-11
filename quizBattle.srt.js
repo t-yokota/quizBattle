@@ -111,6 +111,7 @@ if (myApp.os == "other" || myApp.os != 'other'){
     myApp.elem.imgBtn1.src = "https://github.com/t-yokota/quizBattle/raw/devel/convertToES6/figures/button_1.png";
     myApp.elem.imgBtn2.src = "https://github.com/t-yokota/quizBattle/raw/devel/convertToES6/figures/button_2.png";
     myApp.elem.imgBtn3.src = "https://github.com/t-yokota/quizBattle/raw/devel/convertToES6/figures/button_3.png";
+    myApp.elem.imgBtn1.width = window.innerWidth;
     //
     myApp.elem.pushBtn.onload = function(){
         myApp.val.imgLoadBool = true;
