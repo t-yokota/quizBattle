@@ -240,8 +240,8 @@ document.onkeydown = myKeyDownEvent;
 function myKeyDownEvent(){
     if(event.keyCode == myApp.val.btnCode){
         if(myApp.val.status == myApp.state.ButtonCheck){
-            let interval = 1000; 
-            buttonCheck(myApp.elem.sndPush, myApp.elem.sndO);
+            const interval = 1000; 
+            buttonCheck(myApp.elem.sndPush, myApp.elem.sndO, interval);
             myApp.val.status = myApp.state.Talk;
             setTimeout(function(){player.playVideo();}, interval);
         }
@@ -263,8 +263,9 @@ function myTouchEvent(event){
     const touchObject = event.changedTouches[0];
     if( myApp.val.pushBtnArea.left < touchObject.pageX && touchObject.pageX < myApp.val.pushBtnArea.right ){
         if( myApp.val.pushBtnArea.top < touchObject.pageY && touchObject.pageY < myApp.val.pushBtnArea.bottom ){
-            if(myApp.val.status == myApp.state.ButtonCheck){ 
-                buttonCheck(myApp.elem.sndPush, myApp.elem.sndO);
+            if(myApp.val.status == myApp.state.ButtonCheck){
+                const interval = 1000; 
+                buttonCheck(myApp.elem.sndPush, myApp.elem.sndO, interval);
                 myApp.val.status = myApp.state.Talk;
                 setTimeout(function(){player.playVideo();}, interval);
             }
@@ -442,11 +443,11 @@ function focusToBody(focusUsableElement){
  * ボタンチェックのキーイベント用の関数 
  * 特定のキーが押されたら押下音+正解音を流して動画を再開する
  */
-function buttonCheck(pushSound, correctSound){
+function buttonCheck(pushSound, correctSound, interval){
     pushSound.play();
     myApp.elem.pushBtn.src = myApp.elem.imgBtn2.src;
     setTimeout(function(){ myApp.elem.pushBtn.src = myApp.elem.imgBtn3.src; }, 100);
-    setTimeout(function(){ correctSound.play(); myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src; }, 1000);
+    setTimeout(function(){ correctSound.play(); myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src; }, interval);
 }
 /**
  * 早押しのキーイベント用の関数
