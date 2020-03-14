@@ -97,10 +97,10 @@ if (myApp.os == "other" || myApp.os != 'other'){
     document.getElementsByTagName("body")[0].appendChild(myApp.elem.numOX);
     //
     myApp.elem.ansCol.cols            = 35;
-    myApp.elem.ansCol.style.fontSize  = '20px';
+    myApp.elem.ansCol.style.fontSize  = '30px';
     myApp.elem.ansCol.style.textAlign = 'center'; 
-    myApp.elem.ansBtn.style.fontSize  = '20px';
-    myApp.elem.numOX.style.fontSize   = '30px';
+    myApp.elem.ansBtn.style.fontSize  = '30px';
+    myApp.elem.numOX.style.fontSize   = '40px';
     myApp.elem.numOX.style.lineHeight = '150px';
     myApp.elem.numOX.style.fontWeight = 'bold';
     //
