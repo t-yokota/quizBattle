@@ -245,7 +245,7 @@ function myKeyDownEvent(){
             myApp.val.status = myApp.state.Talk;
             setTimeout(function(){player.playVideo();}, interval);
         }
-        if(myApp.val.status == myApp.state.Question){
+        if(myApp.val.status == myApp.state.Question && myApp.val.status != myApp.state.Talk){
             myApp.val.cntPush = pushButton(myApp.val.cntPush, myApp.elem.sndPush);
             myApp.val.status  = myApp.state.MyAnswer;
             player.pauseVideo();
@@ -269,7 +269,7 @@ function myTouchEvent(event){
                 myApp.val.status = myApp.state.Talk;
                 setTimeout(function(){player.playVideo();}, interval);
             }
-            if(myApp.val.status == myApp.state.Question){
+            if(myApp.val.status == myApp.state.Question && myApp.val.status != myApp.state.Talk){
                 myApp.val.cntPush = pushButton(myApp.val.cntPush, myApp.elem.sndPush);
                 myApp.val.status  = myApp.state.MyAnswer;
                 player.pauseVideo();
