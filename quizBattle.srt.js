@@ -116,20 +116,22 @@ if (myApp.os == "other" || myApp.os != 'other'){
     myApp.elem.imgBtn3.src = "https://github.com/t-yokota/quizBattle/raw/devel/convertToES6/figures/button_3.png";
     //
     myApp.elem.pushBtn.onload = function(){
-        myApp.val.imgLoadBool = true;
-        const tmpImgHeight = window.innerHeight-myApp.elem.pushBtn.getBoundingClientRect().top-parseInt(myApp.elem.numOX.style.lineHeight)-20;
-        const tmpImgWidth  = myApp.elem.pushBtn.naturalWidth*tmpImgHeight/myApp.elem.pushBtn.naturalHeight;
-        if(tmpImgWidth < window.innerWidth){
-            myApp.val.pushBtnWidth = tmpImgWidth;
-            myApp.val.pushBtnHeight = tmpImgHeight;
-        }else{
-            myApp.val.pushBtnWidth = window.innerWidth;
-            myApp.val.pushBtnHeight = myApp.elem.pushBtn.naturalHeight*myApp.val.pushBtnWidth/myApp.elem.pushBtn.naturalWidth;
+        if(myApp.val.imgLoadBool == false){
+            myApp.val.imgLoadBool = true;
+            const tmpImgHeight = window.innerHeight-myApp.elem.pushBtn.getBoundingClientRect().top-parseInt(myApp.elem.numOX.style.lineHeight)-20;
+            const tmpImgWidth  = myApp.elem.pushBtn.naturalWidth*tmpImgHeight/myApp.elem.pushBtn.naturalHeight;
+            if(tmpImgWidth < window.innerWidth){
+                myApp.val.pushBtnWidth = tmpImgWidth;
+                myApp.val.pushBtnHeight = tmpImgHeight;
+            }else{
+                myApp.val.pushBtnWidth = window.innerWidth;
+                myApp.val.pushBtnHeight = myApp.elem.pushBtn.naturalHeight*myApp.val.pushBtnWidth/myApp.elem.pushBtn.naturalWidth;
+            }
+            myApp.elem.pushBtn.width = myApp.val.pushBtnWidth;
+            myApp.elem.pushBtn.height = myApp.val.pushBtnHeight;
+            myApp.val.pushBtnArea = myApp.elem.pushBtn.getBoundingClientRect();
+            // alert(parseInt(myApp.elem.numOX.style.lineHeight))
         }
-        myApp.elem.pushBtn.width = myApp.val.pushBtnWidth;
-        myApp.elem.pushBtn.height = myApp.val.pushBtnHeight;
-        myApp.val.pushBtnArea = myApp.elem.pushBtn.getBoundingClientRect();
-        // alert(parseInt(myApp.elem.numOX.style.lineHeight))
     }
     myApp.elem.pushBtn.width = window.innerWidth;
     myApp.elem.pushBtn.src   = myApp.elem.imgBtn1.src;
@@ -238,10 +240,10 @@ document.onkeydown = myKeyDownEvent;
 function myKeyDownEvent(){
     if(event.keyCode == myApp.val.btnCode){
         if(myApp.val.status == myApp.state.ButtonCheck){
-            const interval = 900; 
+            const interval = 1000; 
             buttonCheck(myApp.elem.sndPush, myApp.elem.sndO, interval);
             myApp.val.status = myApp.state.Talk;
-            window.setTimeout( function(){ player.playVideo(); }, interval);
+            setTimeout(function(){player.playVideo();}, interval);
         }
         if(myApp.val.status == myApp.state.Question){
             myApp.val.cntPush = pushButton(myApp.val.cntPush, myApp.elem.sndPush);
@@ -264,7 +266,7 @@ function myTouchEvent(event){
             if(myApp.val.status == myApp.state.ButtonCheck){ 
                 buttonCheck(myApp.elem.sndPush, myApp.elem.sndO, interval);
                 myApp.val.status = myApp.state.Talk;
-                player.playVideo();
+                setTimeout(function(){player.playVideo();}, interval);
             }
             if(myApp.val.status == myApp.state.Question){
                 myApp.val.cntPush = pushButton(myApp.val.cntPush, myApp.elem.sndPush);
@@ -360,10 +362,9 @@ function myIntervalEvent(){
             checkAnswer(myApp.val, myApp.elem);
             if(myApp.val.correctBool == true || myApp.val.limPush - myApp.val.cntPush == 0){
                 myApp.val.status = myApp.state.Talk;
-            }else{  
+            }else{
                 myApp.val.status = myApp.state.Question;
             }
-            myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src;
             player.playVideo();
         }
     }else{
@@ -391,7 +392,6 @@ function myOnClickEvent(){
         }else{
             myApp.val.status = myApp.state.Question;
         }
-        myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src;
         player.playVideo();
     }
 }
@@ -446,7 +446,7 @@ function buttonCheck(pushSound, correctSound, interval){
     pushSound.play();
     myApp.elem.pushBtn.src = myApp.elem.imgBtn2.src;
     setTimeout(function(){ myApp.elem.pushBtn.src = myApp.elem.imgBtn3.src; }, 100);
-    setTimeout(function(){ correctSound.play(); myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src; }, 900);
+    setTimeout(function(){ correctSound.play(); myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src; }, interval);
 }
 /**
  * 早押しのキーイベント用の関数
@@ -508,6 +508,7 @@ function checkAnswer(values, elements){
     elements.numOX.innerHTML  = "⭕️："+myApp.val.cntO+"　❌："+myApp.val.cntX;
     elements.ansCol.disabled  = true;
     elements.ansBtn.disabled  = true;
+    myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src;
 }
 /**
  * パラメータ表示（デバッグ用） 
