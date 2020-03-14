@@ -386,8 +386,8 @@ function myOnClickEvent(){
         btn.disabled = true;
         myApp.elem.ansCol.disabled = true;
         /* 1秒間を空けてから正誤判定をして適切な状態へ移行 -> 動画を再生 */
-        setTimeout(function(){ checkAnswer(myApp.val, myApp.elem); }, 1000);
-        busySleep(1000);
+        setTimeout(function(){ checkAnswer(myApp.val, myApp.elem); }, 1);
+        // busySleep(1000);
         if(myApp.val.correctBool == true || myApp.val.limPush - myApp.val.cntPush == 0){
             myApp.val.status = myApp.state.Talk;
         }else{
@@ -561,7 +561,6 @@ const srtFuncArray = [
         myApp.val.cntPush = 0;
         myApp.elem.text.innerHTML = "第"+myApp.val.numQues+"問";
         myApp.elem.subText.innerHTML = "答えが分かったら、スペースキーを押して解答権を得る！";
-        myApp.elem.numOX.innerHTML = "⭕️："+myApp.val.cntO+"　❌："+myApp.val.cntX;
         myApp.val.cntExecutedIndex += 1;
     },
     function(){
