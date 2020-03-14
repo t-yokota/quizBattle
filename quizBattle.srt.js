@@ -16,9 +16,9 @@ const myApp = {
         Stopped : 2,
     },
     elem: {
-        text    : document.createElement("h1"),       //動画タイトル等
+        text    : document.createElement("text"),     //動画タイトル等
         subText : document.createElement("text"),     //動画の説明文等
-        numOX   : document.createElement("text"),       //◯正答数と✖誤答数
+        numOX   : document.createElement("text"),     //◯正答数と✖誤答数
         ansCol  : document.createElement("textarea"), //解答を入力するテキストエリア
         ansBtn  : document.createElement("button"),   //解答を送信するボタン
         br1     : document.createElement("br"),       //改行用
@@ -96,12 +96,14 @@ if (myApp.os == "other" || myApp.os != 'other'){
     // document.getElementsByTagName("body")[0].appendChild(myApp.elem.subText);
     document.getElementsByTagName("body")[0].appendChild(myApp.elem.numOX);
     //
+    myApp.elem.text.style.fontSize    = '40px' 
+    myApp.elem.text.style.lineHeight  = '100px'
     myApp.elem.ansCol.cols            = 35;
-    myApp.elem.ansCol.style.fontSize  = '20px';
+    myApp.elem.ansCol.style.fontSize  = '35px';
     myApp.elem.ansCol.style.textAlign = 'center'; 
-    myApp.elem.ansBtn.style.fontSize  = '20px';
-    myApp.elem.numOX.style.fontSize   = '30px';
-    myApp.elem.numOX.style.lineHeight = '150px';
+    myApp.elem.ansBtn.style.fontSize  = '35px';
+    myApp.elem.numOX.style.fontSize   = '40px';
+    myApp.elem.numOX.style.lineHeight = '100px';
     myApp.elem.numOX.style.fontWeight = 'bold';
     //
     myApp.elem.imgBtn1.src = "https://github.com/t-yokota/quizBattle/raw/devel/convertToES6/figures/button_1.png";
