@@ -98,6 +98,7 @@ if (myApp.os == "other" || myApp.os != 'other'){
     //
     myApp.elem.text.style.fontSize    = '40px' 
     myApp.elem.text.style.lineHeight  = '100px'
+    myApp.elem.text.style.fontWeight  = 'bold';
     myApp.elem.ansCol.cols            = 35;
     myApp.elem.ansCol.style.fontSize  = '35px';
     myApp.elem.ansCol.style.textAlign = 'center'; 
