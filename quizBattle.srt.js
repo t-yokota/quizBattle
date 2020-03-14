@@ -361,11 +361,11 @@ function myIntervalEvent(){
         myApp.elem.subText.innerHTML = "あと"+Math.floor((myApp.val.ansTime.limit-myApp.val.ansTime.elapsed)/1000)+"秒で解答を送信してください";
         if(myApp.val.ansTime.elapsed >= myApp.val.ansTime.limit){
             checkAnswer(myApp.val, myApp.elem);
-            // if(myApp.val.correctBool == true || myApp.val.limPush - myApp.val.cntPush == 0){
-            //     myApp.val.status = myApp.state.Talk;
-            // }else{
-            //     myApp.val.status = myApp.state.Question;
-            // }
+            if(myApp.val.correctBool == true || myApp.val.limPush - myApp.val.cntPush == 0){
+                myApp.val.status = myApp.state.Talk;
+            }else{
+                myApp.val.status = myApp.state.Question;
+            }
             player.playVideo();
         }
     }else{
@@ -388,11 +388,11 @@ function myOnClickEvent(){
         /* 1秒間を空けてから正誤判定をして適切な状態へ移行 -> 動画を再生 */
         setTimeout(function(){ checkAnswer(myApp.val, myApp.elem); }, 1);
         // busySleep(1000);
-        // if(myApp.val.correctBool == true || myApp.val.limPush - myApp.val.cntPush == 0){
-        //     myApp.val.status = myApp.state.Talk;
-        // }else{
-        //     myApp.val.status = myApp.state.Question;
-        // }
+        if(myApp.val.correctBool == true || myApp.val.limPush - myApp.val.cntPush == 0){
+            myApp.val.status = myApp.state.Talk;
+        }else{
+            myApp.val.status = myApp.state.Question;
+        }
         player.playVideo();
     }
 }
@@ -501,12 +501,12 @@ function checkAnswer(values, elements){
         elements.sndO.play();
         values.cntO += 1;
         elements.subText.innerHTML = "正解です！";
-        values.status = myApp.state.Talk;
+        // values.status = myApp.state.Talk;
     }else{
         elements.sndX.play();
         values.cntX += 1;
         elements.subText.innerHTML = "不正解です！ あと"+(values.limPush-values.cntPush)+"回解答できます。";
-        values.status = myApp.state.Question;
+        // values.status = myApp.state.Question;
     }
     elements.numOX.innerHTML  = "⭕️："+myApp.val.cntO+"　❌："+myApp.val.cntX;
     elements.ansCol.disabled  = true;
