@@ -482,6 +482,8 @@ function busySleep(waitMsec) {
  * 正誤判定用の関数
  */
 function checkAnswer(values, elements){
+    elements.ansCol.disabled = true;
+    elements.ansBtn.disabled = true;
     const answer = elements.ansCol.value;
     const length = values.ansArray[values.numQues-1].length;
     for(let i = 0; i < length; i++){
@@ -499,8 +501,6 @@ function checkAnswer(values, elements){
         elements.subText.innerHTML = "不正解です！ あと"+(values.limPush-values.cntPush)+"回解答できます。";
     }
     elements.numOX.innerHTML = "⭕️："+myApp.val.cntO+"　❌："+myApp.val.cntX;
-    elements.ansCol.disabled = true;
-    elements.ansBtn.disabled = true;
     myApp.elem.pushBtn.src   = myApp.elem.imgBtn1.src;
 }
 /**
