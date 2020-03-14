@@ -85,11 +85,6 @@ document.styleSheets.item(0).insertRule('body {text-align: center; margin: auto;
 // 各elementのフォントサイズ等を設定
 myApp.os = fetchOSType();
 if (myApp.os == "other" || myApp.os != 'other'){
-    // change player size
-    myApp.val.playerWidth  = window.innerWidth;
-    myApp.val.playerHeight = window.innerWidth/16*9;
-    player.setSize(myApp.val.playerWidth, myApp.val.playerHeight);
-    //
     document.getElementsByTagName("body")[0].appendChild(myApp.elem.text);
     document.getElementsByTagName("body")[0].appendChild(myApp.elem.ansCol);
     document.getElementsByTagName("body")[0].appendChild(myApp.elem.br1);    
@@ -126,8 +121,13 @@ if (myApp.os == "other" || myApp.os != 'other'){
         myApp.val.pushBtnArea = myApp.elem.pushBtn.getBoundingClientRect();
         // alert(parseInt(myApp.elem.numOX.style.lineHeight))
     }
-    myApp.elem.pushBtn.width  = window.innerWidth;
-    myApp.elem.pushBtn.src    = myApp.elem.imgBtn1.src;
+    myApp.elem.pushBtn.width = window.innerWidth;
+    myApp.elem.pushBtn.src   = myApp.elem.imgBtn1.src;
+    //
+    // change player size
+    myApp.val.playerWidth  = window.innerWidth;
+    myApp.val.playerHeight = window.innerWidth/16*9;
+    player.setSize(myApp.val.playerWidth, myApp.val.playerHeight);
     //
     // textNodeを作成してelementに追加
     const node_text    = document.createTextNode("");
