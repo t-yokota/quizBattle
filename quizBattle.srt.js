@@ -85,6 +85,7 @@ document.styleSheets.item(0).insertRule('body {text-align: center; margin: auto;
 // 各elementのフォントサイズ等を設定
 myApp.os = fetchOSType();
 if (myApp.os == "other" || myApp.os != 'other'){
+    // set elements
     document.getElementsByTagName("body")[0].appendChild(myApp.elem.text);
     document.getElementsByTagName("body")[0].appendChild(myApp.elem.ansCol);
     document.getElementsByTagName("body")[0].appendChild(myApp.elem.br1);    
@@ -100,7 +101,7 @@ if (myApp.os == "other" || myApp.os != 'other'){
     myApp.elem.ansCol.style.textAlign = 'center'; 
     myApp.elem.ansBtn.style.fontSize  = '20px';
     myApp.elem.numOX.style.fontSize   = '30px';
-    myApp.elem.numOX.style.lineHeight = '80px';
+    myApp.elem.numOX.style.lineHeight = '150px';
     myApp.elem.numOX.style.fontWeight = 'bold';
     //
     myApp.elem.imgBtn1.src = "https://github.com/t-yokota/quizBattle/raw/devel/convertToES6/figures/button_1.png";
