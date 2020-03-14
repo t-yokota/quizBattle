@@ -34,10 +34,12 @@ const myApp = {
         imgBtn3 : document.createElement("img"),
     },
     val: {
-        playerWidth  : 0,
-        playerHeight : 0,
-        imgLoadBool  : false,
-        pushBtnArea  : null,  
+        playerWidth   : 0,
+        playerHeight  : 0,
+        pushBtnWidth  : 0,
+        pushBtnHeight : 0,
+        imgLoadBool   : false,
+        pushBtnArea   : null,  
         //
         numQues     : 0,  //設問番号
         ansArray    : [], //正答リスト
@@ -116,13 +118,16 @@ if (myApp.os == "other" || myApp.os != 'other'){
     myApp.elem.pushBtn.onload = function(){
         myApp.val.imgLoadBool = true;
         const tmpImgHeight = window.innerHeight-myApp.elem.pushBtn.getBoundingClientRect().top-parseInt(myApp.elem.numOX.style.lineHeight)-20;
-        const tmpImgWidth  = myApp.elem.pushBtn.naturalWidth * tmpImgHeight/myApp.elem.pushBtn.naturalHeight;
+        const tmpImgWidth  = myApp.elem.pushBtn.naturalWidth*tmpImgHeight/myApp.elem.pushBtn.naturalHeight;
         if(tmpImgWidth < window.innerWidth){
-            myApp.elem.pushBtn.width  = tmpImgWidth;
-            myApp.elem.pushBtn.height = tmpImgHeight;
+            myApp.val.pushBtnWidth = tmpImgWidth;
+            myApp.val.pushBtnHeight = tmpImgHeight;
         }else{
-            myApp.elem.pushBtn.width = window.innerWidth;
+            myApp.val.pushBtnWidth = window.innerWidth;
+            myApp.val.pushBtnHeight = myApp.elem.pushBtn.naturalHeight*myApp.val.pushBtnWidth/myApp.elem.pushBtn.naturalWidth;
         }
+        myApp.elem.pushBtn.width = myApp.val.pushBtnWidth;
+        myApp.elem.pushBtn.height = myApp.val.pushBtnHeight;
         myApp.val.pushBtnArea = myApp.elem.pushBtn.getBoundingClientRect();
         // alert(parseInt(myApp.elem.numOX.style.lineHeight))
     }
@@ -439,7 +444,7 @@ function buttonCheck(pushSound, correctSound, interval){
     pushSound.play();
     myApp.elem.pushBtn.src = myApp.elem.imgBtn2.src;
     window.setTimeout( function(){ myApp.elem.pushBtn.src = myApp.elem.imgBtn3.src; }, 100);
-    window.setTimeout( function(){ correctSound.play(); myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src; }, interval);
+    window.setTimeout( function(){ correctSound.play(); myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src; }, 900);
 }
 /**
  * 早押しのキーイベント用の関数
@@ -482,8 +487,6 @@ function busySleep(waitMsec) {
  * 正誤判定用の関数
  */
 function checkAnswer(values, elements){
-    elements.ansCol.disabled = true;
-    elements.ansBtn.disabled = true;
     const answer = elements.ansCol.value;
     const length = values.ansArray[values.numQues-1].length;
     for(let i = 0; i < length; i++){
@@ -500,8 +503,12 @@ function checkAnswer(values, elements){
         values.cntX += 1;
         elements.subText.innerHTML = "不正解です！ あと"+(values.limPush-values.cntPush)+"回解答できます。";
     }
-    elements.numOX.innerHTML = "⭕️："+myApp.val.cntO+"　❌："+myApp.val.cntX;
-    myApp.elem.pushBtn.src   = myApp.elem.imgBtn1.src;
+    elements.numOX.innerHTML  = "⭕️："+myApp.val.cntO+"　❌："+myApp.val.cntX;
+    elements.ansCol.disabled  = true;
+    elements.ansBtn.disabled  = true;
+    myApp.elem.pushBtn.src    = myApp.elem.imgBtn1.src;
+    myApp.elem.pushBtn.width  = myApp.val.pushBtnWidth;
+    myApp.elem.pushBtn.height = myApp.val.pushBtnHeight;
 }
 /**
  * パラメータ表示（デバッグ用） 
