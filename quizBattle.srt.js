@@ -363,6 +363,7 @@ function myIntervalEvent(){
             }else{  
                 myApp.val.status = myApp.state.Question;
             }
+            myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src;
             player.playVideo();
         }
     }else{
@@ -383,13 +384,14 @@ function myOnClickEvent(){
         btn.disabled = true;
         myApp.elem.ansCol.disabled = true;
         /* 1秒間を空けてから正誤判定をして適切な状態へ移行 -> 動画を再生 */
-        window.setTimeout(function(){ checkAnswer(myApp.val, myApp.elem); }, 1000);
+        setTimeout(function(){ checkAnswer(myApp.val, myApp.elem); }, 1000);
         busySleep(1000);
         if(myApp.val.correctBool == true || myApp.val.limPush - myApp.val.cntPush == 0){
             myApp.val.status = myApp.state.Talk;
         }else{
             myApp.val.status = myApp.state.Question;
         }
+        myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src;
         player.playVideo();
     }
 }
@@ -443,8 +445,8 @@ function focusToBody(focusUsableElement){
 function buttonCheck(pushSound, correctSound, interval){
     pushSound.play();
     myApp.elem.pushBtn.src = myApp.elem.imgBtn2.src;
-    window.setTimeout( function(){ myApp.elem.pushBtn.src = myApp.elem.imgBtn3.src; }, 100);
-    window.setTimeout( function(){ correctSound.play(); myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src; }, 900);
+    setTimeout(function(){ myApp.elem.pushBtn.src = myApp.elem.imgBtn3.src; }, 100);
+    setTimeout(function(){ correctSound.play(); myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src; }, 900);
 }
 /**
  * 早押しのキーイベント用の関数
@@ -453,7 +455,7 @@ function buttonCheck(pushSound, correctSound, interval){
 function pushButton(pushCount, pushSound){
     pushSound.play();
     myApp.elem.pushBtn.src = myApp.elem.imgBtn2.src;
-    window.setTimeout(function(){ myApp.elem.pushBtn.src = myApp.elem.imgBtn3.src; }, 100);
+    setTimeout(function(){ myApp.elem.pushBtn.src = myApp.elem.imgBtn3.src; }, 100);
     pushCount = pushCount+1;
     return pushCount;
 }
@@ -506,9 +508,6 @@ function checkAnswer(values, elements){
     elements.numOX.innerHTML  = "⭕️："+myApp.val.cntO+"　❌："+myApp.val.cntX;
     elements.ansCol.disabled  = true;
     elements.ansBtn.disabled  = true;
-    myApp.elem.pushBtn.src    = myApp.elem.imgBtn1.src;
-    myApp.elem.pushBtn.width  = myApp.val.pushBtnWidth;
-    myApp.elem.pushBtn.height = myApp.val.pushBtnHeight;
 }
 /**
  * パラメータ表示（デバッグ用） 
