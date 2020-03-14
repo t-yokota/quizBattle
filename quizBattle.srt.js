@@ -311,7 +311,7 @@ function myEventListener(){
     if(player.getPlayerState() == myApp.videoState.Stopped){
         myApp.val.currTime.stopped = player.getCurrentTime();
         if(myApp.val.status == myApp.state.MyAnswer){
-            focusToAnsCol(myApp.elem.ansBtn, myApp.elem.ansCol);
+            setTimeout(function(){focusToAnsCol(myApp.elem.ansBtn, myApp.elem.ansCol);}, 100);
         }
         // シークバーによる再生位置のジャンプを無効にする処理
         // 動画の一時停止を無効にする処理
