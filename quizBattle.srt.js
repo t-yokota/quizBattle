@@ -240,7 +240,7 @@ document.onkeydown = myKeyDownEvent;
 function myKeyDownEvent(){
     if(event.keyCode == myApp.val.btnCode){
         if(myApp.val.status == myApp.state.ButtonCheck){
-            const interval = 1000; 
+            let interval = 1000; 
             buttonCheck(myApp.elem.sndPush, myApp.elem.sndO);
             myApp.val.status = myApp.state.Talk;
             setTimeout(function(){player.playVideo();}, interval);
