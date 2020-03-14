@@ -111,13 +111,14 @@ if (myApp.os == "other" || myApp.os != 'other'){
     myApp.elem.imgBtn1.src = "https://github.com/t-yokota/quizBattle/raw/devel/convertToES6/figures/button_1.png";
     myApp.elem.imgBtn2.src = "https://github.com/t-yokota/quizBattle/raw/devel/convertToES6/figures/button_2.png";
     myApp.elem.imgBtn3.src = "https://github.com/t-yokota/quizBattle/raw/devel/convertToES6/figures/button_3.png";
-    myApp.elem.imgBtn1.width = window.innerWidth;
+    // myApp.elem.imgBtn1.width = window.innerWidth;
     //
     myApp.elem.pushBtn.onload = function(){
         myApp.val.imgLoadBool = true;
         const tmpImgHeight = window.innerHeight - myApp.elem.pushBtn.getBoundingClientRect().top - parseInt(myApp.elem.numOX.style.lineHeight);
         const tmpImgWidth  = myApp.elem.pushBtn.naturalWidth * tmpImgHeight/myApp.elem.pushBtn.naturalHeight;
         if(tmpImgWidth < window.innerWidth){
+            myApp.elem.pushBtn.width  = tmpImgWidth;
             myApp.elem.pushBtn.height = tmpImgHeight;
         }else{
             myApp.elem.pushBtn.width = window.innerWidth;
@@ -125,6 +126,7 @@ if (myApp.os == "other" || myApp.os != 'other'){
         myApp.val.pushBtnArea = myApp.elem.pushBtn.getBoundingClientRect();
         // alert(parseInt(myApp.elem.numOX.style.lineHeight))
     }
+    myApp.elem.pushBtn.width  = window.innerWidth;
     myApp.elem.pushBtn.src    = myApp.elem.imgBtn1.src;
     //
     // textNodeを作成してelementに追加
