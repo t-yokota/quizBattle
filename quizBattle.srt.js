@@ -100,8 +100,8 @@ if (myApp.os == "other" || myApp.os != 'other'){
     document.getElementsByTagName("body")[0].appendChild(myApp.elem.pushBtn);
     document.getElementsByTagName("body")[0].appendChild(myApp.elem.br4);    
     document.getElementsByTagName("body")[0].appendChild(myApp.elem.numOX);
-    document.getElementsByTagName("body")[0].appendChild(myApp.elem.br5); 
-    document.getElementsByTagName("body")[0].appendChild(myApp.elem.subText);
+    // document.getElementsByTagName("body")[0].appendChild(myApp.elem.br5); 
+    // document.getElementsByTagName("body")[0].appendChild(myApp.elem.subText);
     //
     myApp.elem.text.style.fontSize    = '40px' 
     myApp.elem.text.style.lineHeight  = '100px'
