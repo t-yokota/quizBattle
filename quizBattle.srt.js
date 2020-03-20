@@ -114,6 +114,10 @@ document.getElementsByTagName("body")[0].appendChild(myApp.elem.numOX);
 /*  */
 myApp.os = fetchOSType();
 if (myApp.os != 'other'){
+    /* change player size */
+    myApp.val.playerWidth  = window.innerWidth;
+    myApp.val.playerHeight = window.innerWidth/16*9;
+    player.setSize(myApp.val.playerWidth, myApp.val.playerHeight);
     //
     myApp.elem.text.style.fontSize    = '40px'
     myApp.elem.text.style.lineHeight  = '100px'
@@ -149,10 +153,6 @@ if (myApp.os != 'other'){
     /* assign default image to push button */
     myApp.elem.pushBtn.src   = myApp.elem.imgBtn1.src;
     //
-    /* change player size */
-    myApp.val.playerWidth  = window.innerWidth;
-    myApp.val.playerHeight = window.innerWidth/16*9;
-    player.setSize(myApp.val.playerWidth, myApp.val.playerHeight);
 } else {
     //    
     myApp.elem.text.style.fontSize    = '30px'
