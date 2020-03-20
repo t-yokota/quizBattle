@@ -96,6 +96,10 @@ document.styleSheets.item(0).insertRule('body {text-align: center; margin: auto;
 /*  */
 myApp.os = fetchOSType();
 if (myApp.os == "other" || myApp.os != 'other'){
+    /* change player size */
+    myApp.val.playerWidth  = window.innerWidth;
+    myApp.val.playerHeight = window.innerWidth/16*9;
+    player.setSize(myApp.val.playerWidth, myApp.val.playerHeight);
     //
     /* set elements */
     document.getElementsByTagName("body")[0].appendChild(myApp.elem.text);
@@ -148,11 +152,6 @@ if (myApp.os == "other" || myApp.os != 'other'){
     //
     /* assign default image to push button */
     myApp.elem.pushBtn.src   = myApp.elem.imgBtn1.src;
-    //
-    /* change player size */
-    myApp.val.playerWidth  = window.innerWidth;
-    myApp.val.playerHeight = window.innerWidth/16*9;
-    player.setSize(myApp.val.playerWidth, myApp.val.playerHeight);
     //
     /* add textnodes to the elements */
     const node_text    = document.createTextNode("");
