@@ -84,8 +84,7 @@ document.getElementsByTagName("body")[0].id = 'body';
 //
 /* View */
 /* test viewport */
-var viewport = document.querySelector("meta[name=viewport]");
-viewport.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0');
+document.getElementsByTagName('head')[0].appendChild('<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">');
 /* add rule of body to style sheet */
 document.styleSheets.item(0).insertRule('html {touch-action: manipulation;}');
 document.styleSheets.item(0).insertRule('body {text-align: center; margin: auto; background: #EFEFEF;}');
