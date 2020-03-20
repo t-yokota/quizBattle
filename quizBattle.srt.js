@@ -93,33 +93,6 @@ document.getElementsByTagName("body")[0].id = 'body';
 document.styleSheets.item(0).insertRule('html {touch-action: manipulation;}');
 document.styleSheets.item(0).insertRule('body {text-align: center; margin: auto; background: #EFEFEF;}');
 //
-/* load image of push button */
-myApp.elem.imgBtn1.src = "https://github.com/t-yokota/quizBattle/raw/devel/convertToES6/figures/button_1.png";
-myApp.elem.imgBtn2.src = "https://github.com/t-yokota/quizBattle/raw/devel/convertToES6/figures/button_2.png";
-myApp.elem.imgBtn3.src = "https://github.com/t-yokota/quizBattle/raw/devel/convertToES6/figures/button_3.png";
-//
-/* resize image to fit window size */
-myApp.elem.pushBtn.onload = function(){
-    if(myApp.val.imgLoadBool == false){
-        myApp.val.imgLoadBool = true;
-        const tmpImgHeight = window.innerHeight-myApp.elem.pushBtn.getBoundingClientRect().top-parseInt(myApp.elem.numOX.style.lineHeight)-20;
-        const tmpImgWidth  = myApp.elem.pushBtn.naturalWidth*tmpImgHeight/myApp.elem.pushBtn.naturalHeight;
-        if(tmpImgWidth < window.innerWidth){
-            myApp.val.pushBtnWidth = tmpImgWidth;
-            myApp.val.pushBtnHeight = tmpImgHeight;
-        }else{
-            myApp.val.pushBtnWidth = window.innerWidth;
-            myApp.val.pushBtnHeight = myApp.elem.pushBtn.naturalHeight*myApp.val.pushBtnWidth/myApp.elem.pushBtn.naturalWidth;
-        }
-        myApp.elem.pushBtn.width = myApp.val.pushBtnWidth;
-        myApp.elem.pushBtn.height = myApp.val.pushBtnHeight;
-        myApp.val.pushBtnArea = myApp.elem.pushBtn.getBoundingClientRect();
-    }
-}
-//
-/* assign default image to push button */
-myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src;
-//
 /* set elements */
 document.getElementsByTagName("body")[0].appendChild(myApp.elem.text);
 document.getElementsByTagName('body')[0].appendChild(myApp.elem.br1)
@@ -147,8 +120,6 @@ if (myApp.os != 'other'){
     myApp.elem.numOX.style.lineHeight = '50px';
     myApp.elem.numOX.style.fontWeight = 'bold';
     //
-    myApp.val.playerWidth  = window.innerWidth;
-    myApp.val.playerHeight = window.innerWidth/16*9;
 } else {
     myApp.elem.text.style.fontSize    = '30px'
     myApp.elem.text.style.lineHeight  = '90px'
@@ -160,12 +131,43 @@ if (myApp.os != 'other'){
     myApp.elem.numOX.style.fontSize   = '30px';
     myApp.elem.numOX.style.lineHeight = '40px';
     myApp.elem.numOX.style.fontWeight = 'bold';
-    //
+}
+//
+/* load image of push button */
+myApp.elem.imgBtn1.src = "https://github.com/t-yokota/quizBattle/raw/devel/convertToES6/figures/button_1.png";
+myApp.elem.imgBtn2.src = "https://github.com/t-yokota/quizBattle/raw/devel/convertToES6/figures/button_2.png";
+myApp.elem.imgBtn3.src = "https://github.com/t-yokota/quizBattle/raw/devel/convertToES6/figures/button_3.png";
+//
+/* resize image to fit window size */
+myApp.elem.pushBtn.onload = function(){
+    if(myApp.val.imgLoadBool == false){
+        myApp.val.imgLoadBool = true;
+        const tmpImgHeight = window.innerHeight-myApp.elem.pushBtn.getBoundingClientRect().top-parseInt(myApp.elem.numOX.style.lineHeight)-20;
+        const tmpImgWidth  = myApp.elem.pushBtn.naturalWidth*tmpImgHeight/myApp.elem.pushBtn.naturalHeight;
+        if(tmpImgWidth < window.innerWidth){
+            myApp.val.pushBtnWidth = tmpImgWidth;
+            myApp.val.pushBtnHeight = tmpImgHeight;
+        }else{
+            myApp.val.pushBtnWidth = window.innerWidth;
+            myApp.val.pushBtnHeight = myApp.elem.pushBtn.naturalHeight*myApp.val.pushBtnWidth/myApp.elem.pushBtn.naturalWidth;
+        }
+        myApp.elem.pushBtn.width = myApp.val.pushBtnWidth;
+        myApp.elem.pushBtn.height = myApp.val.pushBtnHeight;
+        myApp.val.pushBtnArea = myApp.elem.pushBtn.getBoundingClientRect();
+    }
+}
+//
+/* assign default image to push button */
+myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src;
+//
+/* change player size */
+if(myApp.os != 'other'){
+    myApp.val.playerWidth  = window.innerWidth;
+    myApp.val.playerHeight = window.innerWidth/16*9;
+}else{
     myApp.val.playerWidth  = 480;
     myApp.val.playerHeight = 480/16*9;
 }
-//
-/* change player size */
 player.setSize(myApp.val.playerWidth, myApp.val.playerHeight);
 //
 /* add textnodes to the elements */
