@@ -84,11 +84,10 @@ document.getElementsByTagName("body")[0].id = 'body';
 //
 /* View */
 /* test viewport */
-// let viewport = document.querySelector("meta[name=viewport]");
-// viewport.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0');
 let meta_viewport = document.createElement("meta");
 meta_viewport.setAttribute('name', 'viewport');
-meta_viewport.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0');
+// meta_viewport.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0');
+meta_viewport.setAttribute('content', 'width=device-width, initial-scale=1.0');
 document.getElementsByTagName("head")[0].appendChild(meta_viewport);
 /* add rule of body to style sheet */
 document.styleSheets.item(0).insertRule('html {touch-action: manipulation;}');
