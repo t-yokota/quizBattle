@@ -84,7 +84,7 @@ document.getElementsByTagName("body")[0].id = 'body';
 //
 /* View */
 /* add rule of body to style sheet */
-document.styleSheets.item(0).insertRule('body {text-align: center; margin: auto; background: #EFEFEF; touch-action: none;}');
+document.styleSheets.item(0).insertRule('html {text-align: center; margin: auto; background: #EFEFEF; touch-action: manipulation;}');
 //
 /*  */
 myApp.os = fetchOSType();
