@@ -84,11 +84,11 @@ document.getElementsByTagName("body")[0].id = 'body';
 //
 /* View */
 /* test viewport */
-let meta_viewport = document.createElement("meta");
-meta_viewport.setAttribute('name', 'viewport');
+// let meta_viewport = document.createElement("meta");
+// meta_viewport.setAttribute('name', 'viewport');
 // meta_viewport.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0');
-meta_viewport.setAttribute('content', 'width=device-width, initial-scale=1.0');
-document.getElementsByTagName("head")[0].appendChild(meta_viewport);
+// document.getElementsByTagName("head")[0].appendChild(meta_viewport);
+//
 /* add rule of body to style sheet */
 document.styleSheets.item(0).insertRule('html {touch-action: manipulation;}');
 document.styleSheets.item(0).insertRule('body {text-align: center; margin: auto; background: #EFEFEF;}');
@@ -98,28 +98,28 @@ myApp.os = fetchOSType();
 if (myApp.os == "other" || myApp.os != 'other'){
     //
     /* set elements */
-    // document.getElementsByTagName("body")[0].appendChild(myApp.elem.text);
-    // document.getElementsByTagName('body')[0].appendChild(myApp.elem.br1)
-    // document.getElementsByTagName("body")[0].appendChild(myApp.elem.ansCol);
-    // document.getElementsByTagName("body")[0].appendChild(myApp.elem.br2);    
-    // document.getElementsByTagName("body")[0].appendChild(myApp.elem.ansBtn); 
-    // document.getElementsByTagName("body")[0].appendChild(myApp.elem.br3);    
-    // // document.getElementsByTagName("body")[0].appendChild(myApp.elem.pushBtn);
-    // document.getElementsByTagName("body")[0].appendChild(myApp.elem.br4);    
-    // document.getElementsByTagName("body")[0].appendChild(myApp.elem.numOX);
-    // document.getElementsByTagName("body")[0].appendChild(myApp.elem.br5); 
-    // document.getElementsByTagName("body")[0].appendChild(myApp.elem.subText);
-    //
-    // myApp.elem.text.style.fontSize    = '40px'
-    // myApp.elem.text.style.lineHeight  = '100px'
-    // myApp.elem.text.style.fontWeight  = 'bold';
-    // // myApp.elem.ansCol.cols            = '35';
-    // myApp.elem.ansCol.style.fontSize  = '35px';
-    // myApp.elem.ansCol.style.textAlign = 'center';
-    // myApp.elem.ansBtn.style.fontSize  = '35px';
-    // myApp.elem.numOX.style.fontSize   = '40px';
-    // myApp.elem.numOX.style.lineHeight = '50px';
-    // myApp.elem.numOX.style.fontWeight = 'bold';
+    document.getElementsByTagName("body")[0].appendChild(myApp.elem.text);
+    document.getElementsByTagName('body')[0].appendChild(myApp.elem.br1)
+    document.getElementsByTagName("body")[0].appendChild(myApp.elem.ansCol);
+    document.getElementsByTagName("body")[0].appendChild(myApp.elem.br2);    
+    document.getElementsByTagName("body")[0].appendChild(myApp.elem.ansBtn); 
+    document.getElementsByTagName("body")[0].appendChild(myApp.elem.br3);    
+    document.getElementsByTagName("body")[0].appendChild(myApp.elem.pushBtn);
+    document.getElementsByTagName("body")[0].appendChild(myApp.elem.br4);    
+    document.getElementsByTagName("body")[0].appendChild(myApp.elem.numOX);
+    document.getElementsByTagName("body")[0].appendChild(myApp.elem.br5); 
+    document.getElementsByTagName("body")[0].appendChild(myApp.elem.subText);
+    
+    myApp.elem.text.style.fontSize    = '40px'
+    myApp.elem.text.style.lineHeight  = '100px'
+    myApp.elem.text.style.fontWeight  = 'bold';
+    // myApp.elem.ansCol.cols            = '35';
+    myApp.elem.ansCol.style.fontSize  = '35px';
+    myApp.elem.ansCol.style.textAlign = 'center';
+    myApp.elem.ansBtn.style.fontSize  = '35px';
+    myApp.elem.numOX.style.fontSize   = '40px';
+    myApp.elem.numOX.style.lineHeight = '50px';
+    myApp.elem.numOX.style.fontWeight = 'bold';
     //
     /* load image of push button */
     myApp.elem.imgBtn1.src = "https://github.com/t-yokota/quizBattle/raw/devel/convertToES6/figures/button_1.png";
