@@ -122,37 +122,13 @@ if (myApp.os != 'other'){
     myApp.elem.text.style.fontSize    = '40px'
     myApp.elem.text.style.lineHeight  = '100px'
     myApp.elem.text.style.fontWeight  = 'bold';
-    // myApp.elem.ansCol.cols            = '35';
+    myApp.elem.ansCol.style.width     = '100%';
     myApp.elem.ansCol.style.fontSize  = '35px';
     myApp.elem.ansCol.style.textAlign = 'center';
     myApp.elem.ansBtn.style.fontSize  = '35px';
     myApp.elem.numOX.style.fontSize   = '40px';
     myApp.elem.numOX.style.lineHeight = '50px';
     myApp.elem.numOX.style.fontWeight = 'bold';
-    //
-    /* resize image to fit window size */
-    myApp.elem.pushBtn.onload = function(){
-        if(myApp.val.imgLoadBool == false){
-            myApp.val.imgLoadBool = true;
-            const tmpImgHeight = window.innerHeight-myApp.elem.pushBtn.getBoundingClientRect().top-parseInt(myApp.elem.numOX.style.lineHeight)-20;
-            const tmpImgWidth  = myApp.elem.pushBtn.naturalWidth*tmpImgHeight/myApp.elem.pushBtn.naturalHeight;
-            if(tmpImgWidth < window.innerWidth){
-                myApp.val.pushBtnWidth = tmpImgWidth;
-                myApp.val.pushBtnHeight = tmpImgHeight;
-            }else{
-                myApp.val.pushBtnWidth = window.innerWidth;
-                myApp.val.pushBtnHeight = myApp.elem.pushBtn.naturalHeight*myApp.val.pushBtnWidth/myApp.elem.pushBtn.naturalWidth;
-            }
-            myApp.elem.pushBtn.width = myApp.val.pushBtnWidth;
-            myApp.elem.pushBtn.height = myApp.val.pushBtnHeight;
-            myApp.val.pushBtnArea = myApp.elem.pushBtn.getBoundingClientRect();
-        }
-    }
-    myApp.elem.pushBtn.width = window.innerWidth;
-    //
-    /* assign default image to push button */
-    myApp.elem.pushBtn.src   = myApp.elem.imgBtn1.src;
-    //
 } else {
     //    
     myApp.elem.text.style.fontSize    = '30px'
@@ -165,35 +141,29 @@ if (myApp.os != 'other'){
     myApp.elem.numOX.style.fontSize   = '30px';
     myApp.elem.numOX.style.lineHeight = '40px';
     myApp.elem.numOX.style.fontWeight = 'bold';
-    //
-    /* resize image to fit window size */
-    myApp.elem.pushBtn.onload = function(){
-        if(myApp.val.imgLoadBool == false){
-            myApp.val.imgLoadBool = true;
-            const tmpImgHeight = window.innerHeight-myApp.elem.pushBtn.getBoundingClientRect().top-parseInt(myApp.elem.numOX.style.lineHeight)-20;
-            const tmpImgWidth  = myApp.elem.pushBtn.naturalWidth*tmpImgHeight/myApp.elem.pushBtn.naturalHeight;
-            if(tmpImgWidth < window.innerWidth){
-                myApp.val.pushBtnWidth = tmpImgWidth;
-                myApp.val.pushBtnHeight = tmpImgHeight;
-            }else{
-                myApp.val.pushBtnWidth = window.innerWidth;
-                myApp.val.pushBtnHeight = myApp.elem.pushBtn.naturalHeight*myApp.val.pushBtnWidth/myApp.elem.pushBtn.naturalWidth;
-            }
-            myApp.elem.pushBtn.width = myApp.val.pushBtnWidth;
-            myApp.elem.pushBtn.height = myApp.val.pushBtnHeight;
-            myApp.val.pushBtnArea = myApp.elem.pushBtn.getBoundingClientRect();
-        }
-    }
-    myApp.elem.pushBtn.width = window.innerWidth;
-    //
-    /* assign default image to push button */
-    myApp.elem.pushBtn.src   = myApp.elem.imgBtn1.src;
-    //
-    /* change player size */
-    // myApp.val.playerWidth  = window.innerWidth;
-    // myApp.val.playerHeight = window.innerWidth/16*9;
-    // player.setSize(myApp.val.playerWidth, myApp.val.playerHeight);
 }
+//
+/* resize image to fit window size */
+myApp.elem.pushBtn.onload = function(){
+    if(myApp.val.imgLoadBool == false){
+        myApp.val.imgLoadBool = true;
+        const tmpImgHeight = window.innerHeight-myApp.elem.pushBtn.getBoundingClientRect().top-parseInt(myApp.elem.numOX.style.lineHeight)-20;
+        const tmpImgWidth  = myApp.elem.pushBtn.naturalWidth*tmpImgHeight/myApp.elem.pushBtn.naturalHeight;
+        if(tmpImgWidth < window.innerWidth){
+            myApp.val.pushBtnWidth = tmpImgWidth;
+            myApp.val.pushBtnHeight = tmpImgHeight;
+        }else{
+            myApp.val.pushBtnWidth = window.innerWidth;
+            myApp.val.pushBtnHeight = myApp.elem.pushBtn.naturalHeight*myApp.val.pushBtnWidth/myApp.elem.pushBtn.naturalWidth;
+        }
+        myApp.elem.pushBtn.width = myApp.val.pushBtnWidth;
+        myApp.elem.pushBtn.height = myApp.val.pushBtnHeight;
+        myApp.val.pushBtnArea = myApp.elem.pushBtn.getBoundingClientRect();
+    }
+}
+//
+/* assign default image to push button */
+myApp.elem.pushBtn.src   = myApp.elem.imgBtn1.src;
 //
 /* add textnodes to the elements */
 const node_text    = document.createTextNode("");
