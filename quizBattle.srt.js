@@ -93,23 +93,28 @@ document.getElementsByTagName("body")[0].id = 'body';
 document.styleSheets.item(0).insertRule('html {touch-action: manipulation;}');
 document.styleSheets.item(0).insertRule('body {text-align: center; margin: auto; background: #EFEFEF;}');
 //
+/* load image of push button */
+myApp.elem.imgBtn1.src = "https://github.com/t-yokota/quizBattle/raw/devel/convertToES6/figures/button_1.png";
+myApp.elem.imgBtn2.src = "https://github.com/t-yokota/quizBattle/raw/devel/convertToES6/figures/button_2.png";
+myApp.elem.imgBtn3.src = "https://github.com/t-yokota/quizBattle/raw/devel/convertToES6/figures/button_3.png";
+//
+/* set elements */
+document.getElementsByTagName("body")[0].appendChild(myApp.elem.text);
+document.getElementsByTagName('body')[0].appendChild(myApp.elem.br1)
+document.getElementsByTagName("body")[0].appendChild(myApp.elem.ansCol);
+document.getElementsByTagName("body")[0].appendChild(myApp.elem.br2);    
+document.getElementsByTagName("body")[0].appendChild(myApp.elem.ansBtn); 
+document.getElementsByTagName("body")[0].appendChild(myApp.elem.br3);    
+document.getElementsByTagName("body")[0].appendChild(myApp.elem.pushBtn);
+document.getElementsByTagName("body")[0].appendChild(myApp.elem.br4);    
+document.getElementsByTagName("body")[0].appendChild(myApp.elem.numOX);
+// document.getElementsByTagName("body")[0].appendChild(myApp.elem.br5); 
+// document.getElementsByTagName("body")[0].appendChild(myApp.elem.subText);
+//
 /*  */
 myApp.os = fetchOSType();
-if (myApp.os == "other" || myApp.os != 'other'){
+if (myApp.os != 'other'){
     //
-    /* set elements */
-    document.getElementsByTagName("body")[0].appendChild(myApp.elem.text);
-    document.getElementsByTagName('body')[0].appendChild(myApp.elem.br1)
-    document.getElementsByTagName("body")[0].appendChild(myApp.elem.ansCol);
-    document.getElementsByTagName("body")[0].appendChild(myApp.elem.br2);    
-    document.getElementsByTagName("body")[0].appendChild(myApp.elem.ansBtn); 
-    document.getElementsByTagName("body")[0].appendChild(myApp.elem.br3);    
-    document.getElementsByTagName("body")[0].appendChild(myApp.elem.pushBtn);
-    document.getElementsByTagName("body")[0].appendChild(myApp.elem.br4);    
-    document.getElementsByTagName("body")[0].appendChild(myApp.elem.numOX);
-    document.getElementsByTagName("body")[0].appendChild(myApp.elem.br5); 
-    document.getElementsByTagName("body")[0].appendChild(myApp.elem.subText);
-    
     myApp.elem.text.style.fontSize    = '40px'
     myApp.elem.text.style.lineHeight  = '100px'
     myApp.elem.text.style.fontWeight  = 'bold';
@@ -120,11 +125,6 @@ if (myApp.os == "other" || myApp.os != 'other'){
     myApp.elem.numOX.style.fontSize   = '40px';
     myApp.elem.numOX.style.lineHeight = '50px';
     myApp.elem.numOX.style.fontWeight = 'bold';
-    //
-    /* load image of push button */
-    myApp.elem.imgBtn1.src = "https://github.com/t-yokota/quizBattle/raw/devel/convertToES6/figures/button_1.png";
-    myApp.elem.imgBtn2.src = "https://github.com/t-yokota/quizBattle/raw/devel/convertToES6/figures/button_2.png";
-    myApp.elem.imgBtn3.src = "https://github.com/t-yokota/quizBattle/raw/devel/convertToES6/figures/button_3.png";
     //
     /* resize image to fit window size */
     myApp.elem.pushBtn.onload = function(){
@@ -153,64 +153,63 @@ if (myApp.os == "other" || myApp.os != 'other'){
     myApp.val.playerWidth  = window.innerWidth;
     myApp.val.playerHeight = window.innerWidth/16*9;
     player.setSize(myApp.val.playerWidth, myApp.val.playerHeight);
-    //
-    /* add textnodes to the elements */
-    const node_text    = document.createTextNode("");
-    const node_subText = document.createTextNode("");　
-    const node_numOX   = document.createTextNode("");
-    myApp.elem.text.appendChild(node_text);
-    myApp.elem.subText.appendChild(node_subText);
-    myApp.elem.numOX.appendChild(node_numOX);
-    //
-    /* set init value to the elements */
-    myApp.elem.text.innerHTML    = "quizBattle.srt.js";
-    myApp.elem.ansCol.value      = "ここに解答を入力";
-    myApp.elem.ansBtn.innerHTML  = "解答を送信";
-    myApp.elem.numOX.innerHTML   = "⭕️："+myApp.val.cntO+"　❌："+myApp.val.cntX;
-    myApp.elem.ansCol.disabled   = true;
-    myApp.elem.ansBtn.disabled   = true;
 } else {
-    // myApp.elem.subText.style.fontSize   = '20px'; 
-    // myApp.elem.subText.style.lineHeight = '32px';
-    // myApp.elem.ansCol.style.fontSize    = '20px'; 
-    // myApp.elem.ansBtn.style.fontSize    = '20px';
-    // //
-    // myApp.elem.imgBtn1.width = document.body.clientWidth;
-    // myApp.elem.imgBtn2.width = document.body.clientWidth;
-    // myApp.elem.imgBtn3.width = document.body.clientWidth;
-    // myApp.elem.imgBtn1.src = "https://github.com/t-yokota/quizBattle/raw/devel/convertToES6/figures/button1.png";
-    // myApp.elem.imgBtn2.src = "https://github.com/t-yokota/quizBattle/raw/devel/convertToES6/figures/button2.png";
-    // myApp.elem.imgBtn3.src = "https://github.com/t-yokota/quizBattle/raw/devel/convertToES6/figures/button3.png";
-    // //
-    // myApp.elem.pushBtn.width = document.body.clientWidth;
-    // myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src;
-    // // elementを表示
-    // document.getElementsByTagName("body")[0].appendChild(myApp.elem.pushBtn);
-    // document.getElementsByTagName("body")[0].appendChild(myApp.elem.text);
-    // document.getElementsByTagName("body")[0].appendChild(myApp.elem.subText);
-    // document.getElementsByTagName("body")[0].appendChild(myApp.elem.br1);
-    // document.getElementsByTagName("body")[0].appendChild(myApp.elem.br2);
-    // document.getElementsByTagName("body")[0].appendChild(myApp.elem.ansCol);
-    // document.getElementsByTagName("body")[0].appendChild(myApp.elem.br3);
-    // document.getElementsByTagName("body")[0].appendChild(myApp.elem.ansBtn);
-    // document.getElementsByTagName("body")[0].appendChild(myApp.elem.numOX);
-    // //
-    // // textNodeを作成してelementに追加
-    // const node_text    = document.createTextNode("");
-    // const node_subText = document.createTextNode("");　
-    // const node_numOX   = document.createTextNode("");
-    // myApp.elem.text.appendChild(node_text);
-    // myApp.elem.subText.appendChild(node_subText);
-    // myApp.elem.numOX.appendChild(node_numOX);
-    // //
-    // // elementの初期値の設定
-    // myApp.elem.text.innerHTML    = "quizBattle.srt.js";  //動画タイトル
-    // myApp.elem.subText.innerHTML = "動画の相手とクイズ対決"; //動画の説明
-    // myApp.elem.ansCol.value      = "ここに解答を入力してください";
-    // myApp.elem.ansBtn.innerHTML  = "解答を送信";
-    // myApp.elem.ansCol.disabled   = true;
-    // myApp.elem.ansBtn.disabled   = true;
+    //    
+    myApp.elem.text.style.fontSize    = '30px'
+    myApp.elem.text.style.lineHeight  = '90px'
+    myApp.elem.text.style.fontWeight  = 'bold';
+    myApp.elem.ansCol.cols            = '25';
+    myApp.elem.ansCol.style.fontSize  = '25px';
+    myApp.elem.ansCol.style.textAlign = 'center';
+    myApp.elem.ansBtn.style.fontSize  = '25px';
+    myApp.elem.numOX.style.fontSize   = '30px';
+    myApp.elem.numOX.style.lineHeight = '40px';
+    myApp.elem.numOX.style.fontWeight = 'bold';
+    //
+    /* resize image to fit window size */
+    myApp.elem.pushBtn.onload = function(){
+        if(myApp.val.imgLoadBool == false){
+            myApp.val.imgLoadBool = true;
+            const tmpImgHeight = window.innerHeight-myApp.elem.pushBtn.getBoundingClientRect().top-parseInt(myApp.elem.numOX.style.lineHeight)-20;
+            const tmpImgWidth  = myApp.elem.pushBtn.naturalWidth*tmpImgHeight/myApp.elem.pushBtn.naturalHeight;
+            if(tmpImgWidth < window.innerWidth){
+                myApp.val.pushBtnWidth = tmpImgWidth;
+                myApp.val.pushBtnHeight = tmpImgHeight;
+            }else{
+                myApp.val.pushBtnWidth = window.innerWidth;
+                myApp.val.pushBtnHeight = myApp.elem.pushBtn.naturalHeight*myApp.val.pushBtnWidth/myApp.elem.pushBtn.naturalWidth;
+            }
+            myApp.elem.pushBtn.width = myApp.val.pushBtnWidth;
+            myApp.elem.pushBtn.height = myApp.val.pushBtnHeight;
+            myApp.val.pushBtnArea = myApp.elem.pushBtn.getBoundingClientRect();
+        }
+    }
+    myApp.elem.pushBtn.width = window.innerWidth;
+    //
+    /* assign default image to push button */
+    myApp.elem.pushBtn.src   = myApp.elem.imgBtn1.src;
+    //
+    /* change player size */
+    // myApp.val.playerWidth  = window.innerWidth;
+    // myApp.val.playerHeight = window.innerWidth/16*9;
+    // player.setSize(myApp.val.playerWidth, myApp.val.playerHeight);
 }
+//
+/* add textnodes to the elements */
+const node_text    = document.createTextNode("");
+const node_subText = document.createTextNode("");　
+const node_numOX   = document.createTextNode("");
+myApp.elem.text.appendChild(node_text);
+myApp.elem.subText.appendChild(node_subText);
+myApp.elem.numOX.appendChild(node_numOX);
+//
+/* set init value to the elements */
+myApp.elem.text.innerHTML    = "quizBattle.srt.js";
+myApp.elem.ansCol.value      = "ここに解答を入力";
+myApp.elem.ansBtn.innerHTML  = "解答を送信";
+myApp.elem.numOX.innerHTML   = "⭕️："+myApp.val.cntO+"　❌："+myApp.val.cntX;
+myApp.elem.ansCol.disabled   = true;
+myApp.elem.ansBtn.disabled   = true;
 //
 /* get audio data */
 myApp.elem.sndPush.src = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/sounds/push.mp3";
@@ -391,7 +390,7 @@ function myIntervalEvent(){
         myApp.val.ansTime.elapsed = 0;
     }
     /* for check params */
-    printParams();
+    // printParams();
 }
 //
 /* set onclick event of send answer button */
@@ -576,9 +575,9 @@ const srtFuncArray = [
 myApp.val.status = myApp.state.ButtonCheck;
 player.pauseVideo();
 if(myApp.os != 'other'){
-    myApp.elem.text.innerHTML = "早押しボタンをタップして動画再生";
+    myApp.elem.text.innerHTML = "早押しボタンをタップして動画を再生する";
 }else{
-    myApp.elem.text.innerHTML = "スペースキーを押して早押しボタンを確認";
+    myApp.elem.text.innerHTML = "スペースキーを押して動画を再生する";
 }
 
 1
