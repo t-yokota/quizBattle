@@ -98,6 +98,28 @@ myApp.elem.imgBtn1.src = "https://github.com/t-yokota/quizBattle/raw/devel/conve
 myApp.elem.imgBtn2.src = "https://github.com/t-yokota/quizBattle/raw/devel/convertToES6/figures/button_2.png";
 myApp.elem.imgBtn3.src = "https://github.com/t-yokota/quizBattle/raw/devel/convertToES6/figures/button_3.png";
 //
+/* resize image to fit window size */
+myApp.elem.pushBtn.onload = function(){
+    if(myApp.val.imgLoadBool == false){
+        myApp.val.imgLoadBool = true;
+        const tmpImgHeight = window.innerHeight-myApp.elem.pushBtn.getBoundingClientRect().top-parseInt(myApp.elem.numOX.style.lineHeight)-20;
+        const tmpImgWidth  = myApp.elem.pushBtn.naturalWidth*tmpImgHeight/myApp.elem.pushBtn.naturalHeight;
+        if(tmpImgWidth < window.innerWidth){
+            myApp.val.pushBtnWidth = tmpImgWidth;
+            myApp.val.pushBtnHeight = tmpImgHeight;
+        }else{
+            myApp.val.pushBtnWidth = window.innerWidth;
+            myApp.val.pushBtnHeight = myApp.elem.pushBtn.naturalHeight*myApp.val.pushBtnWidth/myApp.elem.pushBtn.naturalWidth;
+        }
+        myApp.elem.pushBtn.width = myApp.val.pushBtnWidth;
+        myApp.elem.pushBtn.height = myApp.val.pushBtnHeight;
+        myApp.val.pushBtnArea = myApp.elem.pushBtn.getBoundingClientRect();
+    }
+}
+//
+/* assign default image to push button */
+myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src;
+//
 /* set elements */
 document.getElementsByTagName("body")[0].appendChild(myApp.elem.text);
 document.getElementsByTagName('body')[0].appendChild(myApp.elem.br1)
@@ -142,28 +164,6 @@ if (myApp.os != 'other'){
     myApp.val.playerWidth  = 480;
     myApp.val.playerHeight = 480/16*9;
 }
-//
-/* resize image to fit window size */
-myApp.elem.pushBtn.onload = function(){
-    if(myApp.val.imgLoadBool == false){
-        myApp.val.imgLoadBool = true;
-        const tmpImgHeight = window.innerHeight-myApp.elem.pushBtn.getBoundingClientRect().top-parseInt(myApp.elem.numOX.style.lineHeight)-20;
-        const tmpImgWidth  = myApp.elem.pushBtn.naturalWidth*tmpImgHeight/myApp.elem.pushBtn.naturalHeight;
-        if(tmpImgWidth < window.innerWidth){
-            myApp.val.pushBtnWidth = tmpImgWidth;
-            myApp.val.pushBtnHeight = tmpImgHeight;
-        }else{
-            myApp.val.pushBtnWidth = window.innerWidth;
-            myApp.val.pushBtnHeight = myApp.elem.pushBtn.naturalHeight*myApp.val.pushBtnWidth/myApp.elem.pushBtn.naturalWidth;
-        }
-        myApp.elem.pushBtn.width = myApp.val.pushBtnWidth;
-        myApp.elem.pushBtn.height = myApp.val.pushBtnHeight;
-        myApp.val.pushBtnArea = myApp.elem.pushBtn.getBoundingClientRect();
-    }
-}
-//
-/* assign default image to push button */
-myApp.elem.pushBtn.src   = myApp.elem.imgBtn1.src;
 //
 /* change player size */
 player.setSize(myApp.val.playerWidth, myApp.val.playerHeight);
