@@ -156,6 +156,7 @@ myApp.elem.pushBtn.onload = function(){
         myApp.val.pushBtnArea = myApp.elem.pushBtn.getBoundingClientRect();
     }
 }
+myApp.elem.pushBtn.width = window.innerWidth;
 //
 /* assign default image to push button */
 myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src;
