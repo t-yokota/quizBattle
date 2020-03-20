@@ -266,25 +266,25 @@ function myTouchEvent(event){
     }
 }
 //
-/* set touchstart event for preventing pinch gesture (for smartphone) */
-document.addEventListener('touchstart', disablePinchGesture, {passive: false});
-function disablePinchGesture(){
-    myApp.val.numFingers = event.touches.length;
-    if(event.touches.length > 1){
-        event.preventDefault();
-    }
-}
-//
-/* set touchend event for preventing double tap gesture (for smartphone) */
-document.addEventListener('touchend', disableDoubleTapGesture, {passive: false});
-function disableDoubleTapGesture(){
-    if(myApp.val.firstTapBool){
-        event.preventDefault();
-    }else{
-        myApp.val.firstTapBool = true;
-        setTimeout(function(){ myApp.val.firstTapBool = false; }, 300);
-    }
-}
+// /* set touchstart event for preventing pinch gesture (for smartphone) */
+// document.addEventListener('touchstart', disablePinchGesture, {passive: false});
+// function disablePinchGesture(){
+//     myApp.val.numFingers = event.touches.length;
+//     if(event.touches.length > 1){
+//         event.preventDefault();
+//     }
+// }
+// //
+// /* set touchend event for preventing double tap gesture (for smartphone) */
+// document.addEventListener('touchend', disableDoubleTapGesture, {passive: false});
+// function disableDoubleTapGesture(){
+//     if(myApp.val.firstTapBool){
+//         event.preventDefault();
+//     }else{
+//         myApp.val.firstTapBool = true;
+//         setTimeout(function(){ myApp.val.firstTapBool = false; }, 300);
+//     }
+// }
 //
 /* set main event listener */
 player.addEventListener('onStateChange', myEventListener);
