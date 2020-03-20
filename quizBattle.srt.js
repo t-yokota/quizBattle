@@ -499,29 +499,29 @@ function checkAnswer(){
 }
 //
 function printParams(){
-    // myApp.elem.text.innerHTML    = document.activeElement.id;
+    myApp.elem.text.innerHTML = document.body.clientWidth / window.innerWidth;
     // myApp.elem.text.innerHTML = document.styleSheets.item(1).cssRules.length;
-    myApp.elem.subText.innerHTML = 
-        "device: "           + myApp.os+"<br>"+
-        "activeElem: "       + document.activeElement.id+"<br>"+   
-        "status: "           + myApp.val.status+"<br>"+
-        "timePlay: "         + myApp.val.currTime.playing.toFixed(3)+"<br>"+
-        "timeStop: "         + myApp.val.currTime.stopped.toFixed(3)+"<br>"+
-        "WatchedTime: "      + myApp.val.watchedTime.toFixed(3)+"<br>"+
-        "diffTime: "         + myApp.val.diffTime.toFixed(3)+"<br>"+
-        "limPush: "          + myApp.val.limPush+"<br>"+ 
-        "cntPush: "          + myApp.val.cntPush+"<br>"+
-        "remainingAnsTime: " + Math.floor((myApp.val.ansTime.limit-myApp.val.ansTime.elapsed)/1000)+"<br>"+
-        "answer: "           + myApp.val.ansArray[myApp.val.numQues-1][0].valueOf()+", "+
-                               myApp.val.ansArray[myApp.val.numQues-1][1].valueOf()+", "+
-                               myApp.val.ansArray[myApp.val.numQues-1][2].valueOf()+"<br>"+
-        "answerLength: "     + myApp.val.ansArray[myApp.val.numQues-1].length+"<br>"+
-        "correctBool: "      + myApp.val.correctBool+"<br>"+
-        "composing: "        + myApp.val.composingBool+"<br>"+
-        "touchLength: "      + myApp.val.numFingers+"<br>"+
-        "index: "            + index+"<br>"+
-        "cntIndex: "         + myApp.val.cntIndex+"<br>"+
-        'cssRules: '         + document.styleSheets.item(0).cssRules.item(0).selectorText;
+    // myApp.elem.subText.innerHTML = 
+    //     "device: "           + myApp.os+"<br>"+
+    //     "activeElem: "       + document.activeElement.id+"<br>"+   
+    //     "status: "           + myApp.val.status+"<br>"+
+    //     "timePlay: "         + myApp.val.currTime.playing.toFixed(3)+"<br>"+
+    //     "timeStop: "         + myApp.val.currTime.stopped.toFixed(3)+"<br>"+
+    //     "WatchedTime: "      + myApp.val.watchedTime.toFixed(3)+"<br>"+
+    //     "diffTime: "         + myApp.val.diffTime.toFixed(3)+"<br>"+
+    //     "limPush: "          + myApp.val.limPush+"<br>"+ 
+    //     "cntPush: "          + myApp.val.cntPush+"<br>"+
+    //     "remainingAnsTime: " + Math.floor((myApp.val.ansTime.limit-myApp.val.ansTime.elapsed)/1000)+"<br>"+
+    //     "answer: "           + myApp.val.ansArray[myApp.val.numQues-1][0].valueOf()+", "+
+    //                            myApp.val.ansArray[myApp.val.numQues-1][1].valueOf()+", "+
+    //                            myApp.val.ansArray[myApp.val.numQues-1][2].valueOf()+"<br>"+
+    //     "answerLength: "     + myApp.val.ansArray[myApp.val.numQues-1].length+"<br>"+
+    //     "correctBool: "      + myApp.val.correctBool+"<br>"+
+    //     "composing: "        + myApp.val.composingBool+"<br>"+
+    //     "touchLength: "      + myApp.val.numFingers+"<br>"+
+    //     "index: "            + index+"<br>"+
+    //     "cntIndex: "         + myApp.val.cntIndex+"<br>"+
+    //     'cssRules: '         + document.styleSheets.item(0).cssRules.item(0).selectorText;
 }
 //
 /*  */
@@ -568,7 +568,7 @@ const srtFuncArray = [
 /* button check */
 myApp.val.status = myApp.state.ButtonCheck;
 player.pauseVideo();
-if(myApp.os == 'other'){
+if(myApp.os != 'other'){
     myApp.elem.text.innerHTML = "早押しボタンをタップして動画再生";
 }else{
     myApp.elem.text.innerHTML = "スペースキーを押して早押しボタンを確認";
