@@ -114,11 +114,6 @@ document.getElementsByTagName("body")[0].appendChild(myApp.elem.numOX);
 /*  */
 myApp.os = fetchOSType();
 if (myApp.os != 'other'){
-    /* change player size */
-    myApp.val.playerWidth  = window.innerWidth;
-    myApp.val.playerHeight = window.innerWidth/16*9;
-    player.setSize(myApp.val.playerWidth, myApp.val.playerHeight);
-    //
     myApp.elem.text.style.fontSize    = '40px'
     myApp.elem.text.style.lineHeight  = '100px'
     myApp.elem.text.style.fontWeight  = 'bold';
@@ -129,8 +124,10 @@ if (myApp.os != 'other'){
     myApp.elem.numOX.style.fontSize   = '40px';
     myApp.elem.numOX.style.lineHeight = '50px';
     myApp.elem.numOX.style.fontWeight = 'bold';
+    //
+    myApp.val.playerWidth  = window.innerWidth;
+    myApp.val.playerHeight = window.innerWidth/16*9;
 } else {
-    //    
     myApp.elem.text.style.fontSize    = '30px'
     myApp.elem.text.style.lineHeight  = '90px'
     myApp.elem.text.style.fontWeight  = 'bold';
@@ -141,6 +138,9 @@ if (myApp.os != 'other'){
     myApp.elem.numOX.style.fontSize   = '30px';
     myApp.elem.numOX.style.lineHeight = '40px';
     myApp.elem.numOX.style.fontWeight = 'bold';
+    //
+    myApp.val.playerWidth  = 480;
+    myApp.val.playerHeight = 480/16*9;
 }
 //
 /* resize image to fit window size */
@@ -164,6 +164,9 @@ myApp.elem.pushBtn.onload = function(){
 //
 /* assign default image to push button */
 myApp.elem.pushBtn.src   = myApp.elem.imgBtn1.src;
+//
+/* change player size */
+player.setSize(myApp.val.playerWidth, myApp.val.playerHeight);
 //
 /* add textnodes to the elements */
 const node_text    = document.createTextNode("");
