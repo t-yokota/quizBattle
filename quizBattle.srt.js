@@ -84,8 +84,8 @@ document.getElementsByTagName("body")[0].id = 'body';
 //
 /* View */
 /* add rule of body to style sheet */
-document.styleSheets.item(0).insertRule('html {text-align: center; margin: auto; background: #EFEFEF; touch-action: manipulation;}');
-document.styleSheets.item(0).insertRule('body {margin: auto;}');
+document.styleSheets.item(0).insertRule('html {touch-action: manipulation;}');
+document.styleSheets.item(0).insertRule('body {text-align: center; margin: auto; background: #EFEFEF; transform: scale(1);}');
 //
 /*  */
 myApp.os = fetchOSType();
@@ -392,6 +392,7 @@ function myIntervalEvent(){
 myApp.elem.ansBtn.onclick = myOnClickEvent;
 function myOnClickEvent(){
     if(myApp.val.status == myApp.state.MyAnswer){
+        document.body.style.transform = 'scale(1.0)';
         checkAnswer();
         if(myApp.val.correctBool == true || myApp.val.limPush - myApp.val.cntPush == 0){
             myApp.val.status = myApp.state.Talk;
