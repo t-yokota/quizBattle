@@ -101,7 +101,6 @@ if(myApp.os != 'other'){
 }else{
     myApp.val.playerHeight = window.innerHeight/2.3;
     myApp.val.playerWidth  = myApp.val.playerHeight/9*16;
-    myApp.elem.ansCol.style.width = myApp.val.playerWidth/window.innerWidth*90+'%';
 }
 player.setSize(myApp.val.playerWidth, myApp.val.playerHeight);
 //
@@ -123,7 +122,7 @@ if (myApp.os != 'other'){
     myApp.elem.text.style.fontSize    = '40px'
     myApp.elem.text.style.lineHeight  = '100px'
     myApp.elem.text.style.fontWeight  = 'bold';
-    myApp.elem.ansCol.style.width     = '100%';
+    myApp.elem.ansCol.style.width     = myApp.val.playerWidth/window.innerWidth*100+'%';
     myApp.elem.ansCol.style.fontSize  = '35px';
     myApp.elem.ansCol.style.textAlign = 'center';
     myApp.elem.ansBtn.style.fontSize  = '35px';
@@ -136,6 +135,7 @@ if (myApp.os != 'other'){
     myApp.elem.text.style.lineHeight  = '70px'
     myApp.elem.text.style.fontWeight  = 'bold';
     myApp.elem.ansCol.style.fontSize  = '20px';
+    myApp.elem.ansCol.style.width     = myApp.val.playerWidth/window.innerWidth*90+'%';
     myApp.elem.ansCol.style.textAlign = 'center';
     myApp.elem.ansBtn.style.fontSize  = '20px';
     myApp.elem.numOX.style.fontSize   = '25px';
