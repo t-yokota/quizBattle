@@ -111,6 +111,7 @@ if (myApp.os != 'other'){
     myApp.elem.text.style.fontSize    = '40px';
     myApp.elem.text.style.lineHeight  = '100px';
     myApp.elem.text.style.fontWeight  = 'bold';
+    myApp.elem.ansCol.style.width     = '100%';
     myApp.elem.ansCol.style.fontSize  = '35px';
     myApp.elem.ansCol.style.textAlign = 'center';
     myApp.elem.ansBtn.style.fontSize  = '35px';
@@ -130,24 +131,22 @@ if (myApp.os != 'other'){
     myApp.elem.numOX.style.fontWeight = 'bold';
 }
 //
-/* load image of push button */
-myApp.elem.imgBtn1.src = "https://github.com/t-yokota/quizBattle/raw/devel/convertToES6/figures/button_1.png";
-myApp.elem.imgBtn2.src = "https://github.com/t-yokota/quizBattle/raw/devel/convertToES6/figures/button_2.png";
-myApp.elem.imgBtn3.src = "https://github.com/t-yokota/quizBattle/raw/devel/convertToES6/figures/button_3.png";
-//
-//
 /* change player size */
 myApp.os = fetchOSType();
 if(myApp.os != 'other'){
     myApp.val.playerWidth  = window.innerWidth;
     myApp.val.playerHeight = window.innerWidth/16*9;
-    myApp.elem.ansCol.style.width = '100%';
 }else{
     myApp.val.playerHeight = window.innerHeight/2.3;
     myApp.val.playerWidth  = myApp.val.playerHeight/9*16;
     myApp.elem.ansCol.style.width = myApp.val.playerWidth/window.innerWidth*90+'%';
 }
 player.setSize(myApp.val.playerWidth, myApp.val.playerHeight);
+//
+/* load image of push button */
+myApp.elem.imgBtn1.src = "https://github.com/t-yokota/quizBattle/raw/devel/convertToES6/figures/button_1.png";
+myApp.elem.imgBtn2.src = "https://github.com/t-yokota/quizBattle/raw/devel/convertToES6/figures/button_2.png";
+myApp.elem.imgBtn3.src = "https://github.com/t-yokota/quizBattle/raw/devel/convertToES6/figures/button_3.png";
 //
 /* change image size */
 myApp.elem.pushBtn.onload = function(){
