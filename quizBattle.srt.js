@@ -94,6 +94,7 @@ document.styleSheets.item(0).insertRule('html {touch-action: manipulation;}');
 document.styleSheets.item(0).insertRule('body {text-align: center; margin: auto; background: #EFEFEF;}');
 //
 /* change player size */
+myApp.os = fetchOSType();
 if(myApp.os != 'other'){
     myApp.val.playerWidth  = window.innerWidth;
     myApp.val.playerHeight = window.innerWidth/16*9;
@@ -118,7 +119,6 @@ document.getElementsByTagName("body")[0].appendChild(myApp.elem.numOX);
 // document.getElementsByTagName("body")[0].appendChild(myApp.elem.subText);
 //
 /*  */
-myApp.os = fetchOSType();
 if (myApp.os != 'other'){
     myApp.elem.text.style.fontSize    = '40px'
     myApp.elem.text.style.lineHeight  = '100px'
