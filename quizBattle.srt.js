@@ -114,15 +114,15 @@ document.getElementsByTagName("body")[0].appendChild(myApp.elem.br3);
 document.getElementsByTagName("body")[0].appendChild(myApp.elem.pushBtn);
 document.getElementsByTagName("body")[0].appendChild(myApp.elem.br4);    
 document.getElementsByTagName("body")[0].appendChild(myApp.elem.numOX);
-// document.getElementsByTagName("body")[0].appendChild(myApp.elem.br5); 
-// document.getElementsByTagName("body")[0].appendChild(myApp.elem.subText);
+document.getElementsByTagName("body")[0].appendChild(myApp.elem.br5); 
+document.getElementsByTagName("body")[0].appendChild(myApp.elem.subText);
 //
 /*  */
 if (myApp.os != 'other'){
-    myApp.elem.text.style.fontSize    = '40px'
-    myApp.elem.text.style.lineHeight  = '100px'
+    myApp.elem.text.style.fontSize    = '40px';
+    myApp.elem.text.style.lineHeight  = '100px';
     myApp.elem.text.style.fontWeight  = 'bold';
-    myApp.elem.ansCol.style.width     = myApp.val.playerWidth/window.innerWidth*100+'%';
+    myApp.elem.ansCol.style.width     = '100%';
     myApp.elem.ansCol.style.fontSize  = '35px';
     myApp.elem.ansCol.style.textAlign = 'center';
     myApp.elem.ansBtn.style.fontSize  = '35px';
@@ -131,11 +131,11 @@ if (myApp.os != 'other'){
     myApp.elem.numOX.style.fontWeight = 'bold';
     //
 } else {
-    myApp.elem.text.style.fontSize    = '25px'
-    myApp.elem.text.style.lineHeight  = '70px'
+    myApp.elem.text.style.fontSize    = '25px';
+    myApp.elem.text.style.lineHeight  = '70px';
     myApp.elem.text.style.fontWeight  = 'bold';
-    myApp.elem.ansCol.style.fontSize  = '20px';
     myApp.elem.ansCol.style.width     = myApp.val.playerWidth/window.innerWidth*90+'%';
+    myApp.elem.ansCol.style.fontSize  = '20px';
     myApp.elem.ansCol.style.textAlign = 'center';
     myApp.elem.ansBtn.style.fontSize  = '20px';
     myApp.elem.numOX.style.fontSize   = '25px';
@@ -483,6 +483,7 @@ function checkAnswer(){
 function printParams(){
     // myApp.elem.text.innerHTML = document.body.clientWidth / window.innerWidth;
     myApp.elem.text.innerHTML = navigator.userAgent;
+    myApp.elem.subText.innerHTML = 'playerWidth: ' + myApp.val.playerWidth + ', innerWidth: ' + window.innerWidth;
     // myApp.elem.text.innerHTML = document.styleSheets.item(1).cssRules.length;
     // myApp.elem.subText.innerHTML = 
     //     "device: "           + myApp.os+"<br>"+
