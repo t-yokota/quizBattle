@@ -121,15 +121,15 @@ if (myApp.os != 'other'){
     myApp.elem.numOX.style.fontWeight = 'bold';
     //
 } else {
-    myApp.elem.text.style.fontSize    = '30px'
-    myApp.elem.text.style.lineHeight  = '90px'
+    myApp.elem.text.style.fontSize    = '25px'
+    myApp.elem.text.style.lineHeight  = '70px'
     myApp.elem.text.style.fontWeight  = 'bold';
-    myApp.elem.ansCol.cols            = '25';
-    myApp.elem.ansCol.style.fontSize  = '25px';
+    myApp.elem.ansCol.cols            = '20';
+    myApp.elem.ansCol.style.fontSize  = '20px';
     myApp.elem.ansCol.style.textAlign = 'center';
-    myApp.elem.ansBtn.style.fontSize  = '25px';
-    myApp.elem.numOX.style.fontSize   = '30px';
-    myApp.elem.numOX.style.lineHeight = '40px';
+    myApp.elem.ansBtn.style.fontSize  = '20px';
+    myApp.elem.numOX.style.fontSize   = '25px';
+    myApp.elem.numOX.style.lineHeight = '35px';
     myApp.elem.numOX.style.fontWeight = 'bold';
 }
 //
@@ -166,8 +166,10 @@ if(myApp.os != 'other'){
     myApp.val.playerWidth  = window.innerWidth;
     myApp.val.playerHeight = window.innerWidth/16*9;
 }else{
-    myApp.val.playerWidth  = 480;
-    myApp.val.playerHeight = 480/16*9;
+    // myApp.val.playerWidth  = 600;
+    // myApp.val.playerHeight = 640/16*9;
+    myApp.val.playerHeight = window.innerHeight/2.3;
+    myApp.val.playerWidth  = myApp.val.playerHeight/9*16;
 }
 player.setSize(myApp.val.playerWidth, myApp.val.playerHeight);
 //
@@ -551,9 +553,9 @@ const srtFuncArray = [
 myApp.val.status = myApp.state.ButtonCheck;
 player.pauseVideo();
 if(myApp.os != 'other'){
-    myApp.elem.text.innerHTML = "早押しボタンをタップして動画を再生する";
+    myApp.elem.text.innerHTML = "早押しボタンをタップしてクイズをはじめる";
 }else{
-    myApp.elem.text.innerHTML = "スペースキーを押して動画を再生する";
+    myApp.elem.text.innerHTML = "スペースキーを押してクイズをはじめる";
 }
 
 1
