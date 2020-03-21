@@ -111,7 +111,6 @@ if (myApp.os != 'other'){
     myApp.elem.text.style.fontSize    = '40px';
     myApp.elem.text.style.lineHeight  = '100px';
     myApp.elem.text.style.fontWeight  = 'bold';
-    myApp.elem.ansCol.style.width     = '100%';
     myApp.elem.ansCol.style.fontSize  = '35px';
     myApp.elem.ansCol.style.textAlign = 'center';
     myApp.elem.ansBtn.style.fontSize  = '35px';
@@ -142,6 +141,7 @@ myApp.os = fetchOSType();
 if(myApp.os != 'other'){
     myApp.val.playerWidth  = window.innerWidth;
     myApp.val.playerHeight = window.innerWidth/16*9;
+    myApp.elem.ansCol.style.width = '100%';
 }else{
     myApp.val.playerHeight = window.innerHeight/2.3;
     myApp.val.playerWidth  = myApp.val.playerHeight/9*16;
