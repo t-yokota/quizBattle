@@ -124,8 +124,7 @@ if (myApp.os != 'other'){
     myApp.elem.text.style.fontSize    = '25px'
     myApp.elem.text.style.lineHeight  = '70px'
     myApp.elem.text.style.fontWeight  = 'bold';
-    myApp.elem.ansCol.cols            = '20';
-    myApp.elem.ansCol.style.fontSize  = '20px';
+    myApp.elem.ansCol.style.fontSize  = '0px';
     myApp.elem.ansCol.style.textAlign = 'center';
     myApp.elem.ansBtn.style.fontSize  = '20px';
     myApp.elem.numOX.style.fontSize   = '25px';
@@ -138,7 +137,18 @@ myApp.elem.imgBtn1.src = "https://github.com/t-yokota/quizBattle/raw/devel/conve
 myApp.elem.imgBtn2.src = "https://github.com/t-yokota/quizBattle/raw/devel/convertToES6/figures/button_2.png";
 myApp.elem.imgBtn3.src = "https://github.com/t-yokota/quizBattle/raw/devel/convertToES6/figures/button_3.png";
 //
-/* resize image to fit window size */
+/* change player size */
+if(myApp.os != 'other'){
+    myApp.val.playerWidth  = window.innerWidth;
+    myApp.val.playerHeight = window.innerWidth/16*9;
+}else{
+    myApp.val.playerHeight = window.innerHeight/2.3;
+    myApp.val.playerWidth  = myApp.val.playerHeight/9*16;
+    myApp.elem.ansCol.style.width = myApp.val.playerWidth/window.innerWidth*95+'%';
+}
+player.setSize(myApp.val.playerWidth, myApp.val.playerHeight);
+//
+/* change image size */
 myApp.elem.pushBtn.onload = function(){
     if(myApp.val.imgLoadBool == false){
         myApp.val.imgLoadBool = true;
@@ -156,22 +166,10 @@ myApp.elem.pushBtn.onload = function(){
         myApp.val.pushBtnArea = myApp.elem.pushBtn.getBoundingClientRect();
     }
 }
-myApp.elem.pushBtn.width = window.innerWidth;
+myApp.elem.pushBtn.width = window.innerWidth; /* init size before loading image */
 //
 /* assign default image to push button */
 myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src;
-//
-/* change player size */
-if(myApp.os != 'other'){
-    myApp.val.playerWidth  = window.innerWidth;
-    myApp.val.playerHeight = window.innerWidth/16*9;
-}else{
-    // myApp.val.playerWidth  = 600;
-    // myApp.val.playerHeight = 640/16*9;
-    myApp.val.playerHeight = window.innerHeight/2.3;
-    myApp.val.playerWidth  = myApp.val.playerHeight/9*16;
-}
-player.setSize(myApp.val.playerWidth, myApp.val.playerHeight);
 //
 /* add textnodes to the elements */
 const node_text    = document.createTextNode("");
@@ -472,11 +470,11 @@ function checkAnswer(){
     if(myApp.val.correctBool == true){
         myApp.elem.sndO.play();
         myApp.val.cntO += 1;
-        myApp.elem.text.innerHTML = "正解です！";
+        myApp.elem.text.innerHTML = "正解！";
     }else{
         myApp.elem.sndX.play();
         myApp.val.cntX += 1;
-        myApp.elem.text.innerHTML = "不正解です！"; //あと"+(myApp.val.limPush-myApp.val.cntPush)+"回解答できます。";
+        myApp.elem.text.innerHTML = "不正解！"; //あと"+(myApp.val.limPush-myApp.val.cntPush)+"回解答できます。";
     }
     myApp.elem.numOX.innerHTML  = "⭕️："+myApp.val.cntO+"　❌："+myApp.val.cntX;
     myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src;
