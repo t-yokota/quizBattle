@@ -144,7 +144,7 @@ if(myApp.os != 'other'){
 }else{
     myApp.val.playerHeight = window.innerHeight/2.3;
     myApp.val.playerWidth  = myApp.val.playerHeight/9*16;
-    myApp.elem.ansCol.style.width = myApp.val.playerWidth/window.innerWidth*95+'%';
+    myApp.elem.ansCol.style.width = myApp.val.playerWidth/window.innerWidth*90+'%';
 }
 player.setSize(myApp.val.playerWidth, myApp.val.playerHeight);
 //
@@ -366,7 +366,7 @@ function myIntervalEvent(){
         myApp.val.ansTime.elapsed = 0;
     }
     /* for check params */
-    // printParams();
+    printParams();
 }
 //
 /* set onclick event of send answer button */
@@ -481,7 +481,8 @@ function checkAnswer(){
 }
 //
 function printParams(){
-    myApp.elem.text.innerHTML = document.body.clientWidth / window.innerWidth;
+    // myApp.elem.text.innerHTML = document.body.clientWidth / window.innerWidth;
+    myApp.elem.text.innerHTML = navigator.userAgent;
     // myApp.elem.text.innerHTML = document.styleSheets.item(1).cssRules.length;
     // myApp.elem.subText.innerHTML = 
     //     "device: "           + myApp.os+"<br>"+
