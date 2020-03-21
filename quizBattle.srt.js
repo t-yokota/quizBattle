@@ -102,7 +102,6 @@ if(myApp.os != 'other'){
     myApp.val.playerHeight = window.innerHeight/2.3;
     myApp.val.playerWidth  = myApp.val.playerHeight/9*16;
 }
-player.setSize(myApp.val.playerWidth, myApp.val.playerHeight);
 //
 /* set elements */
 document.getElementsByTagName("body")[0].appendChild(myApp.elem.text);
@@ -148,6 +147,7 @@ myApp.elem.imgBtn1.src = "https://github.com/t-yokota/quizBattle/raw/devel/conve
 myApp.elem.imgBtn2.src = "https://github.com/t-yokota/quizBattle/raw/devel/convertToES6/figures/button_2.png";
 myApp.elem.imgBtn3.src = "https://github.com/t-yokota/quizBattle/raw/devel/convertToES6/figures/button_3.png";
 //
+player.setSize(myApp.val.playerWidth, myApp.val.playerHeight);
 /* change image size */
 myApp.elem.pushBtn.onload = function(){
     if(myApp.val.imgLoadBool == false){
