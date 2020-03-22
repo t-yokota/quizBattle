@@ -34,7 +34,6 @@ const myApp = {
         br4     : document.createElement("br"),
         br5     : document.createElement("br"),
         subText : document.createElement("text"),
-        errorText : document.createElement("text"),
     },
     val: {
         playerWidth   : 0,
@@ -103,7 +102,6 @@ document.getElementsByTagName("body")[0].appendChild(myApp.elem.br2);
 document.getElementsByTagName("body")[0].appendChild(myApp.elem.ansBtn); 
 document.getElementsByTagName("body")[0].appendChild(myApp.elem.br3);    
 document.getElementsByTagName("body")[0].appendChild(myApp.elem.pushBtn);
-document.getElementsByTagName("body")[0].appendChild(myApp.elem.errorText);
 document.getElementsByTagName("body")[0].appendChild(myApp.elem.br4);    
 document.getElementsByTagName("body")[0].appendChild(myApp.elem.numOX);
 // document.getElementsByTagName("body")[0].appendChild(myApp.elem.br5); 
@@ -153,9 +151,7 @@ myApp.elem.imgBtn3.onerror = myOnErrorLordingImg;
 myApp.elem.pushBtn.onerror = myOnErrorLordingImg;
 function myOnErrorLordingImg(){
     myApp.val.imgErrorBool = true;
-    myApp.elem.errorText.style.fontSize = '40px';
-    myApp.elem.errorText.style.lineHeight = '60px';
-    myApp.elem.errorText.innerHTML = "画像の読み込みに失敗しました。ページを再読み込みしてください。";
+    alert("画像の読み込みに失敗しました。ページを再読み込みしてください。");
 }
 //
 /* change push button size after loading */
@@ -183,10 +179,8 @@ myApp.elem.imgBtn2.src = "https://github.com/t-yokota/quizBattle/raw/devel/conve
 myApp.elem.imgBtn3.src = "https://github.com/t-yokota/quizBattle/raw/devel/convertToES6/figures/button_3.png";
 //
 /* assign default image to push button */
-if(myApp.val.imgErrorBool == false){
-    myApp.elem.pushBtn.width = window.innerWidth; /* init size before loading */
-    myApp.elem.pushBtn.src   = myApp.elem.imgBtn1.src;
-}
+myApp.elem.pushBtn.width = window.innerWidth; /* init size before loading */
+myApp.elem.pushBtn.src   = myApp.elem.imgBtn1.src;
 //
 /* add textnodes to the elements */
 const node_text    = document.createTextNode("");
@@ -226,42 +220,46 @@ document.addEventListener("compositionstart", function(){ myApp.val.composingBoo
 document.addEventListener('compositionend', function(){ myApp.val.composingBool = false; });
 document.onkeydown = myKeyDownEvent;
 function myKeyDownEvent(){
-    if(event.keyCode == myApp.val.btnCode){
-        if(myApp.val.status == myApp.state.ButtonCheck && myApp.val.btnLoadBool == true){
-            const interval = 1000;
-            buttonCheck(interval);
-            myApp.val.status = myApp.state.Talk;
-            setTimeout(function(){ player.playVideo(); }, interval+1500);
+    if(myApp.val.imgErrorBool == false && myApp.val.btnLoadBool == true){
+        if(event.keyCode == myApp.val.btnCode){
+            if(myApp.val.status == myApp.state.ButtonCheck){
+                const interval = 1000;
+                buttonCheck(interval);
+                myApp.val.status = myApp.state.Talk;
+                setTimeout(function(){ player.playVideo(); }, interval+1500);
+            }
+            if(myApp.val.status == myApp.state.Question){
+                myApp.val.cntPush = pushButton();
+                myApp.val.status  = myApp.state.MyAnswer;
+                player.pauseVideo();
+            }
         }
-        if(myApp.val.status == myApp.state.Question){
-            myApp.val.cntPush = pushButton();
-            myApp.val.status  = myApp.state.MyAnswer;
-            player.pauseVideo();
-        }
-    }
-    if(event.keyCode == 13/* Enter key */){
-        if(myApp.val.composingBool == false){
-            return false;
+        if(event.keyCode == 13/* Enter key */){
+            if(myApp.val.composingBool == false){
+                return false;
+            }
         }
     }
 }
 //
 /* set main touchstart event (for smartphone) */
 document.addEventListener("touchstart", myTouchEvent);
-function myTouchEvent(event){
-    const touchObject = event.changedTouches[0];
-    if( myApp.val.pushBtnArea.left < touchObject.pageX && touchObject.pageX < myApp.val.pushBtnArea.right ){
-        if( myApp.val.pushBtnArea.top < touchObject.pageY && touchObject.pageY < myApp.val.pushBtnArea.bottom ){
-            if(myApp.val.status == myApp.state.ButtonCheck){
-                const interval = 1000; 
-                buttonCheck(interval);
-                myApp.val.status = myApp.state.Talk;
-                setTimeout(function(){ player.playVideo(); }, interval+1500);
-            }
-            if(myApp.val.status == myApp.state.Question){
-                pushButton();
-                myApp.val.status  = myApp.state.MyAnswer;
-                player.pauseVideo();
+function myTouchEvent(event){    
+    if(myApp.val.imgErrorBool == false && myApp.val.btnLoadBool == true){ 
+        const touchObject = event.changedTouches[0];
+        if( myApp.val.pushBtnArea.left < touchObject.pageX && touchObject.pageX < myApp.val.pushBtnArea.right ){
+            if( myApp.val.pushBtnArea.top < touchObject.pageY && touchObject.pageY < myApp.val.pushBtnArea.bottom ){
+                if(myApp.val.status == myApp.state.ButtonCheck){
+                    const interval = 1000; 
+                    buttonCheck(interval);
+                    myApp.val.status = myApp.state.Talk;
+                    setTimeout(function(){ player.playVideo(); }, interval+1500);
+                }
+                if(myApp.val.status == myApp.state.Question){
+                    pushButton();
+                    myApp.val.status  = myApp.state.MyAnswer;
+                    player.pauseVideo();
+                }
             }
         }
     }
