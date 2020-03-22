@@ -104,8 +104,8 @@ document.getElementsByTagName("body")[0].appendChild(myApp.elem.br3);
 document.getElementsByTagName("body")[0].appendChild(myApp.elem.pushBtn);
 document.getElementsByTagName("body")[0].appendChild(myApp.elem.br4);    
 document.getElementsByTagName("body")[0].appendChild(myApp.elem.numOX);
-// document.getElementsByTagName("body")[0].appendChild(myApp.elem.br5); 
-// document.getElementsByTagName("body")[0].appendChild(myApp.elem.subText);
+document.getElementsByTagName("body")[0].appendChild(myApp.elem.br5); 
+document.getElementsByTagName("body")[0].appendChild(myApp.elem.subText);
 //
 /*  */
 if (myApp.os != 'other'){
@@ -121,12 +121,12 @@ if (myApp.os != 'other'){
     myApp.elem.numOX.style.fontWeight = 'bold';
     //
 } else {
-    myApp.elem.text.style.fontSize    = '25px';
-    myApp.elem.text.style.lineHeight  = '70px';
+    myApp.elem.text.style.fontSize    = '20px';
+    myApp.elem.text.style.lineHeight  = '50px';
     myApp.elem.text.style.fontWeight  = 'bold';
-    myApp.elem.ansCol.style.fontSize  = '20px';
+    myApp.elem.ansCol.style.fontSize  = '15px';
     myApp.elem.ansCol.style.textAlign = 'center';
-    myApp.elem.ansBtn.style.fontSize  = '20px';
+    myApp.elem.ansBtn.style.fontSize  = '15px';
     myApp.elem.numOX.style.fontSize   = '25px';
     myApp.elem.numOX.style.lineHeight = '35px';
     myApp.elem.numOX.style.fontWeight = 'bold';
@@ -145,17 +145,14 @@ if(myApp.os != 'other'){
 player.setSize(myApp.val.playerWidth, myApp.val.playerHeight);
 //
 /* error handling for loading image */
-myApp.elem.imgBtn1.onerror = myOnErrorLordingImg;
-myApp.elem.imgBtn2.onerror = myOnErrorLordingImg;
-myApp.elem.imgBtn3.onerror = myOnErrorLordingImg;
-function myOnErrorLordingImg(){
-    myApp.val.imgErrorBool = true;
-    alert("画像の読み込みに失敗しました。ページを再読み込みしてください。");
-}
+myApp.elem.imgBtn1.onerror = function(){ myApp.val.imgErrorBool = true; };
+myApp.elem.imgBtn2.onerror = function(){ myApp.val.imgErrorBool = true; };
+myApp.elem.imgBtn3.onerror = function(){ myApp.val.imgErrorBool = true; };
+myApp.elem.pushBtn.onerror = function(){ alert("画像の読み込みに失敗しました。ページを再読み込みしてください。"); }
 //
 /* change push button size after loading */
 myApp.elem.pushBtn.onload = function(){
-    if(myApp.val.btnLoadBool == false){
+    if(myApp.val.imgErrorBool == false && myApp.val.btnLoadBool == false){
         myApp.val.btnLoadBool = true;
         const tmpImgHeight = window.innerHeight-myApp.elem.pushBtn.getBoundingClientRect().top-parseInt(myApp.elem.numOX.style.lineHeight)-20;
         const tmpImgWidth  = myApp.elem.pushBtn.naturalWidth*tmpImgHeight/myApp.elem.pushBtn.naturalHeight;
@@ -169,6 +166,8 @@ myApp.elem.pushBtn.onload = function(){
         myApp.elem.pushBtn.width = myApp.val.pushBtnWidth;
         myApp.elem.pushBtn.height = myApp.val.pushBtnHeight;
         myApp.val.pushBtnArea = myApp.elem.pushBtn.getBoundingClientRect();
+    }else{
+        alert("画像の読み込みに失敗しました。ページを再読み込みしてください。");
     }
 }
 //
@@ -497,7 +496,8 @@ function checkAnswer(){
 function printParams(){
     // myApp.elem.text.innerHTML = document.body.clientWidth / window.innerWidth;
     myApp.elem.text.innerHTML = navigator.userAgent;
-    myApp.elem.subText.innerHTML = 'playerWidth: ' + myApp.val.playerWidth + ', innerWidth: ' + window.innerWidth;
+    myApp.elem.subText.innerHTML = 'imgErrorBool: ' + myApp.val.imgErrorBool + ', btnLoadBool: ' + myApp.val.btnLoadBool;
+    //myApp.elem.subText.innerHTML = 'playerWidth: ' + myApp.val.playerWidth + ', innerWidth: ' + window.innerWidth;
     // myApp.elem.text.innerHTML = document.styleSheets.item(1).cssRules.length;
     // myApp.elem.subText.innerHTML = 
     //     "device: "           + myApp.os+"<br>"+
