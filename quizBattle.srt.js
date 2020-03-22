@@ -96,7 +96,7 @@ document.styleSheets.item(0).insertRule('body {text-align: center; margin: auto;
 //
 /* set elements */
 document.getElementsByTagName("body")[0].appendChild(myApp.elem.text);
-document.getElementsByTagName('body')[0].appendChild(myApp.elem.br1)
+document.getElementsByTagName('body')[0].appendChild(myApp.elem.br1);
 document.getElementsByTagName("body")[0].appendChild(myApp.elem.ansCol);
 document.getElementsByTagName("body")[0].appendChild(myApp.elem.br2);    
 document.getElementsByTagName("body")[0].appendChild(myApp.elem.ansBtn); 
@@ -148,7 +148,6 @@ player.setSize(myApp.val.playerWidth, myApp.val.playerHeight);
 myApp.elem.imgBtn1.onerror = myOnErrorLordingImg;
 myApp.elem.imgBtn2.onerror = myOnErrorLordingImg;
 myApp.elem.imgBtn3.onerror = myOnErrorLordingImg;
-myApp.elem.pushBtn.onerror = myOnErrorLordingImg;
 function myOnErrorLordingImg(){
     myApp.val.imgErrorBool = true;
     alert("画像の読み込みに失敗しました。ページを再読み込みしてください。");
@@ -185,11 +184,9 @@ myApp.elem.pushBtn.src   = myApp.elem.imgBtn1.src;
 /* add textnodes to the elements */
 const node_text    = document.createTextNode("");
 const node_subText = document.createTextNode("");　
-const node_errorText = document.createTextNode("");　
 const node_numOX   = document.createTextNode("");
 myApp.elem.text.appendChild(node_text);
 myApp.elem.subText.appendChild(node_subText);
-myApp.elem.errorText.appendChild(node_errorText);
 myApp.elem.numOX.appendChild(node_numOX);
 //
 /* set init value to the elements */
