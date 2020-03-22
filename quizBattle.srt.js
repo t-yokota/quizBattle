@@ -166,7 +166,7 @@ myApp.elem.pushBtn.onload = function(){
         myApp.elem.pushBtn.width = myApp.val.pushBtnWidth;
         myApp.elem.pushBtn.height = myApp.val.pushBtnHeight;
         myApp.val.pushBtnArea = myApp.elem.pushBtn.getBoundingClientRect();
-    }else{
+    }else if(myApp.val.imgErrorBool == true){
         alert("画像の読み込みに失敗しました。ページを再読み込みしてください。");
     }
 }
