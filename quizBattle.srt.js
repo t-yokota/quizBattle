@@ -41,7 +41,8 @@ const myApp = {
         playerHeight  : 0,
         pushBtnWidth  : 0,
         pushBtnHeight : 0,
-        imgLoadBool   : false,
+        imgErrorBool  : false,
+        btnLoadBool   : false,
         pushBtnArea   : null,  
         //
         numQues     : 0,     //問題番号
@@ -145,15 +146,20 @@ if(myApp.os != 'other'){
 }
 player.setSize(myApp.val.playerWidth, myApp.val.playerHeight);
 //
-/* load image of push button */
-myApp.elem.imgBtn1.src = "";//"https://github.com/t-yokota/quizBattle/raw/devel/convertToES6/figures/button_1.png";
-myApp.elem.imgBtn2.src = "https://github.com/t-yokota/quizBattle/raw/devel/convertToES6/figures/button_2.png";
-myApp.elem.imgBtn3.src = "https://github.com/t-yokota/quizBattle/raw/devel/convertToES6/figures/button_3.png";
+/* error handling for loading image */
+myApp.elem.imgBtn1.onerror = myOnErrorLordingImg;
+myApp.elem.imgBtn2.onerror = myOnErrorLordingImg;
+myApp.elem.imgBtn3.onerror = myOnErrorLordingImg;
+myApp.elem.pushBtn.onerror = myOnErrorLordingImg;
+function myOnErrorLordingImg(){
+    myApp.val.imgErrorBool = true;
+    myApp.elem.errorText.innerHTML = "画像の読み込みに失敗しました。ページを再読み込みしてください。";
+}
 //
-/* change image size */
+/* change push button size after loading */
 myApp.elem.pushBtn.onload = function(){
-    if(myApp.val.imgLoadBool == false){
-        myApp.val.imgLoadBool = true;
+    if(myApp.val.btnLoadBool == false){
+        myApp.val.btnLoadBool = true;
         const tmpImgHeight = window.innerHeight-myApp.elem.pushBtn.getBoundingClientRect().top-parseInt(myApp.elem.numOX.style.lineHeight)-20;
         const tmpImgWidth  = myApp.elem.pushBtn.naturalWidth*tmpImgHeight/myApp.elem.pushBtn.naturalHeight;
         if(tmpImgWidth < window.innerWidth){
@@ -168,11 +174,17 @@ myApp.elem.pushBtn.onload = function(){
         myApp.val.pushBtnArea = myApp.elem.pushBtn.getBoundingClientRect();
     }
 }
-myApp.elem.pushBtn.width = window.innerWidth; /* init size before loading */
+//
+/* load image of push button */
+myApp.elem.imgBtn1.src = "https://github.com/t-yokota/quizBattle/raw/devel/convertToES6/figures/button_1.png";
+myApp.elem.imgBtn2.src = "https://github.com/t-yokota/quizBattle/raw/devel/convertToES6/figures/button_2.png";
+myApp.elem.imgBtn3.src = "https://github.com/t-yokota/quizBattle/raw/devel/convertToES6/figures/button_3.png";
 //
 /* assign default image to push button */
-myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src;
-myApp.elem.pushBtn.onerror = function(){ myApp.elem.errorText.innerHTML = "画像の読み込みに失敗しました。ページを再読み込みしてください。"; };
+if(myApp.val.imgErrorBool == false){
+    myApp.elem.pushBtn.width = window.innerWidth; /* init size before loading */
+    myApp.elem.pushBtn.src   = myApp.elem.imgBtn1.src;
+}
 //
 /* add textnodes to the elements */
 const node_text    = document.createTextNode("");
@@ -213,7 +225,7 @@ document.addEventListener('compositionend', function(){ myApp.val.composingBool 
 document.onkeydown = myKeyDownEvent;
 function myKeyDownEvent(){
     if(event.keyCode == myApp.val.btnCode){
-        if(myApp.val.status == myApp.state.ButtonCheck && myApp.val.imgLoadBool == true){
+        if(myApp.val.status == myApp.state.ButtonCheck && myApp.val.btnLoadBool == true){
             const interval = 1000;
             buttonCheck(interval);
             myApp.val.status = myApp.state.Talk;
