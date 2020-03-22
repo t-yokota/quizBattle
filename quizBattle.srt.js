@@ -106,8 +106,8 @@ document.getElementsByTagName("body")[0].appendChild(myApp.elem.pushBtn);
 document.getElementsByTagName("body")[0].appendChild(myApp.elem.errorText);
 document.getElementsByTagName("body")[0].appendChild(myApp.elem.br4);    
 document.getElementsByTagName("body")[0].appendChild(myApp.elem.numOX);
-document.getElementsByTagName("body")[0].appendChild(myApp.elem.br5); 
-document.getElementsByTagName("body")[0].appendChild(myApp.elem.subText);
+// document.getElementsByTagName("body")[0].appendChild(myApp.elem.br5); 
+// document.getElementsByTagName("body")[0].appendChild(myApp.elem.subText);
 //
 /*  */
 if (myApp.os != 'other'){
@@ -153,6 +153,8 @@ myApp.elem.imgBtn3.onerror = myOnErrorLordingImg;
 myApp.elem.pushBtn.onerror = myOnErrorLordingImg;
 function myOnErrorLordingImg(){
     myApp.val.imgErrorBool = true;
+    myApp.elem.errorText.style.fontSize = '40px';
+    myApp.elem.errorText.style.lineHeight = '60px';
     myApp.elem.errorText.innerHTML = "画像の読み込みに失敗しました。ページを再読み込みしてください。";
 }
 //
@@ -177,7 +179,7 @@ myApp.elem.pushBtn.onload = function(){
 //
 /* load image of push button */
 myApp.elem.imgBtn1.src = "https://github.com/t-yokota/quizBattle/raw/devel/convertToES6/figures/button_1.png";
-myApp.elem.imgBtn2.src = "https://github.com/t-yokota/quizBattle/raw/devel/convertToES6/figures/button_2.png";
+myApp.elem.imgBtn2.src = "";//"https://github.com/t-yokota/quizBattle/raw/devel/convertToES6/figures/button_2.png";
 myApp.elem.imgBtn3.src = "https://github.com/t-yokota/quizBattle/raw/devel/convertToES6/figures/button_3.png";
 //
 /* assign default image to push button */
