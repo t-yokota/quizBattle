@@ -34,6 +34,7 @@ const myApp = {
         br4     : document.createElement("br"),
         br5     : document.createElement("br"),
         subText : document.createElement("text"),
+        errorText : document.createElement("text"),
     },
     val: {
         playerWidth   : 0,
@@ -101,6 +102,7 @@ document.getElementsByTagName("body")[0].appendChild(myApp.elem.br2);
 document.getElementsByTagName("body")[0].appendChild(myApp.elem.ansBtn); 
 document.getElementsByTagName("body")[0].appendChild(myApp.elem.br3);    
 document.getElementsByTagName("body")[0].appendChild(myApp.elem.pushBtn);
+document.getElementsByTagName("body")[0].appendChild(myApp.elem.errorText);
 document.getElementsByTagName("body")[0].appendChild(myApp.elem.br4);    
 document.getElementsByTagName("body")[0].appendChild(myApp.elem.numOX);
 document.getElementsByTagName("body")[0].appendChild(myApp.elem.br5); 
@@ -166,17 +168,20 @@ myApp.elem.pushBtn.onload = function(){
         myApp.val.pushBtnArea = myApp.elem.pushBtn.getBoundingClientRect();
     }
 }
-myApp.elem.pushBtn.width = window.innerWidth; /* init size before loading image */
+myApp.elem.pushBtn.width = window.innerWidth; /* init size before loading */
 //
 /* assign default image to push button */
 myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src;
+myApp.elem.pushBtn.onerror = onErrorLoadingImage();
 //
 /* add textnodes to the elements */
 const node_text    = document.createTextNode("");
 const node_subText = document.createTextNode("");　
+const node_errorText = document.createTextNode("");　
 const node_numOX   = document.createTextNode("");
 myApp.elem.text.appendChild(node_text);
 myApp.elem.subText.appendChild(node_subText);
+myApp.elem.errorText.appendChild(node_errorText);
 myApp.elem.numOX.appendChild(node_numOX);
 //
 /* set init value to the elements */
@@ -188,9 +193,9 @@ myApp.elem.ansCol.disabled   = true;
 myApp.elem.ansBtn.disabled   = true;
 //
 /* get audio data */
-myApp.elem.sndPush.src = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/sounds/push.mp3";
-myApp.elem.sndO.src    = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/sounds/correct.mp3";
-myApp.elem.sndX.src    = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/sounds/discorrect.mp3";
+myApp.elem.sndPush.src = "";//"https://raw.githubusercontent.com/t-yokota/quizBattle/master/sounds/push.mp3";
+myApp.elem.sndO.src    = "";//"https://raw.githubusercontent.com/t-yokota/quizBattle/master/sounds/correct.mp3";
+myApp.elem.sndX.src    = "";//"https://raw.githubusercontent.com/t-yokota/quizBattle/master/sounds/discorrect.mp3";
 //
 /* get answer list */
 const ansCSV = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/answer_UTF-8.csv"; //UTF-8
@@ -401,6 +406,10 @@ function fetchOSType(){
         osType = "other";
         return osType;
     }
+}
+//
+function onErrorLoadingImage(){
+    myApp.elem.errorText.innerHTML = "画像の読み込みに失敗しました。ページを再読み込みしてください。";
 }
 /**
  * import csv file into an array
