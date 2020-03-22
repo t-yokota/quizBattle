@@ -246,7 +246,7 @@ function myTouchEvent(event){
         if( myApp.val.pushBtnArea.left < touchObject.pageX && touchObject.pageX < myApp.val.pushBtnArea.right ){
             if( myApp.val.pushBtnArea.top < touchObject.pageY && touchObject.pageY < myApp.val.pushBtnArea.bottom ){
                 if(myApp.val.status == myApp.state.ButtonCheck){
-                    const interval = 1500; 
+                    const interval = 2000; 
                     buttonCheck(interval);
                     myApp.val.status = myApp.state.Talk;
                     setTimeout(function(){ player.playVideo(); }, interval+1500);
