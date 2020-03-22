@@ -146,7 +146,7 @@ if(myApp.os != 'other'){
 player.setSize(myApp.val.playerWidth, myApp.val.playerHeight);
 //
 /* load image of push button */
-myApp.elem.imgBtn1.src = "https://github.com/t-yokota/quizBattle/raw/devel/convertToES6/figures/button_1.png";
+myApp.elem.imgBtn1.src = "";//"https://github.com/t-yokota/quizBattle/raw/devel/convertToES6/figures/button_1.png";
 myApp.elem.imgBtn2.src = "https://github.com/t-yokota/quizBattle/raw/devel/convertToES6/figures/button_2.png";
 myApp.elem.imgBtn3.src = "https://github.com/t-yokota/quizBattle/raw/devel/convertToES6/figures/button_3.png";
 //
@@ -172,7 +172,7 @@ myApp.elem.pushBtn.width = window.innerWidth; /* init size before loading */
 //
 /* assign default image to push button */
 myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src;
-myApp.elem.pushBtn.onerror = onErrorLoadingImage();
+myApp.elem.pushBtn.onerror = function(){ myApp.elem.errorText.innerHTML = "画像の読み込みに失敗しました。ページを再読み込みしてください。"; };
 //
 /* add textnodes to the elements */
 const node_text    = document.createTextNode("");
@@ -193,9 +193,9 @@ myApp.elem.ansCol.disabled   = true;
 myApp.elem.ansBtn.disabled   = true;
 //
 /* get audio data */
-myApp.elem.sndPush.src = "";//"https://raw.githubusercontent.com/t-yokota/quizBattle/master/sounds/push.mp3";
-myApp.elem.sndO.src    = "";//"https://raw.githubusercontent.com/t-yokota/quizBattle/master/sounds/correct.mp3";
-myApp.elem.sndX.src    = "";//"https://raw.githubusercontent.com/t-yokota/quizBattle/master/sounds/discorrect.mp3";
+myApp.elem.sndPush.src = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/sounds/push.mp3";
+myApp.elem.sndO.src    = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/sounds/correct.mp3";
+myApp.elem.sndX.src    = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/sounds/discorrect.mp3";
 //
 /* get answer list */
 const ansCSV = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/answer_UTF-8.csv"; //UTF-8
@@ -406,10 +406,6 @@ function fetchOSType(){
         osType = "other";
         return osType;
     }
-}
-//
-function onErrorLoadingImage(){
-    myApp.elem.errorText.innerHTML = "画像の読み込みに失敗しました。ページを再読み込みしてください。";
 }
 /**
  * import csv file into an array
