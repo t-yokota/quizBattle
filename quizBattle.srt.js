@@ -108,6 +108,7 @@ document.getElementsByTagName("body")[0].appendChild(myApp.elem.br5);
 document.getElementsByTagName("body")[0].appendChild(myApp.elem.subText);
 //
 /*  */
+myApp.os = fetchOSType();
 if (myApp.os != 'other'){
     myApp.elem.text.style.fontSize    = '40px';
     myApp.elem.text.style.lineHeight  = '100px';
@@ -121,19 +122,18 @@ if (myApp.os != 'other'){
     myApp.elem.numOX.style.fontWeight = 'bold';
     //
 } else {
-    myApp.elem.text.style.fontSize    = '20px';
-    myApp.elem.text.style.lineHeight  = '50px';
+    myApp.elem.text.style.fontSize    = '30px';
+    myApp.elem.text.style.lineHeight  = '90px';
     myApp.elem.text.style.fontWeight  = 'bold';
-    myApp.elem.ansCol.style.fontSize  = '15px';
+    myApp.elem.ansCol.style.fontSize  = '25px';
     myApp.elem.ansCol.style.textAlign = 'center';
-    myApp.elem.ansBtn.style.fontSize  = '15px';
+    myApp.elem.ansBtn.style.fontSize  = '25px';
     myApp.elem.numOX.style.fontSize   = '25px';
     myApp.elem.numOX.style.lineHeight = '35px';
     myApp.elem.numOX.style.fontWeight = 'bold';
 }
 //
 /* change player size */
-myApp.os = fetchOSType();
 if(myApp.os != 'other'){
     myApp.val.playerWidth  = window.innerWidth;
     myApp.val.playerHeight = window.innerWidth/16*9;
@@ -379,7 +379,7 @@ function myIntervalEvent(){
         myApp.val.ansTime.elapsed = 0;
     }
     /* for check params */
-    printParams();
+    // printParams();
 }
 //
 /* set onclick event of send answer button */
@@ -495,7 +495,7 @@ function checkAnswer(){
 //
 function printParams(){
     // myApp.elem.text.innerHTML = document.body.clientWidth / window.innerWidth;
-    myApp.elem.text.innerHTML = navigator.userAgent;
+    myApp.elem.text.innerHTML = myApp.os + ', ' + navigator.userAgent;
     myApp.elem.subText.innerHTML = 'imgErrorBool: ' + myApp.val.imgErrorBool + ', btnLoadBool: ' + myApp.val.btnLoadBool;
     //myApp.elem.subText.innerHTML = 'playerWidth: ' + myApp.val.playerWidth + ', innerWidth: ' + window.innerWidth;
     // myApp.elem.text.innerHTML = document.styleSheets.item(1).cssRules.length;
