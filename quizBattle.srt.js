@@ -379,7 +379,7 @@ function myIntervalEvent(){
         myApp.val.ansTime.elapsed = 0;
     }
     /* for check params */
-    printParams();
+    // printParams();
 }
 //
 /* set onclick event of send answer button */
@@ -499,8 +499,8 @@ function checkAnswer(){
 function printParams(){
     // myApp.elem.text.innerHTML = document.body.clientWidth / window.innerWidth;
     //myApp.elem.text.innerHTML = myApp.os + ', ' + navigator.userAgent;
-    myApp.elem.text.innerHTML = detectTouchPanel();
-    myApp.elem.subText.innerHTML = 'imgErrorBool: ' + myApp.val.imgErrorBool + ', btnLoadBool: ' + myApp.val.btnLoadBool;
+    // myApp.elem.text.innerHTML = detectTouchPanel();
+    // myApp.elem.subText.innerHTML = 'imgErrorBool: ' + myApp.val.imgErrorBool + ', btnLoadBool: ' + myApp.val.btnLoadBool;
     //myApp.elem.subText.innerHTML = 'playerWidth: ' + myApp.val.playerWidth + ', innerWidth: ' + window.innerWidth;
     // myApp.elem.text.innerHTML = document.styleSheets.item(1).cssRules.length;
     // myApp.elem.subText.innerHTML = 
@@ -572,6 +572,8 @@ myApp.val.status = myApp.state.ButtonCheck;
 player.pauseVideo();
 if(myApp.os != 'other'){
     myApp.elem.text.innerHTML = "早押しボタンをタップしてクイズをはじめる";
+}else if(myApp.os == 'other' && detectTouchPanel == true){
+    myApp.elem.text.innerHTML = "早押しボタンタップ/スペースキー押下でクイズをはじめる"; 
 }else{
     myApp.elem.text.innerHTML = "スペースキーを押してクイズをはじめる";
 }
