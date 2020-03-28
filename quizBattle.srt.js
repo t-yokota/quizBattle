@@ -379,7 +379,7 @@ function myIntervalEvent(){
         myApp.val.ansTime.elapsed = 0;
     }
     /* for check params */
-    // printParams();
+    printParams();
 }
 //
 /* set onclick event of send answer button */
@@ -414,6 +414,9 @@ function fetchOSType(){
         osType = "other";
         return osType;
     }
+}
+function detectTouchPanel(){
+    return window.ontouchstart === null;
 }
 /**
  * import csv file into an array
@@ -495,7 +498,8 @@ function checkAnswer(){
 //
 function printParams(){
     // myApp.elem.text.innerHTML = document.body.clientWidth / window.innerWidth;
-    myApp.elem.text.innerHTML = myApp.os + ', ' + navigator.userAgent;
+    //myApp.elem.text.innerHTML = myApp.os + ', ' + navigator.userAgent;
+    myApp.elem.text.innerHTML = detectTouchPanel();
     myApp.elem.subText.innerHTML = 'imgErrorBool: ' + myApp.val.imgErrorBool + ', btnLoadBool: ' + myApp.val.btnLoadBool;
     //myApp.elem.subText.innerHTML = 'playerWidth: ' + myApp.val.playerWidth + ', innerWidth: ' + window.innerWidth;
     // myApp.elem.text.innerHTML = document.styleSheets.item(1).cssRules.length;
