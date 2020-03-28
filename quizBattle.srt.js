@@ -572,7 +572,7 @@ myApp.val.status = myApp.state.ButtonCheck;
 player.pauseVideo();
 if(myApp.os != 'other'){
     myApp.elem.text.innerHTML = "早押しボタンをタップしてクイズをはじめる";
-}else if(myApp.os == 'other' && detectTouchPanel == true){
+}else if(myApp.os == 'other' && detectTouchPanel() == true){
     myApp.elem.text.innerHTML = "早押しボタンタップ/スペースキー押下でクイズをはじめる"; 
 }else{
     myApp.elem.text.innerHTML = "スペースキーを押してクイズをはじめる";
