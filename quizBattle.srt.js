@@ -453,14 +453,14 @@ function updateWatchedTime(currentPlayingTime, watchedTime){
 function buttonCheck(responseInterval){
     myApp.elem.sndPush.play();
     myApp.elem.pushBtn.src = myApp.elem.imgBtn2.src;
-    setTimeout(function(){ myApp.elem.pushBtn.src = myApp.elem.imgBtn3.src; }, 100);
+    setTimeout(function(){ myApp.elem.pushBtn.src = myApp.elem.imgBtn3.src; }, 300);
     setTimeout(function(){ myApp.elem.sndO.play(); myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src; }, responseInterval);
 }
 //
 function pushButton(){
     myApp.elem.sndPush.play();
     myApp.elem.pushBtn.src = myApp.elem.imgBtn2.src;
-    setTimeout(function(){ myApp.elem.pushBtn.src = myApp.elem.imgBtn3.src; }, 100);
+    setTimeout(function(){ myApp.elem.pushBtn.src = myApp.elem.imgBtn3.src; }, 300);
     myApp.val.cntPush = myApp.val.cntPush+1;
 }
 //
@@ -573,7 +573,7 @@ player.pauseVideo();
 if(myApp.os != 'other'){
     myApp.elem.text.innerHTML = "早押しボタンをタップしてクイズをはじめる";
 }else if(myApp.os == 'other' && detectTouchPanel() == true){
-    myApp.elem.text.innerHTML = "早押しボタンタップ/スペースキー押下でクイズをはじめる"; 
+    myApp.elem.text.innerHTML = "早押しボタンのタップ/スペースキーの押下でクイズをはじめる"; 
 }else{
     myApp.elem.text.innerHTML = "スペースキーを押してクイズをはじめる";
 }
