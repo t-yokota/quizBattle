@@ -246,7 +246,7 @@ function myTouchEvent(event){
         if( myApp.val.pushBtnArea.left < touchObject.pageX && touchObject.pageX < myApp.val.pushBtnArea.right ){
             if( myApp.val.pushBtnArea.top < touchObject.pageY && touchObject.pageY < myApp.val.pushBtnArea.bottom ){
                 if(myApp.val.status == myApp.state.ButtonCheck){
-                    const interval = 2000; 
+                    const interval = 1000; 
                     buttonCheck(interval);
                     myApp.val.status = myApp.state.Talk;
                     setTimeout(function(){ player.playVideo(); }, interval+1500);
@@ -453,14 +453,14 @@ function updateWatchedTime(currentPlayingTime, watchedTime){
 function buttonCheck(responseInterval){
     myApp.elem.sndPush.play();
     myApp.elem.pushBtn.src = myApp.elem.imgBtn2.src;
-    setTimeout(function(){ myApp.elem.pushBtn.src = myApp.elem.imgBtn3.src; }, 150);
+    setTimeout(function(){ myApp.elem.pushBtn.src = myApp.elem.imgBtn3.src; }, 100);
     setTimeout(function(){ myApp.elem.sndO.play(); myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src; }, responseInterval);
 }
 //
 function pushButton(){
     myApp.elem.sndPush.play();
     myApp.elem.pushBtn.src = myApp.elem.imgBtn2.src;
-    setTimeout(function(){ myApp.elem.pushBtn.src = myApp.elem.imgBtn3.src; }, 150);
+    setTimeout(function(){ myApp.elem.pushBtn.src = myApp.elem.imgBtn3.src; }, 100);
     myApp.val.cntPush = myApp.val.cntPush+1;
 }
 //
