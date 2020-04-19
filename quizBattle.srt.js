@@ -133,7 +133,7 @@ if (myApp.os != 'other'){
     myApp.elem.numOX.style.fontWeight = 'bold';
 }
 //
-player.playsinline = true;
+player.playerVars.playsinline = true;
 //
 /* change player size */
 if(myApp.os != 'other'){
