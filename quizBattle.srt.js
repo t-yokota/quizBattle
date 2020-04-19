@@ -133,7 +133,7 @@ if (myApp.os != 'other'){
     myApp.elem.numOX.style.fontWeight = 'bold';
 }
 //
-player.playinline = true;
+player.setAttribule('playinline', '');
 //
 /* change player size */
 if(myApp.os != 'other'){
