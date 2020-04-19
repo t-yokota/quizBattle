@@ -133,7 +133,10 @@ if (myApp.os != 'other'){
     myApp.elem.numOX.style.fontWeight = 'bold';
 }
 //
-player.playerVars.playsinline = 1;
+// player.playerVars.playsinline = 1;
+player.loadVideoByUrl({
+    mediaContentUrl:'https://www.youtube.com/v/gUcJ_27A6mU?playsinline=1'
+});
 //
 /* change player size */
 if(myApp.os != 'other'){
@@ -574,7 +577,7 @@ myApp.val.status = myApp.state.ButtonCheck;
 player.pauseVideo();
 if(myApp.os != 'other'){
     myApp.elem.text.innerHTML = "早押しボタンをタップしてクイズをはじめる";
-}else if(myApp.os == 'other' && detectTouchPanel() == true){
+ }else if(myApp.os == 'other' && detectTouchPanel() == true){
     myApp.elem.text.innerHTML = "早押しボタンのタップ/スペースキーの押下でクイズをはじめる"; 
 }else{
     myApp.elem.text.innerHTML = "スペースキーを押してクイズをはじめる";
