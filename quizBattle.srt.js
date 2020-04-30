@@ -153,8 +153,8 @@ player.setSize(myApp.val.playerWidth, myApp.val.playerHeight);
 myApp.elem.imgBtn1.onerror = function(){ myApp.val.imgErrorBool = true; };
 myApp.elem.imgBtn2.onerror = function(){ myApp.val.imgErrorBool = true; };
 myApp.elem.imgBtn3.onerror = function(){ myApp.val.imgErrorBool = true; };
-// myApp.elem.pushBtn.onerror = function(){ alert("画像の読み込みに失敗しました。ページを再読み込みしてください。"); }
-myApp.elem.pushBtn.onerror = function(){ myApp.val.imgErrorBool = true; }
+myApp.elem.pushBtn.onerror = function(){ alert("画像の読み込みに失敗しました。ページを再読み込みしてください。"); }
+// myApp.elem.pushBtn.onerror = function(){ myApp.val.imgErrorBool = true; }
 //
 /* change push button size after loading */
 myApp.elem.pushBtn.onload = function(){
@@ -179,7 +179,7 @@ myApp.elem.pushBtn.onload = function(){
 //
 /* load image of push button */
 // myApp.elem.imgBtn1.src = "https://github.com/t-yokota/quizBattle/raw/devel/convertToES6/figures/button_1.png";
-myApp.elem.imgBtn1.src = "";
+myApp.elem.imgBtn1.src = "test";
 myApp.elem.imgBtn2.src = "https://github.com/t-yokota/quizBattle/raw/devel/convertToES6/figures/button_2.png";
 myApp.elem.imgBtn3.src = "https://github.com/t-yokota/quizBattle/raw/devel/convertToES6/figures/button_3.png";
 //
@@ -586,9 +586,9 @@ if(myApp.os != 'other'){
 }
 //
 /* error handling */
-if(myApp.val.imgErrorBool == true){
-    alert("画像の読み込みに失敗しました。ページを再読み込みしてください。");
-}
+// if(myApp.val.imgErrorBool == true){
+//     alert("画像の読み込みに失敗しました。ページを再読み込みしてください。");
+// }
 
 1
 00:00:01,000 --> 00:00:02,999
