@@ -157,7 +157,7 @@ myApp.elem.pushBtn.onerror = function(){ alert("画像の読み込みに失敗�
 //
 /* change push button size after loading */
 myApp.elem.pushBtn.onload = function(){
-    if(myApp.val.imgErrorBool == false && myApp.val.btnLoadBool == false){
+    if(myApp.val.imgErrorBool == false /*&& myApp.val.btnLoadBool == false*/){
         myApp.val.btnLoadBool = true;
         const tmpImgHeight = window.innerHeight-myApp.elem.pushBtn.getBoundingClientRect().top-parseInt(myApp.elem.numOX.style.lineHeight)-20;
         const tmpImgWidth  = myApp.elem.pushBtn.naturalWidth*tmpImgHeight/myApp.elem.pushBtn.naturalHeight;
