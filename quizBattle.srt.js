@@ -160,6 +160,9 @@ myApp.elem.pushBtn.onload = function(){
     if(myApp.val.imgErrorBool == false && myApp.val.btnLoadBool == false){
         myApp.val.btnLoadBool = true;
         resizePushButton();
+        if(Math.abs(window.orientation)==90 && myApp.os != "ohter"){
+            alert("このサイトはスマートフォン・タブレットを縦向きにしてお楽しみください。")
+        }
     }else if(myApp.val.imgErrorBool == true){
         alert("画像の読み込みに失敗しました。ページを再読み込みしてください。");
     }
