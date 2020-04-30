@@ -178,14 +178,15 @@ myApp.elem.pushBtn.onload = function(){
 }
 //
 /* load image of push button */
-// myApp.elem.imgBtn1.src = "https://github.com/t-yokota/quizBattle/raw/devel/convertToES6/figures/button_1.png";
-myApp.elem.imgBtn1.src = "test";
+myApp.elem.imgBtn1.src = "https://github.com/t-yokota/quizBattle/raw/devel/convertToES6/figures/button_1.png";
+// myApp.elem.imgBtn1.src = "test";
 myApp.elem.imgBtn2.src = "https://github.com/t-yokota/quizBattle/raw/devel/convertToES6/figures/button_2.png";
 myApp.elem.imgBtn3.src = "https://github.com/t-yokota/quizBattle/raw/devel/convertToES6/figures/button_3.png";
 //
 /* assign default image to push button */
 myApp.elem.pushBtn.width = window.innerWidth; /* init size before loading */
-myApp.elem.pushBtn.src   = myApp.elem.imgBtn1.src;
+// myApp.elem.pushBtn.src   = myApp.elem.imgBtn1.src;
+myApp.elem.pushBtn.src   = myApp.elem.imgBtn1.srs;
 //
 /* add textnodes to the elements */
 const node_text    = document.createTextNode("");
@@ -584,11 +585,6 @@ if(myApp.os != 'other'){
 }else{
     myApp.elem.text.innerHTML = "スペースキーを押してクイズをはじめる";
 }
-//
-/* error handling */
-// if(myApp.val.imgErrorBool == true){
-//     alert("画像の読み込みに失敗しました。ページを再読み込みしてください。");
-// }
 
 1
 00:00:01,000 --> 00:00:02,999
