@@ -155,25 +155,28 @@ myApp.elem.imgBtn2.onerror = function(){ myApp.val.imgErrorBool = true; };
 myApp.elem.imgBtn3.onerror = function(){ myApp.val.imgErrorBool = true; };
 myApp.elem.pushBtn.onerror = function(){ alert("画像の読み込みに失敗しました。ページを再読み込みしてください。"); }
 //
-/* change push button size after loading */
+/* change push button size after loading or changing orientation */
 myApp.elem.pushBtn.onload = function(){
-    if(myApp.val.imgErrorBool == false /*&& myApp.val.btnLoadBool == false*/){
+    if(myApp.val.imgErrorBool == false && myApp.val.btnLoadBool == false){
         myApp.val.btnLoadBool = true;
-        const tmpImgHeight = window.innerHeight-myApp.elem.pushBtn.getBoundingClientRect().top-parseInt(myApp.elem.numOX.style.lineHeight)-20;
-        const tmpImgWidth  = myApp.elem.pushBtn.naturalWidth*tmpImgHeight/myApp.elem.pushBtn.naturalHeight;
-        if(tmpImgWidth < window.innerWidth){
-            myApp.val.pushBtnWidth = tmpImgWidth;
-            myApp.val.pushBtnHeight = tmpImgHeight;
-        }else{
-            myApp.val.pushBtnWidth = window.innerWidth;
-            myApp.val.pushBtnHeight = myApp.elem.pushBtn.naturalHeight*myApp.val.pushBtnWidth/myApp.elem.pushBtn.naturalWidth;
-        }
-        myApp.elem.pushBtn.width = myApp.val.pushBtnWidth;
-        myApp.elem.pushBtn.height = myApp.val.pushBtnHeight;
-        myApp.val.pushBtnArea = myApp.elem.pushBtn.getBoundingClientRect();
+        resizePushButton();
     }else if(myApp.val.imgErrorBool == true){
         alert("画像の読み込みに失敗しました。ページを再読み込みしてください。");
     }
+}
+function resizePushButton(){
+    const tmpImgHeight = window.innerHeight-myApp.elem.pushBtn.getBoundingClientRect().top-parseInt(myApp.elem.numOX.style.lineHeight)-20;
+    const tmpImgWidth  = myApp.elem.pushBtn.naturalWidth*tmpImgHeight/myApp.elem.pushBtn.naturalHeight;
+    if(tmpImgWidth < window.innerWidth){
+        myApp.val.pushBtnWidth = tmpImgWidth;
+        myApp.val.pushBtnHeight = tmpImgHeight;
+    }else{
+        myApp.val.pushBtnWidth = window.innerWidth;
+        myApp.val.pushBtnHeight = myApp.elem.pushBtn.naturalHeight*myApp.val.pushBtnWidth/myApp.elem.pushBtn.naturalWidth;
+    }
+    myApp.elem.pushBtn.width = myApp.val.pushBtnWidth;
+    myApp.elem.pushBtn.height = myApp.val.pushBtnHeight;
+    myApp.val.pushBtnArea = myApp.elem.pushBtn.getBoundingClientRect();
 }
 //
 /* load image of push button */
