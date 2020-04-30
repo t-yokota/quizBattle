@@ -172,18 +172,26 @@ window.addEventListener('orientationchange', function(){
     }, 300);
 });
 function resizePushButton(){
-    const tmpImgHeight = window.innerHeight-myApp.elem.pushBtn.getBoundingClientRect().top-parseInt(myApp.elem.numOX.style.lineHeight)-20;
-    const tmpImgWidth  = myApp.elem.pushBtn.naturalWidth*tmpImgHeight/myApp.elem.pushBtn.naturalHeight;
-    if(tmpImgWidth < window.innerWidth){
-        myApp.val.pushBtnWidth = tmpImgWidth;
-        myApp.val.pushBtnHeight = tmpImgHeight;
+    if(abs(window.orientation) != 90 || myApp.os == 'other'){
+        const tmpImgHeight = window.innerHeight-myApp.elem.pushBtn.getBoundingClientRect().top-parseInt(myApp.elem.numOX.style.lineHeight)-20;
+        const tmpImgWidth  = myApp.elem.pushBtn.naturalWidth*tmpImgHeight/myApp.elem.pushBtn.naturalHeight;
+        if(tmpImgWidth < window.innerWidth){
+            myApp.val.pushBtnWidth  = tmpImgWidth;
+            myApp.val.pushBtnHeight = tmpImgHeight;
+        }else{
+            myApp.val.pushBtnWidth  = window.innerWidth;
+            myApp.val.pushBtnHeight = myApp.elem.pushBtn.naturalHeight*myApp.val.pushBtnWidth/myApp.elem.pushBtn.naturalWidth;
+        }
+        myApp.elem.pushBtn.width  = myApp.val.pushBtnWidth;
+        myApp.elem.pushBtn.height = myApp.val.pushBtnHeight;
+        myApp.val.pushBtnArea = myApp.elem.pushBtn.getBoundingClientRect();
     }else{
-        myApp.val.pushBtnWidth = window.innerWidth;
+        myApp.val.pushBtnWidth  = window.innerWidth;
         myApp.val.pushBtnHeight = myApp.elem.pushBtn.naturalHeight*myApp.val.pushBtnWidth/myApp.elem.pushBtn.naturalWidth;
+        myApp.elem.pushBtn.width  = myApp.val.pushBtnWidth;
+        myApp.elem.pushBtn.height = myApp.val.pushBtnHeight;
+        myApp.val.pushBtnArea = myApp.elem.pushBtn.getBoundingClientRect();
     }
-    myApp.elem.pushBtn.width = myApp.val.pushBtnWidth;
-    myApp.elem.pushBtn.height = myApp.val.pushBtnHeight;
-    myApp.val.pushBtnArea = myApp.elem.pushBtn.getBoundingClientRect();
 }
 //
 /* load image of push button */
