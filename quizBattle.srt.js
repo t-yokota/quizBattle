@@ -153,7 +153,7 @@ player.setSize(myApp.val.playerWidth, myApp.val.playerHeight);
 myApp.elem.imgBtn1.onerror = function(){ myApp.val.imgErrorBool = true; };
 myApp.elem.imgBtn2.onerror = function(){ myApp.val.imgErrorBool = true; };
 myApp.elem.imgBtn3.onerror = function(){ myApp.val.imgErrorBool = true; };
-myApp.elem.pushBtn.onerror = function(){ alert("画像の読み込みに失敗しました。ページを再読み込みしてください。"); }
+myApp.elem.pushBtn.onerror = function(){ alert("画像の読み込みに失敗しました。ページを再読み込みしてください!"); }
 // myApp.elem.pushBtn.onerror = function(){ myApp.val.imgErrorBool = true; }
 //
 /* change push button size after loading */
