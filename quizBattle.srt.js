@@ -166,7 +166,7 @@ myApp.elem.pushBtn.onload = function(){
 }
 // window.addEventListener('orientationchange', resizePushButton);
 window.addEventListener('orientationchange', function(){
-    alert("向きが変わりました");
+    alert(window.innerHeight + ", " + window.innerWidth);
  });
 function resizePushButton(){
     const tmpImgHeight = window.innerHeight-myApp.elem.pushBtn.getBoundingClientRect().top-parseInt(myApp.elem.numOX.style.lineHeight)-20;
