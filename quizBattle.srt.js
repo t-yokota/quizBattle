@@ -183,7 +183,7 @@ myApp.elem.imgBtn3.src = "https://github.com/t-yokota/quizBattle/raw/devel/conve
 //
 /* assign default image to push button */
 myApp.elem.pushBtn.width = window.innerWidth; /* init size before loading */
-myApp.elem.pushBtn.src   = myApp.elem.imgBtn1.srs;
+myApp.elem.pushBtn.src   = myApp.elem.imgBtn1.src;
 //
 /* add textnodes to the elements */
 const node_text    = document.createTextNode("");
