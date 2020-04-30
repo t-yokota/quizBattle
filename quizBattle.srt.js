@@ -166,7 +166,8 @@ myApp.elem.pushBtn.onload = function(){
 }
 // window.addEventListener('orientationchange', resizePushButton);
 window.addEventListener('orientationchange', function(){
-    alert(window.innerHeight + ", " + window.innerWidth);
+    resizePushButton();
+    alert(myApp.elem.pushBtn.width + ", " + myApp.elem.pushBtn.height);
  });
 function resizePushButton(){
     const tmpImgHeight = window.innerHeight-myApp.elem.pushBtn.getBoundingClientRect().top-parseInt(myApp.elem.numOX.style.lineHeight)-20;
