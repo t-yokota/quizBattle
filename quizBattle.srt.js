@@ -153,8 +153,7 @@ player.setSize(myApp.val.playerWidth, myApp.val.playerHeight);
 myApp.elem.imgBtn1.onerror = function(){ myApp.val.imgErrorBool = true; };
 myApp.elem.imgBtn2.onerror = function(){ myApp.val.imgErrorBool = true; };
 myApp.elem.imgBtn3.onerror = function(){ myApp.val.imgErrorBool = true; };
-myApp.elem.pushBtn.onerror = function(){ alert("画像の読み込みに失敗しました。ページを再読み込みしてください!"); }
-// myApp.elem.pushBtn.onerror = function(){ myApp.val.imgErrorBool = true; }
+myApp.elem.pushBtn.onerror = function(){ alert("画像の読み込みに失敗しました。ページを再読み込みしてください。"); }
 //
 /* change push button size after loading */
 myApp.elem.pushBtn.onload = function(){
@@ -179,13 +178,11 @@ myApp.elem.pushBtn.onload = function(){
 //
 /* load image of push button */
 myApp.elem.imgBtn1.src = "https://github.com/t-yokota/quizBattle/raw/devel/convertToES6/figures/button_1.png";
-// myApp.elem.imgBtn1.src = "test";
 myApp.elem.imgBtn2.src = "https://github.com/t-yokota/quizBattle/raw/devel/convertToES6/figures/button_2.png";
 myApp.elem.imgBtn3.src = "https://github.com/t-yokota/quizBattle/raw/devel/convertToES6/figures/button_3.png";
 //
 /* assign default image to push button */
 myApp.elem.pushBtn.width = window.innerWidth; /* init size before loading */
-// myApp.elem.pushBtn.src   = myApp.elem.imgBtn1.src;
 myApp.elem.pushBtn.src   = myApp.elem.imgBtn1.srs;
 //
 /* add textnodes to the elements */
