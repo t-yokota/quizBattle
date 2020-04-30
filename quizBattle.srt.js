@@ -166,9 +166,11 @@ myApp.elem.pushBtn.onload = function(){
 }
 // window.addEventListener('orientationchange', resizePushButton);
 window.addEventListener('orientationchange', function(){
-    resizePushButton();
-    alert(myApp.elem.pushBtn.width + ", " + myApp.elem.pushBtn.height);
- });
+    setTimeout(function(){
+        resizePushButton();
+        alert(myApp.elem.pushBtn.width + ", " + myApp.elem.pushBtn.height);
+    }, 100);
+});
 function resizePushButton(){
     const tmpImgHeight = window.innerHeight-myApp.elem.pushBtn.getBoundingClientRect().top-parseInt(myApp.elem.numOX.style.lineHeight)-20;
     const tmpImgWidth  = myApp.elem.pushBtn.naturalWidth*tmpImgHeight/myApp.elem.pushBtn.naturalHeight;
