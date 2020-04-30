@@ -168,7 +168,7 @@ myApp.elem.pushBtn.onload = function(){
 window.addEventListener('orientationchange', function(){
     setTimeout(function(){
         resizePushButton();
-        // alert(myApp.elem.pushBtn.width + ", " + myApp.elem.pushBtn.height);
+        alert(screen.orientation + ", " + window.orientation);
     }, 300);
 });
 function resizePushButton(){
