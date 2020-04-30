@@ -7,7 +7,7 @@ const myApp = {
     os: null,
     state: {
         ButtonCheck : 0, //ボタンチェック待機
-        Question    : 1, //問い読み中　　　　（早押し可能）
+        Question    : 1, //問い読み中（早押し可能）
         MyAnswer    : 2, //自分が解答権を所持（解答入力・送信可能）
         OthAnswer   : 3, //他者が解答権を所持（早押し不可能）
         Talk        : 4, //その他（コントロールバー操作可能）
@@ -84,14 +84,14 @@ myApp.elem.ansBtn.id = 'ansbtn';
 document.getElementsByTagName("body")[0].id = 'body';
 //
 /* View */
-/* test viewport */
+/* test of viewport (pending) */
 // let meta_viewport = document.createElement("meta");
 // meta_viewport.setAttribute('name', 'viewport');
 // meta_viewport.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0');
 // document.getElementsByTagName("head")[0].appendChild(meta_viewport);
 //
 /* add rule of body to style sheet */
-document.styleSheets.item(0).insertRule('html {touch-action: manipulation;}');
+document.styleSheets.item(0).insertRule('html {touch-action: manipulation;}'); //disable double tap gesture.
 document.styleSheets.item(0).insertRule('body {text-align: center; margin: auto; background: #EFEFEF;}');
 //
 /* set elements */
@@ -133,10 +133,10 @@ if (myApp.os != 'other'){
     myApp.elem.numOX.style.fontWeight = 'bold';
 }
 //
-// player.playerVars.playsinline = 1;
-player.loadVideoByUrl({
-    mediaContentUrl:'https://www.youtube.com/v/gUcJ_27A6mU?playsinline=1'
-});
+/* test of playsinline for iOS (didn't work correctly. pending) */
+// player.loadVideoByUrl({
+//     mediaContentUrl:'https://www.youtube.com/v/gUcJ_27A6mU?playsinline=1'
+// });
 //
 /* change player size */
 if(myApp.os != 'other'){
@@ -153,7 +153,8 @@ player.setSize(myApp.val.playerWidth, myApp.val.playerHeight);
 myApp.elem.imgBtn1.onerror = function(){ myApp.val.imgErrorBool = true; };
 myApp.elem.imgBtn2.onerror = function(){ myApp.val.imgErrorBool = true; };
 myApp.elem.imgBtn3.onerror = function(){ myApp.val.imgErrorBool = true; };
-myApp.elem.pushBtn.onerror = function(){ alert("画像の読み込みに失敗しました。ページを再読み込みしてください。"); }
+// myApp.elem.pushBtn.onerror = function(){ alert("画像の読み込みに失敗しました。ページを再読み込みしてください。"); }
+myApp.elem.pushBtn.onerror = function(){ myApp.val.imgErrorBool = true; }
 //
 /* change push button size after loading */
 myApp.elem.pushBtn.onload = function(){
@@ -172,12 +173,13 @@ myApp.elem.pushBtn.onload = function(){
         myApp.elem.pushBtn.height = myApp.val.pushBtnHeight;
         myApp.val.pushBtnArea = myApp.elem.pushBtn.getBoundingClientRect();
     }else if(myApp.val.imgErrorBool == true){
-        alert("画像の読み込みに失敗しました。ページを再読み込みしてください。");
+        //alert("画像の読み込みに失敗しました。ページを再読み込みしてください。");
     }
 }
 //
 /* load image of push button */
-myApp.elem.imgBtn1.src = "https://github.com/t-yokota/quizBattle/raw/devel/convertToES6/figures/button_1.png";
+// myApp.elem.imgBtn1.src = "https://github.com/t-yokota/quizBattle/raw/devel/convertToES6/figures/button_1.png";
+myApp.elem.imgBtn1.src = "";
 myApp.elem.imgBtn2.src = "https://github.com/t-yokota/quizBattle/raw/devel/convertToES6/figures/button_2.png";
 myApp.elem.imgBtn3.src = "https://github.com/t-yokota/quizBattle/raw/devel/convertToES6/figures/button_3.png";
 //
@@ -581,6 +583,11 @@ if(myApp.os != 'other'){
     myApp.elem.text.innerHTML = "早押しボタンのタップ/スペースキーの押下でクイズをはじめる"; 
 }else{
     myApp.elem.text.innerHTML = "スペースキーを押してクイズをはじめる";
+}
+//
+/* error handling */
+if(myApp.val.imgErrorBool == true){
+    alert("画像の読み込みに失敗しました。ページを再読み込みしてください。");
 }
 
 1
