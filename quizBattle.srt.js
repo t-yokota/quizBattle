@@ -401,6 +401,7 @@ function myIntervalEvent(){
         if(document.activeElement.id == "player"){
             instantFocusToElement(myApp.elem.ansCol);
         }
+        resizePushButton();
         myApp.val.ansTime.elapsed = 0;
     }
     /* for check params */
