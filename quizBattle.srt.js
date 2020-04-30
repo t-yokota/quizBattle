@@ -172,7 +172,7 @@ window.addEventListener('orientationchange', function(){
     }, 300);
 });
 function resizePushButton(){
-    if(abs(window.orientation) != 90 || myApp.os == 'other'){
+    if(Math.abs(window.orientation) != 90 || myApp.os == 'other'){
         const tmpImgHeight = window.innerHeight-myApp.elem.pushBtn.getBoundingClientRect().top-parseInt(myApp.elem.numOX.style.lineHeight)-20;
         const tmpImgWidth  = myApp.elem.pushBtn.naturalWidth*tmpImgHeight/myApp.elem.pushBtn.naturalHeight;
         if(tmpImgWidth < window.innerWidth){
