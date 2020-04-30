@@ -164,7 +164,10 @@ myApp.elem.pushBtn.onload = function(){
         alert("画像の読み込みに失敗しました。ページを再読み込みしてください。");
     }
 }
-window.addEventListener('orientationchange', resizePushButton);
+// window.addEventListener('orientationchange', resizePushButton);
+window.addEventListener('orientationchange', function(){
+    alert("向きが変わりました");
+ });
 function resizePushButton(){
     const tmpImgHeight = window.innerHeight-myApp.elem.pushBtn.getBoundingClientRect().top-parseInt(myApp.elem.numOX.style.lineHeight)-20;
     const tmpImgWidth  = myApp.elem.pushBtn.naturalWidth*tmpImgHeight/myApp.elem.pushBtn.naturalHeight;
