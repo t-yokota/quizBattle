@@ -183,8 +183,13 @@ window.addEventListener('orientationchange', function(){
 });
 function resizePlayer(){
     if(myApp.os != 'other'){
-        myApp.val.playerWidth  = window.innerWidth;
-        myApp.val.playerHeight = window.innerWidth/16*9;
+        if(Math.abs(window.orientation) != 90){
+            myApp.val.playerWidth  = window.innerWidth;
+            myApp.val.playerHeight = window.innerWidth/16*9;
+        }else{
+            myApp.val.playerWidth  = window.innerWidth*2/3;
+            myApp.val.playerHeight = window.innerWidth/16*9;
+        }
     }else{
         myApp.val.playerHeight = window.innerHeight/2.3;
         myApp.val.playerWidth  = myApp.val.playerHeight/9*16;
