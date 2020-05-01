@@ -42,7 +42,8 @@ const myApp = {
         pushBtnHeight : 0,
         imgErrorBool  : false,
         btnLoadBool   : false,
-        pushBtnArea   : null,  
+        pushBtnArea   : null,
+        touchObject   : null,  
         //
         numQues     : 0,     //問題番号
         ansArray    : [],    //正答リスト
@@ -160,9 +161,9 @@ myApp.elem.pushBtn.onload = function(){
     if(myApp.val.imgErrorBool == false && myApp.val.btnLoadBool == false){
         myApp.val.btnLoadBool = true;
         resizePushButton();
-        // if(Math.abs(window.orientation)==90 && myApp.os != "ohter"){
-        //     alert("このサイトはスマートフォン・タブレットを縦向きにしてお楽しみください。")
-        // }
+        if(Math.abs(window.orientation)==90 && myApp.os != "ohter"){
+            alert("このサイトはスマートフォン・タブレットを縦向きにしてお楽しみください。")
+        }
     }else if(myApp.val.imgErrorBool == true){
         alert("画像の読み込みに失敗しました。ページを再読み込みしてください。");
     }
@@ -267,9 +268,9 @@ function myKeyDownEvent(){
 document.addEventListener("touchstart", myTouchEvent);
 function myTouchEvent(event){    
     if(myApp.val.imgErrorBool == false && myApp.val.btnLoadBool == true){ 
-        const touchObject = event.changedTouches[0];
-        if( myApp.val.pushBtnArea.left < touchObject.pageX && touchObject.pageX < myApp.val.pushBtnArea.right ){
-            if( myApp.val.pushBtnArea.top < touchObject.pageY && touchObject.pageY < myApp.val.pushBtnArea.bottom ){
+        myApp.val.touchObject = event.changedTouches[0];
+        if( myApp.val.pushBtnArea.left < myApp.val.touchObject.pageX && myApp.val.touchObject.pageX < myApp.val.pushBtnArea.right ){
+            if( myApp.val.pushBtnArea.top < myApp.val.touchObject.pageY && myApp.val.touchObject.pageY < myApp.val.pushBtnArea.bottom ){
                 if(myApp.val.status == myApp.state.ButtonCheck){
                     const interval = 1500; 
                     buttonCheck(interval);
@@ -407,7 +408,7 @@ function myIntervalEvent(){
     //     resizePushButton();
     // }
     /* for check params */
-    // printParams();
+    printParams();
 }
 //
 /* set onclick event of send answer button */
@@ -525,6 +526,7 @@ function checkAnswer(){
 }
 //
 function printParams(){
+    myApp.elem.text.innerHTML = myApp.val.touchObject.pageX +','+ myApp.val.touchObject.pageY +': '+ myApp.val.pushBtnArea.top +', '+ myApp.val.pushBtnArea.bottom +', '+ myApp.val.pushBtnArea.righh +', '+ myApp.val.pushBtnArea.left;
     // myApp.elem.text.innerHTML = document.body.clientWidth / window.innerWidth;
     //myApp.elem.text.innerHTML = myApp.os + ', ' + navigator.userAgent;
     // myApp.elem.text.innerHTML = detectTouchPanel();
