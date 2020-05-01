@@ -25,6 +25,7 @@ const myApp = {
         imgBtn1 : document.createElement("img"),
         imgBtn2 : document.createElement("img"),
         imgBtn3 : document.createElement("img"),
+        imgBtn4 : document.createElement("img"),
         sndPush : document.createElement("audio"),
         sndO    : document.createElement("audio"),
         sndX    : document.createElement("audio"),
@@ -35,15 +36,16 @@ const myApp = {
         br5     : document.createElement("br"),
         subText : document.createElement("text"),
     },
-    val: {
-        playerWidth   : 0,
-        playerHeight  : 0,
-        pushBtnWidth  : 0,
-        pushBtnHeight : 0,
-        imgErrorBool  : false,
-        btnLoadBool   : false,
-        pushBtnArea   : null,
-        touchObject   : null,  
+    val: { 
+        playerWidth     : 0,
+        playerHeight    : 0,
+        pushBtnWidth    : 0,
+        pushBtnHeight   : 0,
+        pushBtnArea     : null,
+        touchObject     : null,  
+        imgErrorBool    : false,
+        btnLoadBool     : false,
+        orientAlertBool : false,
         //
         numQues     : 0,     //問題番号
         ansArray    : [],    //正答リスト
@@ -139,8 +141,47 @@ if (myApp.os != 'other'){
 //     mediaContentUrl:'https://www.youtube.com/v/gUcJ_27A6mU?playsinline=1'
 // });
 //
-/* change player size */
-function resizeVideo(){
+/* error handling for loading image */
+myApp.elem.imgBtn1.onerror = function(){ myApp.val.imgErrorBool = true; };
+myApp.elem.imgBtn2.onerror = function(){ myApp.val.imgErrorBool = true; };
+myApp.elem.imgBtn3.onerror = function(){ myApp.val.imgErrorBool = true; };
+myApp.elem.imgBtn4.onerror = function(){ myApp.val.imgErrorBool = true; };
+myApp.elem.pushBtn.onerror = function(){ alert("画像の読み込みに失敗しました。ページを再読み込みしてください。"); }
+//
+/* change player and push button size after loading or changing orientation */
+myApp.elem.pushBtn.onload = function(){
+    if(myApp.val.imgErrorBool == false && myApp.val.btnLoadBool == false){
+        myApp.val.btnLoadBool = true;
+        resizePlayer();
+        resizePushButton();
+        if(Math.abs(window.orientation) == 90 && myApp.os != "ohter"){
+            alert("このサイトはスマートフォン・タブレットを縦向きにしてお楽しみください。");
+        }
+    }else if(myApp.val.imgErrorBool == true){
+        alert("画像の読み込みに失敗しました。ページを再読み込みしてください。");
+    }
+}
+window.addEventListener('orientationchange', function(){
+    setTimeout(function(){
+        resizePlayer();
+        resizePushButton();
+        if(Math.abs(window.orientation) != 90){
+            if(myApp.val.status == myApp.state.MyAnswer){
+                myApp.elem.pushBtn.src = myApp.elem.imgBtn3.src;
+            }else{
+                myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src;
+            }
+        }else{
+            myApp.elem.pushBtn.src = myApp.elem.imgBtn4.src;
+            if(myApp.val.orientAlertBool == false){
+                alert("このサイトはスマートフォン・タブレットを縦向きにしてお楽しみください。");
+                myApp.val.orientAlertBool = true;
+            }
+        }
+        // alert(window.orientation);
+    }, 300);
+});
+function resizePlayer(){
     if(myApp.os != 'other'){
         myApp.val.playerWidth  = window.innerWidth;
         myApp.val.playerHeight = window.innerWidth/16*9;
@@ -151,33 +192,6 @@ function resizeVideo(){
     }
     player.setSize(myApp.val.playerWidth, myApp.val.playerHeight);
 }
-//
-/* error handling for loading image */
-myApp.elem.imgBtn1.onerror = function(){ myApp.val.imgErrorBool = true; };
-myApp.elem.imgBtn2.onerror = function(){ myApp.val.imgErrorBool = true; };
-myApp.elem.imgBtn3.onerror = function(){ myApp.val.imgErrorBool = true; };
-myApp.elem.pushBtn.onerror = function(){ alert("画像の読み込みに失敗しました。ページを再読み込みしてください。"); }
-//
-/* change push button size after loading or changing orientation */
-myApp.elem.pushBtn.onload = function(){
-    if(myApp.val.imgErrorBool == false && myApp.val.btnLoadBool == false){
-        myApp.val.btnLoadBool = true;
-        resizeVideo();
-        resizePushButton();
-        if(Math.abs(window.orientation)==90 && myApp.os != "ohter"){
-            alert("このサイトはスマートフォン・タブレットを縦向きにしてお楽しみください。")
-        }
-    }else if(myApp.val.imgErrorBool == true){
-        alert("画像の読み込みに失敗しました。ページを再読み込みしてください。");
-    }
-}
-window.addEventListener('orientationchange', function(){
-    setTimeout(function(){
-        resizeVideo();
-        resizePushButton();
-        // alert(window.orientation);
-    }, 300);
-});
 function resizePushButton(){
     if(Math.abs(window.orientation) != 90 || myApp.os == 'other'){
         const tmpImgHeight = window.innerHeight-myApp.elem.pushBtn.getBoundingClientRect().top-parseInt(myApp.elem.numOX.style.lineHeight)-20;
@@ -186,14 +200,14 @@ function resizePushButton(){
             myApp.val.pushBtnWidth  = tmpImgWidth;
             myApp.val.pushBtnHeight = tmpImgHeight;
         }else{
-            myApp.val.pushBtnWidth  = window.innerWidth;
+            myApp.val.pushBtnWidth  = window.innerWidth/5;
             myApp.val.pushBtnHeight = myApp.elem.pushBtn.naturalHeight*myApp.val.pushBtnWidth/myApp.elem.pushBtn.naturalWidth;
         }
         myApp.elem.pushBtn.width  = myApp.val.pushBtnWidth;
         myApp.elem.pushBtn.height = myApp.val.pushBtnHeight;
         myApp.val.pushBtnArea = myApp.elem.pushBtn.getBoundingClientRect();
     }else{
-        myApp.val.pushBtnWidth  = window.innerWidth;
+        myApp.val.pushBtnWidth  = window.innerWidth/5;
         myApp.val.pushBtnHeight = myApp.elem.pushBtn.naturalHeight*myApp.val.pushBtnWidth/myApp.elem.pushBtn.naturalWidth;
         myApp.elem.pushBtn.width  = myApp.val.pushBtnWidth;
         myApp.elem.pushBtn.height = myApp.val.pushBtnHeight;
@@ -205,10 +219,15 @@ function resizePushButton(){
 myApp.elem.imgBtn1.src = "https://github.com/t-yokota/quizBattle/raw/devel/convertToES6/figures/button_portrait_1.png";
 myApp.elem.imgBtn2.src = "https://github.com/t-yokota/quizBattle/raw/devel/convertToES6/figures/button_portrait_2.png";
 myApp.elem.imgBtn3.src = "https://github.com/t-yokota/quizBattle/raw/devel/convertToES6/figures/button_portrait_3.png";
+myApp.elem.imgBtn4.src = "https://github.com/t-yokota/quizBattle/raw/devel/convertToES6/figures/button_portrait_4.png";
 //
 /* assign default image to push button */
 myApp.elem.pushBtn.width = window.innerWidth; /* init size before loading */
-myApp.elem.pushBtn.src   = myApp.elem.imgBtn1.src;
+if(Math.abs(window.orientation) != 90){
+    myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src;
+}else{
+    myApp.elem.pushBtn.src = myApp.elem.imgBtn4.src;
+}
 //
 /* add textnodes to the elements */
 const node_text    = document.createTextNode("");
@@ -246,7 +265,7 @@ document.addEventListener("compositionstart", function(){ myApp.val.composingBoo
 document.addEventListener('compositionend', function(){ myApp.val.composingBool = false; });
 document.onkeydown = myKeyDownEvent;
 function myKeyDownEvent(){
-    if(myApp.val.imgErrorBool == false && myApp.val.btnLoadBool == true){
+    if(myApp.val.imgErrorBool == false && myApp.val.btnLoadBool == true && Math.abs(window.orientation) != 90){
         if(event.keyCode == myApp.val.btnCode){
             if(myApp.val.status == myApp.state.ButtonCheck){
                 const interval = 1500;
@@ -271,7 +290,7 @@ function myKeyDownEvent(){
 /* set main touchstart event (for smartphone) */
 document.addEventListener("touchstart", myTouchEvent);
 function myTouchEvent(event){    
-    if(myApp.val.imgErrorBool == false && myApp.val.btnLoadBool == true){ 
+    if(myApp.val.imgErrorBool == false && myApp.val.btnLoadBool == true && Math.abs(window.orientation) != 90){ 
         myApp.val.touchObject = event.changedTouches[0];
         if( myApp.val.pushBtnArea.left < myApp.val.touchObject.pageX && myApp.val.touchObject.pageX < myApp.val.pushBtnArea.right ){
             if( myApp.val.pushBtnArea.top < myApp.val.touchObject.pageY && myApp.val.touchObject.pageY < myApp.val.pushBtnArea.bottom ){
