@@ -140,15 +140,17 @@ if (myApp.os != 'other'){
 // });
 //
 /* change player size */
-if(myApp.os != 'other'){
-    myApp.val.playerWidth  = window.innerWidth;
-    myApp.val.playerHeight = window.innerWidth/16*9;
-}else{
-    myApp.val.playerHeight = window.innerHeight/2.3;
-    myApp.val.playerWidth  = myApp.val.playerHeight/9*16;
-    myApp.elem.ansCol.style.width = myApp.val.playerWidth/window.innerWidth*90+'%';
+function resizeVideo(){
+    if(myApp.os != 'other'){
+        myApp.val.playerWidth  = window.innerWidth;
+        myApp.val.playerHeight = window.innerWidth/16*9;
+    }else{
+        myApp.val.playerHeight = window.innerHeight/2.3;
+        myApp.val.playerWidth  = myApp.val.playerHeight/9*16;
+        myApp.elem.ansCol.style.width = myApp.val.playerWidth/window.innerWidth*90+'%';
+    }
+    player.setSize(myApp.val.playerWidth, myApp.val.playerHeight);
 }
-player.setSize(myApp.val.playerWidth, myApp.val.playerHeight);
 //
 /* error handling for loading image */
 myApp.elem.imgBtn1.onerror = function(){ myApp.val.imgErrorBool = true; };
@@ -160,6 +162,7 @@ myApp.elem.pushBtn.onerror = function(){ alert("画像の読み込みに失敗�
 myApp.elem.pushBtn.onload = function(){
     if(myApp.val.imgErrorBool == false && myApp.val.btnLoadBool == false){
         myApp.val.btnLoadBool = true;
+        resizeVideo();
         resizePushButton();
         if(Math.abs(window.orientation)==90 && myApp.os != "ohter"){
             alert("このサイトはスマートフォン・タブレットを縦向きにしてお楽しみください。")
@@ -170,6 +173,7 @@ myApp.elem.pushBtn.onload = function(){
 }
 window.addEventListener('orientationchange', function(){
     setTimeout(function(){
+        resizeVideo();
         resizePushButton();
         // alert(window.orientation);
     }, 300);
