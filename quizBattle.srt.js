@@ -202,9 +202,9 @@ function resizePushButton(){
 }
 //
 /* load image of push button */
-myApp.elem.imgBtn1.src = "https://github.com/t-yokota/quizBattle/raw/devel/convertToES6/figures/button_1.png";
-myApp.elem.imgBtn2.src = "https://github.com/t-yokota/quizBattle/raw/devel/convertToES6/figures/button_2.png";
-myApp.elem.imgBtn3.src = "https://github.com/t-yokota/quizBattle/raw/devel/convertToES6/figures/button_3.png";
+myApp.elem.imgBtn1.src = "https://github.com/t-yokota/quizBattle/raw/devel/convertToES6/figures/button_portrait_1.png";
+myApp.elem.imgBtn2.src = "https://github.com/t-yokota/quizBattle/raw/devel/convertToES6/figures/button_portrait_2.png";
+myApp.elem.imgBtn3.src = "https://github.com/t-yokota/quizBattle/raw/devel/convertToES6/figures/button_portrait_3.png";
 //
 /* assign default image to push button */
 myApp.elem.pushBtn.width = window.innerWidth; /* init size before loading */
