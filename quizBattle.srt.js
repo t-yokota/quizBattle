@@ -163,7 +163,7 @@ myApp.elem.pushBtn.onload = function(){
     if(myApp.val.imgErrorBool == false && myApp.val.btnLoadBool == false){
         myApp.val.btnLoadBool = true;
         resizeVideo();
-        resizePushButton();
+        setTimeout(resizePushButton(), 300);
         if(Math.abs(window.orientation)==90 && myApp.os != "ohter"){
             alert("このサイトはスマートフォン・タブレットを縦向きにしてお楽しみください。")
         }
