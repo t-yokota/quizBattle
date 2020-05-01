@@ -198,7 +198,7 @@ function resizePlayer(){
     player.setSize(myApp.val.playerWidth, myApp.val.playerHeight);
 }
 function resizePushButton(){
-    if(myApp.os != "other" && myApp.val.status != myApp,status,MyAnswer || myApp.os == "other"){
+    if(myApp.os != "other" && myApp.val.status != myApp.status.MyAnswer || myApp.os == "other"){
         if(Math.abs(window.orientation) != 90){
             const tmpImgHeight = window.innerHeight-myApp.elem.pushBtn.getBoundingClientRect().top-parseInt(myApp.elem.numOX.style.lineHeight)-20;
             const tmpImgWidth  = myApp.elem.pushBtn.naturalWidth*tmpImgHeight/myApp.elem.pushBtn.naturalHeight;
@@ -213,7 +213,7 @@ function resizePushButton(){
             myApp.val.pushBtnWidth  = window.innerWidth/5;
             myApp.val.pushBtnHeight = myApp.elem.pushBtn.naturalHeight*myApp.val.pushBtnWidth/myApp.elem.pushBtn.naturalWidth;
         }
-    }else if(myApp.os != "other" && myApp.val.status == myApp,status,MyAnswer){
+    }else if(myApp.os != "other" && myApp.val.status == myApp.status.MyAnswer){
         myApp.val.pushBtnWidth  = 0;
         myApp.val.pushBtnHeight = 0;
     }    
