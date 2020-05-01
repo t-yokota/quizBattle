@@ -113,7 +113,7 @@ document.getElementsByTagName("body")[0].appendChild(myApp.elem.subText);
 /*  */
 myApp.os = fetchOSType();
 if (myApp.os != 'other'){
-    myApp.elem.text.style.fontSize    = '40px';
+    myApp.elem.text.style.fontSize    = '38px';
     myApp.elem.text.style.lineHeight  = '100px';
     myApp.elem.text.style.fontWeight  = 'bold';
     myApp.elem.ansCol.style.width     = '100%';
@@ -627,7 +627,7 @@ const srtFuncArray = [
 myApp.val.status = myApp.state.ButtonCheck;
 player.pauseVideo();
 if(myApp.os != 'other'){
-    myApp.elem.text.innerHTML = "早押しボタンをタップしてクイズをはじめる";
+    myApp.elem.text.innerHTML = "下の早押しボタンをタップしてクイズをはじめる";
  }else if(myApp.os == 'other' && detectTouchPanel() == true){
     myApp.elem.text.innerHTML = "早押しボタンのタップ/スペースキーの押下でクイズをはじめる"; 
 }else{
