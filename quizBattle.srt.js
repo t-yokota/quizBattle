@@ -216,12 +216,18 @@ function resizePushButton(){
             myApp.val.pushBtnHeight = myApp.elem.pushBtn.naturalHeight*myApp.val.pushBtnWidth/myApp.elem.pushBtn.naturalWidth;
         }
     }else if(myApp.os != "other" && document.activeElement.id == "anscol"){
-        myApp.val.pushBtnWidth  = 0;
-        myApp.val.pushBtnHeight = 0;
-    }    
+        setTimeout(function(){
+            myApp.val.pushBtnWidth  = 0;
+            myApp.val.pushBtnHeight = 0;
+        }, 200);
+    }
     myApp.elem.pushBtn.width  = myApp.val.pushBtnWidth;
     myApp.elem.pushBtn.height = myApp.val.pushBtnHeight;
-    myApp.val.pushBtnArea = myApp.elem.pushBtn.getBoundingClientRect();    
+    myApp.val.pushBtnArea = myApp.elem.pushBtn.getBoundingClientRect();
+    //
+    if(Math.abs(window.orientation) == 90){
+        myApp.elem.pushBtn.src = myApp.elem.imgBtn4.src;
+    }
 }
 //
 /* load image of push button */
