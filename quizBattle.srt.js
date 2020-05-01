@@ -185,10 +185,10 @@ function resizePlayer(){
     if(myApp.os != 'other'){
         if(Math.abs(window.orientation) != 90){
             myApp.val.playerWidth  = window.innerWidth;
-            myApp.val.playerHeight = window.innerWidth/16*9;
+            myApp.val.playerHeight = myApp.val.playerWidth/16*9;
         }else{
             myApp.val.playerWidth  = window.innerWidth*2/3;
-            myApp.val.playerHeight = window.innerWidth/16*9;
+            myApp.val.playerHeight = myApp.val.playerWidth/16*9;
         }
     }else{
         myApp.val.playerHeight = window.innerHeight/2.3;
