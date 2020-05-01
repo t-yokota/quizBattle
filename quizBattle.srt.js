@@ -526,7 +526,7 @@ function checkAnswer(){
 }
 //
 function printParams(){
-    myApp.elem.text.innerHTML = myApp.val.touchObject.pageX +','+ myApp.val.touchObject.pageY +': '+ myApp.val.pushBtnArea.top +', '+ myApp.val.pushBtnArea.bottom +', '+ myApp.val.pushBtnArea.righh +', '+ myApp.val.pushBtnArea.left;
+    myApp.elem.text.innerHTML = Math.floor(myApp.val.touchObject.pageX) +','+ Math.floor(myApp.val.touchObject.pageY) +': '+ Math.floor(myApp.val.pushBtnArea.top) +', '+ Math.floor(myApp.val.pushBtnArea.bottom) +', '+ Math.floor(myApp.val.pushBtnArea.right) +', '+ Math.floor(myApp.val.pushBtnArea.left);
     // myApp.elem.text.innerHTML = document.body.clientWidth / window.innerWidth;
     //myApp.elem.text.innerHTML = myApp.os + ', ' + navigator.userAgent;
     // myApp.elem.text.innerHTML = detectTouchPanel();
