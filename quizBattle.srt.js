@@ -187,8 +187,10 @@ function resizePlayer(){
             myApp.val.playerWidth  = window.innerWidth;
             myApp.val.playerHeight = myApp.val.playerWidth/16*9;
         }else{
-            myApp.val.playerWidth  = window.innerWidth*2/3;
-            myApp.val.playerHeight = myApp.val.playerWidth/16*9;
+            myApp.val.playerHeight = window.innerHeight-parseInt(myApp.elem.text.style.lineHeight)-20;
+            myApp.val.playerWidth  = myApp.val.playerHeight*9/16;
+            // myApp.val.playerWidth  = window.innerWidth*2/3;
+            // myApp.val.playerHeight = myApp.val.playerWidth/16*9;
         }
     }else{
         myApp.val.playerHeight = window.innerHeight/2.3;
@@ -198,7 +200,7 @@ function resizePlayer(){
     player.setSize(myApp.val.playerWidth, myApp.val.playerHeight);
 }
 function resizePushButton(){
-    if(myApp.os != "other" && myApp.val.status != myApp.state.MyAnswer || myApp.os == "other"){
+    if(myApp.os != "other" && document.activeElement.id != "anscol" || myApp.os == "other"){
         if(Math.abs(window.orientation) != 90){
             const tmpImgHeight = window.innerHeight-myApp.elem.pushBtn.getBoundingClientRect().top-parseInt(myApp.elem.numOX.style.lineHeight)-20;
             const tmpImgWidth  = myApp.elem.pushBtn.naturalWidth*tmpImgHeight/myApp.elem.pushBtn.naturalHeight;
@@ -213,7 +215,7 @@ function resizePushButton(){
             myApp.val.pushBtnWidth  = window.innerWidth/5;
             myApp.val.pushBtnHeight = myApp.elem.pushBtn.naturalHeight*myApp.val.pushBtnWidth/myApp.elem.pushBtn.naturalWidth;
         }
-    }else if(myApp.os != "other" && myApp.val.status == myApp.state.MyAnswer){
+    }else if(myApp.os != "other" && document.activeElement.id == "anscol"){
         myApp.val.pushBtnWidth  = 0;
         myApp.val.pushBtnHeight = 0;
     }    
@@ -554,7 +556,7 @@ function checkAnswer(){
 }
 //
 function printParams(){
-    myApp.elem.text.innerHTML = "addbar: " + Math.floor(window.outerHeight-window.innerHeight) +" | "+ Math.floor(myApp.val.touchObject.pageX) +', '+ Math.floor(myApp.val.touchObject.pageY) +' ['+ Math.floor(myApp.val.pushBtnArea.left) +', '+ Math.floor(myApp.val.pushBtnArea.right) +'] ['+  Math.floor(myApp.val.pushBtnArea.top) +', '+ Math.floor(myApp.val.pushBtnArea.bottom)+']';
+    // myApp.elem.text.innerHTML = "addbar: " + Math.floor(window.outerHeight-window.innerHeight) +" | "+ Math.floor(myApp.val.touchObject.pageX) +', '+ Math.floor(myApp.val.touchObject.pageY) +' ['+ Math.floor(myApp.val.pushBtnArea.left) +', '+ Math.floor(myApp.val.pushBtnArea.right) +'] ['+  Math.floor(myApp.val.pushBtnArea.top) +', '+ Math.floor(myApp.val.pushBtnArea.bottom)+']';
     // myApp.elem.text.innerHTML = document.body.clientWidth / window.innerWidth;
     //myApp.elem.text.innerHTML = myApp.os + ', ' + navigator.userAgent;
     // myApp.elem.text.innerHTML = detectTouchPanel();
