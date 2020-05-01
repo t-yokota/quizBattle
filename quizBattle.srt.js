@@ -179,7 +179,7 @@ window.addEventListener('orientationchange', function(){
             }
         }
         // alert(window.orientation);
-    }, 300);
+    }, 500);
 });
 function resizePlayer(){
     if(myApp.os != 'other'){
@@ -188,7 +188,7 @@ function resizePlayer(){
             myApp.val.playerHeight = myApp.val.playerWidth/16*9;
         }else{
             myApp.val.playerHeight = window.innerHeight-parseInt(myApp.elem.text.style.lineHeight)-20;
-            myApp.val.playerWidth  = myApp.val.playerHeight*9/16;
+            myApp.val.playerWidth  = myApp.val.playerHeight/9*16;
             // myApp.val.playerWidth  = window.innerWidth*2/3;
             // myApp.val.playerHeight = myApp.val.playerWidth/16*9;
         }
