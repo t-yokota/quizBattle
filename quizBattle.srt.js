@@ -401,9 +401,11 @@ function myIntervalEvent(){
         if(document.activeElement.id == "player"){
             instantFocusToElement(myApp.elem.ansCol);
         }
-        resizePushButton();
         myApp.val.ansTime.elapsed = 0;
     }
+    // if(){
+    //     resizePushButton();
+    // }
     /* for check params */
     // printParams();
 }
@@ -603,7 +605,6 @@ if(myApp.os != 'other'){
 }else{
     myApp.elem.text.innerHTML = "スペースキーを押してクイズをはじめる";
 }
-//
 
 1
 00:00:01,000 --> 00:00:02,999
