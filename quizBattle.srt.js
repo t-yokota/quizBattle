@@ -180,13 +180,12 @@ window.addEventListener('orientationchange', function(){
                 myApp.val.orientAlertBool = true;
             }
         }
-        alert(window.orientation);
     }, 500);
 });
 // 
 setInterval(function(){
     var startMsec = new Date();
-    if(Math.abs(window.orientation) == 90 && myApp.val.playerHeight < window.innerWidth/2){
+    if(Math.abs(window.orientation) == 90 && myApp.val.playerHeight < window.innerHeight/2){
         resizePlayer();
     } 
     resizePlayer();
