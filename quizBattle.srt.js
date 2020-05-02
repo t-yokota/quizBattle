@@ -165,7 +165,7 @@ myApp.elem.pushBtn.onload = function(){
 // resize when the orientation is changed
 window.addEventListener('orientationchange', function(){
     setTimeout(function(){
-        resizePlayer();
+        // resizePlayer();
         // resizePushButton();
         if(Math.abs(window.orientation) != 90){
             if(myApp.val.status == myApp.state.MyAnswer){
@@ -184,12 +184,8 @@ window.addEventListener('orientationchange', function(){
 });
 // 
 setInterval(function(){
-    var startMsec = new Date();
-    if(Math.abs(window.orientation) == 90 && myApp.val.playerHeight < window.innerHeight/2){
-        resizePlayer();
-    } 
+    resizePlayer();
     resizePushButton();
-    myApp.elems.text.innerHTML = startMsec;
 }, 100);
 function resizePlayer(){
     if(myApp.os != 'other'){
