@@ -164,25 +164,25 @@ myApp.elem.pushBtn.onload = function(){
 }
 // resize when the orientation is changed
 window.addEventListener('orientationchange', function(){
-    setTimeout(function(){
+    // setTimeout(function(){
         // resizePlayer();
         // resizePushButton();
-        if(Math.abs(window.orientation) != 90){
-            if(myApp.val.status == myApp.state.MyAnswer){
-                myApp.elem.pushBtn.src = myApp.elem.imgBtn3.src;
-            }else{
-                myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src;
-            }
+    if(Math.abs(window.orientation) != 90){
+        if(myApp.val.status == myApp.state.MyAnswer){
+            myApp.elem.pushBtn.src = myApp.elem.imgBtn3.src;
         }else{
-            myApp.elem.pushBtn.src = myApp.elem.imgBtn4.src;
-            if(myApp.val.orientAlertBool == false){
-                alert("このサイトはスマートフォン・タブレットを縦向きにしてお楽しみください。");
-                myApp.val.orientAlertBool = true;
-            }
+            myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src;
         }
-    }, 500);
+    }else{
+        myApp.elem.pushBtn.src = myApp.elem.imgBtn4.src;
+        if(myApp.val.orientAlertBool == false){
+            alert("このサイトはスマートフォン・タブレットを縦向きにしてお楽しみください。");
+            myApp.val.orientAlertBool = true;
+        }
+    }
+    // }, 500);
 });
-// 
+//
 setInterval(function(){
     resizePlayer();
     resizePushButton();
@@ -193,10 +193,10 @@ function resizePlayer(){
             myApp.val.playerWidth  = window.innerWidth;
             myApp.val.playerHeight = myApp.val.playerWidth/16*9;
         }else{
-            myApp.val.playerHeight = window.innerHeight-parseInt(myApp.elem.text.style.lineHeight)-20;
-            myApp.val.playerWidth  = myApp.val.playerHeight/9*16;
-            // myApp.val.playerWidth  = window.innerWidth*2/3;
-            // myApp.val.playerHeight = myApp.val.playerWidth/16*9;
+            // myApp.val.playerHeight = window.innerHeight-parseInt(myApp.elem.text.style.lineHeight)-20;
+            // myApp.val.playerWidth  = myApp.val.playerHeight/9*16;
+            myApp.val.playerWidth  = window.innerWidth*2/3;
+            myApp.val.playerHeight = myApp.val.playerWidth/16*9;
         }
     }else{
         myApp.val.playerHeight = window.innerHeight/2.3;
