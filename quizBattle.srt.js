@@ -149,6 +149,7 @@ myApp.elem.imgBtn4.onerror = function(){ myApp.val.imgErrorBool = true; };
 myApp.elem.pushBtn.onerror = function(){ alert("画像の読み込みに失敗しました。ページを再読み込みしてください。"); }
 //
 /* change player and push button size after loading or changing orientation */
+// initial resize
 myApp.elem.pushBtn.onload = function(){
     if(myApp.val.imgErrorBool == false && myApp.val.btnLoadBool == false){
         myApp.val.btnLoadBool = true;
@@ -161,27 +162,37 @@ myApp.elem.pushBtn.onload = function(){
         alert("画像の読み込みに失敗しました。ページを再読み込みしてください。");
     }
 }
+// resize when the orientation is changed
 window.addEventListener('orientationchange', function(){
-    // setTimeout(function(){
-    //     resizePlayer();
-    //     resizePushButton();
-    if(Math.abs(window.orientation) != 90){
-        if(myApp.val.status == myApp.state.MyAnswer){
-            myApp.elem.pushBtn.src = myApp.elem.imgBtn3.src;
+    setTimeout(function(){
+        resizePlayer();
+        // resizePushButton();
+        if(Math.abs(window.orientation) != 90){
+            if(myApp.val.status == myApp.state.MyAnswer){
+                myApp.elem.pushBtn.src = myApp.elem.imgBtn3.src;
+            }else{
+                myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src;
+            }
         }else{
-            myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src;
+            myApp.elem.pushBtn.src = myApp.elem.imgBtn4.src;
+            if(myApp.val.orientAlertBool == false){
+                alert("このサイトはスマートフォン・タブレットを縦向きにしてお楽しみください。");
+                myApp.val.orientAlertBool = true;
+            }
         }
-    }else{
-        myApp.elem.pushBtn.src = myApp.elem.imgBtn4.src;
-        if(myApp.val.orientAlertBool == false){
-            alert("このサイトはスマートフォン・タブレットを縦向きにしてお楽しみください。");
-            myApp.val.orientAlertBool = true;
-        }
-    }
-        // alert(window.orientation);
-    // }, 500);
+        alert(window.orientation);
+    }, 500);
 });
-setInterval(function(){ resizePlayer(); resizePushButton(); }, 100);
+// 
+setInterval(function(){
+    var startMsec = new Date();
+    if(Math.abs(window.orientation) == 90 && myApp.val.playerHeight < window.innerWidth/2){
+        resizePlayer();
+    } 
+    resizePlayer();
+    resizePushButton();
+    myApp.elems.text.innerHTML = new Date() - startMsec;
+}, 100);
 function resizePlayer(){
     if(myApp.os != 'other'){
         if(Math.abs(window.orientation) != 90){
