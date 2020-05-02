@@ -188,9 +188,8 @@ setInterval(function(){
     if(Math.abs(window.orientation) == 90 && myApp.val.playerHeight < window.innerHeight/2){
         resizePlayer();
     } 
-    resizePlayer();
     resizePushButton();
-    myApp.elems.text.innerHTML = new Date() - startMsec;
+    myApp.elems.text.innerHTML = startMsec;
 }, 100);
 function resizePlayer(){
     if(myApp.os != 'other'){
