@@ -227,9 +227,11 @@ function resizePushButton(){
             myApp.val.pushBtnHeight = 0;
         }, 200);
     }
-    myApp.elem.pushBtn.width  = myApp.val.pushBtnWidth;
-    myApp.elem.pushBtn.height = myApp.val.pushBtnHeight;
-    myApp.val.pushBtnArea = myApp.elem.pushBtn.getBoundingClientRect();
+    if(myApp.elem.pushBtn.width != myApp.val.pushBtnWidth){
+        myApp.elem.pushBtn.width  = myApp.val.pushBtnWidth;
+        myApp.elem.pushBtn.height = myApp.val.pushBtnHeight;
+        myApp.val.pushBtnArea = myApp.elem.pushBtn.getBoundingClientRect();
+    }
     //
     if(Math.abs(window.orientation) == 90){
         myApp.elem.pushBtn.src = myApp.elem.imgBtn4.src;
@@ -567,6 +569,7 @@ function checkAnswer(){
 }
 //
 function printParams(){
+    myApp.elem.text.innerHTML = player.width;
     // myApp.elem.text.innerHTML = "addbar: " + Math.floor(window.outerHeight-window.innerHeight) +" | "+ Math.floor(myApp.val.touchObject.pageX) +', '+ Math.floor(myApp.val.touchObject.pageY) +' ['+ Math.floor(myApp.val.pushBtnArea.left) +', '+ Math.floor(myApp.val.pushBtnArea.right) +'] ['+  Math.floor(myApp.val.pushBtnArea.top) +', '+ Math.floor(myApp.val.pushBtnArea.bottom)+']';
     // myApp.elem.text.innerHTML = document.body.clientWidth / window.innerWidth;
     //myApp.elem.text.innerHTML = myApp.os + ', ' + navigator.userAgent;
