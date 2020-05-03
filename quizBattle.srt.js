@@ -189,12 +189,12 @@ window.addEventListener('orientationchange', function(){
 });
 //
 setInterval(function(){
-    resizePlayer();
-    resizePushButton();
+    // resizePlayer();
+    // resizePushButton();
     if(Math.abs(window.orientation) == 90){
         myApp.elem.pushBtn.src = myApp.elem.imgBtn4.src;
     }
-}, 10);
+}, 100);
 function resizePlayer(){
     if(myApp.os != 'other'){
         if(Math.abs(window.orientation) != 90){
