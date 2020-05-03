@@ -183,10 +183,10 @@ window.addEventListener('orientationchange', function(){
     // }, 500);
 });
 //
-// setInterval(function(){
-//     resizePlayer();
-//     resizePushButton();
-// }, 10);
+setInterval(function(){
+    resizePlayer();
+    resizePushButton();
+}, 100);
 function resizePlayer(){
     if(myApp.os != 'other'){
         if(Math.abs(window.orientation) != 90){
@@ -569,7 +569,7 @@ function checkAnswer(){
 }
 //
 function printParams(){
-    // myApp.elem.text.innerHTML = player.getwidth;
+    myApp.elem.text.innerHTML = "curr: " + myApp.elem.pushBtn.width +', new: '+ myApp.val.pushBtnWidth;
     // myApp.elem.text.innerHTML = "addbar: " + Math.floor(window.outerHeight-window.innerHeight) +" | "+ Math.floor(myApp.val.touchObject.pageX) +', '+ Math.floor(myApp.val.touchObject.pageY) +' ['+ Math.floor(myApp.val.pushBtnArea.left) +', '+ Math.floor(myApp.val.pushBtnArea.right) +'] ['+  Math.floor(myApp.val.pushBtnArea.top) +', '+ Math.floor(myApp.val.pushBtnArea.bottom)+']';
     // myApp.elem.text.innerHTML = document.body.clientWidth / window.innerWidth;
     //myApp.elem.text.innerHTML = myApp.os + ', ' + navigator.userAgent;
