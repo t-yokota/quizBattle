@@ -228,6 +228,16 @@ function resizePushButton(){
         // }, 200);
     }
     if(myApp.elem.pushBtn.width != myApp.val.pushBtnWidth){
+        //
+        myApp.elem.imgBtn1.width  = myApp.val.pushBtnWidth;
+        myApp.elem.imgBtn1.height = myApp.val.pushBtnHeight;
+        myApp.elem.imgBtn2.width  = myApp.val.pushBtnWidth;
+        myApp.elem.imgBtn2.height = myApp.val.pushBtnHeight;
+        myApp.elem.imgBtn3.width  = myApp.val.pushBtnWidth;
+        myApp.elem.imgBtn3.height = myApp.val.pushBtnHeight;
+        myApp.elem.imgBtn4.width  = myApp.val.pushBtnWidth;
+        myApp.elem.imgBtn4.height = myApp.val.pushBtnHeight;
+        //
         myApp.elem.pushBtn.width  = myApp.val.pushBtnWidth;
         myApp.elem.pushBtn.height = myApp.val.pushBtnHeight;
         myApp.val.pushBtnArea = myApp.elem.pushBtn.getBoundingClientRect();
