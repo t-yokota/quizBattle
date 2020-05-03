@@ -189,16 +189,14 @@ window.addEventListener('orientationchange', function(){
 });
 //
 setInterval(function(){
-    resizePlayer();
-    resizePushButton();
-    // setTimeout(function(){
-    //     if(myApp.val.prevInnerWidth != window.innerWidth){
-    //         resizePlayer();
-    //     }
-    //     if(myApp.val.prevInnerHeight != window.innerHeight){
-    //         resizePushButton();
-    //     }
-    // }, 100);
+    // resizePlayer();
+    // resizePushButton();
+    if(myApp.val.prevInnerWidth != window.innerWidth){
+        resizePlayer();
+    }
+    if(myApp.val.prevInnerHeight != window.innerHeight){
+        resizePushButton();
+    }
 }, 100);
 function resizePlayer(){
     if(myApp.os != 'other'){
