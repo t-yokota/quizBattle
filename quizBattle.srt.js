@@ -186,7 +186,7 @@ window.addEventListener('orientationchange', function(){
 setInterval(function(){
     resizePlayer();
     resizePushButton();
-}, 500);
+}, 100);
 function resizePlayer(){
     if(myApp.os != 'other'){
         if(Math.abs(window.orientation) != 90){
