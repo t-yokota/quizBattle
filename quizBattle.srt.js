@@ -186,7 +186,7 @@ window.addEventListener('orientationchange', function(){
 setInterval(function(){
     resizePlayer();
     resizePushButton();
-}, 100);
+}, 500);
 function resizePlayer(){
     if(myApp.os != 'other'){
         if(Math.abs(window.orientation) != 90){
@@ -227,16 +227,16 @@ function resizePushButton(){
         myApp.val.pushBtnHeight = 0;
         // }, 200);
     }
-    if(myApp.elem.pushBtn.width != myApp.val.pushBtnWidth){
+    if(myApp.elem.pushBtn.width != myApp.val.pushBtnWidth || myApp.elem.pushBtn.width == 0 && document.activeElement.id != "anscol"){
         //
-        myApp.elem.imgBtn1.width  = myApp.val.pushBtnWidth;
-        myApp.elem.imgBtn1.height = myApp.val.pushBtnHeight;
-        myApp.elem.imgBtn2.width  = myApp.val.pushBtnWidth;
-        myApp.elem.imgBtn2.height = myApp.val.pushBtnHeight;
-        myApp.elem.imgBtn3.width  = myApp.val.pushBtnWidth;
-        myApp.elem.imgBtn3.height = myApp.val.pushBtnHeight;
-        myApp.elem.imgBtn4.width  = myApp.val.pushBtnWidth;
-        myApp.elem.imgBtn4.height = myApp.val.pushBtnHeight;
+        // myApp.elem.imgBtn1.width  = myApp.val.pushBtnWidth;
+        // myApp.elem.imgBtn1.height = myApp.val.pushBtnHeight;
+        // myApp.elem.imgBtn2.width  = myApp.val.pushBtnWidth;
+        // myApp.elem.imgBtn2.height = myApp.val.pushBtnHeight;
+        // myApp.elem.imgBtn3.width  = myApp.val.pushBtnWidth;
+        // myApp.elem.imgBtn3.height = myApp.val.pushBtnHeight;
+        // myApp.elem.imgBtn4.width  = myApp.val.pushBtnWidth;
+        // myApp.elem.imgBtn4.height = myApp.val.pushBtnHeight;
         //
         myApp.elem.pushBtn.width  = myApp.val.pushBtnWidth;
         myApp.elem.pushBtn.height = myApp.val.pushBtnHeight;
