@@ -194,7 +194,7 @@ setInterval(function(){
     if(Math.abs(window.orientation) == 90){
         myApp.elem.pushBtn.src = myApp.elem.imgBtn4.src;
     }
-}, 100);
+}, 10);
 function resizePlayer(){
     if(myApp.os != 'other'){
         if(Math.abs(window.orientation) != 90){
