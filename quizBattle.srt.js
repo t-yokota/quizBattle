@@ -196,8 +196,8 @@ setInterval(function(){
         if(myApp.val.prevInnerHeight != window.innerHeight){
             resizePushButton();
         }
-    }, 50);
-}, 100);
+    }, 100);
+}, 200);
 function resizePlayer(){
     if(myApp.os != 'other'){
         if(Math.abs(window.orientation) != 90){
