@@ -184,7 +184,7 @@ window.addEventListener('orientationchange', function(){
 });
 //
 setInterval(function(){
-    resizePlayer();
+    // resizePlayer();
     resizePushButton();
 }, 100);
 function resizePlayer(){
