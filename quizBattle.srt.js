@@ -47,6 +47,11 @@ const myApp = {
         btnLoadBool     : false,
         orientAlertBool : false,
         //
+        prevPlayerWidth  : 0,
+        prevPlayerHeight : 0,
+        prevInnerWidth   : 0,
+        prevInnerHeight  : 0,
+        //
         numQues     : 0,     //問題番号
         ansArray    : [],    //正答リスト
         cntO        : 0,     //正答数
@@ -184,8 +189,12 @@ window.addEventListener('orientationchange', function(){
 });
 //
 setInterval(function(){
-    resizePlayer();
-    resizePushButton();
+    if(myApp.val.prevInnerWidth != window.innerWidth){
+        resizePlayer();
+    }
+    if(myApp.val.prevInnerHeight != window.innerHeight){
+        resizePushButton();
+    }
 }, 100);
 function resizePlayer(){
     if(myApp.os != 'other'){
@@ -193,10 +202,10 @@ function resizePlayer(){
             myApp.val.playerWidth  = window.innerWidth;
             myApp.val.playerHeight = myApp.val.playerWidth/16*9;
         }else{
-            // myApp.val.playerHeight = window.innerHeight-parseInt(myApp.elem.text.style.lineHeight)-20;
-            // myApp.val.playerWidth  = myApp.val.playerHeight/9*16;
             myApp.val.playerWidth  = window.innerWidth*2/3;
             myApp.val.playerHeight = myApp.val.playerWidth/16*9;
+            // myApp.val.playerHeight = window.innerHeight-parseInt(myApp.elem.text.style.lineHeight)-20;
+            // myApp.val.playerWidth  = myApp.val.playerHeight/9*16;
         }
     }else{
         myApp.val.playerHeight = window.innerHeight/2.3;
@@ -204,44 +213,34 @@ function resizePlayer(){
         myApp.elem.ansCol.style.width = myApp.val.playerWidth/window.innerWidth*90+'%';
     }
     player.setSize(myApp.val.playerWidth, myApp.val.playerHeight);
+    //
+    myApp.val.prevPlayerWidth  = myApp.val.playerWidth;
+    myApp.val.prevPlayerHeight = myApp.val.playerHeight;
+    //
+    myApp.val.prevInnerWidth   = window.innerWidth;
+    myApp.val.prevInnerHeight  = window.innerHeight;
 }
 function resizePushButton(){
-    if(myApp.os != "other" && document.activeElement.id != "anscol" || myApp.os == "other"){
-        if(Math.abs(window.orientation) != 90){
-            const tmpImgHeight = window.innerHeight-myApp.elem.pushBtn.getBoundingClientRect().top-parseInt(myApp.elem.numOX.style.lineHeight)-20;
-            const tmpImgWidth  = myApp.elem.pushBtn.naturalWidth*tmpImgHeight/myApp.elem.pushBtn.naturalHeight;
-            if(tmpImgWidth < window.innerWidth){
-                myApp.val.pushBtnWidth  = tmpImgWidth;
-                myApp.val.pushBtnHeight = tmpImgHeight;
-            }else{
-                myApp.val.pushBtnWidth  = window.innerWidth/5;
-                myApp.val.pushBtnHeight = myApp.elem.pushBtn.naturalHeight*myApp.val.pushBtnWidth/myApp.elem.pushBtn.naturalWidth;
-            }
+    if(myApp.os != "other" && Math.abs(window.orientation) != 90){
+        const tmpImgHeight = window.innerHeight-myApp.elem.pushBtn.getBoundingClientRect().top-parseInt(myApp.elem.numOX.style.lineHeight)-20;
+        const tmpImgWidth  = myApp.elem.pushBtn.naturalWidth*tmpImgHeight/myApp.elem.pushBtn.naturalHeight;
+        if(tmpImgWidth < window.innerWidth){
+            myApp.val.pushBtnWidth  = tmpImgWidth;
+            myApp.val.pushBtnHeight = tmpImgHeight;
         }else{
             myApp.val.pushBtnWidth  = window.innerWidth/5;
             myApp.val.pushBtnHeight = myApp.elem.pushBtn.naturalHeight*myApp.val.pushBtnWidth/myApp.elem.pushBtn.naturalWidth;
         }
-    }else if(myApp.os != "other" && document.activeElement.id == "anscol"){
-        // setTimeout(function(){
-        myApp.val.pushBtnWidth  = 0;
-        myApp.val.pushBtnHeight = 0;
-        // }, 200);
+    }else{
+        myApp.val.pushBtnWidth  = window.innerWidth/5;
+        myApp.val.pushBtnHeight = myApp.elem.pushBtn.naturalHeight*myApp.val.pushBtnWidth/myApp.elem.pushBtn.naturalWidth;
     }
-    if(myApp.elem.pushBtn.width != myApp.val.pushBtnWidth || myApp.elem.pushBtn.width == 0 && document.activeElement.id != "anscol"){
-        //
-        // myApp.elem.imgBtn1.width  = myApp.val.pushBtnWidth;
-        // myApp.elem.imgBtn1.height = myApp.val.pushBtnHeight;
-        // myApp.elem.imgBtn2.width  = myApp.val.pushBtnWidth;
-        // myApp.elem.imgBtn2.height = myApp.val.pushBtnHeight;
-        // myApp.elem.imgBtn3.width  = myApp.val.pushBtnWidth;
-        // myApp.elem.imgBtn3.height = myApp.val.pushBtnHeight;
-        // myApp.elem.imgBtn4.width  = myApp.val.pushBtnWidth;
-        // myApp.elem.imgBtn4.height = myApp.val.pushBtnHeight;
-        //
-        myApp.elem.pushBtn.width  = myApp.val.pushBtnWidth;
-        myApp.elem.pushBtn.height = myApp.val.pushBtnHeight;
-        myApp.val.pushBtnArea = myApp.elem.pushBtn.getBoundingClientRect();
-    }
+    myApp.elem.pushBtn.width  = myApp.val.pushBtnWidth;
+    myApp.elem.pushBtn.height = myApp.val.pushBtnHeight;
+    myApp.val.pushBtnArea = myApp.elem.pushBtn.getBoundingClientRect();
+    //
+    myApp.val.prevInnerWidth  = window.innerWidth;
+    myApp.val.prevInnerHeight = window.innerHeight;
     //
     if(Math.abs(window.orientation) == 90){
         myApp.elem.pushBtn.src = myApp.elem.imgBtn4.src;
@@ -579,7 +578,7 @@ function checkAnswer(){
 }
 //
 function printParams(){
-    myApp.elem.text.innerHTML = "curr: " + myApp.elem.pushBtn.width +', new: '+ Math.floor(myApp.val.pushBtnWidth) + ', inHeight: '+ window.innerHeight;
+    myApp.elem.text.innerHTML = "curr: " + myApp.elem.pushBtn.width +', new: '+ Math.floor(myApp.val.pushBtnWidth) + ', inWidth: '+ window.innerWidth + ', inHeight: '+ window.innerHeight;
     // myApp.elem.text.innerHTML = "addbar: " + Math.floor(window.outerHeight-window.innerHeight) +" | "+ Math.floor(myApp.val.touchObject.pageX) +', '+ Math.floor(myApp.val.touchObject.pageY) +' ['+ Math.floor(myApp.val.pushBtnArea.left) +', '+ Math.floor(myApp.val.pushBtnArea.right) +'] ['+  Math.floor(myApp.val.pushBtnArea.top) +', '+ Math.floor(myApp.val.pushBtnArea.bottom)+']';
     // myApp.elem.text.innerHTML = document.body.clientWidth / window.innerWidth;
     //myApp.elem.text.innerHTML = myApp.os + ', ' + navigator.userAgent;
