@@ -247,9 +247,9 @@ function resizePushButton(){
 //
 /* load image of push button */
 myApp.elem.imgBtn1.src = "https://github.com/t-yokota/quizBattle/raw/devel/convertToES6/figures/button_portrait_1.png";
-myApp.elem.imgBtn2.src = "https://github.com/t-yokota/quizBattle/raw/devel/convertToES6/figures/button_portrait_1.png";
-myApp.elem.imgBtn3.src = "https://github.com/t-yokota/quizBattle/raw/devel/convertToES6/figures/button_portrait_1.png";
-myApp.elem.imgBtn4.src = "https://github.com/t-yokota/quizBattle/raw/devel/convertToES6/figures/button_portrait_1.png";
+myApp.elem.imgBtn2.src = "https://github.com/t-yokota/quizBattle/raw/devel/convertToES6/figures/button_portrait_2.png";
+myApp.elem.imgBtn3.src = "https://github.com/t-yokota/quizBattle/raw/devel/convertToES6/figures/button_portrait_3.png";
+myApp.elem.imgBtn4.src = "https://github.com/t-yokota/quizBattle/raw/devel/convertToES6/figures/button_portrait_4.png";
 //
 /* assign default image to push button */
 myApp.elem.pushBtn.width = window.innerWidth; /* init size before loading */
@@ -576,7 +576,8 @@ function checkAnswer(){
 }
 //
 function printParams(){
-    myApp.elem.text.innerHTML = "curr: " + myApp.elem.pushBtn.width +', new: '+ Math.floor(myApp.val.pushBtnWidth) + ', inWidth: '+ window.innerWidth + ', inHeight: '+ window.innerHeight;
+    myApp.elem.text.innerHTML = "docWidth: " + document.documentElement.clientWidth +', docHeight: '+ document.documentElement.clientHeight + ', inWidth: '+ window.innerWidth + ', inHeight: '+ window.innerHeight;
+    // myApp.elem.text.innerHTML = "curr: " + myApp.elem.pushBtn.width +', new: '+ Math.floor(myApp.val.pushBtnWidth) + ', inWidth: '+ window.innerWidth + ', inHeight: '+ window.innerHeight;
     // myApp.elem.text.innerHTML = Math.floor(myApp.val.touchObject.pageX) +', '+ Math.floor(myApp.val.touchObject.pageY) +' ['+ Math.floor(myApp.val.pushBtnArea.left) +', '+ Math.floor(myApp.val.pushBtnArea.right) +'] ['+  Math.floor(myApp.val.pushBtnArea.top) +', '+ Math.floor(myApp.val.pushBtnArea.bottom)+']';
     // myApp.elem.text.innerHTML = document.body.clientWidth / window.innerWidth;
     //myApp.elem.text.innerHTML = myApp.os + ', ' + navigator.userAgent;
