@@ -44,7 +44,7 @@ const myApp = {
         pushBtnArea     : null,
         touchObject     : null,  
         imgErrorBool    : false,
-        btnLoadBool     : false,
+        initBtnLoadBool : false,
         orientAlertBool : false,
         //
         prevPlayerWidth  : 0,
@@ -156,13 +156,13 @@ myApp.elem.pushBtn.onerror = function(){ alert("画像の読み込みに失敗�
 /* change player and push button size after loading or changing orientation */
 // initial resize
 myApp.elem.pushBtn.onload = function(){
-    if(myApp.val.imgErrorBool == false && myApp.val.btnLoadBool == false){
-        myApp.val.btnLoadBool = true;
+    if(myApp.val.imgErrorBool == false && myApp.val.initBtnLoadBool == false){
         resizePlayer();
         resizePushButton();
         if(Math.abs(window.orientation) == 90 && myApp.os != "ohter"){
             alert("このサイトはスマートフォン・タブレットを縦向きにしてお楽しみください。");
         }
+        myApp.val.initBtnLoadBool = true;
     }else if(myApp.val.imgErrorBool == true){
         alert("画像の読み込みに失敗しました。ページを再読み込みしてください。");
     }
@@ -189,13 +189,10 @@ window.addEventListener('orientationchange', function(){
 });
 //
 setInterval(function(){
-    // resizePlayer();
-    // resizePushButton();
-    if(myApp.val.prevInnerWidth != window.innerWidth){
-        resizePlayer();
-    }
-    if(myApp.val.prevInnerHeight != window.innerHeight){
-        resizePushButton();
+    resizePlayer();
+    resizePushButton();
+    if(Math.abs(window.orientation) == 90){
+        myApp.elem.pushBtn.src = myApp.elem.imgBtn4.src;
     }
 }, 100);
 function resizePlayer(){
@@ -214,16 +211,17 @@ function resizePlayer(){
         myApp.val.playerWidth  = myApp.val.playerHeight/9*16;
         myApp.elem.ansCol.style.width = myApp.val.playerWidth/window.innerWidth*90+'%';
     }
-    player.setSize(myApp.val.playerWidth, myApp.val.playerHeight);
-    //
-    myApp.val.prevPlayerWidth  = myApp.val.playerWidth;
-    myApp.val.prevPlayerHeight = myApp.val.playerHeight;
-    //
-    myApp.val.prevInnerWidth   = window.innerWidth;
-    myApp.val.prevInnerHeight  = window.innerHeight;
+    if(myApp.val.initBtnLoadBool == false || myApp.val.prevPlayerWidth != myApp.val.playerWidth){
+        player.setSize(myApp.val.playerWidth, myApp.val.playerHeight);
+        //
+        myApp.val.prevInnerWidth   = window.innerWidth;
+        myApp.val.prevInnerHeight  = window.innerHeight;
+        myApp.val.prevPlayerWidth  = myApp.val.playerWidth;
+        myApp.val.prevPlayerHeight = myApp.val.playerHeight;
+    }
 }
 function resizePushButton(){
-    if(myApp.os != "other" && Math.abs(window.orientation) != 90){
+    if(myApp.os != "other" && Math.abs(window.orientation) != 90 || myApp.os == 'other'){
         const tmpImgHeight = window.innerHeight-myApp.elem.pushBtn.getBoundingClientRect().top-parseInt(myApp.elem.numOX.style.lineHeight)-20;
         const tmpImgWidth  = myApp.elem.pushBtn.naturalWidth*tmpImgHeight/myApp.elem.pushBtn.naturalHeight;
         if(tmpImgWidth < window.innerWidth){
@@ -237,15 +235,13 @@ function resizePushButton(){
         myApp.val.pushBtnWidth  = window.innerWidth/5;
         myApp.val.pushBtnHeight = myApp.elem.pushBtn.naturalHeight*myApp.val.pushBtnWidth/myApp.elem.pushBtn.naturalWidth;
     }
-    myApp.elem.pushBtn.width  = myApp.val.pushBtnWidth;
-    myApp.elem.pushBtn.height = myApp.val.pushBtnHeight;
-    myApp.val.pushBtnArea = myApp.elem.pushBtn.getBoundingClientRect();
-    //
-    myApp.val.prevInnerWidth  = window.innerWidth;
-    myApp.val.prevInnerHeight = window.innerHeight;
-    //
-    if(Math.abs(window.orientation) == 90){
-        myApp.elem.pushBtn.src = myApp.elem.imgBtn4.src;
+    if(myApp.val.initBtnLoadBool == false || myApp.val.prevInnerHeight != window.innerHeight){
+        myApp.elem.pushBtn.width  = myApp.val.pushBtnWidth;
+        myApp.elem.pushBtn.height = myApp.val.pushBtnHeight;
+        myApp.val.pushBtnArea = myApp.elem.pushBtn.getBoundingClientRect();
+        //
+        myApp.val.prevInnerWidth  = window.innerWidth;
+        myApp.val.prevInnerHeight = window.innerHeight;
     }
 }
 //
@@ -299,7 +295,7 @@ document.addEventListener("compositionstart", function(){ myApp.val.composingBoo
 document.addEventListener('compositionend', function(){ myApp.val.composingBool = false; });
 document.onkeydown = myKeyDownEvent;
 function myKeyDownEvent(){
-    if(myApp.val.imgErrorBool == false && myApp.val.btnLoadBool == true && Math.abs(window.orientation) != 90){
+    if(myApp.val.imgErrorBool == false && myApp.val.initBtnLoadBool == true && Math.abs(window.orientation) != 90){
         if(event.keyCode == myApp.val.btnCode){
             if(myApp.val.status == myApp.state.ButtonCheck){
                 const interval = 1500;
@@ -324,7 +320,7 @@ function myKeyDownEvent(){
 /* set main touchstart event (for smartphone) */
 document.addEventListener("touchstart", myTouchEvent);
 function myTouchEvent(event){    
-    if(myApp.val.imgErrorBool == false && myApp.val.btnLoadBool == true && Math.abs(window.orientation) != 90){ 
+    if(myApp.val.imgErrorBool == false && myApp.val.initBtnLoadBool == true && Math.abs(window.orientation) != 90){ 
         myApp.val.touchObject = event.changedTouches[0];
         if( myApp.val.pushBtnArea.left < myApp.val.touchObject.pageX && myApp.val.touchObject.pageX < myApp.val.pushBtnArea.right ){
             if( myApp.val.pushBtnArea.top < myApp.val.touchObject.pageY && myApp.val.touchObject.pageY < myApp.val.pushBtnArea.bottom ){
@@ -580,12 +576,15 @@ function checkAnswer(){
 }
 //
 function printParams(){
-    myApp.elem.text.innerHTML = "curr: " + myApp.elem.pushBtn.width +', new: '+ Math.floor(myApp.val.pushBtnWidth) + ', inWidth: '+ window.innerWidth + ', inHeight: '+ window.innerHeight;
-    // myApp.elem.text.innerHTML = "addbar: " + Math.floor(window.outerHeight-window.innerHeight) +" | "+ Math.floor(myApp.val.touchObject.pageX) +', '+ Math.floor(myApp.val.touchObject.pageY) +' ['+ Math.floor(myApp.val.pushBtnArea.left) +', '+ Math.floor(myApp.val.pushBtnArea.right) +'] ['+  Math.floor(myApp.val.pushBtnArea.top) +', '+ Math.floor(myApp.val.pushBtnArea.bottom)+']';
+    // myApp.elem.text.innerHTML = Object.getOwnPropertyNames(player);
+    // myApp.elem.text.innerHTML = Object.getOwnPropertyNames(player.playerInfo);
+    // myApp.elem.text.innerHTML = player.playerInfo.apiInterface;
+    // myApp.elem.text.innerHTML = "curr: " + myApp.elem.pushBtn.width +', new: '+ Math.floor(myApp.val.pushBtnWidth) + ', inWidth: '+ window.innerWidth + ', inHeight: '+ window.innerHeight;
+    // myApp.elem.text.innerHTML = Math.floor(myApp.val.touchObject.pageX) +', '+ Math.floor(myApp.val.touchObject.pageY) +' ['+ Math.floor(myApp.val.pushBtnArea.left) +', '+ Math.floor(myApp.val.pushBtnArea.right) +'] ['+  Math.floor(myApp.val.pushBtnArea.top) +', '+ Math.floor(myApp.val.pushBtnArea.bottom)+']';
     // myApp.elem.text.innerHTML = document.body.clientWidth / window.innerWidth;
     //myApp.elem.text.innerHTML = myApp.os + ', ' + navigator.userAgent;
     // myApp.elem.text.innerHTML = detectTouchPanel();
-    // myApp.elem.subText.innerHTML = 'imgErrorBool: ' + myApp.val.imgErrorBool + ', btnLoadBool: ' + myApp.val.btnLoadBool;
+    // myApp.elem.subText.innerHTML = 'imgErrorBool: ' + myApp.val.imgErrorBool + ', initBtnLoadBool: ' + myApp.val.initBtnLoadBool;
     //myApp.elem.subText.innerHTML = 'playerWidth: ' + myApp.val.playerWidth + ', innerWidth: ' + window.innerWidth;
     // myApp.elem.text.innerHTML = document.styleSheets.item(1).cssRules.length;
     // myApp.elem.subText.innerHTML = 
