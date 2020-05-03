@@ -184,7 +184,7 @@ window.addEventListener('orientationchange', function(){
 });
 //
 setInterval(function(){
-    // resizePlayer();
+    resizePlayer();
     resizePushButton();
 }, 100);
 function resizePlayer(){
@@ -227,7 +227,7 @@ function resizePushButton(){
         myApp.val.pushBtnHeight = 0;
         // }, 200);
     }
-    if(myApp.elem.pushBtn.width != myApp.val.pushBtnWidth || myApp.elem.pushBtn.width == 0 && document.activeElement.id != "anscol"){
+    if(/*myApp.elem.pushBtn.width != myApp.val.pushBtnWidth || */myApp.elem.pushBtn.width == 0 && document.activeElement.id != "anscol"){
         //
         // myApp.elem.imgBtn1.width  = myApp.val.pushBtnWidth;
         // myApp.elem.imgBtn1.height = myApp.val.pushBtnHeight;
