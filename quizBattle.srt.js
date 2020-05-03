@@ -189,12 +189,14 @@ window.addEventListener('orientationchange', function(){
 });
 //
 setInterval(function(){
-    if(myApp.val.prevInnerWidth != window.innerWidth){
-        resizePlayer();
-    }
-    if(myApp.val.prevInnerHeight != window.innerHeight){
-        resizePushButton();
-    }
+    setTimeout(function(){
+        if(myApp.val.prevInnerWidth != window.innerWidth){
+            resizePlayer();
+        }
+        if(myApp.val.prevInnerHeight != window.innerHeight){
+            resizePushButton();
+        }
+    }, 50);
 }, 100);
 function resizePlayer(){
     if(myApp.os != 'other'){
