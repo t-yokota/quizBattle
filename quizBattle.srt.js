@@ -89,7 +89,7 @@ const myApp = {
 /* set id to focus-usable elements */
 myApp.elem.ansCol.id = 'anscol';
 myApp.elem.ansBtn.id = 'ansbtn';
-document.getElementsByTagName("body")[0].id = 'body';
+// document.getElementsByTagName("body")[0].id = 'body';
 //
 /* View */
 /* test of viewport (pending) */
@@ -160,7 +160,7 @@ myApp.elem.pushBtn.onload = function(){
         resizePlayer();
         resizePushButton();
         if(Math.abs(window.orientation) == 90 && myApp.os != "ohter"){
-            alert("このサイトはスマートフォン・タブレットを縦向きにしてお楽しみください。");
+            alert("このサイトはスマートフォン/タブレットを縦向きにしてお楽しみください。");
         }
         myApp.val.initBtnLoadBool = true;
     }else if(myApp.val.imgErrorBool == true){
@@ -188,13 +188,13 @@ window.addEventListener('orientationchange', function(){
     }, 500);
 });
 //
-setInterval(function(){
-    // resizePlayer();
-    // resizePushButton();
-    if(Math.abs(window.orientation) == 90){
-        myApp.elem.pushBtn.src = myApp.elem.imgBtn4.src;
-    }
-}, 100);
+// setInterval(function(){
+//     // resizePlayer();
+//     // resizePushButton();
+//     if(Math.abs(window.orientation) == 90){
+//         myApp.elem.pushBtn.src = myApp.elem.imgBtn4.src;
+//     }
+// }, 100);
 function resizePlayer(){
     if(myApp.os != 'other'){
         if(Math.abs(window.orientation) != 90){
@@ -214,8 +214,6 @@ function resizePlayer(){
     if(myApp.val.initBtnLoadBool == false || myApp.val.prevPlayerWidth != myApp.val.playerWidth){
         player.setSize(myApp.val.playerWidth, myApp.val.playerHeight);
         //
-        myApp.val.prevInnerWidth   = document.documentElement.clientWidth;
-        myApp.val.prevInnerHeight  = document.documentElement.clientHeight;
         myApp.val.prevPlayerWidth  = myApp.val.playerWidth;
         myApp.val.prevPlayerHeight = myApp.val.playerHeight;
     }
