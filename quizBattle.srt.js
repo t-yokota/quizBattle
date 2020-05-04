@@ -211,14 +211,14 @@ function resizePlayer(){
         myApp.val.playerWidth  = myApp.val.playerHeight/9*16;
         myApp.elem.ansCol.style.width = myApp.val.playerWidth/document.documentElement.clientWidth*90+'%';
     }
-    // if(myApp.val.initBtnLoadBool == false || myApp.val.prevPlayerWidth != myApp.val.playerWidth){
+    if(myApp.val.initBtnLoadBool == false || myApp.val.prevPlayerWidth != myApp.val.playerWidth){
         player.setSize(myApp.val.playerWidth, myApp.val.playerHeight);
         //
-    //     myApp.val.prevInnerWidth   = document.documentElement.clientWidth;
-    //     myApp.val.prevInnerHeight  = document.documentElement.clientHeight;
-    //     myApp.val.prevPlayerWidth  = myApp.val.playerWidth;
-    //     myApp.val.prevPlayerHeight = myApp.val.playerHeight;
-    // }
+        myApp.val.prevInnerWidth   = document.documentElement.clientWidth;
+        myApp.val.prevInnerHeight  = document.documentElement.clientHeight;
+        myApp.val.prevPlayerWidth  = myApp.val.playerWidth;
+        myApp.val.prevPlayerHeight = myApp.val.playerHeight;
+    }
 }
 function resizePushButton(){
     if(myApp.os != "other" && Math.abs(window.orientation) != 90 || myApp.os == 'other'){
@@ -235,14 +235,14 @@ function resizePushButton(){
         myApp.val.pushBtnWidth  = document.documentElement.clientWidth/5;
         myApp.val.pushBtnHeight = myApp.elem.pushBtn.naturalHeight*myApp.val.pushBtnWidth/myApp.elem.pushBtn.naturalWidth;
     }
-    // if(myApp.val.initBtnLoadBool == false || myApp.val.prevInnerHeight != document.documentElement.clientHeight){
+    if(myApp.val.initBtnLoadBool == false || myApp.val.prevInnerHeight != document.documentElement.clientHeight){
         myApp.elem.pushBtn.width  = myApp.val.pushBtnWidth;
         myApp.elem.pushBtn.height = myApp.val.pushBtnHeight;
         myApp.val.pushBtnArea = myApp.elem.pushBtn.getBoundingClientRect();
         //
-    //     myApp.val.prevInnerWidth  = document.documentElement.clientWidth;
-    //     myApp.val.prevInnerHeight = document.documentElement.clientHeight;
-    // }
+        myApp.val.prevInnerWidth  = document.documentElement.clientWidth;
+        myApp.val.prevInnerHeight = document.documentElement.clientHeight;
+    }
 }
 //
 /* load image of push button */
