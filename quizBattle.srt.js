@@ -248,7 +248,7 @@ myApp.elem.ansBtn.disabled  = true;
 myApp.val.status = myApp.state.ButtonCheck;
 player.pauseVideo();
 if(myApp.os != 'other'){
-    if(Math.abs(window.orientation) == 90 && myApp.initOrientation == 'landscape'){
+    if(Math.abs(window.orientation) == 90 && myApp.val.initOrientation == 'landscape'){
         myApp.elem.text.innerHTML = "デバイスを縦向きに持ち変えてクイズをはじめる";
     }else{
         myApp.elem.text.innerHTML = "下の早押しボタンをタップしてクイズをはじめる";
