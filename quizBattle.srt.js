@@ -169,28 +169,28 @@ myApp.elem.pushBtn.onload = function(){
 }
 // resize when the orientation is changed
 window.addEventListener('orientationchange', function(){
-    // setTimeout(function(){
-        // resizePlayer();
-        // resizePushButton();
-    if(Math.abs(window.orientation) != 90){
-        if(myApp.val.status == myApp.state.MyAnswer){
-            myApp.elem.pushBtn.src = myApp.elem.imgBtn3.src;
+    setTimeout(function(){
+        resizePlayer();
+        resizePushButton();
+        if(Math.abs(window.orientation) != 90){
+            if(myApp.val.status == myApp.state.MyAnswer){
+                myApp.elem.pushBtn.src = myApp.elem.imgBtn3.src;
+            }else{
+                myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src;
+            }
         }else{
-            myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src;
+            myApp.elem.pushBtn.src = myApp.elem.imgBtn4.src;
+            if(myApp.val.orientAlertBool == false){
+                alert("このサイトはスマートフォン・タブレットを縦向きにしてお楽しみください。");
+                myApp.val.orientAlertBool = true;
+            }
         }
-    }else{
-        myApp.elem.pushBtn.src = myApp.elem.imgBtn4.src;
-        if(myApp.val.orientAlertBool == false){
-            alert("このサイトはスマートフォン・タブレットを縦向きにしてお楽しみください。");
-            myApp.val.orientAlertBool = true;
-        }
-    }
-    // }, 500);
+    }, 500);
 });
 //
 setInterval(function(){
-    resizePlayer();
-    resizePushButton();
+    // resizePlayer();
+    // resizePushButton();
     if(Math.abs(window.orientation) == 90){
         myApp.elem.pushBtn.src = myApp.elem.imgBtn4.src;
     }
