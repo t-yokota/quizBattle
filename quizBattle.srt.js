@@ -43,6 +43,7 @@ const myApp = {
         pushBtnHeight   : 0,
         pushBtnArea     : null,
         touchObject     : null,  
+        initOrientation : null,
         imgErrorBool    : false,
         initBtnLoadBool : false,
         orientAlertBool : false,
@@ -115,7 +116,15 @@ document.getElementsByTagName("body")[0].appendChild(myApp.elem.numOX);
 document.getElementsByTagName("body")[0].appendChild(myApp.elem.br5); 
 document.getElementsByTagName("body")[0].appendChild(myApp.elem.subText);
 //
-/*  */
+/* add textnodes to the elements */
+const node_text    = document.createTextNode("");
+const node_subText = document.createTextNode("");　
+const node_numOX   = document.createTextNode("");
+myApp.elem.text.appendChild(node_text);
+myApp.elem.subText.appendChild(node_subText);
+myApp.elem.numOX.appendChild(node_numOX);
+//
+/* set parameters to the elements */
 myApp.os = fetchOSType();
 if (myApp.os != 'other'){
     myApp.elem.text.style.fontSize    = '38px';
@@ -159,9 +168,6 @@ myApp.elem.pushBtn.onload = function(){
     if(myApp.val.imgErrorBool == false && myApp.val.initBtnLoadBool == false){
         resizePlayer();
         resizePushButton();
-        if(Math.abs(window.orientation) == 90 && myApp.os != "ohter"){
-            alert("このサイトはスマートフォン/タブレットを縦向きにしてお楽しみください。");
-        }
         myApp.val.initBtnLoadBool = true;
     }else if(myApp.val.imgErrorBool == true){
         alert("画像の読み込みに失敗しました。ページを再読み込みしてください。");
@@ -185,63 +191,15 @@ window.addEventListener('orientationchange', function(){
                 myApp.val.orientAlertBool = true;
             }
         }
+        if(myApp.val.status == myApp.state.ButtonCheck && myApp.val.initOrientation == 'landscape'){
+            if(Math.abs(window.orientation) != 90){
+                myApp.elem.text.innerHTML = "下の早押しボタンをタップしてください";
+            }else{
+                myApp.elem.text.innerHTML = "デバイスを縦向きに持ち変えてクイズをはじめる";
+            }
+        }
     }, 500);
 });
-//
-// setInterval(function(){
-//     // resizePlayer();
-//     // resizePushButton();
-//     if(Math.abs(window.orientation) == 90){
-//         myApp.elem.pushBtn.src = myApp.elem.imgBtn4.src;
-//     }
-// }, 100);
-function resizePlayer(){
-    if(myApp.os != 'other'){
-        if(Math.abs(window.orientation) != 90){
-            myApp.val.playerWidth  = document.documentElement.clientWidth;
-            myApp.val.playerHeight = myApp.val.playerWidth/16*9;
-        }else{
-            myApp.val.playerWidth  = document.documentElement.clientWidth*2/3;
-            myApp.val.playerHeight = myApp.val.playerWidth/16*9;
-            // myApp.val.playerHeight = document.documentElement.clientHeight-parseInt(myApp.elem.text.style.lineHeight)-20;
-            // myApp.val.playerWidth  = myApp.val.playerHeight/9*16;
-        }
-    }else{
-        myApp.val.playerHeight = document.documentElement.clientHeight/2;
-        myApp.val.playerWidth  = myApp.val.playerHeight/9*16;
-        myApp.elem.ansCol.style.width = myApp.val.playerWidth/document.documentElement.clientWidth*90+'%';
-    }
-    if(myApp.val.initBtnLoadBool == false || myApp.val.prevPlayerWidth != myApp.val.playerWidth){
-        player.setSize(myApp.val.playerWidth, myApp.val.playerHeight);
-        //
-        myApp.val.prevPlayerWidth  = myApp.val.playerWidth;
-        myApp.val.prevPlayerHeight = myApp.val.playerHeight;
-    }
-}
-function resizePushButton(){
-    if(myApp.os != "other" && Math.abs(window.orientation) != 90 || myApp.os == 'other'){
-        const tmpImgHeight = document.documentElement.clientHeight-myApp.elem.pushBtn.getBoundingClientRect().top-parseInt(myApp.elem.numOX.style.lineHeight)-20;
-        const tmpImgWidth  = myApp.elem.pushBtn.naturalWidth*tmpImgHeight/myApp.elem.pushBtn.naturalHeight;
-        if(tmpImgWidth < document.documentElement.clientWidth){
-            myApp.val.pushBtnWidth  = tmpImgWidth;
-            myApp.val.pushBtnHeight = tmpImgHeight;
-        }else{
-            myApp.val.pushBtnWidth  = document.documentElement.clientWidth/5;
-            myApp.val.pushBtnHeight = myApp.elem.pushBtn.naturalHeight*myApp.val.pushBtnWidth/myApp.elem.pushBtn.naturalWidth;
-        }
-    }else{
-        myApp.val.pushBtnWidth  = document.documentElement.clientWidth/5;
-        myApp.val.pushBtnHeight = myApp.elem.pushBtn.naturalHeight*myApp.val.pushBtnWidth/myApp.elem.pushBtn.naturalWidth;
-    }
-    if(myApp.val.initBtnLoadBool == false || myApp.val.prevInnerHeight != document.documentElement.clientHeight){
-        myApp.elem.pushBtn.width  = myApp.val.pushBtnWidth;
-        myApp.elem.pushBtn.height = myApp.val.pushBtnHeight;
-        myApp.val.pushBtnArea = myApp.elem.pushBtn.getBoundingClientRect();
-        //
-        myApp.val.prevInnerWidth  = document.documentElement.clientWidth;
-        myApp.val.prevInnerHeight = document.documentElement.clientHeight;
-    }
-}
 //
 /* load image of push button */
 myApp.elem.imgBtn1.src = "https://github.com/t-yokota/quizBattle/raw/devel/convertToES6/figures/button_portrait_1.png";
@@ -251,26 +209,25 @@ myApp.elem.imgBtn4.src = "https://github.com/t-yokota/quizBattle/raw/devel/conve
 //
 /* assign default image to push button */
 myApp.elem.pushBtn.width = document.documentElement.clientWidth; /* init size before loading */
-if(Math.abs(window.orientation) != 90){
-    myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src;
+if(myApp.os == "other"){
+    if(Math.abs(window.orientation) != 90){
+        myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src;
+        myApp.val.initOrientation = 'portrait';
+    }else{
+        myApp.elem.pushBtn.src = myApp.elem.imgBtn4.src;
+        myApp.val.initOrientation = 'landscape';
+        alert("このサイトはスマートフォン/タブレットを縦向きにしてお楽しみください。");
+    }
 }else{
-    myApp.elem.pushBtn.src = myApp.elem.imgBtn4.src;
+    myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src;
 }
 //
-/* add textnodes to the elements */
-const node_text    = document.createTextNode("");
-const node_subText = document.createTextNode("");　
-const node_numOX   = document.createTextNode("");
-myApp.elem.text.appendChild(node_text);
-myApp.elem.subText.appendChild(node_subText);
-myApp.elem.numOX.appendChild(node_numOX);
-//
-/* get audio data */
+/* load audio data */
 myApp.elem.sndPush.src = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/sounds/push.mp3";
 myApp.elem.sndO.src    = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/sounds/correct.mp3";
 myApp.elem.sndX.src    = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/sounds/discorrect.mp3";
 //
-/* get answer list */
+/* load answer list */
 const ansCSV = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/answer_UTF-8.csv"; //UTF-8
 const file = new XMLHttpRequest();
 file.open("get", ansCSV, true);
@@ -291,7 +248,11 @@ myApp.elem.ansBtn.disabled  = true;
 myApp.val.status = myApp.state.ButtonCheck;
 player.pauseVideo();
 if(myApp.os != 'other'){
-    myApp.elem.text.innerHTML = "下の早押しボタンをタップしてクイズをはじめる";
+    if(Math.floor(window.orientation) == 90 && myApp.initOrientation == 'landscape'){
+        myApp.elem.text.innerHTML = "デバイスを縦向きに持ち変えてクイズをはじめる";
+    }else{
+        myApp.elem.text.innerHTML = "下の早押しボタンをタップしてクイズをはじめる";
+    }
  }else if(myApp.os == 'other' && detectTouchPanel() == true){
     myApp.elem.text.innerHTML = "早押しボタンのタップ/スペースキーの押下でクイズをはじめる"; 
 }else{
@@ -518,6 +479,55 @@ function CSVtoArray(str){
         array[i] = tmp[i].split(",");
     }
     return array;
+}
+//
+function resizePlayer(){
+    if(myApp.os != 'other'){
+        if(Math.abs(window.orientation) != 90){
+            myApp.val.playerWidth  = document.documentElement.clientWidth;
+            myApp.val.playerHeight = myApp.val.playerWidth/16*9;
+        }else{
+            myApp.val.playerWidth  = document.documentElement.clientWidth*2/3;
+            myApp.val.playerHeight = myApp.val.playerWidth/16*9;
+            // myApp.val.playerHeight = document.documentElement.clientHeight-parseInt(myApp.elem.text.style.lineHeight)-20;
+            // myApp.val.playerWidth  = myApp.val.playerHeight/9*16;
+        }
+    }else{
+        myApp.val.playerHeight = document.documentElement.clientHeight/2;
+        myApp.val.playerWidth  = myApp.val.playerHeight/9*16;
+        myApp.elem.ansCol.style.width = myApp.val.playerWidth/document.documentElement.clientWidth*90+'%';
+    }
+    if(myApp.val.initBtnLoadBool == false || myApp.val.prevPlayerWidth != myApp.val.playerWidth){
+        player.setSize(myApp.val.playerWidth, myApp.val.playerHeight);
+        //
+        myApp.val.prevPlayerWidth  = myApp.val.playerWidth;
+        myApp.val.prevPlayerHeight = myApp.val.playerHeight;
+    }
+}
+//
+function resizePushButton(){
+    if(myApp.os != "other" && Math.abs(window.orientation) != 90 || myApp.os == 'other'){
+        const tmpImgHeight = document.documentElement.clientHeight-myApp.elem.pushBtn.getBoundingClientRect().top-parseInt(myApp.elem.numOX.style.lineHeight)-20;
+        const tmpImgWidth  = myApp.elem.pushBtn.naturalWidth*tmpImgHeight/myApp.elem.pushBtn.naturalHeight;
+        if(tmpImgWidth < document.documentElement.clientWidth){
+            myApp.val.pushBtnWidth  = tmpImgWidth;
+            myApp.val.pushBtnHeight = tmpImgHeight;
+        }else{
+            myApp.val.pushBtnWidth  = document.documentElement.clientWidth/5;
+            myApp.val.pushBtnHeight = myApp.elem.pushBtn.naturalHeight*myApp.val.pushBtnWidth/myApp.elem.pushBtn.naturalWidth;
+        }
+    }else{
+        myApp.val.pushBtnWidth  = document.documentElement.clientWidth/5;
+        myApp.val.pushBtnHeight = myApp.elem.pushBtn.naturalHeight*myApp.val.pushBtnWidth/myApp.elem.pushBtn.naturalWidth;
+    }
+    if(myApp.val.initBtnLoadBool == false || myApp.val.prevInnerHeight != document.documentElement.clientHeight){
+        myApp.elem.pushBtn.width  = myApp.val.pushBtnWidth;
+        myApp.elem.pushBtn.height = myApp.val.pushBtnHeight;
+        myApp.val.pushBtnArea = myApp.elem.pushBtn.getBoundingClientRect();
+        //
+        myApp.val.prevInnerWidth  = document.documentElement.clientWidth;
+        myApp.val.prevInnerHeight = document.documentElement.clientHeight;
+    }
 }
 /**
  * focus to js element for an instant
