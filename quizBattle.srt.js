@@ -265,14 +265,6 @@ myApp.elem.text.appendChild(node_text);
 myApp.elem.subText.appendChild(node_subText);
 myApp.elem.numOX.appendChild(node_numOX);
 //
-/* set init value to the elements */
-myApp.elem.text.innerHTML    = "quizBattle.srt.js";
-myApp.elem.ansCol.value      = "ここに解答を入力";
-myApp.elem.ansBtn.innerHTML  = "解答を送信";
-myApp.elem.numOX.innerHTML   = "⭕️："+myApp.val.cntO+"　❌："+myApp.val.cntX;
-myApp.elem.ansCol.disabled   = true;
-myApp.elem.ansBtn.disabled   = true;
-//
 /* get audio data */
 myApp.elem.sndPush.src = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/sounds/push.mp3";
 myApp.elem.sndO.src    = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/sounds/correct.mp3";
@@ -286,6 +278,25 @@ file.send(null);
 file.onload = function(){
     myApp.val.ansArray = CSVtoArray(file.responseText);
 };
+//
+/* set init value to the elements */
+myApp.elem.text.innerHTML   = "quizBattle.srt.js";   
+myApp.elem.ansCol.value     = "ここに解答を入力";
+myApp.elem.ansBtn.innerHTML = "解答を送信";
+myApp.elem.numOX.innerHTML  = "⭕️："+myApp.val.cntO+"　❌："+myApp.val.cntX;
+myApp.elem.ansCol.disabled  = true;
+myApp.elem.ansBtn.disabled  = true;
+//
+/* set button check state */
+myApp.val.status = myApp.state.ButtonCheck;
+player.pauseVideo();
+if(myApp.os != 'other'){
+    myApp.elem.text.innerHTML = "下の早押しボタンをタップしてクイズをはじめる";
+ }else if(myApp.os == 'other' && detectTouchPanel() == true){
+    myApp.elem.text.innerHTML = "早押しボタンのタップ/スペースキーの押下でクイズをはじめる"; 
+}else{
+    myApp.elem.text.innerHTML = "スペースキーを押してクイズをはじめる";
+}
 //
 /* Event */
 /* set main keydown event */
@@ -570,7 +581,11 @@ function checkAnswer(){
         myApp.elem.text.innerHTML = "不正解！"; //あと"+(myApp.val.limPush-myApp.val.cntPush)+"回解答できます。";
     }
     myApp.elem.numOX.innerHTML  = "⭕️："+myApp.val.cntO+"　❌："+myApp.val.cntX;
-    myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src;
+    if(window.orientation != 90){
+        myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src;
+    }else{
+        myApp.elem.pushBtn.src = myApp.elem.imgBtn4.src;
+    }
 }
 //
 function printParams(){
@@ -646,17 +661,6 @@ const srtFuncArray = [
         myApp.val.status = myApp.state.Talk;
     }
 ];
-//
-/* button check */
-myApp.val.status = myApp.state.ButtonCheck;
-player.pauseVideo();
-if(myApp.os != 'other'){
-    myApp.elem.text.innerHTML = "下の早押しボタンをタップしてクイズをはじめる";
- }else if(myApp.os == 'other' && detectTouchPanel() == true){
-    myApp.elem.text.innerHTML = "早押しボタンのタップ/スペースキーの押下でクイズをはじめる"; 
-}else{
-    myApp.elem.text.innerHTML = "スペースキーを押してクイズをはじめる";
-}
 
 1
 00:00:01,000 --> 00:00:02,999
