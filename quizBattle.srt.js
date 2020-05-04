@@ -209,7 +209,7 @@ myApp.elem.imgBtn4.src = "https://github.com/t-yokota/quizBattle/raw/devel/conve
 //
 /* assign default image to push button */
 myApp.elem.pushBtn.width = document.documentElement.clientWidth; /* init size before loading */
-if(myApp.os == "other"){
+if(myApp.os != "other"){
     if(Math.abs(window.orientation) != 90){
         myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src;
         myApp.val.initOrientation = 'portrait';
@@ -248,7 +248,7 @@ myApp.elem.ansBtn.disabled  = true;
 myApp.val.status = myApp.state.ButtonCheck;
 player.pauseVideo();
 if(myApp.os != 'other'){
-    if(Math.floor(window.orientation) == 90 && myApp.initOrientation == 'landscape'){
+    if(Math.abs(window.orientation) == 90 && myApp.initOrientation == 'landscape'){
         myApp.elem.text.innerHTML = "デバイスを縦向きに持ち変えてクイズをはじめる";
     }else{
         myApp.elem.text.innerHTML = "下の早押しボタンをタップしてクイズをはじめる";
