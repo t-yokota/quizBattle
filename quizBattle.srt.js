@@ -186,7 +186,7 @@ window.addEventListener('orientationchange', function(){
             }
         }else{
             myApp.elem.pushBtn.src = myApp.elem.imgBtn4.src;
-            if(myApp.val.orientAlertBool == false){
+            if(myApp.val.orientAlertBool == false && myApp.val.initOrientation == 'portrait'){
                 alert("このサイトはスマートフォン・タブレットを縦向きにしてお楽しみください。");
                 myApp.val.orientAlertBool = true;
             }
@@ -445,6 +445,46 @@ function myOnClickEvent(){
     }
 }
 //
+const srtFuncArray = [
+    function(){
+        myApp.val.status = myApp.state.Talk;
+        myApp.elem.text.innerHTML = "quizBattle.srt.js";   
+    },
+    function(){
+        /* 第１問 */
+        myApp.val.status = myApp.state.Question;
+        myApp.val.numQues = 1;
+        myApp.val.cntPush = 0;
+        myApp.elem.text.innerHTML = "第"+myApp.val.numQues+"問";
+    },
+    function(){
+        /* 閑話1 */
+        myApp.val.status = myApp.state.Talk;
+    },
+    function(){
+        /* 第２問 */
+        myApp.val.status = myApp.state.Question;
+        myApp.val.numQues = 2;
+        myApp.val.cntPush = 0;
+        myApp.elem.text.innerHTML = "第"+myApp.val.numQues+"問";
+    },
+    function(){
+        /* 閑話2 */
+        myApp.val.status = myApp.state.Talk;
+    },
+    function(){
+        /* 第３問 */
+        myApp.val.status = myApp.state.Question;
+        myApp.val.numQues = 3;
+        myApp.val.cntPush = 0;
+        myApp.elem.text.innerHTML = "第"+myApp.val.numQues+"問";
+    },
+    function(){
+        /* 閑話3 */
+        myApp.val.status = myApp.state.Talk;
+    }
+];
+//
 /* Function */
 /* fetch device os type */
 function fetchOSType(){
@@ -631,46 +671,9 @@ function printParams(){
     //     'cssRules: '         + document.styleSheets.item(0).cssRules.item(0).selectorText;
 }
 //
-/*  */
-const srtFuncArray = [
-    function(){
-        myApp.val.status = myApp.state.Talk;
-        myApp.elem.text.innerHTML = "quizBattle.srt.js";   
-    },
-    function(){
-        /* 第１問 */
-        myApp.val.status = myApp.state.Question;
-        myApp.val.numQues = 1;
-        myApp.val.cntPush = 0;
-        myApp.elem.text.innerHTML = "第"+myApp.val.numQues+"問";
-    },
-    function(){
-        /* 閑話1 */
-        myApp.val.status = myApp.state.Talk;
-    },
-    function(){
-        /* 第２問 */
-        myApp.val.status = myApp.state.Question;
-        myApp.val.numQues = 2;
-        myApp.val.cntPush = 0;
-        myApp.elem.text.innerHTML = "第"+myApp.val.numQues+"問";
-    },
-    function(){
-        /* 閑話2 */
-        myApp.val.status = myApp.state.Talk;
-    },
-    function(){
-        /* 第３問 */
-        myApp.val.status = myApp.state.Question;
-        myApp.val.numQues = 3;
-        myApp.val.cntPush = 0;
-        myApp.elem.text.innerHTML = "第"+myApp.val.numQues+"問";
-    },
-    function(){
-        /* 閑話3 */
-        myApp.val.status = myApp.state.Talk;
-    }
-];
+if(myApp.os != "other" && myApp.val.initOrientation == 'landscape'){
+    alert("このサイトはスマートフォン/タブレットを縦向きにしてお楽しみください。");
+}
 
 1
 00:00:01,000 --> 00:00:02,999
