@@ -671,9 +671,11 @@ function printParams(){
     //     'cssRules: '         + document.styleSheets.item(0).cssRules.item(0).selectorText;
 }
 //
-// if(myApp.os != "other" && myApp.val.initOrientation == 'landscape'){
-//     alert("このサイトはスマートフォン/タブレットを縦向きにしてお楽しみください。");
-// }
+setTimeout(function(){
+    if(myApp.os != "other" && myApp.val.initOrientation == 'landscape'){
+        alert("このサイトはスマートフォン/タブレットを縦向きにしてお楽しみください。");
+    }
+}, 500);
 
 1
 00:00:01,000 --> 00:00:02,999
