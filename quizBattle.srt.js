@@ -216,7 +216,7 @@ if(myApp.os != "other"){
     }else{
         myApp.elem.pushBtn.src = myApp.elem.imgBtn4.src;
         myApp.val.initOrientation = 'landscape';
-        alert("このサイトはスマートフォン/タブレットを縦向きにしてお楽しみください。");
+        // alert("このサイトはスマートフォン/タブレットを縦向きにしてお楽しみください。");
     }
 }else{
     myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src;
