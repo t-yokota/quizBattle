@@ -4,7 +4,6 @@
 doOnce[index] = true;
 //
 const myApp = {
-    os: null,
     state: {
         ButtonCheck : 0, //ボタンチェック待機
         Question    : 1, //問い読み中（早押し可能）
@@ -36,22 +35,26 @@ const myApp = {
         br5     : document.createElement("br"),
         subText : document.createElement("text"),
     },
-    val: { 
-        playerWidth     : 0,
-        playerHeight    : 0,
-        pushBtnWidth    : 0,
-        pushBtnHeight   : 0,
-        pushBtnArea     : null,
-        touchObject     : null,  
-        initOrientation : null,
-        imgErrorBool    : false,
-        initBtnLoadBool : false,
-        orientAlertBool : false,
+    val: {
+        os　　　　　　　　　: null,
+        //
+        playerWidth      : 0,
+        playerHeight     : 0,
+        pushBtnWidth     : 0,
+        pushBtnHeight    : 0,
+        //
+        pushBtnArea      : null,
+        touchObject      : null,  
+        //
+        initOrientation  : null,
+        imgErrorBool     : false,
+        initBtnLoadBool  : false,
+        orientAlertBool  : false,
         //
         prevPlayerWidth  : 0,
         prevPlayerHeight : 0,
-        prevInnerWidth   : 0,
-        prevInnerHeight  : 0,
+        prevClientWidth  : 0,
+        prevClientHeight : 0,
         //
         numQues     : 0,     //問題番号
         ansArray    : [],    //正答リスト
@@ -60,6 +63,9 @@ const myApp = {
         cntPush     : 0,     //1問あたりの解答回数
         limPush     : 5,     //1問あたりの上限解答回数
         correctBool : false, //答え合わせ結果(結果に応じて状態遷移)
+        //
+        /*  */
+        srtFuncArray : null,
         //
         /* push button key (for pc keyboard) */
         btnCode : 32, //Space key
@@ -125,8 +131,8 @@ myApp.elem.subText.appendChild(node_subText);
 myApp.elem.numOX.appendChild(node_numOX);
 //
 /* set parameters to the elements */
-myApp.os = fetchOSType();
-if (myApp.os != 'other'){
+myApp.val.os = fetchOSType();
+if (myApp.val.os != 'other'){
     myApp.elem.text.style.fontSize    = '38px';
     myApp.elem.text.style.lineHeight  = '100px';
     myApp.elem.text.style.fontWeight  = 'bold';
@@ -193,7 +199,7 @@ window.addEventListener('orientationchange', function(){
         }
         if(myApp.val.status == myApp.state.ButtonCheck && myApp.val.initOrientation == 'landscape'){
             if(Math.abs(window.orientation) != 90){
-                myApp.elem.text.innerHTML = "下の早押しボタンをタップして動画を再生";
+                myApp.elem.text.innerHTML = "下の早押しボタンをタップして動画を開始";
             }else{
                 myApp.elem.text.innerHTML = "スマホ/タブレットを縦向きにしてクイズをはじめる";
             }
@@ -206,21 +212,6 @@ myApp.elem.imgBtn1.src = "https://github.com/t-yokota/quizBattle/raw/devel/conve
 myApp.elem.imgBtn2.src = "https://github.com/t-yokota/quizBattle/raw/devel/convertToES6/figures/button_portrait_2.png";
 myApp.elem.imgBtn3.src = "https://github.com/t-yokota/quizBattle/raw/devel/convertToES6/figures/button_portrait_3.png";
 myApp.elem.imgBtn4.src = "https://github.com/t-yokota/quizBattle/raw/devel/convertToES6/figures/button_portrait_4.png";
-//
-/* assign default image to push button */
-myApp.elem.pushBtn.width = document.documentElement.clientWidth; /* set init size before loading */
-if(myApp.os != "other"){
-    if(Math.abs(window.orientation) != 90){
-        myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src;
-        myApp.val.initOrientation = 'portrait';
-    }else{
-        myApp.elem.pushBtn.src = myApp.elem.imgBtn4.src;
-        myApp.val.initOrientation = 'landscape';
-        // alert("このサイトはスマートフォン/タブレットを縦向きにしてお楽しみください。");
-    }
-}else{
-    myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src;
-}
 //
 /* load audio data */
 myApp.elem.sndPush.src = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/sounds/push.mp3";
@@ -244,23 +235,45 @@ myApp.elem.numOX.innerHTML  = "⭕️："+myApp.val.cntO+"　❌："+myApp.val.c
 myApp.elem.ansCol.disabled  = true;
 myApp.elem.ansBtn.disabled  = true;
 //
+/* assign init text and image of push button */
+myApp.elem.pushBtn.width = document.documentElement.clientWidth; /* set init size before loading */
+if(myApp.val.os != "other"){
+    if(Math.abs(window.orientation) != 90){
+        myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src;
+        myApp.elem.text.innerHTML = "下の早押しボタンをタップしてクイズをはじめる";
+        myApp.val.initOrientation = 'portrait';
+    }else{
+        myApp.elem.pushBtn.src = myApp.elem.imgBtn4.src;
+        myApp.elem.text.innerHTML = "スマホ/タブレットを縦向きにしてクイズをはじめる";
+        myApp.val.initOrientation = 'landscape';
+        // alert("このサイトはスマートフォン/タブレットを縦向きにしてお楽しみください。");
+    }
+}else{
+    myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src;
+    if(detectTouchPanel() == true){
+        myApp.elem.text.innerHTML = "早押しボタンのタップ/スペースキーの押下でクイズをはじめる"; 
+    }else{
+        myApp.elem.text.innerHTML = "スペースキーを押してクイズをはじめる";
+    }
+}
+//
 /* set button check state */
 myApp.val.status = myApp.state.ButtonCheck;
 player.pauseVideo();
-if(myApp.os != 'other'){
-    if(Math.abs(window.orientation) != 90){
-        myApp.elem.text.innerHTML = "下の早押しボタンをタップしてクイズをはじめる";
-    }else{
-        myApp.elem.text.innerHTML = "スマホ/タブレットを縦向きにしてクイズをはじめる";
-    }
-}else if(myApp.os == 'other' && detectTouchPanel() == true){
-    myApp.elem.text.innerHTML = "早押しボタンのタップ/スペースキーの押下でクイズをはじめる"; 
-}else{
-    myApp.elem.text.innerHTML = "スペースキーを押してクイズをはじめる";
-}
+// if(myApp.val.os != 'other'){
+//     if(Math.abs(window.orientation) != 90){
+//         myApp.elem.text.innerHTML = "下の早押しボタンをタップしてクイズをはじめる";
+//     }else{
+//         myApp.elem.text.innerHTML = "スマホ/タブレットを縦向きにしてクイズをはじめる";
+//     }
+// }else if(myApp.val.os == 'other' && detectTouchPanel() == true){
+//     myApp.elem.text.innerHTML = "早押しボタンのタップ/スペースキーの押下でクイズをはじめる"; 
+// }else{
+//     myApp.elem.text.innerHTML = "スペースキーを押してクイズをはじめる";
+// }
 //
 setTimeout(function(){
-    if(myApp.os != "other" && myApp.val.initOrientation == 'landscape'){
+    if(myApp.val.os != "other" && myApp.val.initOrientation == 'landscape'){
         alert("このサイトはスマートフォン/タブレットを縦向きにしてお楽しみください。");
     }
 }, 500);
@@ -406,14 +419,14 @@ function myIntervalEvent(){
         /* execute srt function in each sections of subtitle */
         if(myApp.val.status != myApp.state.MyAnswer){
             if(index > myApp.val.cntIndex){
-                srtFuncArray.shift()();
+                myApp.val.srtFuncArray.shift()();
                 myApp.val.cntIndex += 1;
             }
         }
     }
     if(myApp.val.status == myApp.state.MyAnswer){
         if(document.activeElement.id != "anscol" && myApp.elem.ansCol.value.valueOf() === ""){
-            myApp.elem.ansCol.focus();
+            // myApp.elem.ansCol.focus();
         }
         /* answer time managemant */
         myApp.val.ansTime.elapsed += interval;
@@ -451,7 +464,7 @@ function myOnClickEvent(){
     }
 }
 //
-const srtFuncArray = [
+myApp.val.srtFuncArray = [
     function(){
         myApp.val.status = myApp.state.Talk;
         myApp.elem.text.innerHTML = "quizBattle.srt.js";   
@@ -528,7 +541,7 @@ function CSVtoArray(str){
 }
 //
 function resizePlayer(){
-    if(myApp.os != 'other'){
+    if(myApp.val.os != 'other'){
         if(Math.abs(window.orientation) != 90){
             myApp.val.playerWidth  = document.documentElement.clientWidth;
             myApp.val.playerHeight = myApp.val.playerWidth/16*9;
@@ -552,7 +565,7 @@ function resizePlayer(){
 }
 //
 function resizePushButton(){
-    if(myApp.os != "other" && Math.abs(window.orientation) != 90 || myApp.os == 'other'){
+    if(myApp.val.os != "other" && Math.abs(window.orientation) != 90 || myApp.val.os == 'other'){
         const tmpImgHeight = document.documentElement.clientHeight-myApp.elem.pushBtn.getBoundingClientRect().top-parseInt(myApp.elem.numOX.style.lineHeight)-20;
         const tmpImgWidth  = myApp.elem.pushBtn.naturalWidth*tmpImgHeight/myApp.elem.pushBtn.naturalHeight;
         if(tmpImgWidth < document.documentElement.clientWidth){
@@ -566,13 +579,13 @@ function resizePushButton(){
         myApp.val.pushBtnWidth  = document.documentElement.clientWidth/5;
         myApp.val.pushBtnHeight = myApp.elem.pushBtn.naturalHeight*myApp.val.pushBtnWidth/myApp.elem.pushBtn.naturalWidth;
     }
-    if(myApp.val.initBtnLoadBool == false || myApp.val.prevInnerHeight != document.documentElement.clientHeight){
+    if(myApp.val.initBtnLoadBool == false || myApp.val.prevClientHeight != document.documentElement.clientHeight){
         myApp.elem.pushBtn.width  = myApp.val.pushBtnWidth;
         myApp.elem.pushBtn.height = myApp.val.pushBtnHeight;
         myApp.val.pushBtnArea = myApp.elem.pushBtn.getBoundingClientRect();
         //
-        myApp.val.prevInnerWidth  = document.documentElement.clientWidth;
-        myApp.val.prevInnerHeight = document.documentElement.clientHeight;
+        myApp.val.prevClientWidth  = document.documentElement.clientWidth;
+        myApp.val.prevClientHeight = document.documentElement.clientHeight;
     }
 }
 /**
@@ -649,13 +662,13 @@ function printParams(){
     // myApp.elem.text.innerHTML = "curr: " + myApp.elem.pushBtn.width +', new: '+ Math.floor(myApp.val.pushBtnWidth) + ', inWidth: '+ window.innerWidth + ', inHeight: '+ window.innerHeight;
     // myApp.elem.text.innerHTML = Math.floor(myApp.val.touchObject.pageX) +', '+ Math.floor(myApp.val.touchObject.pageY) +' ['+ Math.floor(myApp.val.pushBtnArea.left) +', '+ Math.floor(myApp.val.pushBtnArea.right) +'] ['+  Math.floor(myApp.val.pushBtnArea.top) +', '+ Math.floor(myApp.val.pushBtnArea.bottom)+']';
     // myApp.elem.text.innerHTML = document.body.clientWidth / window.innerWidth;
-    //myApp.elem.text.innerHTML = myApp.os + ', ' + navigator.userAgent;
+    //myApp.elem.text.innerHTML = myApp.val.os + ', ' + navigator.userAgent;
     // myApp.elem.text.innerHTML = detectTouchPanel();
     // myApp.elem.subText.innerHTML = 'imgErrorBool: ' + myApp.val.imgErrorBool + ', initBtnLoadBool: ' + myApp.val.initBtnLoadBool;
     //myApp.elem.subText.innerHTML = 'playerWidth: ' + myApp.val.playerWidth + ', innerWidth: ' + window.innerWidth;
     // myApp.elem.text.innerHTML = document.styleSheets.item(1).cssRules.length;
     // myApp.elem.subText.innerHTML = 
-    //     "device: "           + myApp.os+"<br>"+
+    //     "device: "           + myApp.val.os+"<br>"+
     //     "activeElem: "       + document.activeElement.id+"<br>"+   
     //     "status: "           + myApp.val.status+"<br>"+
     //     "timePlay: "         + myApp.val.currTime.playing.toFixed(3)+"<br>"+
