@@ -436,6 +436,7 @@ function myIntervalEvent(){
     }
     /* for check params */
     printParams();
+    myApp.val.pushBtnArea = myApp.elem.pushBtn.getBoundingClientRect();
 }
 //
 /* set onclick event of send answer button */
