@@ -136,7 +136,7 @@ if (myApp.val.os != 'other'){
     myApp.elem.text.style.fontSize    = '38px';
     myApp.elem.text.style.lineHeight  = '100px';
     myApp.elem.text.style.fontWeight  = 'bold';
-    myApp.elem.ansCol.style.width     = '100%';
+    myApp.elem.ansCol.style.width     = window.innerWidth+'px';
     myApp.elem.ansCol.style.fontSize  = '35px';
     myApp.elem.ansCol.style.textAlign = 'center';
     myApp.elem.ansBtn.style.fontSize  = '35px';
@@ -236,7 +236,7 @@ myApp.elem.ansCol.disabled  = true;
 myApp.elem.ansBtn.disabled  = true;
 //
 /* assign init text and image of push button */
-myApp.elem.pushBtn.width = document.documentElement.clientWidth; /* set init size before loading */
+myApp.elem.pushBtn.width = document.documentElement.clientWidth/5; /* set init size before loading */
 if(myApp.val.os != "other"){
     if(Math.abs(window.orientation) != 90){
         myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src;
@@ -260,17 +260,6 @@ if(myApp.val.os != "other"){
 /* set button check state */
 myApp.val.status = myApp.state.ButtonCheck;
 player.pauseVideo();
-// if(myApp.val.os != 'other'){
-//     if(Math.abs(window.orientation) != 90){
-//         myApp.elem.text.innerHTML = "下の早押しボタンをタップしてクイズをはじめる";
-//     }else{
-//         myApp.elem.text.innerHTML = "スマホ/タブレットを縦向きにしてクイズをはじめる";
-//     }
-// }else if(myApp.val.os == 'other' && detectTouchPanel() == true){
-//     myApp.elem.text.innerHTML = "早押しボタンのタップ/スペースキーの押下でクイズをはじめる"; 
-// }else{
-//     myApp.elem.text.innerHTML = "スペースキーを押してクイズをはじめる";
-// }
 //
 setTimeout(function(){
     if(myApp.val.os != "other" && myApp.val.initOrientation == 'landscape'){
@@ -543,7 +532,9 @@ function CSVtoArray(str){
 function resizePlayer(){
     if(myApp.val.os != 'other'){
         if(Math.abs(window.orientation) != 90){
-            myApp.val.playerWidth  = document.documentElement.clientWidth;
+            // myApp.val.playerWidth  = document.documentElement.clientWidth;
+            if(myApp.val.os == 'Android'){ myApp.val.playerWidth = window.innerWidth; }
+            if(myApp.val.os == 'iOS'){ myApp.val.playerWidth = document.documentElement.clientWidth; }
             myApp.val.playerHeight = myApp.val.playerWidth/16*9;
         }else{
             myApp.val.playerWidth  = document.documentElement.clientWidth*2/3;
