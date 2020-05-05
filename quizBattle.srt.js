@@ -299,14 +299,14 @@ document.addEventListener("touchstart", myTouchEvent);
 function myTouchEvent(event){    
     if(myApp.val.imgErrorBool == false && myApp.val.initBtnLoadBool == true && Math.abs(window.orientation) != 90){ 
         myApp.val.touchObject = event.changedTouches[0];
-        const left, right, top, bottom;
+        const left = 0, right = 0, top = 0, bottom = 0;
         if(myApp.val.os == 'iOS'){
             left   = myApp.val.pushBtnArea.left   + window.pageXOffset;
             right  = myApp.val.pushBtnArea.right  + window.pageXOffset;
             top    = myApp.val.pushBtnArea.top    + window.pageYOffset;
             bottom = myApp.val.pushBtnArea.bottom + window.pageYOffset;
         }else{
-            left   = myApp.val.pushBtnArea.left  
+            left   = myApp.val.pushBtnArea.left
             right  = myApp.val.pushBtnArea.right
             top    = myApp.val.pushBtnArea.top
             bottom = myApp.val.pushBtnArea.bottom
