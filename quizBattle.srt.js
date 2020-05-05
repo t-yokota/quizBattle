@@ -599,7 +599,7 @@ function updatePushButtonArea(){
     myApp.val.pushBtnArea.right  = myApp.elem.pushBtn.getBoundingClientRect().right;
     myApp.val.pushBtnArea.top    = myApp.elem.pushBtn.getBoundingClientRect().top;
     myApp.val.pushBtnArea.bottom = myApp.elem.pushBtn.getBoundingClientRect().bottom;
-    
+    //
     if(myApp.val.os == 'iOS'){
         myApp.val.pushBtnArea.left   = myApp.val.pushBtnArea.left   + window.pageXOffset;
         myApp.val.pushBtnArea.right  = myApp.val.pushBtnArea.right  + window.pageXOffset;
