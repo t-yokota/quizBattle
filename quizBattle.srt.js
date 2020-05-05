@@ -136,18 +136,13 @@ if (myApp.val.os != 'other'){
     myApp.elem.text.style.fontSize    = '38px';
     myApp.elem.text.style.lineHeight  = '100px';
     myApp.elem.text.style.fontWeight  = 'bold';
+    myApp.elem.ansCol.style.width     = '100%';
     myApp.elem.ansCol.style.fontSize  = '35px';
     myApp.elem.ansCol.style.textAlign = 'center';
     myApp.elem.ansBtn.style.fontSize  = '35px';
     myApp.elem.numOX.style.fontSize   = '40px';
     myApp.elem.numOX.style.lineHeight = '50px';
-    myApp.elem.numOX.style.fontWeight = 'bold';
-    // if(myApp.val.os == 'Android'){
-    //     myApp.elem.ansCol.style.width = window.innerWidth+'px';
-    // }else{
-    //     myApp.elem.ansCol.style.width = document.documentElement.clientWidth+'px';
-    // }
-    //
+    myApp.elem.numOX.style.fontWeight = 'bold';   
 } else {
     myApp.elem.text.style.fontSize    = '30px';
     myApp.elem.text.style.lineHeight  = '90px';
@@ -546,7 +541,6 @@ function resizePlayer(){
             // myApp.val.playerHeight = document.documentElement.clientHeight-parseInt(myApp.elem.text.style.lineHeight)-20;
             // myApp.val.playerWidth  = myApp.val.playerHeight/9*16;
         }
-        myApp.elem.ansCol.style.width = myApp.val.playerWidth+'px';
     }else{
         myApp.val.playerHeight = document.documentElement.clientHeight/2;
         myApp.val.playerWidth  = myApp.val.playerHeight/9*16;
