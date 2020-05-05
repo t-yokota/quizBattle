@@ -299,8 +299,20 @@ document.addEventListener("touchstart", myTouchEvent);
 function myTouchEvent(event){    
     if(myApp.val.imgErrorBool == false && myApp.val.initBtnLoadBool == true && Math.abs(window.orientation) != 90){ 
         myApp.val.touchObject = event.changedTouches[0];
-        if( myApp.val.pushBtnArea.left < myApp.val.touchObject.pageX && myApp.val.touchObject.pageX < myApp.val.pushBtnArea.right ){
-            if( myApp.val.pushBtnArea.top < myApp.val.touchObject.pageY && myApp.val.touchObject.pageY < myApp.val.pushBtnArea.bottom ){
+        const left, right, top, bottom;
+        if(myApp.val.os == 'iOS'){
+            left   = myApp.val.pushBtnArea.left   + window.pageXOffset;
+            right  = myApp.val.pushBtnArea.right  + window.pageXOffset;
+            top    = myApp.val.pushBtnArea.top    + window.pageYOffset;
+            bottom = myApp.val.pushBtnArea.bottom + window.pageYOffset;
+        }else{
+            left   = myApp.val.pushBtnArea.left  
+            right  = myApp.val.pushBtnArea.right
+            top    = myApp.val.pushBtnArea.top
+            bottom = myApp.val.pushBtnArea.bottom
+        }
+        if( left < myApp.val.touchObject.pageX && myApp.val.touchObject.pageX < right ){
+            if( top < myApp.val.touchObject.pageY && myApp.val.touchObject.pageY < bottom ){
                 if(myApp.val.status == myApp.state.ButtonCheck){
                     const interval = 1500; 
                     buttonCheck(interval);
