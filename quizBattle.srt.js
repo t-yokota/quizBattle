@@ -439,10 +439,10 @@ function myIntervalEvent(){
         myApp.val.pushBtnArea = myApp.elem.pushBtn.getBoundingClientRect();
     }else if(myApp.val.os == 'iOS'){
         myApp.val.pushBtnArea = myApp.elem.pushBtn.getBoundingClientRect();
-        myApp.val.pushBtnArea.left   += window.pageXOffset; 
-        myApp.val.pushBtnArea.right  += window.pageXOffset;
-        myApp.val.pushBtnArea.top    += window.pageYOffset;
-        myApp.val.pushBtnArea.bottom += window.pageYOffset;
+        myApp.val.pushBtnArea.left   = myApp.val.pushBtnArea.left   + window.pageXOffset; 
+        myApp.val.pushBtnArea.right  = myApp.val.pushBtnArea.right  + window.pageXOffset;
+        myApp.val.pushBtnArea.top    = myApp.val.pushBtnArea.top    + window.pageYOffset;
+        myApp.val.pushBtnArea.bottom = myApp.val.pushBtnArea.bottom + window.pageYOffset;
     }
     /* for check params */
     printParams();
@@ -586,10 +586,10 @@ function resizePushButton(){
             myApp.val.pushBtnArea = myApp.elem.pushBtn.getBoundingClientRect();
         }else if(myApp.val.os == 'iOS'){
             myApp.val.pushBtnArea = myApp.elem.pushBtn.getBoundingClientRect();
-            myApp.val.pushBtnArea.left   += window.pageXOffset; 
-            myApp.val.pushBtnArea.right  += window.pageXOffset;
-            myApp.val.pushBtnArea.top    += window.pageYOffset;
-            myApp.val.pushBtnArea.bottom += window.pageYOffset;
+            myApp.val.pushBtnArea.left   = myApp.val.pushBtnArea.left   + window.pageXOffset; 
+            myApp.val.pushBtnArea.right  = myApp.val.pushBtnArea.right  + window.pageXOffset;
+            myApp.val.pushBtnArea.top    = myApp.val.pushBtnArea.top    + window.pageYOffset;
+            myApp.val.pushBtnArea.bottom = myApp.val.pushBtnArea.bottom + window.pageYOffset;
         }
         //
         myApp.val.prevClientWidth  = document.documentElement.clientWidth;
