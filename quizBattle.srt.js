@@ -236,7 +236,7 @@ myApp.elem.ansCol.disabled  = true;
 myApp.elem.ansBtn.disabled  = true;
 //
 /* assign init text and image of push button */
-myApp.elem.pushBtn.width = document.documentElement.clientWidth; /* set init size before loading */
+myApp.elem.pushBtn.width = document.body.clientWidth; /* set init size before loading */
 if(myApp.val.os != "other"){
     if(Math.abs(window.orientation) != 90){
         myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src;
@@ -543,18 +543,18 @@ function CSVtoArray(str){
 function resizePlayer(){
     if(myApp.val.os != 'other'){
         if(Math.abs(window.orientation) != 90){
-            myApp.val.playerWidth  = document.documentElement.clientWidth;
+            myApp.val.playerWidth  = document.body.clientWidth;
             myApp.val.playerHeight = myApp.val.playerWidth/16*9;
         }else{
-            myApp.val.playerWidth  = document.documentElement.clientWidth*2/3;
+            myApp.val.playerWidth  = document.body.clientWidth*2/3;
             myApp.val.playerHeight = myApp.val.playerWidth/16*9;
-            // myApp.val.playerHeight = document.documentElement.clientHeight-parseInt(myApp.elem.text.style.lineHeight)-20;
+            // myApp.val.playerHeight = document.body.clientHeight-parseInt(myApp.elem.text.style.lineHeight)-20;
             // myApp.val.playerWidth  = myApp.val.playerHeight/9*16;
         }
     }else{
-        myApp.val.playerHeight = document.documentElement.clientHeight/2;
+        myApp.val.playerHeight = document.body.clientHeight/2;
         myApp.val.playerWidth  = myApp.val.playerHeight/9*16;
-        myApp.elem.ansCol.style.width = myApp.val.playerWidth/document.documentElement.clientWidth*90+'%';
+        myApp.elem.ansCol.style.width = myApp.val.playerWidth/document.body.clientWidth*90+'%';
     }
     if(myApp.val.initBtnLoadBool == false || myApp.val.prevPlayerWidth != myApp.val.playerWidth){
         player.setSize(myApp.val.playerWidth, myApp.val.playerHeight);
@@ -566,26 +566,26 @@ function resizePlayer(){
 //
 function resizePushButton(){
     if(myApp.val.os != "other" && Math.abs(window.orientation) != 90 || myApp.val.os == 'other'){
-        const tmpImgHeight = document.documentElement.clientHeight-myApp.elem.pushBtn.getBoundingClientRect().top-parseInt(myApp.elem.numOX.style.lineHeight)-20;
+        const tmpImgHeight = document.body.clientHeight-myApp.elem.pushBtn.getBoundingClientRect().top-parseInt(myApp.elem.numOX.style.lineHeight)-20;
         const tmpImgWidth  = myApp.elem.pushBtn.naturalWidth*tmpImgHeight/myApp.elem.pushBtn.naturalHeight;
-        if(tmpImgWidth < document.documentElement.clientWidth){
+        if(tmpImgWidth < document.body.clientWidth){
             myApp.val.pushBtnWidth  = tmpImgWidth;
             myApp.val.pushBtnHeight = tmpImgHeight;
         }else{
-            myApp.val.pushBtnWidth  = document.documentElement.clientWidth/5;
+            myApp.val.pushBtnWidth  = document.body.clientWidth/5;
             myApp.val.pushBtnHeight = myApp.elem.pushBtn.naturalHeight*myApp.val.pushBtnWidth/myApp.elem.pushBtn.naturalWidth;
         }
     }else{
-        myApp.val.pushBtnWidth  = document.documentElement.clientWidth/5;
+        myApp.val.pushBtnWidth  = document.body.clientWidth/5;
         myApp.val.pushBtnHeight = myApp.elem.pushBtn.naturalHeight*myApp.val.pushBtnWidth/myApp.elem.pushBtn.naturalWidth;
     }
-    if(myApp.val.initBtnLoadBool == false || myApp.val.prevClientHeight != document.documentElement.clientHeight){
+    if(myApp.val.initBtnLoadBool == false || myApp.val.prevClientHeight != document.body.clientHeight){
         myApp.elem.pushBtn.width  = myApp.val.pushBtnWidth;
         myApp.elem.pushBtn.height = myApp.val.pushBtnHeight;
         myApp.val.pushBtnArea = myApp.elem.pushBtn.getBoundingClientRect();
         //
-        myApp.val.prevClientWidth  = document.documentElement.clientWidth;
-        myApp.val.prevClientHeight = document.documentElement.clientHeight;
+        myApp.val.prevClientWidth  = document.body.clientWidth;
+        myApp.val.prevClientHeight = document.body.clientHeight;
     }
 }
 /**
