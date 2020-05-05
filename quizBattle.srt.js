@@ -445,7 +445,7 @@ function myIntervalEvent(){
         myApp.val.ansTime.elapsed = 0;
     }
     //
-    updatePushButtonArea();
+    // updatePushButtonArea();
     /* for check params */
     printParams();
 }
@@ -588,7 +588,7 @@ function resizePushButton(){
     if(myApp.val.initBtnLoadBool == false || myApp.val.prevClientHeight != document.documentElement.clientHeight){
         myApp.elem.pushBtn.width  = myApp.val.pushBtnWidth;
         myApp.elem.pushBtn.height = myApp.val.pushBtnHeight;
-        updatePushButtonArea();
+        // updatePushButtonArea();
         //
         myApp.val.prevClientWidth  = document.documentElement.clientWidth;
         myApp.val.prevClientHeight = document.documentElement.clientHeight;
