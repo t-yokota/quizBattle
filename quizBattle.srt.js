@@ -193,9 +193,9 @@ window.addEventListener('orientationchange', function(){
         }
         if(myApp.val.status == myApp.state.ButtonCheck && myApp.val.initOrientation == 'landscape'){
             if(Math.abs(window.orientation) != 90){
-                myApp.elem.text.innerHTML = "下の早押しボタンをタップしてください";
+                myApp.elem.text.innerHTML = "下の早押しボタンをタップして動画を再生";
             }else{
-                myApp.elem.text.innerHTML = "デバイスを縦向きに持ち変えてクイズをはじめる";
+                myApp.elem.text.innerHTML = "スマホ/タブレットを縦向きにしてクイズをはじめる";
             }
         }
     }, 500);
@@ -208,7 +208,7 @@ myApp.elem.imgBtn3.src = "https://github.com/t-yokota/quizBattle/raw/devel/conve
 myApp.elem.imgBtn4.src = "https://github.com/t-yokota/quizBattle/raw/devel/convertToES6/figures/button_portrait_4.png";
 //
 /* assign default image to push button */
-myApp.elem.pushBtn.width = document.documentElement.clientWidth; /* init size before loading */
+myApp.elem.pushBtn.width = document.documentElement.clientWidth; /* set init size before loading */
 if(myApp.os != "other"){
     if(Math.abs(window.orientation) != 90){
         myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src;
@@ -248,16 +248,22 @@ myApp.elem.ansBtn.disabled  = true;
 myApp.val.status = myApp.state.ButtonCheck;
 player.pauseVideo();
 if(myApp.os != 'other'){
-    if(Math.abs(window.orientation) == 90/* && myApp.val.initOrientation == 'landscape' */){
-        myApp.elem.text.innerHTML = "デバイスを縦向きに持ち変えてクイズをはじめる";
-    }else{
+    if(Math.abs(window.orientation) != 90){
         myApp.elem.text.innerHTML = "下の早押しボタンをタップしてクイズをはじめる";
+    }else{
+        myApp.elem.text.innerHTML = "スマホ/タブレットを縦向きにしてクイズをはじめる";
     }
 }else if(myApp.os == 'other' && detectTouchPanel() == true){
     myApp.elem.text.innerHTML = "早押しボタンのタップ/スペースキーの押下でクイズをはじめる"; 
 }else{
     myApp.elem.text.innerHTML = "スペースキーを押してクイズをはじめる";
 }
+//
+setTimeout(function(){
+    if(myApp.os != "other" && myApp.val.initOrientation == 'landscape'){
+        alert("このサイトはスマートフォン/タブレットを縦向きにしてお楽しみください。");
+    }
+}, 500);
 //
 /* Event */
 /* set main keydown event */
@@ -671,11 +677,6 @@ function printParams(){
     //     'cssRules: '         + document.styleSheets.item(0).cssRules.item(0).selectorText;
 }
 //
-setTimeout(function(){
-    if(myApp.os != "other" && myApp.val.initOrientation == 'landscape'){
-        alert("このサイトはスマートフォン/タブレットを縦向きにしてお楽しみください。");
-    }
-}, 500);
 
 1
 00:00:01,000 --> 00:00:02,999
