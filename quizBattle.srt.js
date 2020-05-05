@@ -43,8 +43,13 @@ const myApp = {
         pushBtnWidth     : 0,
         pushBtnHeight    : 0,
         //
-        pushBtnArea      : null,
         touchObject      : null,  
+        pushBtnArea : {
+            left         : 0,
+            right        : 0,
+            top          : 0,
+            bottom       : 0
+        },
         //
         initOrientation  : null,
         imgErrorBool     : false,
@@ -61,7 +66,7 @@ const myApp = {
         cntO        : 0,     //正答数
         cntX        : 0,     //誤答数
         cntPush     : 0,     //1問あたりの解答回数
-        limPush     : 5,     //1問あたりの上限解答回数
+        limPush     : 3,     //1問あたりの上限解答回数
         correctBool : false, //答え合わせ結果(結果に応じて状態遷移)
         //
         /*  */
@@ -299,18 +304,8 @@ document.addEventListener("touchstart", myTouchEvent);
 function myTouchEvent(event){    
     if(myApp.val.imgErrorBool == false && myApp.val.initBtnLoadBool == true && Math.abs(window.orientation) != 90){ 
         myApp.val.touchObject = event.changedTouches[0];
-        let left   = myApp.val.pushBtnArea.left;
-        let right  = myApp.val.pushBtnArea.right;
-        let top    = myApp.val.pushBtnArea.top;
-        let bottom = myApp.val.pushBtnArea.bottom;
-        if(myApp.val.os == 'iOS'){
-            left   = left   + window.pageXOffset;
-            right  = right  + window.pageXOffset;
-            top    = top    + window.pageYOffset;
-            bottom = bottom + window.pageYOffset;
-        }
-        if( left < myApp.val.touchObject.pageX && myApp.val.touchObject.pageX < right ){
-            if( top < myApp.val.touchObject.pageY && myApp.val.touchObject.pageY < bottom ){
+        if( myApp.val.pushBtnArea.left < myApp.val.touchObject.pageX && myApp.val.touchObject.pageX < myApp.val.pushBtnArea.right ){
+            if( myApp.val.pushBtnArea.top < myApp.val.touchObject.pageY && myApp.val.touchObject.pageY < myApp.val.pushBtnArea.bottom ){
                 if(myApp.val.status == myApp.state.ButtonCheck){
                     const interval = 1500; 
                     buttonCheck(interval);
@@ -442,23 +437,10 @@ function myIntervalEvent(){
         if(document.activeElement.id == "player"){
             instantFocusToElement(myApp.elem.ansCol);
         }
-        // if(myApp.val.limPush - myApp.val.cntPush == 0){
-        //     myApp.elem.pushBtn.src = myApp.elem.imgBtn4.src;
-        // }else{
-        //     myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src;
-        // }
         myApp.val.ansTime.elapsed = 0;
     }
     //
-    if(myApp.val.os == 'Android'){
-        myApp.val.pushBtnArea = myApp.elem.pushBtn.getBoundingClientRect();
-    }else if(myApp.val.os == 'iOS'){
-        myApp.val.pushBtnArea = myApp.elem.pushBtn.getBoundingClientRect();
-        myApp.val.pushBtnArea.left   = myApp.val.pushBtnArea.left   + window.pageXOffset; 
-        myApp.val.pushBtnArea.right  = myApp.val.pushBtnArea.right  + window.pageXOffset;
-        myApp.val.pushBtnArea.top    = myApp.val.pushBtnArea.top    + window.pageYOffset;
-        myApp.val.pushBtnArea.bottom = myApp.val.pushBtnArea.bottom + window.pageYOffset;
-    }
+    updatePushButtonArea();
     /* for check params */
     printParams();
 }
@@ -487,6 +469,7 @@ myApp.val.srtFuncArray = [
         myApp.val.status = myApp.state.Question;
         myApp.val.numQues = 1;
         myApp.val.cntPush = 0;
+        myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src;
         myApp.elem.text.innerHTML = "第"+myApp.val.numQues+"問";
     },
     function(){
@@ -498,6 +481,7 @@ myApp.val.srtFuncArray = [
         myApp.val.status = myApp.state.Question;
         myApp.val.numQues = 2;
         myApp.val.cntPush = 0;
+        myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src;
         myApp.elem.text.innerHTML = "第"+myApp.val.numQues+"問";
     },
     function(){
@@ -509,6 +493,7 @@ myApp.val.srtFuncArray = [
         myApp.val.status = myApp.state.Question;
         myApp.val.numQues = 3;
         myApp.val.cntPush = 0;
+        myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src;
         myApp.elem.text.innerHTML = "第"+myApp.val.numQues+"問";
     },
     function(){
@@ -526,19 +511,20 @@ function fetchOSType(){
         osType = "Android";
         return osType;
     }else if(ua.match(/iPhone/)) {
-        osType = "iOS";
+        osType = "iOS"; // iPhone OS
         return osType;
     }else if(ua.match(/iPad/)) {
-        osType = "iOS";
+        osType = "iOS"; // iPad OS
         return osType;
     }else if(ua.match(/Macintosh/) && detectTouchPanel() == true){
-        osType = 'iOS'; // iPad OS and Safari
+        osType = 'iOS'; // iPad OS with Safari
         return osType;
     }else{
         osType = "other";
         return osType;
     }
 }
+//
 function detectTouchPanel(){
     return window.ontouchstart === null;
 }
@@ -600,18 +586,23 @@ function resizePushButton(){
     if(myApp.val.initBtnLoadBool == false || myApp.val.prevClientHeight != document.documentElement.clientHeight){
         myApp.elem.pushBtn.width  = myApp.val.pushBtnWidth;
         myApp.elem.pushBtn.height = myApp.val.pushBtnHeight;
-        if(myApp.val.os == 'Android'){
-            myApp.val.pushBtnArea = myApp.elem.pushBtn.getBoundingClientRect();
-        }else if(myApp.val.os == 'iOS'){
-            myApp.val.pushBtnArea = myApp.elem.pushBtn.getBoundingClientRect();
-            myApp.val.pushBtnArea.left   = myApp.val.pushBtnArea.left   + window.pageXOffset; 
-            myApp.val.pushBtnArea.right  = myApp.val.pushBtnArea.right  + window.pageXOffset;
-            myApp.val.pushBtnArea.top    = myApp.val.pushBtnArea.top    + window.pageYOffset;
-            myApp.val.pushBtnArea.bottom = myApp.val.pushBtnArea.bottom + window.pageYOffset;
-        }
+        updatePushButtonArea();
         //
         myApp.val.prevClientWidth  = document.documentElement.clientWidth;
         myApp.val.prevClientHeight = document.documentElement.clientHeight;
+    }
+}
+function updatePushButtonArea(){
+    myApp.val.pushBtnArea.left   = myApp.elem.pushBtn.getBoundingClientRect().left;
+    myApp.val.pushBtnArea.right  = myApp.elem.pushBtn.getBoundingClientRect().right;
+    myApp.val.pushBtnArea.top    = myApp.elem.pushBtn.getBoundingClientRect().top;
+    myApp.val.pushBtnArea.bottom = myApp.elem.pushBtn.getBoundingClientRect().bottom;
+    //
+    if(myApp.val.os == 'iOS'){
+        myApp.val.pushBtnArea.left   = myApp.val.pushBtnArea.left   + window.pageXOffset;
+        myApp.val.pushBtnArea.right  = myApp.val.pushBtnArea.right  + window.pageXOffset;
+        myApp.val.pushBtnArea.top    = myApp.val.pushBtnArea.top    + window.pageYOffset;
+        myApp.val.pushBtnArea.bottom = myApp.val.pushBtnArea.bottom + window.pageYOffset;
     }
 }
 /**
@@ -676,8 +667,13 @@ function checkAnswer(){
         myApp.elem.text.innerHTML = "不正解！"; //あと"+(myApp.val.limPush-myApp.val.cntPush)+"回解答できます。";
     }
     myApp.elem.numOX.innerHTML  = "⭕️："+myApp.val.cntO+"　❌："+myApp.val.cntX;
+    //
     if(window.orientation != 90){
-        myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src;
+        if(myApp.val.correctBool == true || myApp.val.limPush - myApp.val.cntPush == 0){
+            myApp.elem.pushBtn.src = myApp.elem.imgBtn4.src;
+        }else{
+            myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src;
+        }
     }else{
         myApp.elem.pushBtn.src = myApp.elem.imgBtn4.src;
     }
@@ -686,9 +682,9 @@ function checkAnswer(){
 function printParams(){
     // myApp.elem.text.innerHTML = "docWidth: " + document.documentElement.clientWidth +', docHeight: '+ document.documentElement.clientHeight + ', inWidth: '+ window.innerWidth + ', inHeight: '+ window.innerHeight;
     // myApp.elem.text.innerHTML = "curr: " + myApp.elem.pushBtn.width +', new: '+ Math.floor(myApp.val.pushBtnWidth) + ', inWidth: '+ window.innerWidth + ', inHeight: '+ window.innerHeight;
-    // myApp.elem.text.innerHTML = Math.floor(myApp.val.touchObject.pageX) +', '+ Math.floor(myApp.val.touchObject.pageY) +' ['+ Math.floor(myApp.val.pushBtnArea.left) +', '+ Math.floor(myApp.val.pushBtnArea.right) +'] ['+  Math.floor(myApp.val.pushBtnArea.top) +', '+ Math.floor(myApp.val.pushBtnArea.bottom)+'] | '+ window.pageXOffset + ', ' + window.pageYOffset;
+    myApp.elem.text.innerHTML = Math.floor(myApp.val.touchObject.pageX) +', '+ Math.floor(myApp.val.touchObject.pageY) +' ['+ Math.floor(myApp.val.pushBtnArea.left) +', '+ Math.floor(myApp.val.pushBtnArea.right) +'] ['+  Math.floor(myApp.val.pushBtnArea.top) +', '+ Math.floor(myApp.val.pushBtnArea.bottom)+'] | '+ window.pageXOffset + ', ' + window.pageYOffset;
     // myApp.elem.text.innerHTML = document.body.clientWidth / window.innerWidth;
-    myApp.elem.text.innerHTML = myApp.val.os + ', ' + navigator.userAgent;
+    // myApp.elem.text.innerHTML = myApp.val.os + ', ' + navigator.userAgent;
     // myApp.elem.text.innerHTML = detectTouchPanel();
     // myApp.elem.subText.innerHTML = 'imgErrorBool: ' + myApp.val.imgErrorBool + ', initBtnLoadBool: ' + myApp.val.initBtnLoadBool;
     // myApp.elem.subText.innerHTML = 'playerWidth: ' + myApp.val.playerWidth + ', innerWidth: ' + window.innerWidth;
@@ -715,7 +711,6 @@ function printParams(){
     //     "cntIndex: "         + myApp.val.cntIndex+"<br>"+
     //     'cssRules: '         + document.styleSheets.item(0).cssRules.item(0).selectorText;
 }
-//
 
 1
 00:00:01,000 --> 00:00:02,999
