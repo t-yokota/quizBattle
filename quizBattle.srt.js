@@ -48,7 +48,7 @@ const myApp = {
             left         : 0,
             right        : 0,
             top          : 0,
-            bottom       : 0
+            bottom       : 0,
         },
         //
         initOrientation  : null,
@@ -600,12 +600,12 @@ function updatePushButtonArea(){
     myApp.val.pushBtnArea.top    = myApp.elem.pushBtn.getBoundingClientRect().top;
     myApp.val.pushBtnArea.bottom = myApp.elem.pushBtn.getBoundingClientRect().bottom;
     //
-    if(myApp.val.os == 'iOS'){
-        myApp.val.pushBtnArea.left   = myApp.val.pushBtnArea.left   + window.pageXOffset;
-        myApp.val.pushBtnArea.right  = myApp.val.pushBtnArea.right  + window.pageXOffset;
-        myApp.val.pushBtnArea.top    = myApp.val.pushBtnArea.top    + window.pageYOffset;
-        myApp.val.pushBtnArea.bottom = myApp.val.pushBtnArea.bottom + window.pageYOffset;
-    }
+    // if(myApp.val.os == 'iOS'){
+    //     myApp.val.pushBtnArea.left   = myApp.val.pushBtnArea.left   + window.pageXOffset;
+    //     myApp.val.pushBtnArea.right  = myApp.val.pushBtnArea.right  + window.pageXOffset;
+    //     myApp.val.pushBtnArea.top    = myApp.val.pushBtnArea.top    + window.pageYOffset;
+    //     myApp.val.pushBtnArea.bottom = myApp.val.pushBtnArea.bottom + window.pageYOffset;
+    // }
 }
 /**
  * focus to js element for an instant
