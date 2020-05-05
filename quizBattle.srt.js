@@ -434,9 +434,18 @@ function myIntervalEvent(){
         }
         myApp.val.ansTime.elapsed = 0;
     }
+    //
+    if(myApp.val.os == 'Android'){
+        myApp.val.pushBtnArea = myApp.elem.pushBtn.getBoundingClientRect();
+    }else if(myApp.val.os == 'iOS'){
+        myApp.val.pushBtnArea = myApp.elem.pushBtn.getBoundingClientRect();
+        myApp.val.pushBtnArea.left   += window.pageXOffset; 
+        myApp.val.pushBtnArea.right  += window.pageXOffset;
+        myApp.val.pushBtnArea.top    += window.pageYOffset;
+        myApp.val.pushBtnArea.bottom += window.pageYOffset;
+    }
     /* for check params */
     printParams();
-    myApp.val.pushBtnArea = myApp.elem.pushBtn.getBoundingClientRect();
 }
 //
 /* set onclick event of send answer button */
@@ -573,7 +582,15 @@ function resizePushButton(){
     if(myApp.val.initBtnLoadBool == false || myApp.val.prevClientHeight != document.documentElement.clientHeight){
         myApp.elem.pushBtn.width  = myApp.val.pushBtnWidth;
         myApp.elem.pushBtn.height = myApp.val.pushBtnHeight;
-        myApp.val.pushBtnArea = myApp.elem.pushBtn.getBoundingClientRect();
+        if(myApp.val.os == 'Android'){
+            myApp.val.pushBtnArea = myApp.elem.pushBtn.getBoundingClientRect();
+        }else if(myApp.val.os == 'iOS'){
+            myApp.val.pushBtnArea = myApp.elem.pushBtn.getBoundingClientRect();
+            myApp.val.pushBtnArea.left   += window.pageXOffset; 
+            myApp.val.pushBtnArea.right  += window.pageXOffset;
+            myApp.val.pushBtnArea.top    += window.pageYOffset;
+            myApp.val.pushBtnArea.bottom += window.pageYOffset;
+        }
         //
         myApp.val.prevClientWidth  = document.documentElement.clientWidth;
         myApp.val.prevClientHeight = document.documentElement.clientHeight;
