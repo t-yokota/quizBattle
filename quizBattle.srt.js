@@ -517,16 +517,19 @@ myApp.val.srtFuncArray = [
 function fetchOSType(){
     let osType = null;
     const ua = navigator.userAgent;
-    if (ua.match(/Android/)){
+    if(ua.match(/Android/)){
         osType = "Android";
         return osType;
-    } else if (ua.match(/iPhone/)) {
+    }else if(ua.match(/iPhone/)) {
         osType = "iOS";
         return osType;
-    } else if (ua.match(/iPad/)) {
+    }else if(ua.match(/iPad/)) {
         osType = "iOS";
         return osType;
-    } else {
+    }else if(ua.match(/Macintosh/) && detectTouchPanel() == true){
+        osType = 'iOS'; // iPad OS and Safari
+        return osType;
+    }else{
         osType = "other";
         return osType;
     }
@@ -542,7 +545,7 @@ function detectTouchPanel(){
 function CSVtoArray(str){
     const array = new Array();
     const tmp = str.split("\n");
-    for (let i = 0; i < tmp.length; i++) {
+    for(let i = 0; i < tmp.length; i++){
         array[i] = tmp[i].split(",");
     }
     return array;
@@ -678,12 +681,12 @@ function checkAnswer(){
 function printParams(){
     // myApp.elem.text.innerHTML = "docWidth: " + document.documentElement.clientWidth +', docHeight: '+ document.documentElement.clientHeight + ', inWidth: '+ window.innerWidth + ', inHeight: '+ window.innerHeight;
     // myApp.elem.text.innerHTML = "curr: " + myApp.elem.pushBtn.width +', new: '+ Math.floor(myApp.val.pushBtnWidth) + ', inWidth: '+ window.innerWidth + ', inHeight: '+ window.innerHeight;
-    myApp.elem.text.innerHTML = Math.floor(myApp.val.touchObject.pageX) +', '+ Math.floor(myApp.val.touchObject.pageY) +' ['+ Math.floor(myApp.val.pushBtnArea.left) +', '+ Math.floor(myApp.val.pushBtnArea.right) +'] ['+  Math.floor(myApp.val.pushBtnArea.top) +', '+ Math.floor(myApp.val.pushBtnArea.bottom)+'] | '+ window.pageXOffset + ', ' + window.pageYOffset;
+    // myApp.elem.text.innerHTML = Math.floor(myApp.val.touchObject.pageX) +', '+ Math.floor(myApp.val.touchObject.pageY) +' ['+ Math.floor(myApp.val.pushBtnArea.left) +', '+ Math.floor(myApp.val.pushBtnArea.right) +'] ['+  Math.floor(myApp.val.pushBtnArea.top) +', '+ Math.floor(myApp.val.pushBtnArea.bottom)+'] | '+ window.pageXOffset + ', ' + window.pageYOffset;
     // myApp.elem.text.innerHTML = document.body.clientWidth / window.innerWidth;
-    //myApp.elem.text.innerHTML = myApp.val.os + ', ' + navigator.userAgent;
+    myApp.elem.text.innerHTML = myApp.val.os + ', ' + navigator.userAgent;
     // myApp.elem.text.innerHTML = detectTouchPanel();
     // myApp.elem.subText.innerHTML = 'imgErrorBool: ' + myApp.val.imgErrorBool + ', initBtnLoadBool: ' + myApp.val.initBtnLoadBool;
-    //myApp.elem.subText.innerHTML = 'playerWidth: ' + myApp.val.playerWidth + ', innerWidth: ' + window.innerWidth;
+    // myApp.elem.subText.innerHTML = 'playerWidth: ' + myApp.val.playerWidth + ', innerWidth: ' + window.innerWidth;
     // myApp.elem.text.innerHTML = document.styleSheets.item(1).cssRules.length;
     // myApp.elem.subText.innerHTML = 
     //     "device: "           + myApp.val.os+"<br>"+
