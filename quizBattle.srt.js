@@ -442,11 +442,11 @@ function myIntervalEvent(){
         if(document.activeElement.id == "player"){
             instantFocusToElement(myApp.elem.ansCol);
         }
-        if(myApp.val.limPush - myApp.val.cntPush == 0){
-            myApp.elem.pushBtn.src = myApp.elem.imgBtn4.src;
-        }else{
-            myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src;
-        }
+        // if(myApp.val.limPush - myApp.val.cntPush == 0){
+        //     myApp.elem.pushBtn.src = myApp.elem.imgBtn4.src;
+        // }else{
+        //     myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src;
+        // }
         myApp.val.ansTime.elapsed = 0;
     }
     //
