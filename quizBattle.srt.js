@@ -48,7 +48,7 @@ const myApp = {
             left         : 0,
             right        : 0,
             top          : 0,
-            bottom       : 0
+            bottom       : 0,
         },
         //
         initOrientation  : null,
@@ -197,7 +197,7 @@ window.addEventListener('orientationchange', function(){
         }else{
             myApp.elem.pushBtn.src = myApp.elem.imgBtn4.src;
             if(myApp.val.orientAlertBool == false && myApp.val.initOrientation == 'portrait'){
-                alert("このサイトはスマートフォン・タブレットを縦向きにしてお楽しみください。");
+                alert("このサイトはスマートフォン/タブレットを縦向きにしてお楽しみください。");
                 myApp.val.orientAlertBool = true;
             }
         }
@@ -592,6 +592,7 @@ function resizePushButton(){
         myApp.val.prevClientHeight = document.documentElement.clientHeight;
     }
 }
+//
 function updatePushButtonArea(){
     myApp.val.pushBtnArea.left   = myApp.elem.pushBtn.getBoundingClientRect().left;
     myApp.val.pushBtnArea.right  = myApp.elem.pushBtn.getBoundingClientRect().right;
@@ -669,7 +670,7 @@ function checkAnswer(){
     myApp.elem.numOX.innerHTML  = "⭕️："+myApp.val.cntO+"　❌："+myApp.val.cntX;
     //
     if(window.orientation != 90){
-        if(myApp.val.correctBool == true || myApp.val.limPush - myApp.val.cntPush == 0){
+        if(myApp.val.limPush - myApp.val.cntPush == 0){
             myApp.elem.pushBtn.src = myApp.elem.imgBtn4.src;
         }else{
             myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src;
