@@ -555,6 +555,7 @@ function resizePlayer(){
             // myApp.val.playerHeight = document.documentElement.clientHeight-parseInt(myApp.elem.text.style.lineHeight)-20;
             // myApp.val.playerWidth  = myApp.val.playerHeight/9*16;
         }
+        myApp.elem.ansCol.style.width = myApp.val.playerWidth/document.documentElement.clientWidth*90+'%';
     }else{
         myApp.val.playerHeight = document.documentElement.clientHeight/2;
         myApp.val.playerWidth  = myApp.val.playerHeight/9*16;
