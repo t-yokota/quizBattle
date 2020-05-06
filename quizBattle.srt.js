@@ -239,8 +239,8 @@ myApp.elem.numOX.innerHTML  = "⭕️："+myApp.val.cntO+"　❌："+myApp.val.c
 myApp.elem.ansCol.disabled  = true;
 myApp.elem.ansBtn.disabled  = true;
 //
-/* assign init text and image of push button */
-myApp.elem.pushBtn.width = document.documentElement.clientWidth/5; /* set init size before loading */
+/* assign init text and push button image */
+myApp.elem.pushBtn.width = document.documentElement.clientWidth/5; /* init size before loading */
 if(myApp.val.os != "other"){
     if(Math.abs(window.orientation) != 90){
         myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src;
@@ -265,6 +265,7 @@ if(myApp.val.os != "other"){
 myApp.val.status = myApp.state.ButtonCheck;
 player.pauseVideo();
 //
+/* alert for landscape orientation */
 setTimeout(function(){
     if(myApp.val.os != "other" && myApp.val.initOrientation == 'landscape'){
         alert("このサイトはスマートフォン/タブレットを縦向きにしてお楽しみください。");
@@ -304,8 +305,8 @@ document.addEventListener("touchstart", myTouchEvent);
 function myTouchEvent(event){    
     if(myApp.val.imgErrorBool == false && myApp.val.initBtnLoadBool == true && Math.abs(window.orientation) != 90){ 
         myApp.val.touchObject = event.changedTouches[0];
-        if( myApp.val.pushBtnArea.left < myApp.val.touchObject.pageX && myApp.val.touchObject.pageX < myApp.val.pushBtnArea.right ){
-            if( myApp.val.pushBtnArea.top < myApp.val.touchObject.pageY && myApp.val.touchObject.pageY < myApp.val.pushBtnArea.bottom ){
+        if(myApp.val.pushBtnArea.left < myApp.val.touchObject.pageX && myApp.val.touchObject.pageX < myApp.val.pushBtnArea.right){
+            if(myApp.val.pushBtnArea.top < myApp.val.touchObject.pageY && myApp.val.touchObject.pageY < myApp.val.pushBtnArea.bottom){
                 if(myApp.val.status == myApp.state.ButtonCheck){
                     const interval = 1500; 
                     buttonCheck(interval);
@@ -348,7 +349,7 @@ function myEventListener(){
     if(player.getPlayerState() == myApp.videoState.Playing){
         myApp.val.currTime.playing = player.getCurrentTime();
         myApp.val.watchedTime = updateWatchedTime(myApp.val.currTime.playing, myApp.val.watchedTime);
-        /* check answer if the video is restarted manually (= without sending answer) */
+        /* check answer if the video is restarted manually without sending answer */
         if(myApp.val.status == myApp.state.MyAnswer){
             player.pauseVideo();
             checkAnswer();
@@ -461,6 +462,7 @@ function myOnClickEvent(){
 //
 myApp.val.srtFuncArray = [
     function(){
+        /* 閑話0（ボタンチェック後〜第１問） */
         myApp.val.status = myApp.state.Talk;
         myApp.elem.text.innerHTML = "quizBattle.srt.js";   
     },
@@ -469,8 +471,8 @@ myApp.val.srtFuncArray = [
         myApp.val.status = myApp.state.Question;
         myApp.val.numQues = 1;
         myApp.val.cntPush = 0;
-        myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src;
         myApp.elem.text.innerHTML = "第"+myApp.val.numQues+"問";
+        if(Math.abs(window.orientation) != 90){ myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src; }
     },
     function(){
         /* 閑話1 */
@@ -481,8 +483,8 @@ myApp.val.srtFuncArray = [
         myApp.val.status = myApp.state.Question;
         myApp.val.numQues = 2;
         myApp.val.cntPush = 0;
-        myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src;
         myApp.elem.text.innerHTML = "第"+myApp.val.numQues+"問";
+        if(Math.abs(window.orientation) != 90){ myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src; }
     },
     function(){
         /* 閑話2 */
@@ -493,8 +495,8 @@ myApp.val.srtFuncArray = [
         myApp.val.status = myApp.state.Question;
         myApp.val.numQues = 3;
         myApp.val.cntPush = 0;
-        myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src;
         myApp.elem.text.innerHTML = "第"+myApp.val.numQues+"問";
+        if(Math.abs(window.orientation) != 90){ myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src; }
     },
     function(){
         /* 閑話3 */
@@ -601,10 +603,10 @@ function updatePushButtonArea(){
     myApp.val.pushBtnArea.bottom = myApp.elem.pushBtn.getBoundingClientRect().bottom;
     //
     if(myApp.val.os == 'iOS'){
-        myApp.val.pushBtnArea.left   = myApp.val.pushBtnArea.left   + window.pageXOffset;
-        myApp.val.pushBtnArea.right  = myApp.val.pushBtnArea.right  + window.pageXOffset;
-        myApp.val.pushBtnArea.top    = myApp.val.pushBtnArea.top    + window.pageYOffset;
-        myApp.val.pushBtnArea.bottom = myApp.val.pushBtnArea.bottom + window.pageYOffset;
+        myApp.val.pushBtnArea.left   += window.pageXOffset;
+        myApp.val.pushBtnArea.right  += window.pageXOffset;
+        myApp.val.pushBtnArea.top    += window.pageYOffset;
+        myApp.val.pushBtnArea.bottom += window.pageYOffset;
     }
 }
 /**
@@ -671,7 +673,7 @@ function checkAnswer(){
     myApp.elem.numOX.innerHTML  = "⭕️："+myApp.val.cntO+"　❌："+myApp.val.cntX;
     //
     if(window.orientation != 90){
-        if(myApp.val.limPush - myApp.val.cntPush == 0){
+        if(myApp.val.correctBool == false && myApp.val.limPush - myApp.val.cntPush == 0){
             myApp.elem.pushBtn.src = myApp.elem.imgBtn4.src;
         }else{
             myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src;
@@ -684,9 +686,9 @@ function checkAnswer(){
 function printParams(){
     // myApp.elem.text.innerHTML = "docWidth: " + document.documentElement.clientWidth +', docHeight: '+ document.documentElement.clientHeight + ', inWidth: '+ window.innerWidth + ', inHeight: '+ window.innerHeight;
     // myApp.elem.text.innerHTML = "curr: " + myApp.elem.pushBtn.width +', new: '+ Math.floor(myApp.val.pushBtnWidth) + ', inWidth: '+ window.innerWidth + ', inHeight: '+ window.innerHeight;
-    myApp.elem.text.innerHTML = Math.floor(myApp.val.touchObject.pageX) +', '+ Math.floor(myApp.val.touchObject.pageY) +' ['+ Math.floor(myApp.val.pushBtnArea.left) +', '+ Math.floor(myApp.val.pushBtnArea.right) +'] ['+  Math.floor(myApp.val.pushBtnArea.top) +', '+ Math.floor(myApp.val.pushBtnArea.bottom)+'] | '+ window.pageXOffset + ', ' + window.pageYOffset;
+    // myApp.elem.text.innerHTML = Math.floor(myApp.val.touchObject.pageX) +', '+ Math.floor(myApp.val.touchObject.pageY) +' ['+ Math.floor(myApp.val.pushBtnArea.left) +', '+ Math.floor(myApp.val.pushBtnArea.right) +'] ['+  Math.floor(myApp.val.pushBtnArea.top) +', '+ Math.floor(myApp.val.pushBtnArea.bottom)+'] | '+ window.pageXOffset + ', ' + window.pageYOffset;
     // myApp.elem.text.innerHTML = document.body.clientWidth / window.innerWidth;
-    // myApp.elem.text.innerHTML = myApp.val.os + ', ' + navigator.userAgent;
+    myApp.elem.text.innerHTML = myApp.val.os + ', ' + navigator.userAgent;
     // myApp.elem.text.innerHTML = detectTouchPanel();
     // myApp.elem.subText.innerHTML = 'imgErrorBool: ' + myApp.val.imgErrorBool + ', initBtnLoadBool: ' + myApp.val.initBtnLoadBool;
     // myApp.elem.subText.innerHTML = 'playerWidth: ' + myApp.val.playerWidth + ', innerWidth: ' + window.innerWidth;
