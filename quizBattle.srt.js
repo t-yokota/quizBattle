@@ -79,6 +79,12 @@ const myApp = {
         status   : this.state.Talk,
         cntIndex : 0, //index has current section of subtitle
         //
+        /* button check param */
+        btnCheck : {
+            sndInterval : 1500,
+            playInterval : 3000,
+        },
+        //
         /* for time management */
         ansTime: {
             limit   : 20000, //[ms]
@@ -101,7 +107,6 @@ const myApp = {
 /* set id to focus-usable elements */
 myApp.elem.ansCol.id = 'anscol';
 myApp.elem.ansBtn.id = 'ansbtn';
-// document.getElementsByTagName("body")[0].id = 'body';
 //
 /* View */
 /* test of viewport (pending) */
@@ -141,7 +146,6 @@ if (myApp.val.os != 'other'){
     myApp.elem.text.style.fontSize    = '38px';
     myApp.elem.text.style.lineHeight  = '100px';
     myApp.elem.text.style.fontWeight  = 'bold';
-    myApp.elem.ansCol.style.width     = '100%';
     myApp.elem.ansCol.style.fontSize  = '35px';
     myApp.elem.ansCol.style.textAlign = 'center';
     myApp.elem.ansBtn.style.fontSize  = '35px';
@@ -250,7 +254,6 @@ if(myApp.val.os != "other"){
         myApp.elem.pushBtn.src = myApp.elem.imgBtn4.src;
         myApp.elem.text.innerHTML = "スマホ/タブレットを縦向きにしてクイズをはじめる";
         myApp.val.initOrientation = 'landscape';
-        // alert("このサイトはスマートフォン/タブレットを縦向きにしてお楽しみください。");
     }
 }else{
     myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src;
@@ -275,21 +278,20 @@ setTimeout(function(){
 /* Event */
 /* set main keydown event */
 document.addEventListener("compositionstart", function(){ myApp.val.composingBool = true; });
-document.addEventListener('compositionend', function(){ myApp.val.composingBool = false; });
+document.addEventListener('compositionend',   function(){ myApp.val.composingBool = false; });
 document.onkeydown = myKeyDownEvent;
 function myKeyDownEvent(){
     if(myApp.val.imgErrorBool == false && myApp.val.initBtnLoadBool == true && Math.abs(window.orientation) != 90){
         if(event.keyCode == myApp.val.btnCode){
             if(myApp.val.status == myApp.state.ButtonCheck){
-                const interval = 1500;
-                buttonCheck(interval);
                 myApp.val.status = myApp.state.Talk;
-                setTimeout(function(){ player.playVideo(); }, interval+1500);
+                buttonCheck(myApp.val.btnCheck.sndInterval);
+                setTimeout(function(){ player.playVideo(); }, myApp.val.btnCheck.playInterval);
             }
             if(myApp.val.status == myApp.state.Question){
-                myApp.val.cntPush = pushButton();
                 myApp.val.status  = myApp.state.MyAnswer;
                 player.pauseVideo();
+                pushButton();
             }
         }
         if(event.keyCode == 13/* Enter key */){
@@ -308,15 +310,14 @@ function myTouchEvent(event){
         if(myApp.val.pushBtnArea.left < myApp.val.touchObject.pageX && myApp.val.touchObject.pageX < myApp.val.pushBtnArea.right){
             if(myApp.val.pushBtnArea.top < myApp.val.touchObject.pageY && myApp.val.touchObject.pageY < myApp.val.pushBtnArea.bottom){
                 if(myApp.val.status == myApp.state.ButtonCheck){
-                    const interval = 1500; 
-                    buttonCheck(interval);
                     myApp.val.status = myApp.state.Talk;
-                    setTimeout(function(){ player.playVideo(); }, interval+1500);
+                    buttonCheck(myApp.val.btnCheck.sndInterval);
+                    setTimeout(function(){ player.playVideo(); }, myApp.val.btnCheck.playInterval);
                 }
                 if(myApp.val.status == myApp.state.Question){
-                    pushButton();
                     myApp.val.status  = myApp.state.MyAnswer;
                     player.pauseVideo();
+                    pushButton();
                 }
             }
         }
