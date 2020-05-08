@@ -289,7 +289,7 @@ function myKeyDownEvent(){
                 setTimeout(function(){ player.playVideo(); }, myApp.val.btnCheck.playInterval);
             }
             if(myApp.val.status == myApp.state.Question){
-                myApp.val.status  = myApp.state.MyAnswer;
+                myApp.val.status = myApp.state.MyAnswer;
                 player.pauseVideo();
                 pushButton();
             }
@@ -315,7 +315,7 @@ function myTouchEvent(event){
                     setTimeout(function(){ player.playVideo(); }, myApp.val.btnCheck.playInterval);
                 }
                 if(myApp.val.status == myApp.state.Question){
-                    myApp.val.status  = myApp.state.MyAnswer;
+                    myApp.val.status = myApp.state.MyAnswer;
                     player.pauseVideo();
                     pushButton();
                 }
@@ -631,15 +631,17 @@ function updateWatchedTime(currentPlayingTime, watchedTime){
 //
 function buttonCheck(responseInterval){
     myApp.elem.sndPush.play();
-    myApp.elem.pushBtn.src = myApp.elem.imgBtn2.src;
-    setTimeout(function(){ myApp.elem.pushBtn.src = myApp.elem.imgBtn3.src; }, 100);
+    myApp.elem.pushBtn.src = myApp.elem.imgBtn3.src;
+    // myApp.elem.pushBtn.src = myApp.elem.imgBtn2.src;
+    // setTimeout(function(){ myApp.elem.pushBtn.src = myApp.elem.imgBtn3.src; }, 100);
     setTimeout(function(){ myApp.elem.sndO.play(); myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src; }, responseInterval);
 }
 //
 function pushButton(){
     myApp.elem.sndPush.play();
-    myApp.elem.pushBtn.src = myApp.elem.imgBtn2.src;
-    setTimeout(function(){ myApp.elem.pushBtn.src = myApp.elem.imgBtn3.src; }, 100);
+    myApp.elem.pushBtn.src = myApp.elem.imgBtn3.src;
+    // myApp.elem.pushBtn.src = myApp.elem.imgBtn2.src;
+    // setTimeout(function(){ myApp.elem.pushBtn.src = myApp.elem.imgBtn3.src; }, 100);
     myApp.val.cntPush = myApp.val.cntPush+1;
 }
 //
