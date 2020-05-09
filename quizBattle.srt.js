@@ -558,7 +558,12 @@ function resizePlayer(){
             // myApp.val.playerHeight = document.documentElement.clientHeight-parseInt(myApp.elem.text.style.lineHeight)-20;
             // myApp.val.playerWidth  = myApp.val.playerHeight/9*16;
         }
-        myApp.elem.ansCol.style.width = myApp.val.playerWidth/document.documentElement.clientWidth*90+'%';
+        if(myApp.val.os == 'Android' && navigator.userAgent.match(/Firefox/)){
+            // set special width of anscol to prevent the window is zoomed when the focus moveds to anscol.
+            myApp.elem.ansCol.style.width = myApp.val.playerWidth/document.documentElement.clientWidth*100+'%';
+        }else{
+            myApp.elem.ansCol.style.width = myApp.val.playerWidth/document.documentElement.clientWidth*90+'%';
+        }
     }else{
         myApp.val.playerHeight = document.documentElement.clientHeight/2;
         myApp.val.playerWidth  = myApp.val.playerHeight/9*16;
@@ -631,17 +636,23 @@ function updateWatchedTime(currentPlayingTime, watchedTime){
 //
 function buttonCheck(responseInterval){
     myApp.elem.sndPush.play();
-    // myApp.elem.pushBtn.src = myApp.elem.imgBtn3.src;
-    myApp.elem.pushBtn.src = myApp.elem.imgBtn2.src;
-    setTimeout(function(){ myApp.elem.pushBtn.src = myApp.elem.imgBtn3.src; }, 75);
+    if(myApp.val.os == 'iOS'){
+        myApp.elem.pushBtn.src = myApp.elem.imgBtn3.src;
+    }else{
+        myApp.elem.pushBtn.src = myApp.elem.imgBtn2.src;
+        setTimeout(function(){ myApp.elem.pushBtn.src = myApp.elem.imgBtn3.src; }, 75);    
+    }
     setTimeout(function(){ myApp.elem.sndO.play(); myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src; }, responseInterval);
 }
 //
 function pushButton(){
     myApp.elem.sndPush.play();
-    // myApp.elem.pushBtn.src = myApp.elem.imgBtn3.src;
-    myApp.elem.pushBtn.src = myApp.elem.imgBtn2.src;
-    setTimeout(function(){ myApp.elem.pushBtn.src = myApp.elem.imgBtn3.src; }, 75);
+    if(myApp.val.os == 'iOS'){
+        myApp.elem.pushBtn.src = myApp.elem.imgBtn3.src;
+    }else{
+        myApp.elem.pushBtn.src = myApp.elem.imgBtn2.src;
+        setTimeout(function(){ myApp.elem.pushBtn.src = myApp.elem.imgBtn3.src; }, 75);    
+    }
     myApp.val.cntPush = myApp.val.cntPush+1;
 }
 //
