@@ -38,6 +38,7 @@ const myApp = {
     },
     val : {
         srtFuncArray : null, //array of functions that are executed in each subtitle
+        spriteData : null,
         //
         os : null,
         //
@@ -202,7 +203,7 @@ myApp.elem.sndPush.src = "https://raw.githubusercontent.com/t-yokota/quizBattle/
 myApp.elem.sndO.src    = "https://raw.githubusercontent.com/t-yokota/quizBattle/devel/convertToES6/sounds/correct_3.m4a";
 myApp.elem.sndX.src    = "https://raw.githubusercontent.com/t-yokota/quizBattle/devel/convertToES6/sounds/discorrect.m4a";
 myApp.elem.sounds.src  = "https://raw.githubusercontent.com/t-yokota/quizBattle/devel/convertToES6/sounds/sounds_3.aac";
-var spriteData = {
+myApp.val.spriteData = {
     pushBtn : {
         start : 0,
         end : 2.0,
@@ -736,7 +737,7 @@ function checkAnswer(){
 }
 //
 function printParams(){
-    myApp.elem.text.innerHTML = "sounds.currentTime: " + myApp.elem.sounds.currentTime + " / " + spriteData.pushBtn.end - myApp.elem.sounds.currentTime + " / " + spriteData.sndO.end - myApp.elem.sounds.currentTime + " / " + spriteData.sndX.end - myApp.elem.sounds.currentTime;
+    myApp.elem.text.innerHTML = "sounds.currentTime: " + myApp.elem.sounds.currentTime + " / " + myApp.val.spriteData.pushBtn.end - myApp.elem.sounds.currentTime + " / " + myApp.val.spriteData.sndO.end - myApp.elem.sounds.currentTime + " / " + myApp.val.spriteData.sndX.end - myApp.elem.sounds.currentTime;
     // myApp.elem.text.innerHTML = "docWidth: " + document.documentElement.clientWidth +', docHeight: '+ document.documentElement.clientHeight + ', inWidth: '+ window.innerWidth + ', inHeight: '+ window.innerHeight;
     // myApp.elem.text.innerHTML = "curr: " + myApp.elem.pushBtn.width +', new: '+ Math.floor(myApp.val.pushBtnWidth) + ', inWidth: '+ window.innerWidth + ', inHeight: '+ window.innerHeight;
     // myApp.elem.text.innerHTML = Math.floor(myApp.val.touchObject.pageX) +', '+ Math.floor(myApp.val.touchObject.pageY) +' ['+ Math.floor(myApp.val.pushBtnArea.left) +', '+ Math.floor(myApp.val.pushBtnArea.right) +'] ['+  Math.floor(myApp.val.pushBtnArea.top) +', '+ Math.floor(myApp.val.pushBtnArea.bottom)+'] | '+ window.pageXOffset + ', ' + window.pageYOffset;
