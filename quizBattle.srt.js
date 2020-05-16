@@ -218,15 +218,15 @@ myApp.val.spriteData = {
     },
 };
 function spriteHandler(){
-    if(myApp.val.spriteData.pushBtn.end - this.currentTime < 0.1){
+    if(Math.abs(myApp.val.spriteData.pushBtn.end - this.currentTime) < 0.1){
         this.pause();
         myApp.elem.sounds.currentTime = myApp.val.spriteData.pushBtn.start;
     }
-    if(myApp.val.spriteData.sndO.end - this.currentTime < 0.1){
+    if(Math.abs(myApp.val.spriteData.sndO.end - this.currentTime) < 0.1){
         this.pause();
         myApp.elem.sounds.currentTime = myApp.val.spriteData.pushBtn.start;
     }
-    if(myApp.val.spriteData.sndX.end - this.currentTime < 0.1){
+    if(Math.abs(myApp.val.spriteData.sndX.end - this.currentTime) < 0.1){
         this.pause();
         myApp.elem.sounds.currentTime = myApp.val.spriteData.pushBtn.start;
     }
@@ -577,7 +577,7 @@ function resizePlayer(){
             myApp.elem.ansCol.style.width = myApp.val.playerWidth/document.documentElement.clientWidth*90+'%';
         }
     }else{
-        myApp.val.playerHeight = document.documentElement.clientHeight/1.7;
+        myApp.val.playerHeight = document.documentElement.clientHeight/1.5;
         myApp.val.playerWidth  = myApp.val.playerHeight/9*16;
         myApp.elem.ansCol.style.width = myApp.val.playerWidth/document.documentElement.clientWidth*90+'%';
     }
@@ -737,7 +737,7 @@ function checkAnswer(){
 }
 //
 function printParams(){
-    myApp.elem.text.innerHTML = "sounds.currentTime: " + myApp.val.spriteData.pushBtn.end/myApp.elem.sounds.currentTime;
+    myApp.elem.text.innerHTML = "sounds.currentTime: " + myApp.elem.sounds.currentTime;
     // myApp.elem.text.innerHTML = "docWidth: " + document.documentElement.clientWidth +', docHeight: '+ document.documentElement.clientHeight + ', inWidth: '+ window.innerWidth + ', inHeight: '+ window.innerHeight;
     // myApp.elem.text.innerHTML = "curr: " + myApp.elem.pushBtn.width +', new: '+ Math.floor(myApp.val.pushBtnWidth) + ', inWidth: '+ window.innerWidth + ', inHeight: '+ window.innerHeight;
     // myApp.elem.text.innerHTML = Math.floor(myApp.val.touchObject.pageX) +', '+ Math.floor(myApp.val.touchObject.pageY) +' ['+ Math.floor(myApp.val.pushBtnArea.left) +', '+ Math.floor(myApp.val.pushBtnArea.right) +'] ['+  Math.floor(myApp.val.pushBtnArea.top) +', '+ Math.floor(myApp.val.pushBtnArea.bottom)+'] | '+ window.pageXOffset + ', ' + window.pageYOffset;
