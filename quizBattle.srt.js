@@ -70,7 +70,7 @@ const myApp = {
         //
         /* button check param */
         btnCheck : {
-            sndInterval  : 2500, //[ms]
+            sndInterval  : 1000, //[ms]
             playInterval : 3000, //[ms]
         },
         //
@@ -620,8 +620,9 @@ function updateWatchedTime(currentPlayingTime, watchedTime){
 function buttonCheck(responseInterval){
     // myApp.elem.sndPush.play();
     if(myApp.val.os == 'iOS'){
-        myApp.elem.sndO.muted = true;
+        myApp.elem.sndO.playbackRate = 100.0;
         myApp.elem.sndO.play()
+        setTimeout(function(){ myApp.elem.sndO.playbackRate = 1.0; }, 1000);
         myApp.elem.pushBtn.src = myApp.elem.imgBtn3.src;
     }else{
         myApp.elem.pushBtn.src = myApp.elem.imgBtn2.src;
