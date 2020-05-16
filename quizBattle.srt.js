@@ -70,7 +70,7 @@ const myApp = {
         //
         /* button check param */
         btnCheck : {
-            sndInterval  : 2000, //[ms]
+            sndInterval  : 1750, //[ms]
             playInterval : 3000, //[ms]
         },
         //
@@ -637,7 +637,6 @@ function buttonCheck(responseInterval){
 function pushButton(){
     // myApp.elem.sndPush.play();
     if(myApp.val.os == 'iOS'){
-        playSilent(myApp.elem.sndO);
         myApp.elem.pushBtn.src = myApp.elem.imgBtn3.src;
     }else{
         myApp.elem.pushBtn.src = myApp.elem.imgBtn2.src;
