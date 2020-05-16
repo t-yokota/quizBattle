@@ -650,7 +650,7 @@ function unlockAudio(audio){
 }
 //
 function playPushBtn(){
-    if(myApp.elem.currentTime != spriteData.pushBtn.start){
+    if(myApp.elem.sounds.currentTime != spriteData.pushBtn.start){
         myApp.elem.sounds.currentTime = spriteData.pushBtn.start;
     }
     myApp.elem.sounds.play();
