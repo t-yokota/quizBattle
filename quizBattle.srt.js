@@ -217,21 +217,17 @@ var spriteData = {
     },
 };
 var spriteHandler = function() {
-    if(spriteData.pushBtn.start <= this.currentTime && this.currentTime < spriteData.pushBtn.end){
-        if(this.currentTime/spriteData.pushBtn.end > 0.9){
-            this.pause();
-            myApp.elem.sounds.currentTime = spriteData.pushBtn.start;
-        }
-    }else if(spriteData.sndO.start <= this.currentTime && this.currentTime < spriteData.sndO.end){
-        if(this.currentTime/spriteData.sndO.end > 0.9){
-            this.pause();
-            myApp.elem.sounds.currentTime = spriteData.pushBtn.start;
-        }
-    }else if(spriteData.sndX.start <= this.currentTime && this.currentTime < spriteData.sndX.end){
-        if(this.currentTime/spriteData.sndX.end > 0.9){
-            this.pause();
-            myApp.elem.sounds.currentTime = spriteData.pushBtn.start;
-        }
+    if(spriteData.pushBtn.end - this.currentTime < 0.1){
+        this.pause();
+        myApp.elem.sounds.currentTime = spriteData.pushBtn.start;
+    }
+    if(spriteData.sndO.end - this.currentTime < 0.1){
+        this.pause();
+        myApp.elem.sounds.currentTime = spriteData.pushBtn.start;
+    }
+    if(spriteData.sndX.end - this.currentTime < 0.1){
+        this.pause();
+        myApp.elem.sounds.currentTime = spriteData.pushBtn.start;
     }
 };
 myApp.elem.sounds.addEventListener('timeupdate', spriteHandler, false);
@@ -654,7 +650,9 @@ function unlockAudio(audio){
 }
 //
 function playPushBtn(){
-    // myApp.elem.sounds.currentTime = spriteData.pushBtn.start;
+    if(myApp.elem.currentTime != spriteData.pushBtn.start){
+        myApp.elem.sounds.currentTime = spriteData.pushBtn.start;
+    }
     myApp.elem.sounds.play();
 }
 function playSndO(){
