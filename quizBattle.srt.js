@@ -610,13 +610,11 @@ function updateWatchedTime(currentPlayingTime, watchedTime){
     }
     return watchedTime;
 }
-
 function unlockAudio(audio){
     audio.play();
     audio.pause();
     audio.currentTime = 0;    
 }
-
 function buttonCheck(responseInterval){
     myApp.elem.sndPush.play();
     if(myApp.val.os == 'iOS'){
