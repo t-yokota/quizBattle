@@ -611,8 +611,9 @@ function updateWatchedTime(currentPlayingTime, watchedTime){
 //
 function playSilent(sound){
     sound.muted = true;
+    sound.playbackRate = 10;
     sound.play();
-    // sound.muted = false;
+    sound.muted = false;
 }
 //
 function buttonCheck(responseInterval){
@@ -624,7 +625,7 @@ function buttonCheck(responseInterval){
         myApp.elem.pushBtn.src = myApp.elem.imgBtn2.src;
         setTimeout(function(){ myApp.elem.pushBtn.src = myApp.elem.imgBtn3.src; }, 75);
     }
-    setTimeout(function(){ myApp.elem.sndO.muted = false; myApp.elem.sndO.play(); myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src; }, responseInterval);
+    setTimeout(function(){ myApp.elem.sndO.play(); myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src; }, responseInterval);
 }
 //
 function pushButton(){
