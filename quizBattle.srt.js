@@ -220,18 +220,22 @@ var spriteHandler = function() {
     if(spriteData.pushBtn.start <= this.currentTime && this.currentTime < spriteData.pushBtn.end){
         if(this.currentTime/spriteData.pushBtn.end > 0.9){
             this.pause();
+            myApp.elem.sounds.currentTime = spriteData.pushBtn.start;
         }
     }else if(spriteData.sndO.start <= this.currentTime && this.currentTime < spriteData.sndO.end){
         if(this.currentTime/spriteData.sndO.end > 0.9){
             this.pause();
+            myApp.elem.sounds.currentTime = spriteData.pushBtn.start;
         }
     }else if(spriteData.sndX.start <= this.currentTime && this.currentTime < spriteData.sndX.end){
         if(this.currentTime/spriteData.sndX.end > 0.9){
             this.pause();
+            myApp.elem.sounds.currentTime = spriteData.pushBtn.start;
         }
     }
 };
 myApp.elem.sounds.addEventListener('timeupdate', spriteHandler, false);
+myApp.elem.sounds.currentTime = spriteData.pushBtn.start;
 //
 /* load answer list */
 const ansCSV = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/answer_UTF-8.csv"; //UTF-8
@@ -649,24 +653,38 @@ function unlockAudio(audio){
     audio.currentTime = 0;    
 }
 //
+function playPushBtn(){
+    // myApp.elem.sounds.currentTime = spriteData.pushBtn.start;
+    myApp.elem.sounds.play();
+}
+function playSndO(){
+    myApp.elem.sounds.currentTime = spriteData.sndO.start;
+    myApp.elem.sounds.play();
+}
+function playSndX(){
+    myApp.elem.sounds.currentTime = spriteData.sndX.start;
+    myApp.elem.sounds.play();
+}
+//
 function buttonCheck(responseInterval){
-    myApp.elem.sndPush.play();
+    playPushBtn();
+    // myApp.elem.sndPush.play();
     if(myApp.val.os == 'iOS'){
-        unlockAudio(myApp.elem.sndO);
+        // unlockAudio(myApp.elem.sndO);
         myApp.elem.pushBtn.src = myApp.elem.imgBtn3.src;
     }else{
         myApp.elem.pushBtn.src = myApp.elem.imgBtn2.src;
         setTimeout(function(){ myApp.elem.pushBtn.src = myApp.elem.imgBtn3.src; }, 100);
     }
     setTimeout(function(){
-        myApp.elem.sndO.play();
+        playSndO();
+        // myApp.elem.sndO.play();
         myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src;
     }, responseInterval);
 }
 //
 function pushButton(){
-    myApp.elem.sounds.currentTime = spriteData.pushBtn.start;
-    myApp.elem.sounds.play();
+    playPushBtn();
     // myApp.elem.sndPush.play();
     if(myApp.val.os == 'iOS'){
         myApp.elem.pushBtn.src = myApp.elem.imgBtn3.src;
@@ -696,14 +714,12 @@ function checkAnswer(){
         }
     }
     if(myApp.val.correctBool == true){
-        myApp.elem.sounds.currentTime = spriteData.sndO.start;
-        myApp.elem.sounds.play();
+        playSndO();
         // myApp.elem.sndO.play();
         myApp.val.cntO += 1;
         myApp.elem.text.innerHTML = "正解！";
     }else{
-        myApp.elem.sounds.currentTime = spriteData.sndX.start;
-        myApp.elem.sounds.play();
+        playSndX();
         // myApp.elem.sndX.play();
         myApp.val.cntX += 1;
         myApp.elem.text.innerHTML = "不正解！"; //あと"+(myApp.val.limPush-myApp.val.cntPush)+"回解答できます。";
