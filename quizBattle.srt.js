@@ -36,6 +36,8 @@ const myApp = {
         subText : document.createElement("text"),
     },
     val : {
+        srtFuncArray : null, //array of functions that are executed in each subtitle
+        //
         os : null,
         //
         playerWidth   : 0,
@@ -43,24 +45,28 @@ const myApp = {
         pushBtnWidth  : 0,
         pushBtnHeight : 0,
         //
-        pushBtnArea : {
-            left   : 0,
-            right  : 0,
-            top    : 0,
-            bottom : 0,
-        },
-        touchObject : null,
-        //
-        initOrientation : null,
-        imgErrorBool    : false,
-        initBtnLoadBool : false,
-        orientAlertBool : false,
-        //
         prevPlayerWidth  : 0,
         prevPlayerHeight : 0,
         prevClientWidth  : 0,
         prevClientHeight : 0,
         //
+        initOrientation      : null,  //hold initial orientation of the device
+        imgErrorBool         : false, //for error handling of image loading
+        composingBool        : false, //for preventing to start new line in text area
+        initBtnLoadBool      : false, //for executing onload function of pushBtn only once
+        orientationAlertBool : false, //for showing alert about device orientation only once
+        //
+        /* keycode (for keyboard) */
+        pushBtn : 32, //Space key
+        enter   : 13, //Enter key
+        //
+        /* button check param */
+        btnCheck : {
+            sndInterval  : 1500, //[ms]
+            playInterval : 3000, //[ms]
+        },
+        //
+        /* for question manegament */
         numQues     : 0,     //問題番号
         ansArray    : [],    //正答リスト
         cntO        : 0,     //正答数
@@ -69,27 +75,14 @@ const myApp = {
         limPush     : 3,     //1問あたりの上限解答回数
         correctBool : false, //答え合わせ結果(結果に応じて状態遷移)
         //
-        /* array of functions executed in each subtitle */
-        srtFuncArray : null,
-        //
-        /* keycode (for pc keyboard) */
-        pushBtn  : 32, //Space key
-        enterKey : 13, //Enter key
-        //
         /* for status management */
         status   : this.state.Talk,
-        cntIndex : 0, //index has current section of subtitle
-        //
-        /* button check param */
-        btnCheck : {
-            sndInterval  : 1500,
-            playInterval : 3000,
-        },
+        cntIndex : 0, //(index value has current section of subtitle)
         //
         /* for time management */
         ansTime : {
-            limit   : 20000, //[ms]
-            elapsed : 0,     //[ms]    
+            limit   : 20000, //解答制限時間[ms]
+            elapsed : 0,     //解答経過時間[ms]    
         },
         currTime : {
             playing : 0, //be updated during the video is playing
@@ -97,9 +90,6 @@ const myApp = {
         },
         watchedTime : 0, //
         diffTime    : 0, //difference between watchedTime and currentTime (for preventing to jump playback position by seekbar)
-        //
-        /* for prevent specific action */
-        composingBool : false, //for starting a new line in textarea
     },
 };
 //
@@ -124,7 +114,7 @@ myApp.elem.ansBtn.onclick = myOnClickEvent;
 //
 /* View */
 /* add rule of body to style sheet */
-document.styleSheets.item(0).insertRule('html {touch-action: manipulation;}'); //disable double tap gesture.
+document.styleSheets.item(0).insertRule('html {touch-action: manipulation;}'); //disable double tap gesture
 document.styleSheets.item(0).insertRule('body {text-align: center; margin: auto; background: #EFEFEF;}');
 //
 /* set elements */
@@ -199,9 +189,9 @@ myApp.elem.imgBtn3.src = "https://github.com/t-yokota/quizBattle/raw/devel/conve
 myApp.elem.imgBtn4.src = "https://github.com/t-yokota/quizBattle/raw/devel/convertToES6/figures/button_portrait_4.png";
 //
 /* load audio data */
-myApp.elem.sndPush.src = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/sounds/push.mp3";
-myApp.elem.sndO.src    = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/sounds/correct.mp3";
-myApp.elem.sndX.src    = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/sounds/discorrect.mp3";
+myApp.elem.sndPush.src = "https://raw.githubusercontent.com/t-yokota/quizBattle/convertToES6/sounds/push_3.mp3";
+myApp.elem.sndO.src    = "https://raw.githubusercontent.com/t-yokota/quizBattle/convertToES6/sounds/correct_3.mp3";
+myApp.elem.sndX.src    = "https://raw.githubusercontent.com/t-yokota/quizBattle/convertToES6/sounds/discorrect.mp3";
 //
 /* load answer list */
 const ansCSV = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/answer_UTF-8.csv"; //UTF-8
@@ -266,9 +256,9 @@ function myOrientationChangeEvent(){
             }
         }else{
             myApp.elem.pushBtn.src = myApp.elem.imgBtn4.src;
-            if(myApp.val.orientAlertBool == false && myApp.val.initOrientation == 'portrait'){
+            if(myApp.val.orientationAlertBool == false && myApp.val.initOrientation == 'portrait'){
                 alert("このサイトはスマートフォン/タブレットを縦向きにしてお楽しみください。");
-                myApp.val.orientAlertBool = true;
+                myApp.val.orientationAlertBool = true;
             }
         }
         if(myApp.val.status == myApp.state.ButtonCheck && myApp.val.initOrientation == 'landscape'){
@@ -296,7 +286,7 @@ function myKeyDownEvent(){
                 pushButton();
             }
         }
-        if(event.keyCode == myApp.val.enterKey){
+        if(event.keyCode == myApp.val.enter){
             if(myApp.val.composingBool == false){
                 return false;
             }
@@ -304,7 +294,7 @@ function myKeyDownEvent(){
     }
 }
 //
-/* touchstart event function (for smartphone/tablet) */
+/* touchstart event function (for smartphonea and tablet) */
 function myTouchEvent(event){    
     if(myApp.val.imgErrorBool == false && myApp.val.initBtnLoadBool == true && Math.abs(window.orientation) != 90){ 
         myApp.val.touchObject = event.changedTouches[0];
@@ -417,11 +407,12 @@ function myIntervalEvent(){
         }
     }else{
         if(document.activeElement.id == "player"){
-            /* prepare of js keydown event */
+            /* preparation of js keydown event */
             instantFocusToElement(myApp.elem.ansCol);
         }
         myApp.val.ansTime.elapsed = 0;
     }
+    /* update push button area when the window is zoomed */
     if(myApp.val.os == 'iOS'){ updatePushButtonArea(); }
     printParams();
 }
@@ -533,7 +524,7 @@ function resizePlayer(){
             // myApp.val.playerWidth  = myApp.val.playerHeight/9*16;
         }
         if(myApp.val.os == 'Android' && navigator.userAgent.match(/Firefox/)){
-            // set special width of anscol to prevent the window is zoomed when the focus moveds to anscol.
+            /* set special width of anscol to prevent the window is zoomed when the focus moveds to anscol */
             myApp.elem.ansCol.style.width = myApp.val.playerWidth/document.documentElement.clientWidth*100+'%';
         }else{
             myApp.elem.ansCol.style.width = myApp.val.playerWidth/document.documentElement.clientWidth*90+'%';
@@ -582,7 +573,7 @@ function updatePushButtonArea(){
     myApp.val.pushBtnArea.top    = myApp.elem.pushBtn.getBoundingClientRect().top;
     myApp.val.pushBtnArea.bottom = myApp.elem.pushBtn.getBoundingClientRect().bottom;
     //
-    /* In iOS, value of getBoundingClientRect is changed when the window is zoomed. */
+    /* In iOS, value of getBoundingClientRect is changed when the window is zoomed */
     if(myApp.val.os == 'iOS'){
         myApp.val.pushBtnArea.left   += window.pageXOffset;
         myApp.val.pushBtnArea.right  += window.pageXOffset;
@@ -592,7 +583,7 @@ function updatePushButtonArea(){
 }
 //
 function instantFocusToElement(focusUsableElement){
-    // keydown event is ready during the focus is in a js element.
+    /* keydown event is ready during the focus is in a js element */
     focusUsableElement.disabled = false;
     focusUsableElement.focus();
     focusUsableElement.blur();
@@ -702,28 +693,28 @@ function printParams(){
 }
 
 1
-00:00:01,000 --> 00:00:02,999
+00:00:01,000 --> 00:00:01,999
 
 
 2
-00:00:03,000 --> 00:00:06,999
+00:00:02,000 --> 00:00:05,999
 
 
 3
-00:00:07,000 --> 00:00:10,999
+00:00:06,000 --> 00:00:09,999
 
 
 4
-00:00:11,000 --> 00:00:14,999
+00:00:10,000 --> 00:00:13,999
 
 
 5
-00:00:15,000 --> 00:00:18,999
+00:00:14,000 --> 00:00:17,999
 
 
 6
-00:00:19,000 --> 00:00:22,999
+00:00:18,000 --> 00:00:21,999
 
 
 7
-00:00:23,000 --> 00:00:26,999
+00:00:22,000 --> 00:00:25,999
