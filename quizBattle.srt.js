@@ -38,7 +38,7 @@ const myApp = {
     },
     val : {
         srtFuncArray : null, //array of functions that are executed in each subtitle
-        spriteData : null,
+        spriteData   : null, //for audio sprite
         //
         os : null,
         //
@@ -199,40 +199,40 @@ myApp.elem.imgBtn3.src = "https://github.com/t-yokota/quizBattle/raw/devel/conve
 myApp.elem.imgBtn4.src = "https://github.com/t-yokota/quizBattle/raw/devel/convertToES6/figures/button_portrait_4.png";
 //
 /* load audio data */
-myApp.elem.sndPush.src = "https://raw.githubusercontent.com/t-yokota/quizBattle/devel/convertToES6/sounds/push_3.m4a";
-myApp.elem.sndO.src    = "https://raw.githubusercontent.com/t-yokota/quizBattle/devel/convertToES6/sounds/correct_3.m4a";
-myApp.elem.sndX.src    = "https://raw.githubusercontent.com/t-yokota/quizBattle/devel/convertToES6/sounds/discorrect.m4a";
+// myApp.elem.sndPush.src = "https://raw.githubusercontent.com/t-yokota/quizBattle/devel/convertToES6/sounds/push_3.m4a";
+// myApp.elem.sndO.src    = "https://raw.githubusercontent.com/t-yokota/quizBattle/devel/convertToES6/sounds/correct_3.m4a";
+// myApp.elem.sndX.src    = "https://raw.githubusercontent.com/t-yokota/quizBattle/devel/convertToES6/sounds/discorrect.m4a";
+/* load audio data (audio sprite) */
 myApp.elem.sounds.src  = "https://raw.githubusercontent.com/t-yokota/quizBattle/devel/convertToES6/sounds/sounds_3.aac";
 myApp.val.spriteData = {
     pushBtn : {
-        start : 0,
-        end : 2.0,
+        start : 0.0,
+        end   : 2.0,
     },
     sndO : {
         start : 2.5,
-        end : 4.5,
+        end   : 4.5,
     },
     sndX : {
         start : 5.0,
-        end : 7.0,
+        end   : 7.0,
     },
 };
+myApp.elem.sounds.addEventListener('timeupdate', spriteHandler, false);
 function spriteHandler(){
-    if(Math.abs(myApp.val.spriteData.pushBtn.end - this.currentTime) < 0.1){
+    if( Math.abs(myApp.val.spriteData.pushBtn.end - this.currentTime) < 0.1 ){
         this.pause();
         myApp.elem.sounds.currentTime = myApp.val.spriteData.pushBtn.start;
     }
-    if(Math.abs(myApp.val.spriteData.sndO.end - this.currentTime) < 0.1){
+    if( Math.abs(myApp.val.spriteData.sndO.end    - this.currentTime) < 0.1 ){
         this.pause();
         myApp.elem.sounds.currentTime = myApp.val.spriteData.pushBtn.start;
     }
-    if(Math.abs(myApp.val.spriteData.sndX.end - this.currentTime) < 0.1){
+    if( Math.abs(myApp.val.spriteData.sndX.end    - this.currentTime) < 0.1 ){
         this.pause();
         myApp.elem.sounds.currentTime = myApp.val.spriteData.pushBtn.start;
     }
 };
-myApp.elem.sounds.addEventListener('timeupdate', spriteHandler, false);
-myApp.elem.sounds.currentTime = myApp.val.spriteData.pushBtn.start;
 //
 /* load answer list */
 const ansCSV = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/answer_UTF-8.csv"; //UTF-8
@@ -461,6 +461,11 @@ function myIntervalEvent(){
     }
     /* update push button area when the window is zoomed */
     if(myApp.val.os == 'iOS'){ updatePushButtonArea(); }
+    /*  */
+    if(Math.abs(myApp.elem.numOX.getBoundingClientRect().top-myApp.elem.ansBtn.getBoundingClientRect().bottom)<10){
+        player.pauseVideo();
+        alert("画像の読み込みに失敗しました。ページを再読み込みしてください。");
+    }
     printParams();
 }
 //
@@ -737,6 +742,7 @@ function checkAnswer(){
 }
 //
 function printParams(){
+    myApp.elem.text.innerHTML = myApp.elem.numOX.getBoundingClientRect().top-myApp.elem.ansBtn.getBoundingClientRect().bottom;
     // myApp.elem.text.innerHTML = "sounds.currentTime: " + myApp.elem.sounds.currentTime;
     // myApp.elem.text.innerHTML = "docWidth: " + document.documentElement.clientWidth +', docHeight: '+ document.documentElement.clientHeight + ', inWidth: '+ window.innerWidth + ', inHeight: '+ window.innerHeight;
     // myApp.elem.text.innerHTML = "curr: " + myApp.elem.pushBtn.width +', new: '+ Math.floor(myApp.val.pushBtnWidth) + ', inWidth: '+ window.innerWidth + ', inHeight: '+ window.innerHeight;
