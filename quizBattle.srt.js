@@ -611,9 +611,10 @@ function updateWatchedTime(currentPlayingTime, watchedTime){
 //
 function playSilent(sound){
     sound.muted = true;
-    sound.playbackRate = 10;
+    sound.playbackRate = 100.0;
     sound.play();
     sound.muted = false;
+    sound.playbackRate = 1.0;
 }
 //
 function buttonCheck(responseInterval){
