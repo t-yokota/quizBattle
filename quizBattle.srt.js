@@ -28,6 +28,7 @@ const myApp = {
         sndPush : document.createElement("audio"),
         sndO    : document.createElement("audio"),
         sndX    : document.createElement("audio"),
+        sounds  : document.createElement("audio"),
         br1     : document.createElement("br"),
         br2     : document.createElement("br"),
         br3     : document.createElement("br"),
@@ -197,9 +198,40 @@ myApp.elem.imgBtn3.src = "https://github.com/t-yokota/quizBattle/raw/devel/conve
 myApp.elem.imgBtn4.src = "https://github.com/t-yokota/quizBattle/raw/devel/convertToES6/figures/button_portrait_4.png";
 //
 /* load audio data */
-myApp.elem.sndPush.src = "https://raw.githubusercontent.com/t-yokota/quizBattle/devel/convertToES6/sounds/push_2_low.m4a";
-myApp.elem.sndO.src    = "https://raw.githubusercontent.com/t-yokota/quizBattle/devel/convertToES6/sounds/correct_2_low.m4a";
+myApp.elem.sndPush.src = "https://raw.githubusercontent.com/t-yokota/quizBattle/devel/convertToES6/sounds/push_3.m4a";
+myApp.elem.sndO.src    = "https://raw.githubusercontent.com/t-yokota/quizBattle/devel/convertToES6/sounds/correct_3.m4a";
 myApp.elem.sndX.src    = "https://raw.githubusercontent.com/t-yokota/quizBattle/devel/convertToES6/sounds/discorrect.m4a";
+myApp.elem.sounds.src  = "https://raw.githubusercontent.com/t-yokota/quizBattle/devel/convertToES6/sounds/sounds_3.aac";
+var spriteData = {
+    pushBtn : {
+        start : 0,
+        end : 2.0,
+    },
+    sndO : {
+        start : 2.5,
+        end : 4.5,
+    },
+    sndX : {
+        start : 5.0,
+        end: 7.0,
+    },
+};
+var spriteHandler = function() {
+    if(spriteData.pushBtn.start <= this.currentTime && this.currentTime < spriteData.sndO.start){
+        if (this.currentTime > spriteData.pushBtn.end) {
+            this.pause();
+        }
+    }else if(spriteData.sndO.start <= this.currentTime && this.currentTime < spriteData.sndX.start){
+        if (this.currentTime > spriteData.sndO.end) {
+            this.pause();
+        }
+    }else if(spriteData.sndX.start <= this.currentTime){
+        if (this.currentTime >= spriteData.sndX.end) {
+            this.pause();
+        }
+    }
+};
+myApp.elem.sounds.addEventListener('timeupdate', spriteHandler, false);
 //
 /* load answer list */
 const ansCSV = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/answer_UTF-8.csv"; //UTF-8
@@ -633,8 +665,9 @@ function buttonCheck(responseInterval){
 }
 //
 function pushButton(){
-    myApp.elem.sndPush.currentTime = 0;
-    myApp.elem.sndPush.play();
+    myApp.elem.sounds.currentTime = spriteData.pushBtn.start;
+    myApp.elem.sounds.play();
+    // myApp.elem.sndPush.play();
     if(myApp.val.os == 'iOS'){
         myApp.elem.pushBtn.src = myApp.elem.imgBtn3.src;
     }else{
@@ -663,11 +696,15 @@ function checkAnswer(){
         }
     }
     if(myApp.val.correctBool == true){
-        myApp.elem.sndO.play();
+        myApp.elem.sounds.currentTime = spriteData.sndO.start;
+        myApp.elem.sounds.play();
+        // myApp.elem.sndO.play();
         myApp.val.cntO += 1;
         myApp.elem.text.innerHTML = "正解！";
     }else{
-        myApp.elem.sndO.play();
+        myApp.elem.sounds.currentTime = spriteData.sndX.start;
+        myApp.elem.sounds.play();
+        // myApp.elem.sndX.play();
         myApp.val.cntX += 1;
         myApp.elem.text.innerHTML = "不正解！"; //あと"+(myApp.val.limPush-myApp.val.cntPush)+"回解答できます。";
     }
