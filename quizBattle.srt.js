@@ -610,30 +610,25 @@ function updateWatchedTime(currentPlayingTime, watchedTime){
     }
     return watchedTime;
 }
-//
-// function playSilent(sound){
-//     sound.muted = true;
-//     sound.playbackRate = 100.0;
-//     sound.play();
-//     sound.muted = false;
-//     sound.playbackRate = 1.0;
-// }
-//
+
+function unlockAudio(audio){
+    audio.play();
+    audio.pause();
+    audio.currentTime = 0;    
+}
+
 function buttonCheck(responseInterval){
     myApp.elem.sndPush.play();
     if(myApp.val.os == 'iOS'){
-        myApp.elem.sndO.play();
-        myApp.elem.sndO.pause();
-        myApp.elem.sndO.currentTime = 0;
-        // setTimeout(function(){ myApp.elem.sndO.playbackRate = 1.0; }, 1000);
+        unlockAudio(myApp.elem.sndO);
         myApp.elem.pushBtn.src = myApp.elem.imgBtn3.src;
     }else{
         myApp.elem.pushBtn.src = myApp.elem.imgBtn2.src;
         setTimeout(function(){ myApp.elem.pushBtn.src = myApp.elem.imgBtn3.src; }, 100);
     }
-    setTimeout(function(){ 
-        myApp.elem.sndO.play(); 
-        myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src; 
+    setTimeout(function(){
+        myApp.elem.sndO.play();
+        myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src;
     }, responseInterval);
 }
 //
