@@ -197,8 +197,8 @@ myApp.elem.imgBtn3.src = "https://github.com/t-yokota/quizBattle/raw/devel/conve
 myApp.elem.imgBtn4.src = "https://github.com/t-yokota/quizBattle/raw/devel/convertToES6/figures/button_portrait_4.png";
 //
 /* load audio data */
-myApp.elem.sndPush.src = "https://raw.githubusercontent.com/t-yokota/quizBattle/devel/convertToES6/sounds/push_3.m4a";
-myApp.elem.sndO.src    = "https://raw.githubusercontent.com/t-yokota/quizBattle/devel/convertToES6/sounds/correct_3.m4a";
+myApp.elem.sndPush.src = "https://raw.githubusercontent.com/t-yokota/quizBattle/devel/convertToES6/sounds/push_2_low.m4a";
+myApp.elem.sndO.src    = "https://raw.githubusercontent.com/t-yokota/quizBattle/devel/convertToES6/sounds/correct_2_low.m4a";
 myApp.elem.sndX.src    = "https://raw.githubusercontent.com/t-yokota/quizBattle/devel/convertToES6/sounds/discorrect.m4a";
 //
 /* load answer list */
@@ -610,11 +610,13 @@ function updateWatchedTime(currentPlayingTime, watchedTime){
     }
     return watchedTime;
 }
+//
 function unlockAudio(audio){
     audio.play();
     audio.pause();
     audio.currentTime = 0;    
 }
+//
 function buttonCheck(responseInterval){
     myApp.elem.sndPush.play();
     if(myApp.val.os == 'iOS'){
