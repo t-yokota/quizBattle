@@ -200,7 +200,6 @@ myApp.elem.imgBtn4.src = "https://github.com/t-yokota/quizBattle/raw/devel/conve
 myApp.elem.sndPush.src = "https://raw.githubusercontent.com/t-yokota/quizBattle/devel/convertToES6/sounds/push_3.mp3";
 myApp.elem.sndO.src    = "https://raw.githubusercontent.com/t-yokota/quizBattle/devel/convertToES6/sounds/correct_3.mp3";
 myApp.elem.sndX.src    = "https://raw.githubusercontent.com/t-yokota/quizBattle/devel/convertToES6/sounds/discorrect.mp3";
-myApp.elem.sndO.muted = true;
 //
 /* load answer list */
 const ansCSV = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/answer_UTF-8.csv"; //UTF-8
@@ -611,9 +610,9 @@ function updateWatchedTime(currentPlayingTime, watchedTime){
 }
 //
 function playSilent(sound){
-    // sound.muted = true;
+    sound.muted = true;
     sound.play();
-    sound.muted = false;
+    // sound.muted = false;
 }
 //
 function buttonCheck(responseInterval){
@@ -625,7 +624,7 @@ function buttonCheck(responseInterval){
         myApp.elem.pushBtn.src = myApp.elem.imgBtn2.src;
         setTimeout(function(){ myApp.elem.pushBtn.src = myApp.elem.imgBtn3.src; }, 75);
     }
-    setTimeout(function(){ myApp.elem.sndO.play(); myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src; }, responseInterval);
+    setTimeout(function(){ myApp.elem.sndO.muted = false; myApp.elem.sndO.play(); myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src; }, responseInterval);
 }
 //
 function pushButton(){
