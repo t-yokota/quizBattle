@@ -544,7 +544,7 @@ function resizePlayer(){
             myApp.elem.ansCol.style.width = myApp.val.playerWidth/document.documentElement.clientWidth*90+'%';
         }
     }else{
-        myApp.val.playerHeight = document.documentElement.clientHeight/2;
+        myApp.val.playerHeight = document.documentElement.clientHeight/1.7;
         myApp.val.playerWidth  = myApp.val.playerHeight/9*16;
         myApp.elem.ansCol.style.width = myApp.val.playerWidth/document.documentElement.clientWidth*90+'%';
     }
@@ -622,8 +622,9 @@ function updateWatchedTime(currentPlayingTime, watchedTime){
 function buttonCheck(responseInterval){
     myApp.elem.sndPush.play();
     if(myApp.val.os == 'iOS'){
-        // myApp.elem.sndO.playbackRate = 100.0;
-        // myApp.elem.sndO.play()
+        myApp.elem.sndO.play();
+        myApp.elem.sndO.pause();
+        myApp.elem.sndO.currentTime = 0;
         // setTimeout(function(){ myApp.elem.sndO.playbackRate = 1.0; }, 1000);
         myApp.elem.pushBtn.src = myApp.elem.imgBtn3.src;
     }else{
@@ -637,6 +638,7 @@ function buttonCheck(responseInterval){
 }
 //
 function pushButton(){
+    myApp.elem.sndPush.currentTime = 0;
     myApp.elem.sndPush.play();
     if(myApp.val.os == 'iOS'){
         myApp.elem.pushBtn.src = myApp.elem.imgBtn3.src;
