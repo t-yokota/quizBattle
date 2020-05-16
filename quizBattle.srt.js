@@ -50,6 +50,14 @@ const myApp = {
         prevClientWidth  : 0,
         prevClientHeight : 0,
         //
+        pushBtnArea : {
+            left   : 0,
+            right  : 0,
+            top    : 0,
+            bottom : 0,
+        },
+        touchObject : null,
+        //
         initOrientation      : null,  //hold initial orientation of the device
         imgErrorBool         : false, //for error handling of image loading
         composingBool        : false, //for preventing to start new line in text area
@@ -82,7 +90,7 @@ const myApp = {
         /* for time management */
         ansTime : {
             limit   : 20000, //解答制限時間[ms]
-            elapsed : 0,     //解答経過時間[ms]    
+            elapsed : 0,     //解答経過時間[ms]
         },
         currTime : {
             playing : 0, //be updated during the video is playing
