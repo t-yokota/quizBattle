@@ -70,7 +70,7 @@ const myApp = {
         //
         /* button check param */
         btnCheck : {
-            sndInterval  : 1500, //[ms]
+            sndInterval  : 2000, //[ms]
             playInterval : 3000, //[ms]
         },
         //
@@ -407,7 +407,7 @@ function myIntervalEvent(){
         // }
         /* answer time managemant */
         myApp.val.ansTime.elapsed += interval;
-        myApp.elem.text.innerHTML = "のこり"+Math.floor((myApp.val.ansTime.limit-myApp.val.ansTime.elapsed)/1000)+"秒";
+        myApp.elem.text.innerHTML = "のこり"+Math.floor((myApp.val.ansTime.limit-myApp.val.ansTime.elapsed)/1000+1)+"秒";
         if(myApp.val.ansTime.elapsed >= myApp.val.ansTime.limit){
             checkAnswer();
             if(myApp.val.correctBool == true || myApp.val.limPush - myApp.val.cntPush == 0){
