@@ -70,7 +70,7 @@ const myApp = {
         //
         /* button check param */
         btnCheck : {
-            sndInterval  : 2100, //[ms]
+            sndInterval  : 2500, //[ms]
             playInterval : 3000, //[ms]
         },
         //
