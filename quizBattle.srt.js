@@ -284,11 +284,13 @@ function myKeyDownEvent(){
     if(myApp.val.imgErrorBool == false && myApp.val.initBtnLoadBool == true && Math.abs(window.orientation) != 90){
         if(event.keyCode == myApp.val.pushBtn){
             if(myApp.val.status == myApp.state.ButtonCheck){
+                myApp.elem.sndPush.play();
                 myApp.val.status = myApp.state.Talk;
                 buttonCheck(myApp.val.btnCheck.sndInterval);
                 setTimeout(function(){ player.playVideo(); }, myApp.val.btnCheck.playInterval);
             }
             if(myApp.val.status == myApp.state.Question){
+                myApp.elem.sndPush.play();
                 myApp.val.status = myApp.state.MyAnswer;
                 player.pauseVideo();
                 pushButton();
@@ -309,11 +311,13 @@ function myTouchEvent(event){
         if(myApp.val.pushBtnArea.left < myApp.val.touchObject.pageX && myApp.val.touchObject.pageX < myApp.val.pushBtnArea.right){
             if(myApp.val.pushBtnArea.top < myApp.val.touchObject.pageY && myApp.val.touchObject.pageY < myApp.val.pushBtnArea.bottom){
                 if(myApp.val.status == myApp.state.ButtonCheck){
+                    myApp.elem.sndPush.play();
                     myApp.val.status = myApp.state.Talk;
                     buttonCheck(myApp.val.btnCheck.sndInterval);
                     setTimeout(function(){ player.playVideo(); }, myApp.val.btnCheck.playInterval);
                 }
                 if(myApp.val.status == myApp.state.Question){
+                    myApp.elem.sndPush.play();
                     myApp.val.status = myApp.state.MyAnswer;
                     player.pauseVideo();
                     pushButton();
@@ -606,7 +610,7 @@ function updateWatchedTime(currentPlayingTime, watchedTime){
 }
 //
 function buttonCheck(responseInterval){
-    myApp.elem.sndPush.play();
+    // myApp.elem.sndPush.play();
     if(myApp.val.os == 'iOS'){
         myApp.elem.pushBtn.src = myApp.elem.imgBtn3.src;
     }else{
@@ -617,7 +621,7 @@ function buttonCheck(responseInterval){
 }
 //
 function pushButton(){
-    myApp.elem.sndPush.play();
+    // myApp.elem.sndPush.play();
     if(myApp.val.os == 'iOS'){
         myApp.elem.pushBtn.src = myApp.elem.imgBtn3.src;
     }else{
