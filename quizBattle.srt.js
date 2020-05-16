@@ -197,9 +197,9 @@ myApp.elem.imgBtn3.src = "https://github.com/t-yokota/quizBattle/raw/devel/conve
 myApp.elem.imgBtn4.src = "https://github.com/t-yokota/quizBattle/raw/devel/convertToES6/figures/button_portrait_4.png";
 //
 /* load audio data */
-myApp.elem.sndPush.src = "https://raw.githubusercontent.com/t-yokota/quizBattle/devel/convertToES6/sounds/push_3.mp3";
-myApp.elem.sndO.src    = "https://raw.githubusercontent.com/t-yokota/quizBattle/devel/convertToES6/sounds/correct_3.mp3";
-myApp.elem.sndX.src    = "https://raw.githubusercontent.com/t-yokota/quizBattle/devel/convertToES6/sounds/discorrect.mp3";
+myApp.elem.sndPush.src = "https://raw.githubusercontent.com/t-yokota/quizBattle/devel/convertToES6/sounds/push_3.m4a";
+myApp.elem.sndO.src    = "https://raw.githubusercontent.com/t-yokota/quizBattle/devel/convertToES6/sounds/correct_3.m4a";
+myApp.elem.sndX.src    = "https://raw.githubusercontent.com/t-yokota/quizBattle/devel/convertToES6/sounds/discorrect.m4a";
 //
 /* load answer list */
 const ansCSV = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/answer_UTF-8.csv"; //UTF-8
