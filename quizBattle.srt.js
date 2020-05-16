@@ -628,7 +628,7 @@ function buttonCheck(responseInterval){
         myApp.elem.pushBtn.src = myApp.elem.imgBtn3.src;
     }else{
         myApp.elem.pushBtn.src = myApp.elem.imgBtn2.src;
-        setTimeout(function(){ myApp.elem.pushBtn.src = myApp.elem.imgBtn3.src; }, 75);
+        setTimeout(function(){ myApp.elem.pushBtn.src = myApp.elem.imgBtn3.src; }, 100);
     }
     setTimeout(function(){ 
         myApp.elem.sndO.play(); 
@@ -642,7 +642,7 @@ function pushButton(){
         myApp.elem.pushBtn.src = myApp.elem.imgBtn3.src;
     }else{
         myApp.elem.pushBtn.src = myApp.elem.imgBtn2.src;
-        setTimeout(function(){ myApp.elem.pushBtn.src = myApp.elem.imgBtn3.src; }, 75);    
+        setTimeout(function(){ myApp.elem.pushBtn.src = myApp.elem.imgBtn3.src; }, 100);    
     }
     myApp.val.cntPush = myApp.val.cntPush+1;
 }
