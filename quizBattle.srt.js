@@ -667,7 +667,7 @@ function checkAnswer(){
         myApp.val.cntO += 1;
         myApp.elem.text.innerHTML = "正解！";
     }else{
-        myApp.elem.sndX.play();
+        myApp.elem.sndO.play();
         myApp.val.cntX += 1;
         myApp.elem.text.innerHTML = "不正解！"; //あと"+(myApp.val.limPush-myApp.val.cntPush)+"回解答できます。";
     }
