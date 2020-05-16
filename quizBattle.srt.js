@@ -610,9 +610,9 @@ function updateWatchedTime(currentPlayingTime, watchedTime){
 }
 //
 function playSilent(sound){
-    sound.mute(true);
+    // sound.mute(true);
     sound.play();
-    sound.mute(false);
+    // sound.mute(false);
 }
 //
 function buttonCheck(responseInterval){
