@@ -628,7 +628,7 @@ function buttonCheck(responseInterval){
         setTimeout(function(){ myApp.elem.pushBtn.src = myApp.elem.imgBtn3.src; }, 75);
     }
     setTimeout(function(){ 
-        myApp.elem.snd0.playbackRate = 1.0;
+        myApp.elem.sndO.playbackRate = 1.0;
         myApp.elem.sndO.play(); 
         myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src; 
     }, responseInterval);
