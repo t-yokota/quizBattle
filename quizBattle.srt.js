@@ -70,7 +70,7 @@ const myApp = {
         //
         /* button check param */
         btnCheck : {
-            sndInterval  : 2000, //[ms]
+            sndInterval  : 1500, //[ms]
             playInterval : 3000, //[ms]
         },
         //
@@ -609,13 +609,20 @@ function updateWatchedTime(currentPlayingTime, watchedTime){
     return watchedTime;
 }
 //
+function playSilent(sound){
+    sound.mute(true);
+    sound.play();
+    sound.mute(false);
+}
+//
 function buttonCheck(responseInterval){
     // myApp.elem.sndPush.play();
     if(myApp.val.os == 'iOS'){
+        playSilent(myApp.elem.sndO);
         myApp.elem.pushBtn.src = myApp.elem.imgBtn3.src;
     }else{
         myApp.elem.pushBtn.src = myApp.elem.imgBtn2.src;
-        setTimeout(function(){ myApp.elem.pushBtn.src = myApp.elem.imgBtn3.src; }, 75);    
+        setTimeout(function(){ myApp.elem.pushBtn.src = myApp.elem.imgBtn3.src; }, 75);
     }
     setTimeout(function(){ myApp.elem.sndO.play(); myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src; }, responseInterval);
 }
@@ -623,6 +630,7 @@ function buttonCheck(responseInterval){
 function pushButton(){
     // myApp.elem.sndPush.play();
     if(myApp.val.os == 'iOS'){
+        playSilent(myApp.elem.sndO);
         myApp.elem.pushBtn.src = myApp.elem.imgBtn3.src;
     }else{
         myApp.elem.pushBtn.src = myApp.elem.imgBtn2.src;
