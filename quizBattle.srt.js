@@ -218,21 +218,21 @@ myApp.val.spriteData = {
     },
 };
 var spriteHandler = function() {
-    if(spriteData.pushBtn.end - this.currentTime < 0.1){
+    if(myApp.val.spriteData.pushBtn.end - this.currentTime < 0.1){
         this.pause();
-        myApp.elem.sounds.currentTime = spriteData.pushBtn.start;
+        myApp.elem.sounds.currentTime = myApp.val.spriteData.pushBtn.start;
     }
-    if(spriteData.sndO.end - this.currentTime < 0.1){
+    if(myApp.val.spriteData.sndO.end - this.currentTime < 0.1){
         this.pause();
-        myApp.elem.sounds.currentTime = spriteData.pushBtn.start;
+        myApp.elem.sounds.currentTime = myApp.val.spriteData.pushBtn.start;
     }
-    if(spriteData.sndX.end - this.currentTime < 0.1){
+    if(myApp.val.spriteData.sndX.end - this.currentTime < 0.1){
         this.pause();
-        myApp.elem.sounds.currentTime = spriteData.pushBtn.start;
+        myApp.elem.sounds.currentTime = myApp.val.spriteData.pushBtn.start;
     }
 };
 myApp.elem.sounds.addEventListener('timeupdate', spriteHandler, false);
-myApp.elem.sounds.currentTime = spriteData.pushBtn.start;
+myApp.elem.sounds.currentTime = myApp.val.spriteData.pushBtn.start;
 //
 /* load answer list */
 const ansCSV = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/answer_UTF-8.csv"; //UTF-8
@@ -651,17 +651,17 @@ function unlockAudio(audio){
 }
 //
 function playPushBtn(){
-    if(myApp.elem.sounds.currentTime != spriteData.pushBtn.start){
-        myApp.elem.sounds.currentTime = spriteData.pushBtn.start;
+    if(myApp.elem.sounds.currentTime != myApp.val.spriteData.pushBtn.start){
+        myApp.elem.sounds.currentTime = myApp.val.spriteData.pushBtn.start;
     }
     myApp.elem.sounds.play();
 }
 function playSndO(){
-    myApp.elem.sounds.currentTime = spriteData.sndO.start;
+    myApp.elem.sounds.currentTime = myApp.val.spriteData.sndO.start;
     myApp.elem.sounds.play();
 }
 function playSndX(){
-    myApp.elem.sounds.currentTime = spriteData.sndX.start;
+    myApp.elem.sounds.currentTime = myApp.val.spriteData.sndX.start;
     myApp.elem.sounds.play();
 }
 //
