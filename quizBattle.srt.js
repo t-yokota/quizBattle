@@ -213,20 +213,20 @@ var spriteData = {
     },
     sndX : {
         start : 5.0,
-        end: 7.0,
+        end : 7.0,
     },
 };
 var spriteHandler = function() {
     if(spriteData.pushBtn.start <= this.currentTime && this.currentTime < spriteData.sndO.start){
-        if (this.currentTime > spriteData.pushBtn.end) {
+        if(this.currentTime >= spriteData.pushBtn.end){
             this.pause();
         }
     }else if(spriteData.sndO.start <= this.currentTime && this.currentTime < spriteData.sndX.start){
-        if (this.currentTime > spriteData.sndO.end) {
+        if(this.currentTime >= spriteData.sndO.end){
             this.pause();
         }
     }else if(spriteData.sndX.start <= this.currentTime){
-        if (this.currentTime >= spriteData.sndX.end) {
+        if(this.currentTime >= spriteData.sndX.end){
             this.pause();
         }
     }
@@ -722,6 +722,7 @@ function checkAnswer(){
 }
 //
 function printParams(){
+    myApp.elem.text.innerHTML = "sounds.currentTime: " + myApp.elem.sounds.currentTime;
     // myApp.elem.text.innerHTML = "docWidth: " + document.documentElement.clientWidth +', docHeight: '+ document.documentElement.clientHeight + ', inWidth: '+ window.innerWidth + ', inHeight: '+ window.innerHeight;
     // myApp.elem.text.innerHTML = "curr: " + myApp.elem.pushBtn.width +', new: '+ Math.floor(myApp.val.pushBtnWidth) + ', inWidth: '+ window.innerWidth + ', inHeight: '+ window.innerHeight;
     // myApp.elem.text.innerHTML = Math.floor(myApp.val.touchObject.pageX) +', '+ Math.floor(myApp.val.touchObject.pageY) +' ['+ Math.floor(myApp.val.pushBtnArea.left) +', '+ Math.floor(myApp.val.pushBtnArea.right) +'] ['+  Math.floor(myApp.val.pushBtnArea.top) +', '+ Math.floor(myApp.val.pushBtnArea.bottom)+'] | '+ window.pageXOffset + ', ' + window.pageYOffset;
