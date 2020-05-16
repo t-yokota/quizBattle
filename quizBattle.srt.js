@@ -221,14 +221,14 @@ var spriteHandler = function() {
         if(this.currentTime >= spriteData.pushBtn.end){
             this.pause();
         }
-    }else if(spriteData.sndO.start <= this.currentTime && this.currentTime < spriteData.sndX.start){
-        if(this.currentTime >= spriteData.sndO.end){
-            this.pause();
-        }
-    }else if(spriteData.sndX.start <= this.currentTime){
-        if(this.currentTime >= spriteData.sndX.end){
-            this.pause();
-        }
+    // }else if(spriteData.sndO.start <= this.currentTime && this.currentTime < spriteData.sndX.start){
+    //     if(this.currentTime >= spriteData.sndO.end){
+    //         this.pause();
+    //     }
+    // }else if(spriteData.sndX.start <= this.currentTime){
+    //     if(this.currentTime >= spriteData.sndX.end){
+    //         this.pause();
+    //     }
     }
 };
 myApp.elem.sounds.addEventListener('timeupdate', spriteHandler, false);
