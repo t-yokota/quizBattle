@@ -220,15 +220,15 @@ myApp.val.spriteData = {
 };
 myApp.elem.sounds.addEventListener('timeupdate', spriteHandler, false);
 function spriteHandler(){
-    if(Math.abs(myApp.val.spriteData.pushBtn.end - this.currentTime) < 0.2){
+    if(Math.abs(myApp.val.spriteData.pushBtn.end - this.currentTime) < 0.25){
         this.pause();
         myApp.elem.sounds.currentTime = myApp.val.spriteData.pushBtn.start;
     }
-    if(Math.abs(myApp.val.spriteData.sndO.end - this.currentTime) < 0.2){
+    if(Math.abs(myApp.val.spriteData.sndO.end - this.currentTime) < 0.25){
         this.pause();
         myApp.elem.sounds.currentTime = myApp.val.spriteData.pushBtn.start;
     }
-    if(Math.abs(myApp.val.spriteData.sndX.end - this.currentTime) < 0.2){
+    if(Math.abs(myApp.val.spriteData.sndX.end - this.currentTime) < 0.25){
         this.pause();
         myApp.elem.sounds.currentTime = myApp.val.spriteData.pushBtn.start;
     }
