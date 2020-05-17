@@ -210,12 +210,12 @@ myApp.val.spriteData = {
         end   : 2.0,
     },
     sndO : {
-        start : 2.5,
-        end   : 4.5,
+        start : 3.0,
+        end   : 5.0,
     },
     sndX : {
-        start : 5.0,
-        end   : 7.0,
+        start : 6.0,
+        end   : 8.0,
     },
 };
 myApp.elem.sounds.addEventListener('timeupdate', spriteHandler, false);
