@@ -4,9 +4,9 @@
 doOnce[index] = true;
 inlinePlayer = new YT.Player('player', { playerVars: { 'playsinline': 1 } });
 Object.assign(player, inlinePlayer);
-// player.loadVideoById({
-//     videoId : 'hfhJjtzWA-4',
-// });
+player.loadVideoById({
+    videoId : 'hfhJjtzWA-4',
+});
 //
 const myApp = {
     state : {
