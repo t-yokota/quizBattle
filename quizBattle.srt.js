@@ -3,7 +3,10 @@
 /* CAUTION : Each sections of subtitle has independent scope. */
 doOnce[index] = true;
 inlinePlayer = new YT.Player('player', { playerVars: { 'playsinline': 1 } });
-player = Object.assign(player, inlinePlayer);
+Object.assign(player, inlinePlayer);
+// player.loadVideoById({
+//     videoId : 'hfhJjtzWA-4',
+// });
 //
 const myApp = {
     state : {
