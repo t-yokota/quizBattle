@@ -2,11 +2,14 @@
 00:00:00,000 --> 00:00:00,999
 /* CAUTION : Each sections of subtitle has independent scope. */
 doOnce[index] = true;
-inlinePlayer = new YT.Player('player', { playerVars: { 'playsinline': 1 } });
-Object.assign(player, inlinePlayer);
-player.loadVideoById({
-    videoId : 'hfhJjtzWA-4',
-});
+// inlinePlayer = new YT.Player('player', { playerVars: { 'playsinline': 1 } });
+// player = Object.assign(player, inlinePlayer);
+// player.loadVideoById({
+//     videoId : 'hfhJjtzWA-4',
+// });
+// player.loadVideoByUrl({
+//     mediaContentUrl:'https://www.youtube.com/v/hfhJjtzWA-4?playsinline=1'
+// });
 //
 const myApp = {
     state : {
@@ -751,7 +754,7 @@ function checkAnswer(){
 }
 //
 function printParams(){
-    // myApp.elem.text.innerHTML = JSON.stringify(player);
+    myApp.elem.text.innerHTML = JSON.stringify(player.g);
     // myApp.elem.text.innerHTML = JSON.stringify(Object.assign(player, inlinePlayer));
     // myApp.elem.text.innerHTML = myApp.elem.numOX.getBoundingClientRect().top-myApp.elem.ansBtn.getBoundingClientRect().bottom;
     // myApp.elem.text.innerHTML = "sounds.currentTime: " + Math.abs(Math.floor((myApp.val.spriteData.pushBtn.end-myApp.elem.sounds.currentTime)*1000)/1000);
