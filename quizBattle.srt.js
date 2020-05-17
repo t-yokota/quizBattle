@@ -460,7 +460,8 @@ function myIntervalEvent(){
         myApp.val.ansTime.elapsed = 0;
     }
     /* update push button area when the window is zoomed */
-    if(myApp.val.os == 'iOS'){ updatePushButtonArea(); }
+    // if(myApp.val.os == 'iOS'){ updatePushButtonArea(); }
+    updatePushButtonArea();
     /*  */
     if(myApp.val.initBtnLoadBool == true && myApp.val.imgErrorBool == false){
         if(Math.abs(myApp.elem.numOX.getBoundingClientRect().top - myApp.elem.ansBtn.getBoundingClientRect().bottom) < 50){
