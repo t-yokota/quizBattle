@@ -745,8 +745,8 @@ function checkAnswer(){
 }
 //
 function printParams(){
-    myApp.elem.text.innerHTML = myApp.elem.numOX.getBoundingClientRect().top-myApp.elem.ansBtn.getBoundingClientRect().bottom;
-    // myApp.elem.text.innerHTML = "sounds.currentTime: " + myApp.elem.sounds.currentTime;
+    // myApp.elem.text.innerHTML = myApp.elem.numOX.getBoundingClientRect().top-myApp.elem.ansBtn.getBoundingClientRect().bottom;
+    myApp.elem.text.innerHTML = "sounds.currentTime: " + Math.abs(myApp.val.spriteData.pushButton.start-myApp.elem.sounds.currentTime);
     // myApp.elem.text.innerHTML = "docWidth: " + document.documentElement.clientWidth +', docHeight: '+ document.documentElement.clientHeight + ', inWidth: '+ window.innerWidth + ', inHeight: '+ window.innerHeight;
     // myApp.elem.text.innerHTML = "curr: " + myApp.elem.pushBtn.width +', new: '+ Math.floor(myApp.val.pushBtnWidth) + ', inWidth: '+ window.innerWidth + ', inHeight: '+ window.innerHeight;
     // myApp.elem.text.innerHTML = Math.floor(myApp.val.touchObject.pageX) +', '+ Math.floor(myApp.val.touchObject.pageY) +' ['+ Math.floor(myApp.val.pushBtnArea.left) +', '+ Math.floor(myApp.val.pushBtnArea.right) +'] ['+  Math.floor(myApp.val.pushBtnArea.top) +', '+ Math.floor(myApp.val.pushBtnArea.bottom)+'] | '+ window.pageXOffset + ', ' + window.pageYOffset;
