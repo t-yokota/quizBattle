@@ -220,15 +220,15 @@ myApp.val.spriteData = {
 };
 myApp.elem.sounds.addEventListener('timeupdate', spriteHandler, false);
 function spriteHandler(){
-    if(Math.abs(myApp.val.spriteData.pushBtn.end - this.currentTime) < 0.1){
+    if(Math.abs(myApp.val.spriteData.pushBtn.end - this.currentTime) < 0.2){
         this.pause();
         myApp.elem.sounds.currentTime = myApp.val.spriteData.pushBtn.start;
     }
-    if(Math.abs(myApp.val.spriteData.sndO.end - this.currentTime) < 0.1){
+    if(Math.abs(myApp.val.spriteData.sndO.end - this.currentTime) < 0.2){
         this.pause();
         myApp.elem.sounds.currentTime = myApp.val.spriteData.pushBtn.start;
     }
-    if(Math.abs(myApp.val.spriteData.sndX.end - this.currentTime) < 0.1){
+    if(Math.abs(myApp.val.spriteData.sndX.end - this.currentTime) < 0.2){
         this.pause();
         myApp.elem.sounds.currentTime = myApp.val.spriteData.pushBtn.start;
     }
@@ -746,7 +746,7 @@ function checkAnswer(){
 //
 function printParams(){
     // myApp.elem.text.innerHTML = myApp.elem.numOX.getBoundingClientRect().top-myApp.elem.ansBtn.getBoundingClientRect().bottom;
-    myApp.elem.text.innerHTML = "sounds.currentTime: " + Math.abs(myApp.val.spriteData.pushBtn.start-myApp.elem.sounds.currentTime);
+    myApp.elem.text.innerHTML = "sounds.currentTime: " + Math.abs(myApp.val.spriteData.pushBtn.end-myApp.elem.sounds.currentTime);
     // myApp.elem.text.innerHTML = "docWidth: " + document.documentElement.clientWidth +', docHeight: '+ document.documentElement.clientHeight + ', inWidth: '+ window.innerWidth + ', inHeight: '+ window.innerHeight;
     // myApp.elem.text.innerHTML = "curr: " + myApp.elem.pushBtn.width +', new: '+ Math.floor(myApp.val.pushBtnWidth) + ', inWidth: '+ window.innerWidth + ', inHeight: '+ window.innerHeight;
     // myApp.elem.text.innerHTML = Math.floor(myApp.val.touchObject.pageX) +', '+ Math.floor(myApp.val.touchObject.pageY) +' ['+ Math.floor(myApp.val.pushBtnArea.left) +', '+ Math.floor(myApp.val.pushBtnArea.right) +'] ['+  Math.floor(myApp.val.pushBtnArea.top) +', '+ Math.floor(myApp.val.pushBtnArea.bottom)+'] | '+ window.pageXOffset + ', ' + window.pageYOffset;
