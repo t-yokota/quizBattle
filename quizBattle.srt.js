@@ -177,7 +177,7 @@ myApp.elem.imgBtn1.onerror = function(){ myApp.val.imgErrorBool = true; };
 myApp.elem.imgBtn2.onerror = function(){ myApp.val.imgErrorBool = true; };
 myApp.elem.imgBtn3.onerror = function(){ myApp.val.imgErrorBool = true; };
 myApp.elem.imgBtn4.onerror = function(){ myApp.val.imgErrorBool = true; };
-myApp.elem.pushBtn.onerror = function(){ alert("画像の読み込みに失敗しました。ページを再読み込みしてください。"); }
+myApp.elem.pushBtn.onerror = function(){ myApp.val.imgErrorBool = true; alert("画像の読み込みに失敗しました。ページを再読み込みしてください。"); }
 //
 /* change player and push button size after initial loading */
 myApp.elem.pushBtn.onload = function(){
@@ -462,9 +462,12 @@ function myIntervalEvent(){
     /* update push button area when the window is zoomed */
     if(myApp.val.os == 'iOS'){ updatePushButtonArea(); }
     /*  */
-    if(Math.abs(myApp.elem.numOX.getBoundingClientRect().top-myApp.elem.ansBtn.getBoundingClientRect().bottom) < 50){
-        player.pauseVideo();
-        alert("画像の読み込みに失敗しました。ページを再読み込みしてください。");
+    if(myApp.val.initBtnLoadBool == true && myApp.val.imgErrorBool == false){
+        if(Math.abs(myApp.elem.numOX.getBoundingClientRect().top - myApp.elem.ansBtn.getBoundingClientRect().bottom) < 50){
+            myApp.val.imgErrorBool = true;
+            player.pauseVideo();
+            alert("画像の読み込みに失敗しました。ページを再読み込みしてください。");
+        }
     }
     printParams();
 }
