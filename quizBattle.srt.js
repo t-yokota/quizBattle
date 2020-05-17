@@ -213,13 +213,13 @@ myApp.elem.imgBtn4.src = "https://github.com/t-yokota/quizBattle/raw/devel/conve
 // myApp.elem.sndO.src    = "https://raw.githubusercontent.com/t-yokota/quizBattle/devel/convertToES6/sounds/correct_3.m4a";
 // myApp.elem.sndX.src    = "https://raw.githubusercontent.com/t-yokota/quizBattle/devel/convertToES6/sounds/discorrect.m4a";
 /* load audio data (audio sprite) */
-if(myApp.elem.sounds.canPlayType('audio/aac') == 'probably'){ myApp.val.audioExt = 'aac'; }
-else if(myApp.elem.sounds.canPlayType('audio/mp3') == 'probably'){ myApp.val.audioExt = 'mp3'; }
-else if(myApp.elem.sounds.canPlayType('audio/wav') == 'probably'){ myApp.val.audioExt = 'wav'; }
-else if(myApp.elem.sounds.canPlayType('audio/mp3') == 'maybe'   ){ myApp.val.audioExt = 'mp3'; }
-else if(myApp.elem.sounds.canPlayType('audio/aac') == 'maybe'   ){ myApp.val.audioExt = 'aac'; }
-else if(myApp.elem.sounds.canPlayType('audio/wav') == 'maybe'   ){ myApp.val.audioExt = 'wav'; }
-myApp.elem.sounds.src  = "https://raw.githubusercontent.com/t-yokota/quizBattle/devel/convertToES6/sounds/sounds_3."+myApp.val.audioExt;
+if(myApp.elem.sounds.canPlayType('audio/mp3') == 'probably'){ myApp.val.audioExt = '.mp3';}
+else if(myApp.elem.sounds.canPlayType('audio/aac') == 'probably'){ myApp.val.audioExt = '.aac'; }
+else if(myApp.elem.sounds.canPlayType('audio/wav') == 'probably'){ myApp.val.audioExt = '.wav'; }
+else if(myApp.elem.sounds.canPlayType('audio/mp3') == 'maybe'   ){ myApp.val.audioExt = '.mp3'; }
+else if(myApp.elem.sounds.canPlayType('audio/aac') == 'maybe'   ){ myApp.val.audioExt = '.aac'; }
+else if(myApp.elem.sounds.canPlayType('audio/wav') == 'maybe'   ){ myApp.val.audioExt = '.wav'; }
+myApp.elem.sounds.src  = "https://raw.githubusercontent.com/t-yokota/quizBattle/devel/convertToES6/sounds/sounds_3"+myApp.val.audioExt;
 myApp.val.spriteData = {
     pushBtn : {
         start : 0.0,
