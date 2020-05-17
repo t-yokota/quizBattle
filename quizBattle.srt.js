@@ -46,7 +46,9 @@ const myApp = {
     },
     val : {
         srtFuncArray : null, //array of functions that are executed in each subtitle
-        spriteData   : null, //for audio sprite
+        //
+        audioExt   : null,
+        spriteData : null, //for audio sprite
         //
         os : null,
         //
@@ -211,7 +213,10 @@ myApp.elem.imgBtn4.src = "https://github.com/t-yokota/quizBattle/raw/devel/conve
 // myApp.elem.sndO.src    = "https://raw.githubusercontent.com/t-yokota/quizBattle/devel/convertToES6/sounds/correct_3.m4a";
 // myApp.elem.sndX.src    = "https://raw.githubusercontent.com/t-yokota/quizBattle/devel/convertToES6/sounds/discorrect.m4a";
 /* load audio data (audio sprite) */
-myApp.elem.sounds.src  = "https://raw.githubusercontent.com/t-yokota/quizBattle/devel/convertToES6/sounds/sounds_3.aac";
+if(myApp.elem.sounds.canPlayType('audio/acc') == 'probably'){ myApp.val.audioExt = 'acc'; }
+else if(myApp.elem.sounds.canPlayType('audio/mp3') == 'probably'){ myApp.val.audioExt = 'mp3'; }
+else if(myApp.elem.sounds.canPlayType('audio/wav') == 'probably'){ myApp.val.audioExt = 'wav'; }
+myApp.elem.sounds.src  = "https://raw.githubusercontent.com/t-yokota/quizBattle/devel/convertToES6/sounds/sounds_3."+myApp.val.audioExt;
 myApp.val.spriteData = {
     pushBtn : {
         start : 0.0,
@@ -754,6 +759,7 @@ function checkAnswer(){
 }
 //
 function printParams(){
+    myApp.elem.text.innerHTML = myApp.elem.sounds.canPlayType("audio/aac")
     // myApp.elem.text.innerHTML = JSON.stringify(player.g);
     // myApp.elem.text.innerHTML = JSON.stringify(Object.assign(player, inlinePlayer));
     // myApp.elem.text.innerHTML = myApp.elem.numOX.getBoundingClientRect().top-myApp.elem.ansBtn.getBoundingClientRect().bottom;
