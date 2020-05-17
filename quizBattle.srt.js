@@ -759,7 +759,7 @@ function checkAnswer(){
 }
 //
 function printParams(){
-    myApp.elem.text.innerHTML = myApp.elem.sounds.canPlayType("audio/aac")
+    // myApp.elem.text.innerHTML = myApp.elem.sounds.canPlayType("audio/aac")
     // myApp.elem.text.innerHTML = JSON.stringify(player.g);
     // myApp.elem.text.innerHTML = JSON.stringify(Object.assign(player, inlinePlayer));
     // myApp.elem.text.innerHTML = myApp.elem.numOX.getBoundingClientRect().top-myApp.elem.ansBtn.getBoundingClientRect().bottom;
