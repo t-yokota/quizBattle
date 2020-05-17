@@ -220,15 +220,15 @@ myApp.val.spriteData = {
 };
 myApp.elem.sounds.addEventListener('timeupdate', spriteHandler, false);
 function spriteHandler(){
-    if( Math.abs(myApp.val.spriteData.pushBtn.end - this.currentTime) < 0.1 ){
+    if(Math.abs(myApp.val.spriteData.pushBtn.end - this.currentTime) < 0.1){
         this.pause();
         myApp.elem.sounds.currentTime = myApp.val.spriteData.pushBtn.start;
     }
-    if( Math.abs(myApp.val.spriteData.sndO.end    - this.currentTime) < 0.1 ){
+    if(Math.abs(myApp.val.spriteData.sndO.end - this.currentTime) < 0.1){
         this.pause();
         myApp.elem.sounds.currentTime = myApp.val.spriteData.pushBtn.start;
     }
-    if( Math.abs(myApp.val.spriteData.sndX.end    - this.currentTime) < 0.1 ){
+    if(Math.abs(myApp.val.spriteData.sndX.end - this.currentTime) < 0.1){
         this.pause();
         myApp.elem.sounds.currentTime = myApp.val.spriteData.pushBtn.start;
     }
@@ -439,7 +439,7 @@ function myIntervalEvent(){
         //     myApp.elem.ansCol.focus();
         // }
         /* answer time managemant */
-        if(document.activeElement.id == "anscol"){
+        if(document.activeElement.id == "anscol" || myApp.val.ansTime.elapsed != 0){
             myApp.val.ansTime.elapsed += interval;
             myApp.elem.text.innerHTML = "のこり"+Math.floor((myApp.val.ansTime.limit-myApp.val.ansTime.elapsed)/1000+1)+"秒";
             if(myApp.val.ansTime.elapsed >= myApp.val.ansTime.limit){
@@ -462,7 +462,7 @@ function myIntervalEvent(){
     /* update push button area when the window is zoomed */
     if(myApp.val.os == 'iOS'){ updatePushButtonArea(); }
     /*  */
-    if(Math.abs(myApp.elem.numOX.getBoundingClientRect().top-myApp.elem.ansBtn.getBoundingClientRect().bottom)<10){
+    if(Math.abs(myApp.elem.numOX.getBoundingClientRect().top-myApp.elem.ansBtn.getBoundingClientRect().bottom) < 50){
         player.pauseVideo();
         alert("画像の読み込みに失敗しました。ページを再読み込みしてください。");
     }
