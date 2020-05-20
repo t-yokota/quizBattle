@@ -169,10 +169,7 @@ if(myApp.val.os != 'other'){
     myApp.elem.numOX.style.fontWeight = 'bold';
 }
 //
-const my_answer_file = new XMLHttpRequest();
-//
 /* onerror functions */
-my_answer_file.onerror     = function(){ myApp.val.loadErrorBool = true; alert("正答ファイルの読み込みに失敗しました。ページを再読み込みしてください。"); };
 myApp.elem.sounds.onerror  = function(){ myApp.val.loadErrorBool = true; alert("音声ファイルの読み込みに失敗しました。ページを再読み込みしてください。"); };
 myApp.elem.imgBtn1.onerror = function(){ myApp.val.loadErrorBool = true; alert("画像ファイルの読み込みに失敗しました。ページを再読み込みしてください。"); };
 myApp.elem.imgBtn2.onerror = function(){ myApp.val.loadErrorBool = true; alert("画像ファイルの読み込みに失敗しました。ページを再読み込みしてください。"); };
@@ -181,21 +178,26 @@ myApp.elem.imgBtn4.onerror = function(){ myApp.val.loadErrorBool = true; alert("
 myApp.elem.pushBtn.onerror = function(){ myApp.val.loadErrorBool = true; alert("画像ファイルの読み込みに失敗しました。ページを再読み込みしてください。"); };
 //
 /* inital loadings */
-my_answer_file.onload = function(){
-    if(myApp.val.initLoadBool == false){
-        myApp.val.ansArray = CSVtoArray(file.responseText);
-        if(myApp.val.os != "other" && myApp.val.initOrientation == 'landscape'){
-            alert("このサイトはスマートフォン/タブレットを縦向きにしてお楽しみください。");
-        }
-        myApp.val.initLoadBool = true;
-    }
-};
-myApp.elem.sounds.onload = function(){
+myApp.elem.sounds.onloadeddata = function(){
     if(myApp.val.initLoadBool == false){
         /* load answer list */
         const ansCSV = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/answer_utf-8.csv"; //UTF-8
-        my_answer_file.open("get", ansCSV, true);
-        my_answer_file.send(null);
+        const file = new XMLHttpRequest();
+        file.open("get", ansCSV, true);
+        file.onerror = function(){ 
+            myApp.val.loadErrorBool = true;
+            alert("正答ファイルの読み込みに失敗しました。ページを再読み込みしてください。");
+        };
+        file.onload  = function(){
+            if(myApp.val.initLoadBool == false){
+                myApp.val.ansArray = CSVtoArray(file.responseText);
+                if(myApp.val.os != "other" && myApp.val.initOrientation == 'landscape'){
+                    alert("このサイトはスマートフォン/タブレットを縦向きにしてお楽しみください。");
+                }
+                myApp.val.initLoadBool = true;
+            }
+        };
+        file.send(null);
     }
 };
 myApp.elem.pushBtn.onload = function(){
@@ -733,7 +735,7 @@ function printParams(){
     //                             '[' + Math.floor(myApp.val.pushBtnArea.top)  +', '+ Math.floor(myApp.val.pushBtnArea.bottom)+'] '+
     //                             '| '+ window.pageXOffset +', '+ window.pageYOffset;
     // myApp.elem.text.innerHTML = myApp.elem.numOX.getBoundingClientRect().top - myApp.elem.ansBtn.getBoundingClientRect().bottom;
-    // myApp.elem.text.innerHTML = 'loadErrorBool: ' + myApp.val.loadErrorBool + ', initLoadBool: ' + myApp.val.initLoadBool;
+    myApp.elem.text.innerHTML = 'loadErrorBool: ' + myApp.val.loadErrorBool + ', initLoadBool: ' + myApp.val.initLoadBool;
     // myApp.elem.text.innerHTML = 'playerWidth: '  + myApp.val.playerWidth  + ', innerWidth: '      + window.innerWidth;
     // myApp.elem.subText.innerHTML = 
     //     "device: "           + myApp.val.os+"<br>"+
