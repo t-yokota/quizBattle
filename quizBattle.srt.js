@@ -242,7 +242,6 @@ function materialCheckFunction(){
             myApp.val.initLoadBool = true;
         }else if(myApp.val.initLoadBool == true){
             if(Math.abs(myApp.elem.numOX.getBoundingClientRect().top - myApp.elem.ansBtn.getBoundingClientRect().bottom) < 50){
-                myApp.val.loadErrorBool = true;
                 player.pauseVideo();
                 alert("画像の表示に失敗しました。ページを再読み込みしてください。");
             }
