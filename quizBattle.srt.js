@@ -187,7 +187,7 @@ my_answer_file.onload = function(){
         if(myApp.val.os != "other" && myApp.val.initOrientation == 'landscape'){
             alert("このサイトはスマートフォン/タブレットを縦向きにしてお楽しみください。");
         }
-        myApp.val.initLoadBool == true;
+        myApp.val.initLoadBool = true;
     }
 };
 myApp.elem.sounds.onload = function(){
@@ -500,7 +500,7 @@ function myOnClickEvent(){
         player.playVideo();
     }
 }
-//
+//git 
 /* Function */
 function fetchOSType(){
     let osType = null;
