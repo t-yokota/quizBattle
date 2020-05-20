@@ -63,9 +63,9 @@ const myApp = {
         touchObject : null,
         //
         initOrientation      : null,  //hold initial orientation of the device
-        imgErrorBool         : false, //for error handling of image loading
+        loadErrorBool        : false, //for error handling of loading sources
         composingBool        : false, //for preventing to start new line in text area
-        initBtnLoadBool      : false, //for executing onload function of pushBtn only once
+        initLoadBool         : false, //for executing onload function only once
         orientationAlertBool : false, //for showing alert about device orientation only once
         //
         /* keycode (for keyboard) */
@@ -169,45 +169,93 @@ if(myApp.val.os != 'other'){
     myApp.elem.numOX.style.fontWeight = 'bold';
 }
 //
-/* error handling for loading image */
-myApp.elem.imgBtn1.onerror = function(){ myApp.val.imgErrorBool = true; };
-myApp.elem.imgBtn2.onerror = function(){ myApp.val.imgErrorBool = true; };
-myApp.elem.imgBtn3.onerror = function(){ myApp.val.imgErrorBool = true; };
-myApp.elem.imgBtn4.onerror = function(){ myApp.val.imgErrorBool = true; };
-myApp.elem.pushBtn.onerror = function(){ myApp.val.imgErrorBool = true; alert("画像の読み込みに失敗しました。ページを再読み込みしてください。"); }
+const my_answer_file = new XMLHttpRequest();
 //
-/* change player and push button size after initial loading */
-myApp.elem.pushBtn.onload = function(){
-    if(myApp.val.imgErrorBool == false){
-        if(myApp.val.initBtnLoadBool == false){
-            resizePlayer();
-            resizePushButton();
-            myApp.val.initBtnLoadBool = true;
+/* onerror functions */
+my_answer_file.onerror     = function(){ myApp.val.loadErrorBool = true; alert("正答ファイルの読み込みに失敗しました。ページを再読み込みしてください。"); };
+myApp.elem.sounds.onerror  = function(){ myApp.val.loadErrorBool = true; alert("音声ファイルの読み込みに失敗しました。ページを再読み込みしてください。"); };
+myApp.elem.imgBtn1.onerror = function(){ myApp.val.loadErrorBool = true; alert("画像ファイルの読み込みに失敗しました。ページを再読み込みしてください。"); };
+myApp.elem.imgBtn2.onerror = function(){ myApp.val.loadErrorBool = true; alert("画像ファイルの読み込みに失敗しました。ページを再読み込みしてください。"); };
+myApp.elem.imgBtn3.onerror = function(){ myApp.val.loadErrorBool = true; alert("画像ファイルの読み込みに失敗しました。ページを再読み込みしてください。"); };
+myApp.elem.imgBtn4.onerror = function(){ myApp.val.loadErrorBool = true; alert("画像ファイルの読み込みに失敗しました。ページを再読み込みしてください。"); };
+myApp.elem.pushBtn.onerror = function(){ myApp.val.loadErrorBool = true; alert("画像ファイルの読み込みに失敗しました。ページを再読み込みしてください。"); };
+//
+/* inital loadings */
+my_answer_file.onload = function(){
+    if(myApp.val.initLoadBool == false){
+        myApp.val.ansArray = CSVtoArray(file.responseText);
+        if(myApp.val.os != "other" && myApp.val.initOrientation == 'landscape'){
+            alert("このサイトはスマートフォン/タブレットを縦向きにしてお楽しみください。");
         }
-    }else{
-        alert("画像の読み込みに失敗しました。ページを再読み込みしてください。");
+        myApp.val.initLoadBool == true;
     }
-}
-//
-/* load image of push button */
+};
+myApp.elem.sounds.onload = function(){
+    if(myApp.val.initLoadBool == false){
+        /* load answer list */
+        const ansCSV = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/answer_utf-8.csv"; //UTF-8
+        my_answer_file.open("get", ansCSV, true);
+        my_answer_file.send(null);
+    }
+};
+myApp.elem.pushBtn.onload = function(){
+    if(myApp.val.initLoadBool == false){
+        /* change player and push button size */
+        resizePlayer();
+        resizePushButton();
+        //
+        /* load audio data (audio sprite) */
+        if     (myApp.elem.sounds.canPlayType('audio/mp3') == 'probably'){ myApp.val.audioExt = '.mp3'; }
+        else if(myApp.elem.sounds.canPlayType('audio/aac') == 'probably'){ myApp.val.audioExt = '.aac'; }
+        else if(myApp.elem.sounds.canPlayType('audio/wav') == 'probably'){ myApp.val.audioExt = '.wav'; }
+        else if(myApp.elem.sounds.canPlayType('audio/mp3') == 'maybe'   ){ myApp.val.audioExt = '.mp3'; }
+        else if(myApp.elem.sounds.canPlayType('audio/aac') == 'maybe'   ){ myApp.val.audioExt = '.aac'; }
+        else if(myApp.elem.sounds.canPlayType('audio/wav') == 'maybe'   ){ myApp.val.audioExt = '.wav'; }
+        myApp.elem.sounds.src = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/sounds/sounds_3"+myApp.val.audioExt;
+    }
+};
+myApp.elem.imgBtn4.onload = function(){
+    if(myApp.val.initLoadBool == false){
+        /* assign init push button image and main text */
+        myApp.elem.pushBtn.width = document.documentElement.clientWidth/5; /* init size before loading */
+        if(myApp.val.os != "other"){
+            if(Math.abs(window.orientation) != 90){
+                myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src;
+                myApp.elem.text.innerHTML = "下の早押しボタンをタップしてクイズをはじめる";
+                myApp.val.initOrientation = 'portrait';
+            }else{
+                myApp.elem.pushBtn.src = myApp.elem.imgBtn4.src;
+                myApp.elem.text.innerHTML = "スマホ/タブレットを縦向きにしてクイズをはじめる";
+                myApp.val.initOrientation = 'landscape';
+            }
+        }else{
+            myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src;
+            if(detectTouchPanel() == true){
+                myApp.elem.text.innerHTML = "早押しボタンのタップ/スペースキーの押下でクイズをはじめる"; 
+            }else{
+                myApp.elem.text.innerHTML = "スペースキーを押してクイズをはじめる";
+            }
+        }
+    }
+};
+myApp.elem.imgBtn3.onload = function(){
+    if(myApp.val.initLoadBool == false){
+        myApp.elem.imgBtn4.src = "https://github.com/t-yokota/quizBattle/raw/master/figures/button_portrait_4.png";
+    }
+};
+myApp.elem.imgBtn2.onload = function(){
+    if(myApp.val.initLoadBool == false){
+        myApp.elem.imgBtn3.src = "https://github.com/t-yokota/quizBattle/raw/master/figures/button_portrait_3.png";
+    }
+};
+myApp.elem.imgBtn1.onload = function(){
+    if(myApp.val.initLoadBool == false){
+        myApp.elem.imgBtn2.src = "https://github.com/t-yokota/quizBattle/raw/master/figures/button_portrait_2.png";
+    }
+};
 myApp.elem.imgBtn1.src = "https://github.com/t-yokota/quizBattle/raw/master/figures/button_portrait_1.png";
-myApp.elem.imgBtn2.src = "https://github.com/t-yokota/quizBattle/raw/master/figures/button_portrait_2.png";
-myApp.elem.imgBtn3.src = "https://github.com/t-yokota/quizBattle/raw/master/figures/button_portrait_3.png";
-myApp.elem.imgBtn4.src = "https://github.com/t-yokota/quizBattle/raw/master/figures/button_portrait_4.png";
 //
-/* load audio data */
-// myApp.elem.sndPush.src = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/sounds/push_3.m4a";
-// myApp.elem.sndO.src    = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/sounds/correct_3.m4a";
-// myApp.elem.sndX.src    = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/sounds/discorrect.m4a";
-/* load audio data (audio sprite) */
-if     (myApp.elem.sounds.canPlayType('audio/mp3') == 'probably'){ myApp.val.audioExt = '.mp3'; }
-else if(myApp.elem.sounds.canPlayType('audio/aac') == 'probably'){ myApp.val.audioExt = '.aac'; }
-else if(myApp.elem.sounds.canPlayType('audio/wav') == 'probably'){ myApp.val.audioExt = '.wav'; }
-else if(myApp.elem.sounds.canPlayType('audio/mp3') == 'maybe'   ){ myApp.val.audioExt = '.mp3'; }
-else if(myApp.elem.sounds.canPlayType('audio/aac') == 'maybe'   ){ myApp.val.audioExt = '.aac'; }
-else if(myApp.elem.sounds.canPlayType('audio/wav') == 'maybe'   ){ myApp.val.audioExt = '.wav'; }
-myApp.elem.sounds.onerror = function(){ alert("音声ファイルの読み込みに失敗しました。ページを再読み込みしてください。"); };
-myApp.elem.sounds.src = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/sounds/sounds_3"+myApp.val.audioExt;
+/* for audio sprite */
 myApp.val.spriteData = {
     pushBtn : {
         start : 0.0,
@@ -238,55 +286,17 @@ function spriteHandler(){
     }
 };
 //
-/* load answer list */
-const ansCSV = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/answer_utf-8.csv"; //UTF-8
-const file = new XMLHttpRequest();
-file.open("get", ansCSV, true);
-file.onerror = function(){ alert("正答ファイルの読み込みに失敗しました。ページを再読み込みしてください。"); };
-file.onload  = function(){
-    myApp.val.ansArray = CSVtoArray(file.responseText);
-};
-file.send(null);
-//
 /* set init value to the elements */
-myApp.elem.text.innerHTML   = "quizBattle.srt.js";
+// myApp.elem.text.innerHTML   = "quizBattle.srt.js";
 myApp.elem.ansCol.value     = "ここに解答を入力";
 myApp.elem.ansBtn.innerHTML = "解答を送信";
 myApp.elem.numOX.innerHTML  = "⭕️："+myApp.val.cntO+"　❌："+myApp.val.cntX;
 myApp.elem.ansCol.disabled  = true;
 myApp.elem.ansBtn.disabled  = true;
 //
-/* assign init text and push button image */
-myApp.elem.pushBtn.width = document.documentElement.clientWidth/5; /* init size before loading */
-if(myApp.val.os != "other"){
-    if(Math.abs(window.orientation) != 90){
-        myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src;
-        myApp.elem.text.innerHTML = "下の早押しボタンをタップしてクイズをはじめる";
-        myApp.val.initOrientation = 'portrait';
-    }else{
-        myApp.elem.pushBtn.src = myApp.elem.imgBtn4.src;
-        myApp.elem.text.innerHTML = "スマホ/タブレットを縦向きにしてクイズをはじめる";
-        myApp.val.initOrientation = 'landscape';
-    }
-}else{
-    myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src;
-    if(detectTouchPanel() == true){
-        myApp.elem.text.innerHTML = "早押しボタンのタップ/スペースキーの押下でクイズをはじめる"; 
-    }else{
-        myApp.elem.text.innerHTML = "スペースキーを押してクイズをはじめる";
-    }
-}
-//
 /* set button check state */
 myApp.val.status = myApp.state.ButtonCheck;
 player.pauseVideo();
-//
-/* alert for landscape orientation */
-setTimeout(function(){
-    if(myApp.val.os != "other" && myApp.val.initOrientation == 'landscape'){
-        alert("このサイトはスマートフォン/タブレットを縦向きにしてお楽しみください。");
-    }
-}, 500);
 //
 /* Event */
 /* orientation change event function */
@@ -319,7 +329,7 @@ function myOrientationChangeEvent(){
 //
 /* keydown event function */
 function myKeyDownEvent(){
-    if(myApp.val.imgErrorBool == false && myApp.val.initBtnLoadBool == true && Math.abs(window.orientation) != 90){
+    if(myApp.val.loadErrorBool == false && myApp.val.initLoadBool == true && Math.abs(window.orientation) != 90){
         if(event.keyCode == myApp.val.pushBtn){
             if(myApp.val.status == myApp.state.ButtonCheck){
                 // myApp.elem.sndPush.play();
@@ -344,7 +354,7 @@ function myKeyDownEvent(){
 //
 /* touchstart event function (for smartphonea and tablet) */
 function myTouchEvent(event){    
-    if(myApp.val.imgErrorBool == false && myApp.val.initBtnLoadBool == true && Math.abs(window.orientation) != 90){ 
+    if(myApp.val.loadErrorBool == false && myApp.val.initLoadBool == true && Math.abs(window.orientation) != 90){ 
         myApp.val.touchObject = event.changedTouches[0];
         if(myApp.val.pushBtnArea.left < myApp.val.touchObject.pageX && myApp.val.touchObject.pageX < myApp.val.pushBtnArea.right){
             if(myApp.val.pushBtnArea.top < myApp.val.touchObject.pageY && myApp.val.touchObject.pageY < myApp.val.pushBtnArea.bottom){
@@ -468,9 +478,9 @@ function myIntervalEvent(){
     // if(myApp.val.os == 'iOS'){ updatePushButtonArea(); }
     updatePushButtonArea();
     /*  */
-    if(myApp.val.initBtnLoadBool == true && myApp.val.imgErrorBool == false){
+    if(myApp.val.initLoadBool == true && myApp.val.loadErrorBool == false){
         if(Math.abs(myApp.elem.numOX.getBoundingClientRect().top - myApp.elem.ansBtn.getBoundingClientRect().bottom) < 50){
-            myApp.val.imgErrorBool = true;
+            myApp.val.loadErrorBool = true;
             player.pauseVideo();
             alert("画像の読み込みに失敗しました。ページを再読み込みしてください。");
         }
@@ -553,7 +563,7 @@ function resizePlayer(){
         myApp.val.playerWidth  = myApp.val.playerHeight/9*16;
         myApp.elem.ansCol.style.width = myApp.val.playerWidth/document.documentElement.clientWidth*90+'%';
     }
-    if(myApp.val.initBtnLoadBool == false || myApp.val.prevPlayerWidth != myApp.val.playerWidth){
+    if(myApp.val.initLoadBool == false || myApp.val.prevPlayerWidth != myApp.val.playerWidth){
         player.setSize(myApp.val.playerWidth, myApp.val.playerHeight);
         //
         myApp.val.prevPlayerWidth  = myApp.val.playerWidth;
@@ -576,7 +586,7 @@ function resizePushButton(){
         myApp.val.pushBtnWidth  = document.documentElement.clientWidth/5;
         myApp.val.pushBtnHeight = myApp.elem.pushBtn.naturalHeight*myApp.val.pushBtnWidth/myApp.elem.pushBtn.naturalWidth;
     }
-    if(myApp.val.initBtnLoadBool == false || myApp.val.prevClientHeight != document.documentElement.clientHeight){
+    if(myApp.val.initLoadBool == false || myApp.val.prevClientHeight != document.documentElement.clientHeight){
         myApp.elem.pushBtn.width  = myApp.val.pushBtnWidth;
         myApp.elem.pushBtn.height = myApp.val.pushBtnHeight;
         updatePushButtonArea();
@@ -723,7 +733,7 @@ function printParams(){
     //                             '[' + Math.floor(myApp.val.pushBtnArea.top)  +', '+ Math.floor(myApp.val.pushBtnArea.bottom)+'] '+
     //                             '| '+ window.pageXOffset +', '+ window.pageYOffset;
     // myApp.elem.text.innerHTML = myApp.elem.numOX.getBoundingClientRect().top - myApp.elem.ansBtn.getBoundingClientRect().bottom;
-    // myApp.elem.text.innerHTML = 'imgErrorBool: ' + myApp.val.imgErrorBool + ', initBtnLoadBool: ' + myApp.val.initBtnLoadBool;
+    // myApp.elem.text.innerHTML = 'loadErrorBool: ' + myApp.val.loadErrorBool + ', initLoadBool: ' + myApp.val.initLoadBool;
     // myApp.elem.text.innerHTML = 'playerWidth: '  + myApp.val.playerWidth  + ', innerWidth: '      + window.innerWidth;
     // myApp.elem.subText.innerHTML = 
     //     "device: "           + myApp.val.os+"<br>"+
