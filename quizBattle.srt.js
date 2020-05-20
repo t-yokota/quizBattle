@@ -190,15 +190,15 @@ myApp.elem.pushBtn.onload = function(){
 }
 //
 /* load image of push button */
-myApp.elem.imgBtn1.src = "https://github.com/t-yokota/quizBattle/raw/devel/convertToES6/figures/button_portrait_1.png";
-myApp.elem.imgBtn2.src = "https://github.com/t-yokota/quizBattle/raw/devel/convertToES6/figures/button_portrait_2.png";
-myApp.elem.imgBtn3.src = "https://github.com/t-yokota/quizBattle/raw/devel/convertToES6/figures/button_portrait_3.png";
-myApp.elem.imgBtn4.src = "https://github.com/t-yokota/quizBattle/raw/devel/convertToES6/figures/button_portrait_4.png";
+myApp.elem.imgBtn1.src = "https://github.com/t-yokota/quizBattle/raw/master/figures/button_portrait_1.png";
+myApp.elem.imgBtn2.src = "https://github.com/t-yokota/quizBattle/raw/master/figures/button_portrait_2.png";
+myApp.elem.imgBtn3.src = "https://github.com/t-yokota/quizBattle/raw/master/figures/button_portrait_3.png";
+myApp.elem.imgBtn4.src = "https://github.com/t-yokota/quizBattle/raw/master/figures/button_portrait_4.png";
 //
 /* load audio data */
-// myApp.elem.sndPush.src = "https://raw.githubusercontent.com/t-yokota/quizBattle/devel/convertToES6/sounds/push_3.m4a";
-// myApp.elem.sndO.src    = "https://raw.githubusercontent.com/t-yokota/quizBattle/devel/convertToES6/sounds/correct_3.m4a";
-// myApp.elem.sndX.src    = "https://raw.githubusercontent.com/t-yokota/quizBattle/devel/convertToES6/sounds/discorrect.m4a";
+// myApp.elem.sndPush.src = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/sounds/push_3.m4a";
+// myApp.elem.sndO.src    = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/sounds/correct_3.m4a";
+// myApp.elem.sndX.src    = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/sounds/discorrect.m4a";
 /* load audio data (audio sprite) */
 if     (myApp.elem.sounds.canPlayType('audio/mp3') == 'probably'){ myApp.val.audioExt = '.mp3'; }
 else if(myApp.elem.sounds.canPlayType('audio/aac') == 'probably'){ myApp.val.audioExt = '.aac'; }
@@ -206,7 +206,7 @@ else if(myApp.elem.sounds.canPlayType('audio/wav') == 'probably'){ myApp.val.aud
 else if(myApp.elem.sounds.canPlayType('audio/mp3') == 'maybe'   ){ myApp.val.audioExt = '.mp3'; }
 else if(myApp.elem.sounds.canPlayType('audio/aac') == 'maybe'   ){ myApp.val.audioExt = '.aac'; }
 else if(myApp.elem.sounds.canPlayType('audio/wav') == 'maybe'   ){ myApp.val.audioExt = '.wav'; }
-myApp.elem.sounds.src  = "https://raw.githubusercontent.com/t-yokota/quizBattle/devel/convertToES6/sounds/sounds_3"+myApp.val.audioExt;
+myApp.elem.sounds.src  = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/sounds/sounds_3"+myApp.val.audioExt;
 myApp.val.spriteData = {
     pushBtn : {
         start : 0.0,
@@ -227,11 +227,11 @@ function spriteHandler(){
         this.pause();
         myApp.elem.sounds.currentTime = myApp.val.spriteData.pushBtn.start;
     }
-    if(Math.abs(myApp.val.spriteData.sndO.end - this.currentTime) < 0.25){
+    if(Math.abs(myApp.val.spriteData.sndO.end    - this.currentTime) < 0.25){
         this.pause();
         myApp.elem.sounds.currentTime = myApp.val.spriteData.pushBtn.start;
     }
-    if(Math.abs(myApp.val.spriteData.sndX.end - this.currentTime) < 0.25){
+    if(Math.abs(myApp.val.spriteData.sndX.end    - this.currentTime) < 0.25){
         this.pause();
         myApp.elem.sounds.currentTime = myApp.val.spriteData.pushBtn.start;
     }
