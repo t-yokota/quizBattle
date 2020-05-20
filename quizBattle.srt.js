@@ -737,7 +737,7 @@ function printParams(){
                                myApp.val.ansArray[myApp.val.numQues-1][2].valueOf()+", "+
                                myApp.val.ansArray[myApp.val.numQues-1][3].valueOf()+", "+
                                myApp.val.ansArray[myApp.val.numQues-1][4].valueOf()+", "+
-                               myApp.val.ansArray[myApp.val.numQues-1][5].valueOf()+"<br>"
+                               myApp.val.ansArray[myApp.val.numQues-1][5].valueOf()+"<br>"+
         "checkAns1: "        + myApp.val.ansArray[myApp.val.numQues-1][0].valueOf() === 'てすと１'+", "+
                                myApp.val.ansArray[myApp.val.numQues-1][1].valueOf() === 'テスト１'+", "+
                                myApp.val.ansArray[myApp.val.numQues-1][2].valueOf() === 'てすと1'+", "+
