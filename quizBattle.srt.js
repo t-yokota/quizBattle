@@ -206,7 +206,8 @@ else if(myApp.elem.sounds.canPlayType('audio/wav') == 'probably'){ myApp.val.aud
 else if(myApp.elem.sounds.canPlayType('audio/mp3') == 'maybe'   ){ myApp.val.audioExt = '.mp3'; }
 else if(myApp.elem.sounds.canPlayType('audio/aac') == 'maybe'   ){ myApp.val.audioExt = '.aac'; }
 else if(myApp.elem.sounds.canPlayType('audio/wav') == 'maybe'   ){ myApp.val.audioExt = '.wav'; }
-myApp.elem.sounds.src  = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/sounds/sounds_3"+myApp.val.audioExt;
+myApp.elem.sounds.onerror = function(){ alert("音声ファイルの読み込みに失敗しました。ページを再読み込みしてください。"); };
+myApp.elem.sounds.src = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/sounds/sounds_3"+myApp.val.audioExt;
 myApp.val.spriteData = {
     pushBtn : {
         start : 0.0,
@@ -241,10 +242,11 @@ function spriteHandler(){
 const ansCSV = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/answer_utf-8.csv"; //UTF-8
 const file = new XMLHttpRequest();
 file.open("get", ansCSV, true);
-file.send(null);
-file.onload = function(){
+file.onerror = function(){ alert("正答ファイルの読み込みに失敗しました。ページを再読み込みしてください。"); };
+file.onload  = function(){
     myApp.val.ansArray = CSVtoArray(file.responseText);
 };
+file.send(null);
 //
 /* set init value to the elements */
 myApp.elem.text.innerHTML   = "quizBattle.srt.js";
@@ -520,7 +522,7 @@ function detectTouchPanel(){
  */
 function CSVtoArray(str){
     const array = new Array();
-    const tmp = str.split("\n");
+    const tmp = str.split("\r\n");
     for(let i = 0; i < tmp.length; i++){
         array[i] = tmp[i].split(",");
     }
@@ -707,61 +709,69 @@ function checkAnswer(){
 }
 //
 function printParams(){
-    // myApp.elem.text.innerHTML = myApp.elem.sounds.src;
-    // myApp.elem.text.innerHTML = JSON.stringify(player.g);
-    // myApp.elem.text.innerHTML = JSON.stringify(Object.assign(player, inlinePlayer));
-    // myApp.elem.text.innerHTML = myApp.elem.numOX.getBoundingClientRect().top-myApp.elem.ansBtn.getBoundingClientRect().bottom;
-    // myApp.elem.text.innerHTML = "sounds.currentTime: " + Math.abs(Math.floor((myApp.val.spriteData.pushBtn.end-myApp.elem.sounds.currentTime)*1000)/1000);
-    // myApp.elem.text.innerHTML = "docWidth: " + document.documentElement.clientWidth +', docHeight: '+ document.documentElement.clientHeight + ', inWidth: '+ window.innerWidth + ', inHeight: '+ window.innerHeight;
-    // myApp.elem.text.innerHTML = "curr: " + myApp.elem.pushBtn.width +', new: '+ Math.floor(myApp.val.pushBtnWidth) + ', inWidth: '+ window.innerWidth + ', inHeight: '+ window.innerHeight;
-    // myApp.elem.text.innerHTML = Math.floor(myApp.val.touchObject.pageX) +', '+ Math.floor(myApp.val.touchObject.pageY) +' ['+ Math.floor(myApp.val.pushBtnArea.left) +', '+ Math.floor(myApp.val.pushBtnArea.right) +'] ['+  Math.floor(myApp.val.pushBtnArea.top) +', '+ Math.floor(myApp.val.pushBtnArea.bottom)+'] | '+ window.pageXOffset + ', ' + window.pageYOffset;
-    // myApp.elem.text.innerHTML = document.body.clientWidth / window.innerWidth;
-    // myApp.elem.text.innerHTML = myApp.val.os + ', ' + navigator.userAgent;
     // myApp.elem.text.innerHTML = detectTouchPanel();
-    // myApp.elem.subText.innerHTML = 'imgErrorBool: ' + myApp.val.imgErrorBool + ', initBtnLoadBool: ' + myApp.val.initBtnLoadBool;
-    // myApp.elem.subText.innerHTML = 'playerWidth: ' + myApp.val.playerWidth + ', innerWidth: ' + window.innerWidth;
+    // myApp.elem.text.innerHTML = myApp.val.os + ', ' + navigator.userAgent;
     // myApp.elem.text.innerHTML = document.styleSheets.item(1).cssRules.length;
-    myApp.elem.subText.innerHTML = 
-        "device: "           + myApp.val.os+"<br>"+
-        "activeElem: "       + document.activeElement.id+"<br>"+   
-        "status: "           + myApp.val.status+"<br>"+
-        "timePlay: "         + myApp.val.currTime.playing.toFixed(3)+"<br>"+
-        "timeStop: "         + myApp.val.currTime.stopped.toFixed(3)+"<br>"+
-        "WatchedTime: "      + myApp.val.watchedTime.toFixed(3)+"<br>"+
-        "diffTime: "         + myApp.val.diffTime.toFixed(3)+"<br>"+
-        "limPush: "          + myApp.val.limPush+"<br>"+ 
-        "cntPush: "          + myApp.val.cntPush+"<br>"+
-        "remainingAnsTime: " + Math.floor((myApp.val.ansTime.limit-myApp.val.ansTime.elapsed)/1000)+"<br>"+
-        "answer: "           + myApp.val.ansArray[myApp.val.numQues-1][0].valueOf()+", "+
-                               myApp.val.ansArray[myApp.val.numQues-1][1].valueOf()+", "+
-                               myApp.val.ansArray[myApp.val.numQues-1][2].valueOf()+", "+
-                               myApp.val.ansArray[myApp.val.numQues-1][3].valueOf()+", "+
-                               myApp.val.ansArray[myApp.val.numQues-1][4].valueOf()+", "+
-                               myApp.val.ansArray[myApp.val.numQues-1][5].valueOf()+"<br>"+
-        "checkAns1: "        + myApp.val.ansArray[myApp.val.numQues-1][0].valueOf() === 'てすと１'+", "+
-                               myApp.val.ansArray[myApp.val.numQues-1][1].valueOf() === 'テスト１'+", "+
-                               myApp.val.ansArray[myApp.val.numQues-1][2].valueOf() === 'てすと1'+", "+
-                               myApp.val.ansArray[myApp.val.numQues-1][3].valueOf() === 'テスト1'+", "+
-                               myApp.val.ansArray[myApp.val.numQues-1][4].valueOf() === 'test1'+", "+
-                               myApp.val.ansArray[myApp.val.numQues-1][5].valueOf() === 'Test1'+"<br>"+
-        "checkAns2: "        + myApp.val.ansArray[myApp.val.numQues-1][0].valueOf() === 'てすと２'+", "+
-                               myApp.val.ansArray[myApp.val.numQues-1][1].valueOf() === 'テスト２'+", "+
-                               myApp.val.ansArray[myApp.val.numQues-1][2].valueOf() === 'てすと2'+", "+
-                               myApp.val.ansArray[myApp.val.numQues-1][3].valueOf() === 'テスト2'+", "+
-                               myApp.val.ansArray[myApp.val.numQues-1][4].valueOf() === 'test2'+", "+
-                               myApp.val.ansArray[myApp.val.numQues-1][5].valueOf() === 'Test2'+"<br>"+
-        "checkAns3: "        + myApp.val.ansArray[myApp.val.numQues-1][0].valueOf() === 'てすと３'+", "+
-                               myApp.val.ansArray[myApp.val.numQues-1][1].valueOf() === 'テスト３'+", "+
-                               myApp.val.ansArray[myApp.val.numQues-1][2].valueOf() === 'てすと3'+", "+
-                               myApp.val.ansArray[myApp.val.numQues-1][3].valueOf() === 'テスト3'+", "+
-                               myApp.val.ansArray[myApp.val.numQues-1][4].valueOf() === 'test3'+", "+
-                               myApp.val.ansArray[myApp.val.numQues-1][5].valueOf() === 'Test3'+"<br>"+
-        "answerLength: "     + myApp.val.ansArray[myApp.val.numQues-1].length+"<br>"+
-        "correctBool: "      + myApp.val.correctBool+"<br>"+
-        "composing: "        + myApp.val.composingBool+"<br>"+
-        "index: "            + index+"<br>"+
-        "cntIndex: "         + myApp.val.cntIndex+"<br>"+
-        "cssRules: "         + document.styleSheets.item(0).cssRules.item(0).selectorText;
+    // myApp.elem.text.innerHTML = myApp.elem.sounds.src;
+    // myApp.elem.text.innerHTML = "sounds.currentTime: " + Math.abs(Math.floor(myApp.elem.sounds.currentTime*1000)/1000);
+    // myApp.elem.text.innerHTML = "docWidth: " + document.documentElement.clientWidth +", "+
+    //                             "docHeight: "+ document.documentElement.clientHeight + ", "+
+    //                             "inWidth: "  + window.innerWidth + ", "+
+    //                             "inHeight: " + window.innerHeight;
+    // myApp.elem.text.innerHTML = Math.floor(myApp.val.touchObject.pageX)      +', '+ Math.floor(myApp.val.touchObject.pageY) +' '+
+    //                             '[' + Math.floor(myApp.val.pushBtnArea.left) +', '+ Math.floor(myApp.val.pushBtnArea.right) +'] '+
+    //                             '[' + Math.floor(myApp.val.pushBtnArea.top)  +', '+ Math.floor(myApp.val.pushBtnArea.bottom)+'] '+
+    //                             '| '+ window.pageXOffset +', '+ window.pageYOffset;
+    // myApp.elem.text.innerHTML = myApp.elem.numOX.getBoundingClientRect().top - myApp.elem.ansBtn.getBoundingClientRect().bottom;
+    // myApp.elem.text.innerHTML = 'imgErrorBool: ' + myApp.val.imgErrorBool + ', initBtnLoadBool: ' + myApp.val.initBtnLoadBool;
+    // myApp.elem.text.innerHTML = 'playerWidth: '  + myApp.val.playerWidth  + ', innerWidth: '      + window.innerWidth;
+    // myApp.elem.subText.innerHTML = 
+    //     "device: "           + myApp.val.os+"<br>"+
+    //     "activeElem: "       + document.activeElement.id+"<br>"+   
+    //     "status: "           + myApp.val.status+"<br>"+
+    //     "timePlay: "         + myApp.val.currTime.playing.toFixed(3)+"<br>"+
+    //     "timeStop: "         + myApp.val.currTime.stopped.toFixed(3)+"<br>"+
+    //     "WatchedTime: "      + myApp.val.watchedTime.toFixed(3)+"<br>"+
+    //     "diffTime: "         + myApp.val.diffTime.toFixed(3)+"<br>"+
+    //     "limPush: "          + myApp.val.limPush+"<br>"+ 
+    //     "cntPush: "          + myApp.val.cntPush+"<br>"+
+    //     "remainingAnsTime: " + Math.floor((myApp.val.ansTime.limit-myApp.val.ansTime.elapsed)/1000)+"<br>"+
+    //     "answer: "           + myApp.val.ansArray[myApp.val.numQues-1][0].valueOf()+", "+
+    //                            myApp.val.ansArray[myApp.val.numQues-1][1].valueOf()+", "+
+    //                            myApp.val.ansArray[myApp.val.numQues-1][2].valueOf()+", "+
+    //                            myApp.val.ansArray[myApp.val.numQues-1][3].valueOf()+", "+
+    //                            myApp.val.ansArray[myApp.val.numQues-1][4].valueOf()+", "+
+    //                            myApp.val.ansArray[myApp.val.numQues-1][5].valueOf()+"<br>"+
+    //     "checkAns1: "        + (myApp.val.ansArray[myApp.val.numQues-1][0].valueOf() === 'てすと１')+", "+
+    //                            (myApp.val.ansArray[myApp.val.numQues-1][1].valueOf() === 'テスト１')+", "+
+    //                            (myApp.val.ansArray[myApp.val.numQues-1][2].valueOf() === 'てすと1')+", "+
+    //                            (myApp.val.ansArray[myApp.val.numQues-1][3].valueOf() === 'テスト1')+", "+
+    //                            (myApp.val.ansArray[myApp.val.numQues-1][4].valueOf() === 'test1')+", "+
+    //                            (myApp.val.ansArray[myApp.val.numQues-1][5].valueOf() === 'Test1')+"<br>"+
+    //     "checkAns2: "        + (myApp.val.ansArray[myApp.val.numQues-1][0].valueOf() === 'てすと２')+", "+
+    //                            (myApp.val.ansArray[myApp.val.numQues-1][1].valueOf() === 'テスト２')+", "+
+    //                            (myApp.val.ansArray[myApp.val.numQues-1][2].valueOf() === 'てすと2')+", "+
+    //                            (myApp.val.ansArray[myApp.val.numQues-1][3].valueOf() === 'テスト2')+", "+
+    //                            (myApp.val.ansArray[myApp.val.numQues-1][4].valueOf() === 'test2')+", "+
+    //                            (myApp.val.ansArray[myApp.val.numQues-1][5].valueOf() === 'Test2')+"<br>"+
+    //     "checkAns3: "        + (myApp.val.ansArray[myApp.val.numQues-1][0].valueOf() === 'てすと３')+", "+
+    //                            (myApp.val.ansArray[myApp.val.numQues-1][1].valueOf() === 'テスト３')+", "+
+    //                            (myApp.val.ansArray[myApp.val.numQues-1][2].valueOf() === 'てすと3')+", "+
+    //                            (myApp.val.ansArray[myApp.val.numQues-1][3].valueOf() === 'テスト3')+", "+
+    //                            (myApp.val.ansArray[myApp.val.numQues-1][4].valueOf() === 'test3')+", "+
+    //                            (myApp.val.ansArray[myApp.val.numQues-1][5].valueOf() === 'Test3')+"<br>"+
+    //     "checkAns4: "        + (myApp.val.ansArray[3][0].valueOf() === 'てすと４')+", "+
+    //                            (myApp.val.ansArray[3][1].valueOf() === 'テスト４')+", "+
+    //                            (myApp.val.ansArray[3][2].valueOf() === 'てすと4')+", "+
+    //                            (myApp.val.ansArray[3][3].valueOf() === 'テスト4')+", "+
+    //                            (myApp.val.ansArray[3][4].valueOf() === 'test4')+", "+
+    //                            (myApp.val.ansArray[3][5].valueOf() === 'Test4')+"<br>"+
+    //     "answerLength: "     + myApp.val.ansArray[myApp.val.numQues-1].length+"<br>"+
+    //     "correctBool: "      + myApp.val.correctBool+"<br>"+
+    //     "composing: "        + myApp.val.composingBool+"<br>"+
+    //     "index: "            + index+"<br>"+
+    //     "cntIndex: "         + myApp.val.cntIndex+"<br>"+
+    //     "cssRules: "         + document.styleSheets.item(0).cssRules.item(0).selectorText;
 }
 //
 //-----------------------------------------------------------------------------------------------------
