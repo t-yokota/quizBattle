@@ -737,7 +737,25 @@ function printParams(){
                                myApp.val.ansArray[myApp.val.numQues-1][2].valueOf()+", "+
                                myApp.val.ansArray[myApp.val.numQues-1][3].valueOf()+", "+
                                myApp.val.ansArray[myApp.val.numQues-1][4].valueOf()+", "+
-                               myApp.val.ansArray[myApp.val.numQues-1][5].valueOf()+"<br>"+
+                               myApp.val.ansArray[myApp.val.numQues-1][5].valueOf()+"<br>"
+        "checkAns1: "        + myApp.val.ansArray[myApp.val.numQues-1][0].valueOf() === 'てすと１'+", "+
+                               myApp.val.ansArray[myApp.val.numQues-1][1].valueOf() === 'テスト１'+", "+
+                               myApp.val.ansArray[myApp.val.numQues-1][2].valueOf() === 'てすと1'+", "+
+                               myApp.val.ansArray[myApp.val.numQues-1][3].valueOf() === 'テスト1'+", "+
+                               myApp.val.ansArray[myApp.val.numQues-1][4].valueOf() === 'test1'+", "+
+                               myApp.val.ansArray[myApp.val.numQues-1][5].valueOf() === 'Test1'+"<br>"+
+        "checkAns2: "        + myApp.val.ansArray[myApp.val.numQues-1][0].valueOf() === 'てすと２'+", "+
+                               myApp.val.ansArray[myApp.val.numQues-1][1].valueOf() === 'テスト２'+", "+
+                               myApp.val.ansArray[myApp.val.numQues-1][2].valueOf() === 'てすと2'+", "+
+                               myApp.val.ansArray[myApp.val.numQues-1][3].valueOf() === 'テスト2'+", "+
+                               myApp.val.ansArray[myApp.val.numQues-1][4].valueOf() === 'test2'+", "+
+                               myApp.val.ansArray[myApp.val.numQues-1][5].valueOf() === 'Test2'+"<br>"+
+        "checkAns3: "        + myApp.val.ansArray[myApp.val.numQues-1][0].valueOf() === 'てすと３'+", "+
+                               myApp.val.ansArray[myApp.val.numQues-1][1].valueOf() === 'テスト３'+", "+
+                               myApp.val.ansArray[myApp.val.numQues-1][2].valueOf() === 'てすと3'+", "+
+                               myApp.val.ansArray[myApp.val.numQues-1][3].valueOf() === 'テスト3'+", "+
+                               myApp.val.ansArray[myApp.val.numQues-1][4].valueOf() === 'test3'+", "+
+                               myApp.val.ansArray[myApp.val.numQues-1][5].valueOf() === 'Test3'+"<br>"+
         "answerLength: "     + myApp.val.ansArray[myApp.val.numQues-1].length+"<br>"+
         "correctBool: "      + myApp.val.correctBool+"<br>"+
         "composing: "        + myApp.val.composingBool+"<br>"+
@@ -759,6 +777,7 @@ myApp.val.srtFuncArray = [
         myApp.val.status = myApp.state.Question;
         myApp.val.numQues = 1;
         myApp.val.cntPush = 0;
+        myApp.val.correctBool = false;
         myApp.elem.text.innerHTML = "第"+myApp.val.numQues+"問";
         if(Math.abs(window.orientation) != 90){ myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src; }
     },
@@ -770,6 +789,7 @@ myApp.val.srtFuncArray = [
         myApp.val.status = myApp.state.Question;
         myApp.val.numQues = 2;
         myApp.val.cntPush = 0;
+        myApp.val.correctBool = false;
         myApp.elem.text.innerHTML = "第"+myApp.val.numQues+"問";
         if(Math.abs(window.orientation) != 90){ myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src; }
     },
@@ -781,6 +801,7 @@ myApp.val.srtFuncArray = [
         myApp.val.status = myApp.state.Question;
         myApp.val.numQues = 3;
         myApp.val.cntPush = 0;
+        myApp.val.correctBool = false;
         myApp.elem.text.innerHTML = "第"+myApp.val.numQues+"問";
         if(Math.abs(window.orientation) != 90){ myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src; }
     },
