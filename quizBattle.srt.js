@@ -736,7 +736,8 @@ function printParams(){
                                myApp.val.ansArray[myApp.val.numQues-1][1].valueOf()+", "+
                                myApp.val.ansArray[myApp.val.numQues-1][2].valueOf()+", "+
                                myApp.val.ansArray[myApp.val.numQues-1][3].valueOf()+", "+
-                               myApp.val.ansArray[myApp.val.numQues-1][4].valueOf()+"<br>"+
+                               myApp.val.ansArray[myApp.val.numQues-1][4].valueOf()+", "+
+                               myApp.val.ansArray[myApp.val.numQues-1][5].valueOf()+"<br>"+
         "answerLength: "     + myApp.val.ansArray[myApp.val.numQues-1].length+"<br>"+
         "correctBool: "      + myApp.val.correctBool+"<br>"+
         "composing: "        + myApp.val.composingBool+"<br>"+
