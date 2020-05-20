@@ -3,16 +3,6 @@
 /* CAUTION : Each sections of subtitle has independent scope. */
 doOnce[index] = true;
 //
-/* test of playsinline for iOS (didn't work correctly. pending) */
-// inlinePlayer = new YT.Player('player', { playerVars: { 'playsinline': 1 } });
-// player = Object.assign(player, inlinePlayer);
-// player.loadVideoById({
-//     videoId : 'hfhJjtzWA-4',
-// });
-// player.loadVideoByUrl({
-//     mediaContentUrl:'https://www.youtube.com/v/hfhJjtzWA-4?playsinline=1'
-// });
-//
 const myApp = {
     state : {
         ButtonCheck : 0, //ボタンチェック待機
@@ -210,7 +200,7 @@ myApp.elem.imgBtn4.src = "https://github.com/t-yokota/quizBattle/raw/devel/conve
 // myApp.elem.sndO.src    = "https://raw.githubusercontent.com/t-yokota/quizBattle/devel/convertToES6/sounds/correct_3.m4a";
 // myApp.elem.sndX.src    = "https://raw.githubusercontent.com/t-yokota/quizBattle/devel/convertToES6/sounds/discorrect.m4a";
 /* load audio data (audio sprite) */
-if(myApp.elem.sounds.canPlayType('audio/mp3') == 'probably'){ myApp.val.audioExt = '.mp3'; }
+if     (myApp.elem.sounds.canPlayType('audio/mp3') == 'probably'){ myApp.val.audioExt = '.mp3'; }
 else if(myApp.elem.sounds.canPlayType('audio/aac') == 'probably'){ myApp.val.audioExt = '.aac'; }
 else if(myApp.elem.sounds.canPlayType('audio/wav') == 'probably'){ myApp.val.audioExt = '.wav'; }
 else if(myApp.elem.sounds.canPlayType('audio/mp3') == 'maybe'   ){ myApp.val.audioExt = '.mp3'; }
@@ -754,6 +744,7 @@ function printParams(){
     //     'cssRules: '         + document.styleSheets.item(0).cssRules.item(0).selectorText;
 }
 //
+//-----------------------------------------------------------------------------------------------------
 /* set functions executed in each subtitle */
 myApp.val.srtFuncArray = [
     function(){
