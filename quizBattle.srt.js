@@ -68,6 +68,7 @@ const myApp = {
         composingBool        : false, //for preventing to start new line in text area
         initOrientation      : null,  //hold initial orientation of the device
         orientationAlertBool : false, //for showing alert about device orientation only once
+        imageAlertBool       : false,
         //
         /* keycode (for keyboard) */
         pushBtn : 32, //Space key
@@ -240,10 +241,11 @@ function materialCheckFunction(){
                 alert("このサイトはスマートフォン/タブレットを縦向きにしてお楽しみください。");
             }
             myApp.val.initLoadBool = true;
-        }else if(myApp.val.initLoadBool == true){
+        }else if(myApp.val.initLoadBool == true && myApp.val.imageAlertBool == false){
             if(Math.abs(myApp.elem.numOX.getBoundingClientRect().top - myApp.elem.ansBtn.getBoundingClientRect().bottom) < 50){
                 player.pauseVideo();
                 alert("画像の表示に失敗しました。ページを再読み込みしてください。");
+                myApp.val.imageAlertBool = true;
             }
         }
     }else{
