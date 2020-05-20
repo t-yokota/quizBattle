@@ -238,7 +238,7 @@ function spriteHandler(){
 };
 //
 /* load answer list */
-const ansCSV = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/answer_UTF-8.csv"; //UTF-8
+const ansCSV = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/answer_utf-8.csv"; //UTF-8
 const file = new XMLHttpRequest();
 file.open("get", ansCSV, true);
 file.send(null);
