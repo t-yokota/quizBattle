@@ -62,10 +62,11 @@ const myApp = {
         },
         touchObject : null,
         //
-        initOrientation      : null,  //hold initial orientation of the device
+        loadCount            : 0,
         loadErrorBool        : false, //for error handling of loading sources
-        composingBool        : false, //for preventing to start new line in text area
         initLoadBool         : false, //for executing onload function only once
+        composingBool        : false, //for preventing to start new line in text area
+        initOrientation      : null,  //hold initial orientation of the device
         orientationAlertBool : false, //for showing alert about device orientation only once
         //
         /* keycode (for keyboard) */
@@ -77,6 +78,8 @@ const myApp = {
             sndInterval  : 1500, //[ms]
             playInterval : 3000, //[ms]
         },
+        //
+        ansFile : new XMLHttpRequest(),  //正答ファイル.csv
         //
         /* for question manegament */
         numQues     : 0,     //問題番号
@@ -169,108 +172,91 @@ if(myApp.val.os != 'other'){
     myApp.elem.numOX.style.fontWeight = 'bold';
 }
 //
-/* onerror functions */
-myApp.elem.sounds.onerror  = function(){ myApp.val.loadErrorBool = true; alert("音声ファイルの読み込みに失敗しました。ページを再読み込みしてください。"); };
-myApp.elem.imgBtn1.onerror = function(){ myApp.val.loadErrorBool = true; alert("画像ファイルの読み込みに失敗しました。ページを再読み込みしてください。"); };
-myApp.elem.imgBtn2.onerror = function(){ myApp.val.loadErrorBool = true; alert("画像ファイルの読み込みに失敗しました。ページを再読み込みしてください。"); };
-myApp.elem.imgBtn3.onerror = function(){ myApp.val.loadErrorBool = true; alert("画像ファイルの読み込みに失敗しました。ページを再読み込みしてください。"); };
-myApp.elem.imgBtn4.onerror = function(){ myApp.val.loadErrorBool = true; alert("画像ファイルの読み込みに失敗しました。ページを再読み込みしてください。"); };
-myApp.elem.pushBtn.onerror = function(){ myApp.val.loadErrorBool = true; alert("画像ファイルの読み込みに失敗しました。ページを再読み込みしてください。"); };
+myApp.elem.sounds.onerror  = function(){ myApp.val.loadErrorBool = true; };
+myApp.elem.imgBtn1.onerror = function(){ myApp.val.loadErrorBool = true; };
+myApp.elem.imgBtn2.onerror = function(){ myApp.val.loadErrorBool = true; };
+myApp.elem.imgBtn3.onerror = function(){ myApp.val.loadErrorBool = true; };
+myApp.elem.imgBtn4.onerror = function(){ myApp.val.loadErrorBool = true; };
+myApp.val.ansFile.onerror  = function(){ myApp.val.loadErrorBool = true; };
 //
-/* inital loadings */
-myApp.elem.sounds.onloadeddata = function(){
-    if(myApp.val.initLoadBool == false){
-        /* load answer list */
-        const ansCSV = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/answer_utf-8.csv"; //UTF-8
-        const file = new XMLHttpRequest();
-        file.open("get", ansCSV, true);
-        file.onerror = function(){ 
-            myApp.val.loadErrorBool = true;
-            alert("正答ファイルの読み込みに失敗しました。ページを再読み込みしてください。");
-        };
-        file.onload  = function(){
-            if(myApp.val.initLoadBool == false){
-                myApp.val.ansArray = CSVtoArray(file.responseText);
-                if(myApp.val.os != "other" && myApp.val.initOrientation == 'landscape'){
-                    alert("このサイトはスマートフォン/タブレットを縦向きにしてお楽しみください。");
+const num_of_materials = 6;
+myApp.elem.sounds.onloadedmetadata = function(){ myApp.val.loadCount += 1; };
+myApp.elem.imgBtn1.onload = function(){ myApp.val.loadCount += 1; };
+myApp.elem.imgBtn2.onload = function(){ myApp.val.loadCount += 1; };
+myApp.elem.imgBtn3.onload = function(){ myApp.val.loadCount += 1; };
+myApp.elem.imgBtn4.onload = function(){ myApp.val.loadCount += 1; };
+myApp.val.ansFile.onload  = function(){ myApp.val.loadCount += 1; myApp.val.ansArray = CSVtoArray(myApp.val.ansFile.responseText); };
+//
+/* load audio data */
+if     (myApp.elem.sounds.canPlayType('audio/mp3') == 'probably'){ myApp.val.audioExt = '.mp3'; }
+else if(myApp.elem.sounds.canPlayType('audio/aac') == 'probably'){ myApp.val.audioExt = '.aac'; }
+else if(myApp.elem.sounds.canPlayType('audio/wav') == 'probably'){ myApp.val.audioExt = '.wav'; }
+else if(myApp.elem.sounds.canPlayType('audio/mp3') == 'maybe'   ){ myApp.val.audioExt = '.mp3'; }
+else if(myApp.elem.sounds.canPlayType('audio/aac') == 'maybe'   ){ myApp.val.audioExt = '.aac'; }
+else if(myApp.elem.sounds.canPlayType('audio/wav') == 'maybe'   ){ myApp.val.audioExt = '.wav'; }
+myApp.elem.sounds.src = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/sounds/sounds_3"+myApp.val.audioExt;
+//
+/* load push button image */
+myApp.elem.imgBtn1.src = "https://github.com/t-yokota/quizBattle/raw/master/figures/button_portrait_1.png";
+myApp.elem.imgBtn2.src = "https://github.com/t-yokota/quizBattle/raw/master/figures/button_portrait_2.png";
+myApp.elem.imgBtn3.src = "https://github.com/t-yokota/quizBattle/raw/master/figures/button_portrait_3.png";
+myApp.elem.imgBtn4.src = "https://github.com/t-yokota/quizBattle/raw/master/figures/button_portrait_4.png";
+//
+/* load answer file */
+myApp.val.ansFile.open("get", "https://raw.githubusercontent.com/t-yokota/quizBattle/master/answer_utf-8.csv", true);
+myApp.val.ansFile.send(null);
+//
+/* function executed after initial loading */
+function materialCheckFunction(){
+    if(myApp.val.loadErrorBool == false){
+        if(myApp.val.initLoadBool == false && myApp.val.loadCount == num_of_materials){
+            /* assign init push button image and main text */
+            myApp.elem.pushBtn.width = document.documentElement.clientWidth/5; /* init size before loading */
+            if(myApp.val.os != "other"){
+                if(Math.abs(window.orientation) != 90){
+                    myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src;
+                    myApp.elem.text.innerHTML = "下の早押しボタンをタップしてクイズをはじめる";
+                    myApp.val.initOrientation = 'portrait';
+                }else{
+                    myApp.elem.pushBtn.src = myApp.elem.imgBtn4.src;
+                    myApp.elem.text.innerHTML = "スマホ/タブレットを縦向きにしてクイズをはじめる";
+                    myApp.val.initOrientation = 'landscape';
                 }
-                myApp.val.initLoadBool = true;
-            }
-        };
-        file.send(null);
-    }
-};
-myApp.elem.pushBtn.onload = function(){
-    if(myApp.val.initLoadBool == false){
-        /* change player and push button size */
-        resizePlayer();
-        resizePushButton();
-        //
-        /* load audio data (audio sprite) */
-        if     (myApp.elem.sounds.canPlayType('audio/mp3') == 'probably'){ myApp.val.audioExt = '.mp3'; }
-        else if(myApp.elem.sounds.canPlayType('audio/aac') == 'probably'){ myApp.val.audioExt = '.aac'; }
-        else if(myApp.elem.sounds.canPlayType('audio/wav') == 'probably'){ myApp.val.audioExt = '.wav'; }
-        else if(myApp.elem.sounds.canPlayType('audio/mp3') == 'maybe'   ){ myApp.val.audioExt = '.mp3'; }
-        else if(myApp.elem.sounds.canPlayType('audio/aac') == 'maybe'   ){ myApp.val.audioExt = '.aac'; }
-        else if(myApp.elem.sounds.canPlayType('audio/wav') == 'maybe'   ){ myApp.val.audioExt = '.wav'; }
-        myApp.elem.sounds.src = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/sounds/sounds_3"+myApp.val.audioExt;
-    }
-};
-myApp.elem.imgBtn4.onload = function(){
-    if(myApp.val.initLoadBool == false){
-        /* assign init push button image and main text */
-        myApp.elem.pushBtn.width = document.documentElement.clientWidth/5; /* init size before loading */
-        if(myApp.val.os != "other"){
-            if(Math.abs(window.orientation) != 90){
+            }else{
                 myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src;
-                myApp.elem.text.innerHTML = "下の早押しボタンをタップしてクイズをはじめる";
-                myApp.val.initOrientation = 'portrait';
-            }else{
-                myApp.elem.pushBtn.src = myApp.elem.imgBtn4.src;
-                myApp.elem.text.innerHTML = "スマホ/タブレットを縦向きにしてクイズをはじめる";
-                myApp.val.initOrientation = 'landscape';
+                if(detectTouchPanel() == true){
+                    myApp.elem.text.innerHTML = "早押しボタンのタップ/スペースキーの押下でクイズをはじめる"; 
+                }else{
+                    myApp.elem.text.innerHTML = "スペースキーを押してクイズをはじめる";
+                }
             }
-        }else{
-            myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src;
-            if(detectTouchPanel() == true){
-                myApp.elem.text.innerHTML = "早押しボタンのタップ/スペースキーの押下でクイズをはじめる"; 
-            }else{
-                myApp.elem.text.innerHTML = "スペースキーを押してクイズをはじめる";
+            //
+            /* change player and push button size */
+            resizePlayer();
+            resizePushButton();
+            //
+            /* show alert based on initial orientation */
+            if(myApp.val.os != "other" && myApp.val.initOrientation == 'landscape'){
+                alert("このサイトはスマートフォン/タブレットを縦向きにしてお楽しみください。");
+            }
+            myApp.val.initLoadBool = true;
+        }else if(myApp.val.initLoadBool == true){
+            if(Math.abs(myApp.elem.numOX.getBoundingClientRect().top - myApp.elem.ansBtn.getBoundingClientRect().bottom) < 50){
+                myApp.val.loadErrorBool = true;
+                player.pauseVideo();
+                alert("画像の表示に失敗しました。ページを再読み込みしてください。");
             }
         }
+    }else{
+        alert("ページの読み込みに失敗しました。ページを再読み込みしてください。");
     }
-};
-myApp.elem.imgBtn3.onload = function(){
-    if(myApp.val.initLoadBool == false){
-        myApp.elem.imgBtn4.src = "https://github.com/t-yokota/quizBattle/raw/master/figures/button_portrait_4.png";
-    }
-};
-myApp.elem.imgBtn2.onload = function(){
-    if(myApp.val.initLoadBool == false){
-        myApp.elem.imgBtn3.src = "https://github.com/t-yokota/quizBattle/raw/master/figures/button_portrait_3.png";
-    }
-};
-myApp.elem.imgBtn1.onload = function(){
-    if(myApp.val.initLoadBool == false){
-        myApp.elem.imgBtn2.src = "https://github.com/t-yokota/quizBattle/raw/master/figures/button_portrait_2.png";
-    }
-};
-myApp.elem.imgBtn1.src = "https://github.com/t-yokota/quizBattle/raw/master/figures/button_portrait_1.png";
+}
 //
-/* for audio sprite */
+/* set value and eventListener for audio sprite */
 myApp.val.spriteData = {
-    pushBtn : {
-        start : 0.0,
-        end   : 2.0,
-    },
-    sndO : {
-        start : 3.0,
-        end   : 5.0,
-    },
-    sndX : {
-        start : 6.0,
-        end   : 8.0,
-    },
+    pushBtn : { start : 0.0, end : 2.0 }, //[sec]
+    sndO    : { start : 3.0, end : 5.0 }, 
+    sndX    : { start : 6.0, end : 8.0 },
 };
 myApp.elem.sounds.addEventListener('timeupdate', spriteHandler, false);
 function spriteHandler(){
@@ -476,17 +462,11 @@ function myIntervalEvent(){
         }
         myApp.val.ansTime.elapsed = 0;
     }
-    /* update push button area when the window is zoomed */
-    // if(myApp.val.os == 'iOS'){ updatePushButtonArea(); }
+    /* update push button area when the window is zoomed (mainly for iOS)*/
     updatePushButtonArea();
     /*  */
-    if(myApp.val.initLoadBool == true && myApp.val.loadErrorBool == false){
-        if(Math.abs(myApp.elem.numOX.getBoundingClientRect().top - myApp.elem.ansBtn.getBoundingClientRect().bottom) < 50){
-            myApp.val.loadErrorBool = true;
-            player.pauseVideo();
-            alert("画像の読み込みに失敗しました。ページを再読み込みしてください。");
-        }
-    }
+    materialCheckFunction();
+    /*  */
     printParams();
 }
 //
@@ -735,7 +715,7 @@ function printParams(){
     //                             '[' + Math.floor(myApp.val.pushBtnArea.top)  +', '+ Math.floor(myApp.val.pushBtnArea.bottom)+'] '+
     //                             '| '+ window.pageXOffset +', '+ window.pageYOffset;
     // myApp.elem.text.innerHTML = myApp.elem.numOX.getBoundingClientRect().top - myApp.elem.ansBtn.getBoundingClientRect().bottom;
-    myApp.elem.text.innerHTML = 'loadErrorBool: ' + myApp.val.loadErrorBool + ', initLoadBool: ' + myApp.val.initLoadBool;
+    myApp.elem.text.innerHTML = 'loadErrorBool: ' + myApp.val.loadErrorBool + ', initLoadBool: ' + myApp.val.initLoadBool + ', loadCount: ' + myApp.val.loadCount;
     // myApp.elem.text.innerHTML = 'playerWidth: '  + myApp.val.playerWidth  + ', innerWidth: '      + window.innerWidth;
     // myApp.elem.subText.innerHTML = 
     //     "device: "           + myApp.val.os+"<br>"+
