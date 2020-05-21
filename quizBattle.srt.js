@@ -208,6 +208,11 @@ myApp.val.ansFile.open("get", "https://raw.githubusercontent.com/t-yokota/quizBa
 myApp.val.ansFile.send(null);
 //
 /* function executed after initial loading */
+myApp.elem.pushBtn.onload = function(){
+    resizePlayer();
+    resizePushButton();
+    alert("test");
+}
 function materialCheckFunction(){
     if(myApp.val.loadErrorBool == false){
         if(myApp.val.initLoadBool == false && myApp.val.loadCount == num_of_materials){
@@ -232,10 +237,10 @@ function materialCheckFunction(){
                 }
             }
             /* change player and push button size */
-            setTimeout(function(){
-                resizePlayer();
-                resizePushButton();
-            }, 500);
+            // setTimeout(function(){
+            //     resizePlayer();
+            //     resizePushButton();
+            // }, 500);
             /* show alert based on initial orientation */
             if(myApp.val.os != "other" && myApp.val.initOrientation == 'landscape'){
                 alert("このサイトはスマートフォン/タブレットを縦向きにしてお楽しみください。");
