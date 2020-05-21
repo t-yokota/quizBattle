@@ -465,10 +465,10 @@ function myIntervalEvent(){
         }
         myApp.val.ansTime.elapsed = 0;
     }
-    /* update push button area when the window is zoomed (mainly for iOS)*/
-    updatePushButtonArea();
     /*  */
     materialCheckFunction();
+    /* update push button area when the window is zoomed (mainly for iOS)*/
+    updatePushButtonArea();
     /*  */
     printParams();
 }
