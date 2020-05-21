@@ -232,8 +232,10 @@ function materialCheckFunction(){
                 }
             }
             /* change player and push button size */
-            resizePlayer();
-            resizePushButton();
+            setTimeout(function(){
+                resizePlayer();
+                resizePushButton();
+            }, 500);
             /* show alert based on initial orientation */
             if(myApp.val.os != "other" && myApp.val.initOrientation == 'landscape'){
                 alert("このサイトはスマートフォン/タブレットを縦向きにしてお楽しみください。");
