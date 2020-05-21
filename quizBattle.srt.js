@@ -207,12 +207,23 @@ myApp.elem.imgBtn4.src = "https://github.com/t-yokota/quizBattle/raw/master/figu
 myApp.val.ansFile.open("get", "https://raw.githubusercontent.com/t-yokota/quizBattle/master/answer_utf-8.csv", true);
 myApp.val.ansFile.send(null);
 //
+/* change player and push button size after loading image */
+myApp.elem.pushBtn.onerror = function(){
+    myApp.val.loadErrorBool = true;
+    alert("画像の読み込みに失敗しました。ページを再読み込みしてください。" );
+};
+myApp.elem.pushBtn.onload = function(){
+    if(myApp.val.initLoadBool == false){
+        resizePlayer();
+        resizePushButton();
+    }
+};
 /* function executed after initial loading */
 function materialCheckFunction(){
     if(myApp.val.loadErrorBool == false){
         if(myApp.val.initLoadBool == false && myApp.val.loadCount == num_of_materials){
             /* assign init push button image and main text */
-            // myApp.elem.pushBtn.width = document.documentElement.clientWidth/5; /* init size before loading */
+            myApp.elem.pushBtn.width = document.documentElement.clientWidth/5; /* init size before loading */
             if(myApp.val.os != "other"){
                 if(Math.abs(window.orientation) != 90){
                     myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src;
@@ -231,30 +242,18 @@ function materialCheckFunction(){
                     myApp.elem.text.innerHTML = "スペースキーを押してクイズをはじめる";
                 }
             }
-            /* change player and push button size */
-            myApp.elem.pushBtn.onload = function(){
-                if(myApp.val.initLoadBool == false){
-                    resizePlayer();
-                    resizePushButton();
-                }
-            };
-            myApp.elem.pushBtn.onerror = function(){
-                alert("画像の読み込みに失敗しました。ページを再読み込みしてください。" );
-            };
             /* show alert based on initial orientation */
             if(myApp.val.os != "other" && myApp.val.initOrientation == 'landscape'){
                 alert("このサイトはスマートフォン/タブレットを縦向きにしてお楽しみください。");
             }
             myApp.val.initLoadBool = true;
         }else if(myApp.val.initLoadBool == true && myApp.val.imgDisplayCheckBool == false){
-            if(Math.abs(window.orientation) != 90){
-                setTimeout(function(){
-                    if(Math.abs(myApp.elem.numOX.getBoundingClientRect().top - myApp.elem.ansBtn.getBoundingClientRect().bottom) < 50){
-                        player.pauseVideo();
-                        alert("画像の読み込みに失敗しました。ページを再読み込みしてください。");
-                    }
-                }, 1000);
-            }
+            setTimeout(function(){
+                if(Math.abs(myApp.elem.numOX.getBoundingClientRect().top - myApp.elem.ansBtn.getBoundingClientRect().bottom) < 50){
+                    player.pauseVideo();
+                    alert("画像の読み込みに失敗しました。ページを再読み込みしてください。");
+                }
+            }, 1000);
             myApp.val.imgDisplayCheckBool = true;
         }
     }else{
