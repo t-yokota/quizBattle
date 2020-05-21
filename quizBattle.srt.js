@@ -208,11 +208,6 @@ myApp.val.ansFile.open("get", "https://raw.githubusercontent.com/t-yokota/quizBa
 myApp.val.ansFile.send(null);
 //
 /* function executed after initial loading */
-myApp.elem.pushBtn.onload = function(){
-    resizePlayer();
-    resizePushButton();
-    alert("test");
-}
 function materialCheckFunction(){
     if(myApp.val.loadErrorBool == false){
         if(myApp.val.initLoadBool == false && myApp.val.loadCount == num_of_materials){
@@ -237,25 +232,30 @@ function materialCheckFunction(){
                 }
             }
             /* change player and push button size */
-            // setTimeout(function(){
-            //     resizePlayer();
-            //     resizePushButton();
-            // }, 500);
+            myApp.elem.pushBtn.onload = function(){
+                if(myApp.val.initLoadBool == false){
+                    resizePlayer();
+                    resizePushButton();
+                }
+            };
+            myApp.elem.pushBtn.onerror = function(){
+                alert("画像の読み込みに失敗しました。ページを再読み込みしてください。" );
+            };
             /* show alert based on initial orientation */
             if(myApp.val.os != "other" && myApp.val.initOrientation == 'landscape'){
                 alert("このサイトはスマートフォン/タブレットを縦向きにしてお楽しみください。");
             }
             myApp.val.initLoadBool = true;
         }else if(myApp.val.initLoadBool == true && myApp.val.imgDisplayCheckBool == false){
-            // if(Math.abs(window.orientation) != 90){
-            //     setTimeout(function(){
-            //         if(Math.abs(myApp.elem.numOX.getBoundingClientRect().top - myApp.elem.ansBtn.getBoundingClientRect().bottom) < 50){
-            //             player.pauseVideo();
-            //             alert("画像の表示に失敗しました。ページを再読み込みしてください。");
-            //         }
-            //     }, 2000);
-            // }
-            // myApp.val.imgDisplayCheckBool = true;
+            if(Math.abs(window.orientation) != 90){
+                setTimeout(function(){
+                    if(Math.abs(myApp.elem.numOX.getBoundingClientRect().top - myApp.elem.ansBtn.getBoundingClientRect().bottom) < 50){
+                        player.pauseVideo();
+                        alert("画像の読み込みに失敗しました。ページを再読み込みしてください。");
+                    }
+                }, 1000);
+            }
+            myApp.val.imgDisplayCheckBool = true;
         }
     }else{
         alert("ページの読み込みに失敗しました。ページを再読み込みしてください。");
