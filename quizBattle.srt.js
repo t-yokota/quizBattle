@@ -240,15 +240,15 @@ function materialCheckFunction(){
             }
             myApp.val.initLoadBool = true;
         }else if(myApp.val.initLoadBool == true && myApp.val.imgDisplayCheckBool == false){
-            if(Math.abs(window.orientation) != 90){
-                setTimeout(function(){
-                    if(Math.abs(myApp.elem.numOX.getBoundingClientRect().top - myApp.elem.ansBtn.getBoundingClientRect().bottom) < 50){
-                        player.pauseVideo();
-                        alert("画像の表示に失敗しました。ページを再読み込みしてください。");
-                    }
-                }, 2000);
-            }
-            myApp.val.imgDisplayCheckBool = true;
+            // if(Math.abs(window.orientation) != 90){
+            //     setTimeout(function(){
+            //         if(Math.abs(myApp.elem.numOX.getBoundingClientRect().top - myApp.elem.ansBtn.getBoundingClientRect().bottom) < 50){
+            //             player.pauseVideo();
+            //             alert("画像の表示に失敗しました。ページを再読み込みしてください。");
+            //         }
+            //     }, 2000);
+            // }
+            // myApp.val.imgDisplayCheckBool = true;
         }
     }else{
         alert("ページの読み込みに失敗しました。ページを再読み込みしてください。");
