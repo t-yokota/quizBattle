@@ -246,7 +246,7 @@ function materialCheckFunction(){
                         player.pauseVideo();
                         alert("画像の表示に失敗しました。ページを再読み込みしてください。");
                     }
-                }, 1000);
+                }, 2000);
             }
             myApp.val.imgDisplayCheckBool = true;
         }
