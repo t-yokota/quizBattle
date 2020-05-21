@@ -68,7 +68,7 @@ const myApp = {
         composingBool        : false, //for preventing to start new line in text area
         initOrientation      : null,  //hold initial orientation of the device
         orientationAlertBool : false, //for showing alert about device orientation only once
-        imageAlertBool       : false,
+        imgDisplayCheckBool  : false,
         //
         /* keycode (for keyboard) */
         pushBtn : 32, //Space key
@@ -231,22 +231,24 @@ function materialCheckFunction(){
                     myApp.elem.text.innerHTML = "スペースキーを押してクイズをはじめる";
                 }
             }
-            //
             /* change player and push button size */
             resizePlayer();
             resizePushButton();
-            //
             /* show alert based on initial orientation */
             if(myApp.val.os != "other" && myApp.val.initOrientation == 'landscape'){
                 alert("このサイトはスマートフォン/タブレットを縦向きにしてお楽しみください。");
             }
             myApp.val.initLoadBool = true;
-        }else if(myApp.val.initLoadBool == true && myApp.val.imageAlertBool == false){
-            if(Math.abs(myApp.elem.numOX.getBoundingClientRect().top - myApp.elem.ansBtn.getBoundingClientRect().bottom) < 50){
-                player.pauseVideo();
-                alert("画像の表示に失敗しました。ページを再読み込みしてください。");
-                myApp.val.imageAlertBool = true;
+        }else if(myApp.val.initLoadBool == true && myApp.val.imgDisplayCheckBool == false){
+            if(Math.abs(window.orientation) != 90){
+                setTimeout(function(){
+                    if(Math.abs(myApp.elem.numOX.getBoundingClientRect().top - myApp.elem.ansBtn.getBoundingClientRect().bottom) < 50){
+                        player.pauseVideo();
+                        alert("画像の表示に失敗しました。ページを再読み込みしてください。");
+                    }
+                }, 1000);
             }
+            myApp.val.imgDisplayCheckBool = true;
         }
     }else{
         alert("ページの読み込みに失敗しました。ページを再読み込みしてください。");
@@ -308,7 +310,7 @@ function myOrientationChangeEvent(){
         }
         if(myApp.val.status == myApp.state.ButtonCheck && myApp.val.initOrientation == 'landscape'){
             if(Math.abs(window.orientation) != 90){
-                myApp.elem.text.innerHTML = "下の早押しボタンをタップして動画を開始";
+                myApp.elem.text.innerHTML = "下の早押しボタンをタップして開始";
             }else{
                 myApp.elem.text.innerHTML = "スマホ/タブレットを縦向きにしてクイズをはじめる";
             }
