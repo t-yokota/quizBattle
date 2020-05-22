@@ -177,11 +177,11 @@ if(myApp.val.os != 'other'){
 //
 /* set parameters to the elements based on device type */
 if(myApp.val.os != 'other'){
-    myApp.elem.brTextTop.style.fontSize = '30px';
+    myApp.elem.brTextTop.style.fontSize = '25px';
     myApp.elem.text.style.fontSize      = '40px';
-    myApp.elem.text.style.lineHeight    = '60px';
+    myApp.elem.text.style.lineHeight    = '70px';
     myApp.elem.text.style.fontWeight    = 'bold';
-    myApp.elem.brTextBtm.style.fontSize = '30px';
+    myApp.elem.brTextBtm.style.fontSize = '25px';
     // myApp.elem.subText.style.fontSize = '30px';
     myApp.elem.ansCol.style.fontSize    = '35px';
     myApp.elem.ansCol.style.textAlign   = 'center';
@@ -666,11 +666,11 @@ function buttonCheck(responseInterval){
     setTimeout(function(){
         playSndO();
         myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src;
-        if(myApp.val.os != 'other'){
-            myApp.elem.text.innerHTML = "問題中に早押しボタンをタップすることで、<br>クイズに解答することができます。";
-        }else{
-            myApp.elem.subText.innerHTML = "";
-        }
+        // if(myApp.val.os != 'other'){
+        //     myApp.elem.text.innerHTML = "";
+        // }else{
+        //     myApp.elem.subText.innerHTML = "";
+        // }
     }, responseInterval);
 }
 //
@@ -805,11 +805,11 @@ myApp.val.srtFuncArray = [
     function(){
         /* ボタンチェック後〜第１問 */
         myApp.val.status = myApp.state.Talk;
-        // if(myApp.val.os != 'other'){
-        //     myApp.elem.text.innerHTML = "問題中に早押しボタンをタップすることで、<br>クイズに解答することができます。";
-        // }else{
-        //     myApp.elem.subText.innerHTML = "早押しボタン（スペースキー）を押すことで、クイズに解答できます。";
-        // }
+        if(myApp.val.os != 'other'){
+            myApp.elem.text.innerHTML = "問題中に早押しボタンをタップすることで<br>クイズに解答することができます。";
+        }else{
+            myApp.elem.subText.innerHTML = "問題中に早押しボタン（スペースキー）を押すことで<br>クイズに解答することができます。";
+        }
     },
     function(){
         /* 第１問 */
@@ -818,10 +818,8 @@ myApp.val.srtFuncArray = [
         myApp.val.cntPush = 0;
         myApp.val.correctBool = false;
         myApp.elem.text.innerHTML = "第"+myApp.val.numQues+"問";
-        if(myApp.val.os != 'other'){
-            // myApp.elem.subText.innerHTML = "問題中に早押しボタンをタップすることで、";
-        }else{
-            myApp.elem.subText.innerHTML = "早押しボタン（スペースキー）を押すことで、クイズに解答できます。";
+        if(myApp.val.os == 'other'){
+            myApp.elem.subText.innerHTML = "早押しボタン（スペースキー）を押して解答権を得る";
         }
         if(Math.abs(window.orientation) != 90){ myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src; }
     },
@@ -835,10 +833,8 @@ myApp.val.srtFuncArray = [
         myApp.val.cntPush = 0;
         myApp.val.correctBool = false;
         myApp.elem.text.innerHTML = "第"+myApp.val.numQues+"問";
-        if(myApp.val.os != 'other'){
-            // myApp.elem.subText.innerHTML = "問題中に早押しボタンをタップすることで、クイズに参加できます";
-        }else{
-            myApp.elem.subText.innerHTML = "早押しボタン（スペースキー）を押すことで、クイズに解答できます。";
+        if(myApp.val.os == 'other'){
+            myApp.elem.subText.innerHTML = "早押しボタン（スペースキー）を押して解答権を得る";
         }
         if(Math.abs(window.orientation) != 90){ myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src; }
     },
@@ -852,10 +848,8 @@ myApp.val.srtFuncArray = [
         myApp.val.cntPush = 0;
         myApp.val.correctBool = false;
         myApp.elem.text.innerHTML = "第"+myApp.val.numQues+"問";
-        if(myApp.val.os != 'other'){
-            // myApp.elem.subText.innerHTML = "問題中に早押しボタンをタップすることで、クイズに参加できます";
-        }else{
-            myApp.elem.subText.innerHTML = "早押しボタン（スペースキー）を押すことで、クイズに解答できます。";
+        if(myApp.val.os == 'other'){
+            myApp.elem.subText.innerHTML = "早押しボタン（スペースキー）を押して解答権を得る";
         }
         if(Math.abs(window.orientation) != 90){ myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src; }
     },
