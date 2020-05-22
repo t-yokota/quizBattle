@@ -210,7 +210,7 @@ myApp.elem.pushBtn.onerror = function(){
     alert("画像の読み込みに失敗しました。ページを再読み込みしてください。" );
 };
 myApp.elem.pushBtn.onload = function(){
-    alert("test");
+    // alert("test");
     if(myApp.val.initLoadBool == false){
         /* change player and push button size after loading image */
         resizePlayer();
@@ -221,6 +221,7 @@ myApp.elem.pushBtn.onload = function(){
 function materialCheckFunction(){
     if(myApp.val.loadErrorBool == false){
         if(myApp.val.initLoadBool == false && myApp.val.loadCount == 6){
+            myApp.val.loadCount = 0;
             /* assign init push button image and main text */
             myApp.elem.pushBtn.width = document.documentElement.clientWidth/5; /* init size before loading */
             if(myApp.val.os != "other"){
