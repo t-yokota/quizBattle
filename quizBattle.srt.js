@@ -122,20 +122,38 @@ document.styleSheets.item(0).insertRule('html {touch-action: manipulation;}'); /
 document.styleSheets.item(0).insertRule('body {text-align: center; margin: auto; background: #EFEFEF;}');
 //
 /* set elements */
-document.getElementsByTagName("body")[0].appendChild(myApp.elem.text);
-document.getElementsByTagName('body')[0].appendChild(document.createElement("br"));
-document.getElementsByTagName("body")[0].appendChild(myApp.elem.subText);
-document.getElementsByTagName('body')[0].appendChild(document.createElement("br"));
-document.getElementsByTagName('body')[0].appendChild(document.createElement("br"));
-document.getElementsByTagName("body")[0].appendChild(myApp.elem.ansCol);
-document.getElementsByTagName("body")[0].appendChild(document.createElement("br"));
-document.getElementsByTagName("body")[0].appendChild(myApp.elem.ansBtn);
-document.getElementsByTagName("body")[0].appendChild(document.createElement("br"));
-document.getElementsByTagName("body")[0].appendChild(myApp.elem.pushBtn);
-document.getElementsByTagName("body")[0].appendChild(document.createElement("br"));
-document.getElementsByTagName("body")[0].appendChild(myApp.elem.numOX);
-document.getElementsByTagName("body")[0].appendChild(document.createElement("br"));
-document.getElementsByTagName("body")[0].appendChild(myApp.elem.paramText);
+if(myApp.val.os != 'other'){
+    document.getElementsByTagName('body')[0].appendChild(document.createElement("br"));
+    document.getElementsByTagName('body')[0].appendChild(document.createElement("br"));
+    document.getElementsByTagName("body")[0].appendChild(myApp.elem.text);
+    document.getElementsByTagName('body')[0].appendChild(document.createElement("br"));
+    document.getElementsByTagName('body')[0].appendChild(document.createElement("br"));
+    document.getElementsByTagName("body")[0].appendChild(myApp.elem.ansCol);
+    document.getElementsByTagName("body")[0].appendChild(document.createElement("br"));
+    document.getElementsByTagName("body")[0].appendChild(myApp.elem.ansBtn);
+    document.getElementsByTagName("body")[0].appendChild(document.createElement("br"));
+    document.getElementsByTagName("body")[0].appendChild(myApp.elem.pushBtn);
+    document.getElementsByTagName("body")[0].appendChild(document.createElement("br"));
+    document.getElementsByTagName("body")[0].appendChild(myApp.elem.numOX);
+    document.getElementsByTagName("body")[0].appendChild(document.createElement("br"));
+    document.getElementsByTagName("body")[0].appendChild(myApp.elem.paramText);
+    
+}else{
+    document.getElementsByTagName("body")[0].appendChild(myApp.elem.text);
+    document.getElementsByTagName('body')[0].appendChild(document.createElement("br"));
+    document.getElementsByTagName("body")[0].appendChild(myApp.elem.subText);
+    document.getElementsByTagName('body')[0].appendChild(document.createElement("br"));
+    document.getElementsByTagName('body')[0].appendChild(document.createElement("br"));
+    document.getElementsByTagName("body")[0].appendChild(myApp.elem.ansCol);
+    document.getElementsByTagName("body")[0].appendChild(document.createElement("br"));
+    document.getElementsByTagName("body")[0].appendChild(myApp.elem.ansBtn);
+    document.getElementsByTagName("body")[0].appendChild(document.createElement("br"));
+    document.getElementsByTagName("body")[0].appendChild(myApp.elem.pushBtn);
+    document.getElementsByTagName("body")[0].appendChild(document.createElement("br"));
+    document.getElementsByTagName("body")[0].appendChild(myApp.elem.numOX);
+    document.getElementsByTagName("body")[0].appendChild(document.createElement("br"));
+    document.getElementsByTagName("body")[0].appendChild(myApp.elem.paramText);    
+}
 //
 /* add textnodes to the elements */
 const my_node_text     = document.createTextNode("");
@@ -151,7 +169,7 @@ myApp.elem.numOX.appendChild(my_node_numOX);
 myApp.val.os = fetchOSType();
 if(myApp.val.os != 'other'){
     myApp.elem.text.style.fontSize    = '40px';
-    myApp.elem.text.style.lineHeight  = '100px';
+    myApp.elem.text.style.lineHeight  = '50px';
     myApp.elem.text.style.fontWeight  = 'bold';
     // myApp.elem.subText.style.fontSize = '30px';
     myApp.elem.ansCol.style.fontSize  = '35px';
