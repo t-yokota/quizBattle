@@ -239,7 +239,7 @@ function materialCheckFunction(){
             }else{
                 myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src;
                 if(detectTouchPanel() == true){
-                    myApp.elem.subText.innerHTML = "早押しボタンをタップ（またはスペースキーを押下）して動画を再生する"; 
+                    myApp.elem.subText.innerHTML = "早押しボタン（スペースキー）を押して動画を再生する"; 
                 }else{
                     myApp.elem.subText.innerHTML = "早押しボタン（スペースキー）を押して動画を再生する";
                 }
