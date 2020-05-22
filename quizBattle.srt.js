@@ -131,6 +131,7 @@ if(myApp.val.os != 'other'){
     document.getElementsByTagName("body")[0].appendChild(myApp.elem.brTextBtm);
     document.getElementsByTagName("body")[0].appendChild(myApp.elem.ansCol);
     document.getElementsByTagName("body")[0].appendChild(document.createElement("br"));
+    document.getElementsByTagName("body")[0].appendChild(document.createElement("br"));
     document.getElementsByTagName("body")[0].appendChild(myApp.elem.ansBtn);
     document.getElementsByTagName("body")[0].appendChild(document.createElement("br"));
     document.getElementsByTagName("body")[0].appendChild(myApp.elem.pushBtn);
