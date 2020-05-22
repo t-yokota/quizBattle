@@ -122,6 +122,7 @@ document.styleSheets.item(0).insertRule('html {touch-action: manipulation;}'); /
 document.styleSheets.item(0).insertRule('body {text-align: center; margin: auto; background: #EFEFEF;}');
 //
 /* set elements */
+myApp.val.os = fetchOSType();
 if(myApp.val.os != 'other'){
     document.getElementsByTagName('body')[0].appendChild(document.createElement("br"));
     document.getElementsByTagName('body')[0].appendChild(document.createElement("br"));
@@ -165,7 +166,6 @@ myApp.elem.paramText.appendChild(my_node_paramText);
 myApp.elem.numOX.appendChild(my_node_numOX);
 //
 /* set parameters to the elements based on device type */
-myApp.val.os = fetchOSType();
 if(myApp.val.os != 'other'){
     myApp.elem.text.style.fontSize    = '40px';
     myApp.elem.text.style.lineHeight  = '50px';
