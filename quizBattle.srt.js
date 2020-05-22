@@ -17,6 +17,8 @@ const myApp = {
     },
     elem : {
         text      : document.createElement("text"),
+        brTextTop : document.createElement("text"),
+        brTextBtm : document.createElement("text"),
         subText   : document.createElement("text"),
         ansCol    : document.createElement("textarea"), 
         ansBtn    : document.createElement("button"),
@@ -124,11 +126,9 @@ document.styleSheets.item(0).insertRule('body {text-align: center; margin: auto;
 /* set elements */
 myApp.val.os = fetchOSType();
 if(myApp.val.os != 'other'){
-    document.getElementsByTagName('body')[0].appendChild(document.createElement("br"));
-    document.getElementsByTagName('body')[0].appendChild(document.createElement("br"));
+    document.getElementsByTagName("body")[0].appendChild(myApp.elem.brTextTop);
     document.getElementsByTagName("body")[0].appendChild(myApp.elem.text);
-    document.getElementsByTagName('body')[0].appendChild(document.createElement("br"));
-    document.getElementsByTagName('body')[0].appendChild(document.createElement("br"));
+    document.getElementsByTagName("body")[0].appendChild(myApp.elem.brTextBtm);
     document.getElementsByTagName("body")[0].appendChild(myApp.elem.ansCol);
     document.getElementsByTagName("body")[0].appendChild(document.createElement("br"));
     document.getElementsByTagName("body")[0].appendChild(myApp.elem.ansBtn);
@@ -170,6 +170,8 @@ if(myApp.val.os != 'other'){
     myApp.elem.text.style.fontSize    = '40px';
     myApp.elem.text.style.lineHeight  = '50px';
     myApp.elem.text.style.fontWeight  = 'bold';
+    myApp.elem.brTextTop.style.lineHeight = '25px';
+    myApp.elem.brTextTop.style.lineHeight = '25px';
     // myApp.elem.subText.style.fontSize = '30px';
     myApp.elem.ansCol.style.fontSize  = '35px';
     myApp.elem.ansCol.style.textAlign = 'center';
@@ -181,7 +183,7 @@ if(myApp.val.os != 'other'){
     myApp.elem.text.style.fontSize    = '28px';
     myApp.elem.text.style.lineHeight  = '80px';
     myApp.elem.text.style.fontWeight  = 'bold';
-    myApp.elem.subText.style.fontSize = '20px';
+    myApp.elem.subText.style.fontSize = '22px';
     myApp.elem.ansCol.style.fontSize  = '25px';
     myApp.elem.ansCol.style.textAlign = 'center';
     myApp.elem.ansBtn.style.fontSize  = '25px';
@@ -657,7 +659,7 @@ function buttonCheck(responseInterval){
         if(myApp.val.os != 'other'){
             myApp.elem.text.innerHTML = "問題中に早押しボタンをタップすることで、<br>クイズに解答することができます。";
         }else{
-            myApp.elem.subText.innerHTML = "早押しボタン（スペースキー）を押すことで、クイズに解答できます。";
+            myApp.elem.subText.innerHTML = "";
         }
     }, responseInterval);
 }
