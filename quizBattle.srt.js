@@ -178,11 +178,11 @@ if(myApp.val.os != 'other'){
 //
 /* set parameters to the elements based on device type */
 if(myApp.val.os != 'other'){
-    myApp.elem.brTextTop.style.fontSize = '35px';
+    myApp.elem.brTextTop.style.fontSize = '32px';
     myApp.elem.text.style.fontSize      = '40px';
     myApp.elem.text.style.lineHeight    = '60px';
     myApp.elem.text.style.fontWeight    = 'bold';
-    myApp.elem.brTextBtm.style.fontSize = '35px';
+    myApp.elem.brTextBtm.style.fontSize = '32px';
     myApp.elem.ansCol.style.fontSize    = '35px';
     myApp.elem.ansCol.style.textAlign   = 'center';
     myApp.elem.ansBtn.style.fontSize    = '35px';
@@ -829,8 +829,8 @@ myApp.val.srtFuncArray = [
         myApp.val.cntPush = 0;
         myApp.val.correctBool = false;
         myApp.elem.text.style.fontWeight = 'bold';
-        myApp.elem.brTextTop.style.fontSize = '35px';
-        myApp.elem.brTextBtm.style.fontSize = '35px';
+        myApp.elem.brTextTop.style.fontSize = '32px';
+        myApp.elem.brTextBtm.style.fontSize = '32px';
         myApp.elem.text.innerHTML = "第"+myApp.val.numQues+"問";
         if(myApp.val.os == 'other'){
             myApp.elem.subText.innerHTML = "早押しボタン（スペースキー）を押して解答権を得る";
