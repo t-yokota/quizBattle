@@ -806,9 +806,10 @@ myApp.val.srtFuncArray = [
         /* ボタンチェック後〜第１問 */
         myApp.val.status = myApp.state.Talk;
         if(myApp.val.os != 'other'){
-            myApp.elem.text.innerHTML = "　問題中に早押しボタンをタップすることで、<br>クイズに解答することができます。";
+            myApp.elem.text.style.fontWeight = 'normal';
+            myApp.elem.text.innerHTML = "　問題中に早押しボタンをタップすると、<br>クイズに解答することができます。";
         }else{
-            myApp.elem.subText.innerHTML = "　問題中に早押しボタン（スペースキー）を押すことで、<br>クイズに解答することができます。";
+            myApp.elem.subText.innerHTML = "　問題中に早押しボタンを押すと、クイズに解答することができます。";
         }
     },
     function(){
@@ -817,6 +818,7 @@ myApp.val.srtFuncArray = [
         myApp.val.numQues = 1;
         myApp.val.cntPush = 0;
         myApp.val.correctBool = false;
+        myApp.elem.text.style.fontWeight = 'bold';
         myApp.elem.text.innerHTML = "第"+myApp.val.numQues+"問";
         if(myApp.val.os == 'other'){
             myApp.elem.subText.innerHTML = "早押しボタン（スペースキー）を押して解答権を得る";
