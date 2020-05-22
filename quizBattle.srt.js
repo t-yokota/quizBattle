@@ -171,8 +171,8 @@ if(myApp.val.os != 'other'){
     const my_node_brTextBtm = document.createTextNode("");
     myApp.elem.brTextTop.appendChild(my_node_brTextTop);
     myApp.elem.brTextBtm.appendChild(my_node_brTextBtm);
-    myApp.elem.brTextTop.innerHTML = "あ<br>"
-    myApp.elem.brTextBtm.innerHTML = "あ<br>"
+    myApp.elem.brTextTop.innerHTML = "<br>"
+    myApp.elem.brTextBtm.innerHTML = "<br><br>"
 }
 //
 /* set parameters to the elements based on device type */
