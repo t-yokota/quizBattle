@@ -210,6 +210,7 @@ myApp.elem.pushBtn.onerror = function(){
     alert("画像の読み込みに失敗しました。ページを再読み込みしてください。" );
 };
 myApp.elem.pushBtn.onload = function(){
+    alert("test");
     if(myApp.val.initLoadBool == false){
         /* change player and push button size after loading image */
         resizePlayer();
