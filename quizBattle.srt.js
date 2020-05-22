@@ -150,10 +150,10 @@ myApp.elem.numOX.appendChild(my_node_numOX);
 /* set parameters to the elements based on device type */
 myApp.val.os = fetchOSType();
 if(myApp.val.os != 'other'){
-    myApp.elem.text.style.fontSize    = '38px';
-    myApp.elem.text.style.lineHeight  = '80px';
+    myApp.elem.text.style.fontSize    = '40px';
+    myApp.elem.text.style.lineHeight  = '100px';
     myApp.elem.text.style.fontWeight  = 'bold';
-    myApp.elem.subText.style.fontSize = '20px';
+    myApp.elem.subText.style.fontSize = '30px';
     myApp.elem.ansCol.style.fontSize  = '35px';
     myApp.elem.ansCol.style.textAlign = 'center';
     myApp.elem.ansBtn.style.fontSize  = '35px';
