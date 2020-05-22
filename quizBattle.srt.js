@@ -39,10 +39,10 @@ const myApp = {
     val : {
         srtFuncArray : null, //array of functions that are executed in each subtitle
         //
+        os : null,
+        //
         audioExt   : null,
         spriteData : null, //for audio sprite
-        //
-        os : null,
         //
         playerWidth   : 0,
         playerHeight  : 0,
@@ -80,8 +80,6 @@ const myApp = {
             playInterval : 3000, //[ms]
         },
         //
-        ansFile : new XMLHttpRequest(),  //正答ファイル.csv
-        //
         /* for question manegament */
         numQues     : 0,     //問題番号
         ansArray    : [],    //正答リスト
@@ -90,6 +88,8 @@ const myApp = {
         cntPush     : 0,     //1問あたりの解答回数
         limPush     : 3,     //1問あたりの上限解答回数
         correctBool : false, //答え合わせ結果(結果に応じて状態遷移)
+        //
+        ansFile : new XMLHttpRequest(), //正答ファイル.csv
         //
         /* for status management */
         status   : this.state.Talk,
@@ -207,18 +207,19 @@ myApp.elem.imgBtn4.src = "https://github.com/t-yokota/quizBattle/raw/master/figu
 myApp.val.ansFile.open("get", "https://raw.githubusercontent.com/t-yokota/quizBattle/master/answer_utf-8.csv", true);
 myApp.val.ansFile.send(null);
 //
-/* change player and push button size after loading image */
+/* function executed after initial loading */
 myApp.elem.pushBtn.onerror = function(){
     myApp.val.loadErrorBool = true;
     alert("画像の読み込みに失敗しました。ページを再読み込みしてください。" );
 };
 myApp.elem.pushBtn.onload = function(){
     if(myApp.val.initLoadBool == false){
+        /* change player and push button size after loading image */
         resizePlayer();
         resizePushButton();
+        myApp.val.initLoadBool = true;
     }
 };
-/* function executed after initial loading */
 function materialCheckFunction(){
     if(myApp.val.loadErrorBool == false){
         if(myApp.val.initLoadBool == false && myApp.val.loadCount == num_of_materials){
@@ -246,7 +247,6 @@ function materialCheckFunction(){
             if(myApp.val.os != "other" && myApp.val.initOrientation == 'landscape'){
                 alert("このサイトはスマートフォン/タブレットを縦向きにしてお楽しみください。");
             }
-            myApp.val.initLoadBool = true;
         }else if(myApp.val.initLoadBool == true && myApp.val.imgDisplayCheckBool == false){
             setTimeout(function(){
                 if(Math.abs(myApp.elem.numOX.getBoundingClientRect().top - myApp.elem.ansBtn.getBoundingClientRect().bottom) < 50){
@@ -328,18 +328,7 @@ function myOrientationChangeEvent(){
 function myKeyDownEvent(){
     if(myApp.val.loadErrorBool == false && myApp.val.initLoadBool == true && Math.abs(window.orientation) != 90){
         if(event.keyCode == myApp.val.pushBtn){
-            if(myApp.val.status == myApp.state.ButtonCheck){
-                // myApp.elem.sndPush.play();
-                myApp.val.status = myApp.state.Talk;
-                buttonCheck(myApp.val.btnCheck.sndInterval);
-                setTimeout(function(){ player.playVideo(); }, myApp.val.btnCheck.playInterval);
-            }
-            if(myApp.val.status == myApp.state.Question){
-                // myApp.elem.sndPush.play();
-                myApp.val.status = myApp.state.MyAnswer;
-                player.pauseVideo();
-                pushButton();
-            }
+            buttonAction();
         }
         if(event.keyCode == myApp.val.enter){
             if(myApp.val.composingBool == false){
@@ -350,25 +339,27 @@ function myKeyDownEvent(){
 }
 //
 /* touchstart event function (for smartphonea and tablet) */
-function myTouchEvent(event){    
+function myTouchEvent(event){
     if(myApp.val.loadErrorBool == false && myApp.val.initLoadBool == true && Math.abs(window.orientation) != 90){ 
         myApp.val.touchObject = event.changedTouches[0];
         if(myApp.val.pushBtnArea.left < myApp.val.touchObject.pageX && myApp.val.touchObject.pageX < myApp.val.pushBtnArea.right){
             if(myApp.val.pushBtnArea.top < myApp.val.touchObject.pageY && myApp.val.touchObject.pageY < myApp.val.pushBtnArea.bottom){
-                if(myApp.val.status == myApp.state.ButtonCheck){
-                    // myApp.elem.sndPush.play();
-                    myApp.val.status = myApp.state.Talk;
-                    buttonCheck(myApp.val.btnCheck.sndInterval);
-                    setTimeout(function(){ player.playVideo(); }, myApp.val.btnCheck.playInterval);
-                }
-                if(myApp.val.status == myApp.state.Question){
-                    // myApp.elem.sndPush.play();
-                    myApp.val.status = myApp.state.MyAnswer;
-                    player.pauseVideo();
-                    pushButton();
-                }
+                buttonAction();
             }
         }
+    }
+}
+/* common button action */
+function buttonAction(){
+    if(myApp.val.status == myApp.state.ButtonCheck){
+        myApp.val.status = myApp.state.Talk;
+        buttonCheck(myApp.val.btnCheck.sndInterval);
+        setTimeout(function(){ player.playVideo(); }, myApp.val.btnCheck.playInterval);
+    }
+    if(myApp.val.status == myApp.state.Question){
+        myApp.val.status = myApp.state.MyAnswer;
+        player.pauseVideo();
+        pushButton();
     }
 }
 //
