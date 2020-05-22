@@ -164,14 +164,16 @@ myApp.elem.text.appendChild(my_node_text);
 myApp.elem.subText.appendChild(my_node_subText);
 myApp.elem.paramText.appendChild(my_node_paramText);
 myApp.elem.numOX.appendChild(my_node_numOX);
+myApp.elem.brTextTop.appendChild(document.createTextNode('<br>'));
+myApp.elem.brTextBtm.appendChild(document.createTextNode('<br>'));
 //
 /* set parameters to the elements based on device type */
 if(myApp.val.os != 'other'){
+    myApp.elem.brTextTop.style.fontSize = '25px';
     myApp.elem.text.style.fontSize    = '40px';
     myApp.elem.text.style.lineHeight  = '50px';
     myApp.elem.text.style.fontWeight  = 'bold';
-    myApp.elem.brTextTop.style.lineHeight = '25px';
-    myApp.elem.brTextTop.style.lineHeight = '25px';
+    myApp.elem.brTextBtm.style.fontSize = '25px';
     // myApp.elem.subText.style.fontSize = '30px';
     myApp.elem.ansCol.style.fontSize  = '35px';
     myApp.elem.ansCol.style.textAlign = 'center';
