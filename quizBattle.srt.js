@@ -16,22 +16,18 @@ const myApp = {
         Stopped : 2,
     },
     elem : {
-        text    : document.createElement("text"),
-        ansCol  : document.createElement("textarea"), 
-        ansBtn  : document.createElement("button"),
-        numOX   : document.createElement("text"),
-        pushBtn : document.createElement("img"),
-        imgBtn1 : document.createElement("img"),
-        imgBtn2 : document.createElement("img"),
-        imgBtn3 : document.createElement("img"),
-        imgBtn4 : document.createElement("img"),
-        sounds  : document.createElement("audio"),
-        br1     : document.createElement("br"),
-        br2     : document.createElement("br"),
-        br3     : document.createElement("br"),
-        br4     : document.createElement("br"),
-        br5     : document.createElement("br"),
-        subText : document.createElement("text"),
+        text      : document.createElement("text"),
+        subText   : document.createElement("text"),
+        ansCol    : document.createElement("textarea"), 
+        ansBtn    : document.createElement("button"),
+        numOX     : document.createElement("text"),
+        pushBtn   : document.createElement("img"),
+        imgBtn1   : document.createElement("img"),
+        imgBtn2   : document.createElement("img"),
+        imgBtn3   : document.createElement("img"),
+        imgBtn4   : document.createElement("img"),
+        sounds    : document.createElement("audio"),
+        paramText : document.createElement("text"),
     },
     val : {
         srtFuncArray : null, //array of functions that are executed in each subtitle
@@ -127,31 +123,37 @@ document.styleSheets.item(0).insertRule('body {text-align: center; margin: auto;
 //
 /* set elements */
 document.getElementsByTagName("body")[0].appendChild(myApp.elem.text);
-document.getElementsByTagName('body')[0].appendChild(myApp.elem.br1);
-document.getElementsByTagName("body")[0].appendChild(myApp.elem.ansCol);
-document.getElementsByTagName("body")[0].appendChild(myApp.elem.br2);
-document.getElementsByTagName("body")[0].appendChild(myApp.elem.ansBtn);
-document.getElementsByTagName("body")[0].appendChild(myApp.elem.br3);
-document.getElementsByTagName("body")[0].appendChild(myApp.elem.pushBtn);
-document.getElementsByTagName("body")[0].appendChild(myApp.elem.br4);
-document.getElementsByTagName("body")[0].appendChild(myApp.elem.numOX);
-document.getElementsByTagName("body")[0].appendChild(myApp.elem.br5);
+document.getElementsByTagName('body')[0].appendChild(document.createElement("br"));
 document.getElementsByTagName("body")[0].appendChild(myApp.elem.subText);
+document.getElementsByTagName('body')[0].appendChild(document.createElement("br"));
+document.getElementsByTagName('body')[0].appendChild(document.createElement("br"));
+document.getElementsByTagName("body")[0].appendChild(myApp.elem.ansCol);
+document.getElementsByTagName("body")[0].appendChild(document.createElement("br"));
+document.getElementsByTagName("body")[0].appendChild(myApp.elem.ansBtn);
+document.getElementsByTagName("body")[0].appendChild(document.createElement("br"));
+document.getElementsByTagName("body")[0].appendChild(myApp.elem.pushBtn);
+document.getElementsByTagName("body")[0].appendChild(document.createElement("br"));
+document.getElementsByTagName("body")[0].appendChild(myApp.elem.numOX);
+document.getElementsByTagName("body")[0].appendChild(document.createElement("br"));
+document.getElementsByTagName("body")[0].appendChild(myApp.elem.paramText);
 //
 /* add textnodes to the elements */
-const my_node_text    = document.createTextNode("");
-const my_node_subText = document.createTextNode("");
-const my_node_numOX   = document.createTextNode("");
+const my_node_text     = document.createTextNode("");
+const my_node_subText  = document.createTextNode("");
+const my_node_paramText = document.createTextNode("");
+const my_node_numOX    = document.createTextNode("");
 myApp.elem.text.appendChild(my_node_text);
 myApp.elem.subText.appendChild(my_node_subText);
+myApp.elem.paramText.appendChild(my_node_paramText);
 myApp.elem.numOX.appendChild(my_node_numOX);
 //
 /* set parameters to the elements based on device type */
 myApp.val.os = fetchOSType();
 if(myApp.val.os != 'other'){
     myApp.elem.text.style.fontSize    = '38px';
-    myApp.elem.text.style.lineHeight  = '100px';
+    myApp.elem.text.style.lineHeight  = '80px';
     myApp.elem.text.style.fontWeight  = 'bold';
+    myApp.elem.subText.style.fontSize = '20px';
     myApp.elem.ansCol.style.fontSize  = '35px';
     myApp.elem.ansCol.style.textAlign = 'center';
     myApp.elem.ansBtn.style.fontSize  = '35px';
@@ -159,9 +161,10 @@ if(myApp.val.os != 'other'){
     myApp.elem.numOX.style.lineHeight = '50px';
     myApp.elem.numOX.style.fontWeight = 'bold';   
 }else{
-    myApp.elem.text.style.fontSize    = '30px';
-    myApp.elem.text.style.lineHeight  = '90px';
+    myApp.elem.text.style.fontSize    = '28px';
+    myApp.elem.text.style.lineHeight  = '80px';
     myApp.elem.text.style.fontWeight  = 'bold';
+    myApp.elem.subText.style.fontSize = '20px';
     myApp.elem.ansCol.style.fontSize  = '25px';
     myApp.elem.ansCol.style.textAlign = 'center';
     myApp.elem.ansBtn.style.fontSize  = '25px';
@@ -210,7 +213,6 @@ myApp.elem.pushBtn.onerror = function(){
     alert("画像の読み込みに失敗しました。ページを再読み込みしてください。" );
 };
 myApp.elem.pushBtn.onload = function(){
-    // alert("test");
     if(myApp.val.initLoadBool == false){
         /* change player and push button size after loading image */
         resizePlayer();
@@ -220,26 +222,26 @@ myApp.elem.pushBtn.onload = function(){
 };
 function materialCheckFunction(){
     if(myApp.val.loadErrorBool == false){
-        if(myApp.val.initLoadBool == false && myApp.val.loadCount == 6){
+        if(myApp.val.initLoadBool == false && myApp.val.loadCount == num_of_materials){
             myApp.val.loadCount = 0;
             /* assign init push button image and main text */
             myApp.elem.pushBtn.width = document.documentElement.clientWidth/5; /* init size before loading */
             if(myApp.val.os != "other"){
                 if(Math.abs(window.orientation) != 90){
                     myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src;
-                    myApp.elem.text.innerHTML = "下の早押しボタンをタップしてクイズをはじめる";
+                    myApp.elem.subText.innerHTML = "下の早押しボタンをタップして動画を再生する";
                     myApp.val.initOrientation = 'portrait';
                 }else{
                     myApp.elem.pushBtn.src = myApp.elem.imgBtn4.src;
-                    myApp.elem.text.innerHTML = "スマホ/タブレットを縦向きにしてクイズをはじめる";
+                    myApp.elem.subText.innerHTML = "スマホ/タブレットを縦向きにしてクイズをはじめる";
                     myApp.val.initOrientation = 'landscape';
                 }
             }else{
                 myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src;
                 if(detectTouchPanel() == true){
-                    myApp.elem.text.innerHTML = "早押しボタンのタップ/スペースキーの押下でクイズをはじめる"; 
+                    myApp.elem.subText.innerHTML = "早押しボタンをタップ（またはスペースキーを押下）して動画を再生する"; 
                 }else{
-                    myApp.elem.text.innerHTML = "スペースキーを押してクイズをはじめる";
+                    myApp.elem.subText.innerHTML = "早押しボタン（スペースキー）を押して動画を再生する";
                 }
             }
             /* show alert based on initial orientation */
@@ -247,13 +249,11 @@ function materialCheckFunction(){
                 alert("このサイトはスマートフォン/タブレットを縦向きにしてお楽しみください。");
             }
         }else if(myApp.val.initLoadBool == true && myApp.val.imgDisplayCheckBool == false){
-            // setTimeout(function(){
-            //     if(Math.abs(myApp.elem.numOX.getBoundingClientRect().top - myApp.elem.ansBtn.getBoundingClientRect().bottom) < 50){
-            //         player.pauseVideo();
-            //         alert("画像の読み込みに失敗しました。ページを再読み込みしてください。");
-            //     }
-            // }, 1000);
-            // myApp.val.imgDisplayCheckBool = true;
+            if(Math.abs(myApp.elem.numOX.getBoundingClientRect().top - myApp.elem.ansBtn.getBoundingClientRect().bottom) < 50){
+                player.pauseVideo();
+                alert("画像の表示に失敗しました。ページを再読み込みしてください。");
+            }
+            myApp.val.imgDisplayCheckBool = true;
         }
     }else{
         alert("ページの読み込みに失敗しました。ページを再読み込みしてください。");
@@ -283,7 +283,7 @@ function spriteHandler(){
 };
 //
 /* set init value to the elements */
-// myApp.elem.text.innerHTML   = "quizBattle.srt.js";
+myApp.elem.text.innerHTML   = "quizBattle.srt.js";
 myApp.elem.ansCol.value     = "ここに解答を入力";
 myApp.elem.ansBtn.innerHTML = "解答を送信";
 myApp.elem.numOX.innerHTML  = "⭕️："+myApp.val.cntO+"　❌："+myApp.val.cntX;
@@ -315,9 +315,9 @@ function myOrientationChangeEvent(){
         }
         if(myApp.val.status == myApp.state.ButtonCheck && myApp.val.initOrientation == 'landscape'){
             if(Math.abs(window.orientation) != 90){
-                myApp.elem.text.innerHTML = "下の早押しボタンをタップして開始";
+                myApp.elem.subText.innerHTML = "下の早押しボタンをタップして開始";
             }else{
-                myApp.elem.text.innerHTML = "スマホ/タブレットを縦向きにしてクイズをはじめる";
+                myApp.elem.subText.innerHTML = "スマホ/タブレットを縦向きにしてクイズをはじめる";
             }
         }
     }, 500);
@@ -443,7 +443,7 @@ function myIntervalEvent(){
         /* answer time managemant */
         if(document.activeElement.id == "anscol" || myApp.val.ansTime.elapsed != 0){
             myApp.val.ansTime.elapsed += interval;
-            myApp.elem.text.innerHTML = "のこり"+Math.floor((myApp.val.ansTime.limit-myApp.val.ansTime.elapsed)/1000+1)+"秒";
+            myApp.elem.subText.innerHTML = "のこり"+Math.floor((myApp.val.ansTime.limit-myApp.val.ansTime.elapsed)/1000+1)+"秒";
             if(myApp.val.ansTime.elapsed >= myApp.val.ansTime.limit){
                 checkAnswer();
                 if(myApp.val.correctBool == true || myApp.val.limPush - myApp.val.cntPush == 0){
@@ -530,7 +530,7 @@ function resizePlayer(){
         }else{
             myApp.val.playerWidth  = document.documentElement.clientWidth*2/3;
             myApp.val.playerHeight = myApp.val.playerWidth/16*9;
-            // myApp.val.playerHeight = document.documentElement.clientHeight-parseInt(myApp.elem.text.style.lineHeight)-20;
+            // myApp.val.playerHeight = document.documentElement.clientHeight-parseInt(myApp.elem.subText.style.lineHeight)-20;
             // myApp.val.playerWidth  = myApp.val.playerHeight/9*16;
         }
         if(myApp.val.os == 'Android' && navigator.userAgent.match(/Firefox/)){
@@ -668,11 +668,11 @@ function checkAnswer(){
     if(myApp.val.correctBool == true){
         playSndO();
         myApp.val.cntO += 1;
-        myApp.elem.text.innerHTML = "正解！";
+        myApp.elem.subText.innerHTML = "正解！";
     }else{
         playSndX();
         myApp.val.cntX += 1;
-        myApp.elem.text.innerHTML = "不正解！"; //あと"+(myApp.val.limPush-myApp.val.cntPush)+"回解答できます。";
+        myApp.elem.subText.innerHTML = "不正解！"; //あと"+(myApp.val.limPush-myApp.val.cntPush)+"回解答できます。";
     }
     myApp.elem.numOX.innerHTML  = "⭕️："+myApp.val.cntO+"　❌："+myApp.val.cntX;
     //
@@ -688,23 +688,23 @@ function checkAnswer(){
 }
 //
 function printParams(){
-    // myApp.elem.text.innerHTML = detectTouchPanel();
-    // myApp.elem.text.innerHTML = myApp.val.os + ', ' + navigator.userAgent;
-    // myApp.elem.text.innerHTML = document.styleSheets.item(1).cssRules.length;
-    // myApp.elem.text.innerHTML = myApp.elem.sounds.src;
-    // myApp.elem.text.innerHTML = "sounds.currentTime: " + Math.abs(Math.floor(myApp.elem.sounds.currentTime*1000)/1000);
-    // myApp.elem.text.innerHTML = "docWidth: " + document.documentElement.clientWidth +", "+
+    // myApp.elem.subText.innerHTML = detectTouchPanel();
+    // myApp.elem.subText.innerHTML = myApp.val.os + ', ' + navigator.userAgent;
+    // myApp.elem.subText.innerHTML = document.styleSheets.item(1).cssRules.length;
+    // myApp.elem.subText.innerHTML = myApp.elem.sounds.src;
+    // myApp.elem.subText.innerHTML = "sounds.currentTime: " + Math.abs(Math.floor(myApp.elem.sounds.currentTime*1000)/1000);
+    // myApp.elem.subText.innerHTML = "docWidth: " + document.documentElement.clientWidth +", "+
     //                             "docHeight: "+ document.documentElement.clientHeight + ", "+
     //                             "inWidth: "  + window.innerWidth + ", "+
     //                             "inHeight: " + window.innerHeight;
-    // myApp.elem.text.innerHTML = Math.floor(myApp.val.touchObject.pageX)      +', '+ Math.floor(myApp.val.touchObject.pageY) +' '+
+    // myApp.elem.subText.innerHTML = Math.floor(myApp.val.touchObject.pageX)      +', '+ Math.floor(myApp.val.touchObject.pageY) +' '+
     //                             '[' + Math.floor(myApp.val.pushBtnArea.left) +', '+ Math.floor(myApp.val.pushBtnArea.right) +'] '+
     //                             '[' + Math.floor(myApp.val.pushBtnArea.top)  +', '+ Math.floor(myApp.val.pushBtnArea.bottom)+'] '+
     //                             '| '+ window.pageXOffset +', '+ window.pageYOffset;
-    // myApp.elem.text.innerHTML = myApp.elem.numOX.getBoundingClientRect().top - myApp.elem.ansBtn.getBoundingClientRect().bottom;
-    myApp.elem.text.innerHTML = 'loadErrorBool: ' + myApp.val.loadErrorBool + ', initLoadBool: ' + myApp.val.initLoadBool + ', loadCount: ' + myApp.val.loadCount;
-    // myApp.elem.text.innerHTML = 'playerWidth: '  + myApp.val.playerWidth  + ', innerWidth: '      + window.innerWidth;
-    // myApp.elem.subText.innerHTML = 
+    // myApp.elem.subText.innerHTML = myApp.elem.numOX.getBoundingClientRect().top - myApp.elem.ansBtn.getBoundingClientRect().bottom;
+    // myApp.elem.subText.innerHTML = 'loadErrorBool: ' + myApp.val.loadErrorBool + ', initLoadBool: ' + myApp.val.initLoadBool + ', loadCount: ' + myApp.val.loadCount;
+    // myApp.elem.subText.innerHTML = 'playerWidth: '  + myApp.val.playerWidth  + ', innerWidth: '      + window.innerWidth;
+    // myApp.elem.paramText.innerHTML = 
     //     "device: "           + myApp.val.os+"<br>"+
     //     "activeElem: "       + document.activeElement.id+"<br>"+   
     //     "status: "           + myApp.val.status+"<br>"+
@@ -759,7 +759,11 @@ myApp.val.srtFuncArray = [
     function(){
         /* ボタンチェック後〜第１問 */
         myApp.val.status = myApp.state.Talk;
-        myApp.elem.text.innerHTML = "quizBattle.srt.js";
+        if(myApp.val.os != 'other'){
+            myApp.elem.subText.innerHTML = "問題中に早押しボタンをタップすることで、クイズに参加できます";
+        }else{
+            myApp.elem.subText.innerHTML = "問題中に早押しボタン（スペースキー）を押すことで、クイズに参加できます";
+        }
     },
     function(){
         /* 第１問 */
@@ -768,6 +772,11 @@ myApp.val.srtFuncArray = [
         myApp.val.cntPush = 0;
         myApp.val.correctBool = false;
         myApp.elem.text.innerHTML = "第"+myApp.val.numQues+"問";
+        if(myApp.val.os != 'other'){
+            myApp.elem.subText.innerHTML = "問題中に早押しボタンをタップすることで、クイズに参加できます";
+        }else{
+            myApp.elem.subText.innerHTML = "問題中に早押しボタン（スペースキー）を押すことで、クイズに参加できます";
+        }
         if(Math.abs(window.orientation) != 90){ myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src; }
     },
     function(){
@@ -780,6 +789,11 @@ myApp.val.srtFuncArray = [
         myApp.val.cntPush = 0;
         myApp.val.correctBool = false;
         myApp.elem.text.innerHTML = "第"+myApp.val.numQues+"問";
+        if(myApp.val.os != 'other'){
+            myApp.elem.subText.innerHTML = "問題中に早押しボタンをタップすることで、クイズに参加できます";
+        }else{
+            myApp.elem.subText.innerHTML = "問題中に早押しボタン（スペースキー）を押すことで、クイズに参加できます";
+        }
         if(Math.abs(window.orientation) != 90){ myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src; }
     },
     function(){
@@ -792,6 +806,11 @@ myApp.val.srtFuncArray = [
         myApp.val.cntPush = 0;
         myApp.val.correctBool = false;
         myApp.elem.text.innerHTML = "第"+myApp.val.numQues+"問";
+        if(myApp.val.os != 'other'){
+            myApp.elem.subText.innerHTML = "問題中に早押しボタンをタップすることで、クイズに参加できます";
+        }else{
+            myApp.elem.subText.innerHTML = "問題中に早押しボタン（スペースキー）を押すことで、クイズに参加できます";
+        }
         if(Math.abs(window.orientation) != 90){ myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src; }
     },
     function(){
