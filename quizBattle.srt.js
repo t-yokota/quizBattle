@@ -2,6 +2,7 @@
 00:00:00,000 --> 00:00:00,999
 /* CAUTION : Each sections of subtitle has independent scope. */
 doOnce[index] = true;
+player.pauseVideo();
 //
 const myApp = {
     state : {
