@@ -553,6 +553,13 @@ function CSVtoArray(str){
     return array;
 }
 //
+function hidePlayer(){
+    player.setSize(myApp.val.playerWidth, 0);
+}
+function opposePlayer(){
+    player.setSize(myApp.val.playerWidth, myApp.val.playerHeight);
+}
+//
 function resizePlayer(){
     if(myApp.val.os != 'other'){
         if(Math.abs(window.orientation) != 90){
@@ -666,16 +673,12 @@ function buttonCheck(responseInterval){
     setTimeout(function(){
         playSndO();
         myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src;
-        // if(myApp.val.os != 'other'){
-        //     myApp.elem.text.innerHTML = "";
-        // }else{
-        //     myApp.elem.subText.innerHTML = "";
-        // }
     }, responseInterval);
 }
 //
 function pushButton(){
     playPushBtn();
+    hidePlayer();
     if(myApp.val.os == 'iOS'){
         myApp.elem.pushBtn.src = myApp.elem.imgBtn3.src;
     }else{
@@ -721,6 +724,7 @@ function checkAnswer(){
         }
     }
     myApp.elem.numOX.innerHTML  = "⭕️："+myApp.val.cntO+"　❌："+myApp.val.cntX;
+    opposePlayer();
     //
     if(window.orientation != 90){
         if(myApp.val.correctBool == false && myApp.val.limPush - myApp.val.cntPush == 0){
@@ -809,7 +813,7 @@ myApp.val.srtFuncArray = [
             myApp.elem.text.style.fontWeight = 'normal';
             myApp.elem.brTextTop.style.fontSize = '50px';
             myApp.elem.brTextBtm.style.fontSize = '50px';
-            myApp.elem.text.innerHTML = "　問題中に早押しボタンをタップすると、<br>動画内のクイズに解答することができます。";
+            myApp.elem.text.innerHTML = "　問題中に早押しボタンをタップすると、<br>　動画内のクイズに解答することができます。";
         }else{
             myApp.elem.subText.innerHTML = "　問題中に早押しボタンを押すと、クイズに解答することができます。";
         }
