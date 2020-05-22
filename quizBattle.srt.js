@@ -25,9 +25,6 @@ const myApp = {
         imgBtn2 : document.createElement("img"),
         imgBtn3 : document.createElement("img"),
         imgBtn4 : document.createElement("img"),
-        sndPush : document.createElement("audio"),
-        sndO    : document.createElement("audio"),
-        sndX    : document.createElement("audio"),
         sounds  : document.createElement("audio"),
         br1     : document.createElement("br"),
         br2     : document.createElement("br"),
@@ -248,13 +245,13 @@ function materialCheckFunction(){
                 alert("このサイトはスマートフォン/タブレットを縦向きにしてお楽しみください。");
             }
         }else if(myApp.val.initLoadBool == true && myApp.val.imgDisplayCheckBool == false){
-            setTimeout(function(){
-                if(Math.abs(myApp.elem.numOX.getBoundingClientRect().top - myApp.elem.ansBtn.getBoundingClientRect().bottom) < 50){
-                    player.pauseVideo();
-                    alert("画像の読み込みに失敗しました。ページを再読み込みしてください。");
-                }
-            }, 1000);
-            myApp.val.imgDisplayCheckBool = true;
+            // setTimeout(function(){
+            //     if(Math.abs(myApp.elem.numOX.getBoundingClientRect().top - myApp.elem.ansBtn.getBoundingClientRect().bottom) < 50){
+            //         player.pauseVideo();
+            //         alert("画像の読み込みに失敗しました。ページを再読み込みしてください。");
+            //     }
+            // }, 1000);
+            // myApp.val.imgDisplayCheckBool = true;
         }
     }else{
         alert("ページの読み込みに失敗しました。ページを再読み込みしてください。");
@@ -608,12 +605,6 @@ function updateWatchedTime(currentPlayingTime, watchedTime){
     return watchedTime;
 }
 //
-function unlockAudio(audio){
-    audio.play();
-    audio.pause();
-    audio.currentTime = 0;    
-}
-//
 function playPushBtn(){
     if(myApp.elem.sounds.currentTime != myApp.val.spriteData.pushBtn.start){
         myApp.elem.sounds.currentTime = myApp.val.spriteData.pushBtn.start;
@@ -631,9 +622,7 @@ function playSndX(){
 //
 function buttonCheck(responseInterval){
     playPushBtn();
-    // myApp.elem.sndPush.play();
     if(myApp.val.os == 'iOS'){
-        // unlockAudio(myApp.elem.sndO);
         myApp.elem.pushBtn.src = myApp.elem.imgBtn3.src;
     }else{
         myApp.elem.pushBtn.src = myApp.elem.imgBtn2.src;
@@ -641,14 +630,12 @@ function buttonCheck(responseInterval){
     }
     setTimeout(function(){
         playSndO();
-        // myApp.elem.sndO.play();
         myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src;
     }, responseInterval);
 }
 //
 function pushButton(){
     playPushBtn();
-    // myApp.elem.sndPush.play();
     if(myApp.val.os == 'iOS'){
         myApp.elem.pushBtn.src = myApp.elem.imgBtn3.src;
     }else{
@@ -678,12 +665,10 @@ function checkAnswer(){
     }
     if(myApp.val.correctBool == true){
         playSndO();
-        // myApp.elem.sndO.play();
         myApp.val.cntO += 1;
         myApp.elem.text.innerHTML = "正解！";
     }else{
         playSndX();
-        // myApp.elem.sndX.play();
         myApp.val.cntX += 1;
         myApp.elem.text.innerHTML = "不正解！"; //あと"+(myApp.val.limPush-myApp.val.cntPush)+"回解答できます。";
     }
@@ -710,10 +695,10 @@ function printParams(){
     //                             "docHeight: "+ document.documentElement.clientHeight + ", "+
     //                             "inWidth: "  + window.innerWidth + ", "+
     //                             "inHeight: " + window.innerHeight;
-    myApp.elem.text.innerHTML = Math.floor(myApp.val.touchObject.pageX)      +', '+ Math.floor(myApp.val.touchObject.pageY) +' '+
-                                '[' + Math.floor(myApp.val.pushBtnArea.left) +', '+ Math.floor(myApp.val.pushBtnArea.right) +'] '+
-                                '[' + Math.floor(myApp.val.pushBtnArea.top)  +', '+ Math.floor(myApp.val.pushBtnArea.bottom)+'] '+
-                                '| '+ window.pageXOffset +', '+ window.pageYOffset;
+    // myApp.elem.text.innerHTML = Math.floor(myApp.val.touchObject.pageX)      +', '+ Math.floor(myApp.val.touchObject.pageY) +' '+
+    //                             '[' + Math.floor(myApp.val.pushBtnArea.left) +', '+ Math.floor(myApp.val.pushBtnArea.right) +'] '+
+    //                             '[' + Math.floor(myApp.val.pushBtnArea.top)  +', '+ Math.floor(myApp.val.pushBtnArea.bottom)+'] '+
+    //                             '| '+ window.pageXOffset +', '+ window.pageYOffset;
     // myApp.elem.text.innerHTML = myApp.elem.numOX.getBoundingClientRect().top - myApp.elem.ansBtn.getBoundingClientRect().bottom;
     // myApp.elem.text.innerHTML = 'loadErrorBool: ' + myApp.val.loadErrorBool + ', initLoadBool: ' + myApp.val.initLoadBool + ', loadCount: ' + myApp.val.loadCount;
     // myApp.elem.text.innerHTML = 'playerWidth: '  + myApp.val.playerWidth  + ', innerWidth: '      + window.innerWidth;
