@@ -812,7 +812,7 @@ myApp.val.srtFuncArray = [
             myApp.elem.text.style.fontWeight = 'normal';
             myApp.elem.textMargin.top.style.margin = '48px';
             myApp.elem.textMargin.bottom.style.margin = '48px';
-            myApp.elem.text.innerHTML = "<b>--- 遊び方 ---</b><br><p>　問題中に早押しボタンをタップすると、<br>　動画内のクイズに答えることができます。";
+            myApp.elem.text.innerHTML = "<b> ＜ 遊び方 ＞ </b><br><p>　問題中に早押しボタンをタップすると、<br>　動画内のクイズに答えることができます。";
         }else{
             myApp.elem.subText.innerHTML = "　問題中に早押しボタンを押すと、クイズに答えることができます。";
         }
