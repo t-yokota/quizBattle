@@ -123,7 +123,7 @@ myApp.elem.ansBtn.onclick = myOnClickEvent;
 //
 /* View */
 /* add rule of body to style sheet */
-const p_margin = 12;
+const p_margin = 20;
 let p_margin_dynamic = 32;
 document.styleSheets.item(0).insertRule('html {touch-action: manipulation;}'); //disable double tap gesture
 document.styleSheets.item(0).insertRule('body {text-align: center; margin: auto; background: #EFEFEF;}');
@@ -185,16 +185,17 @@ if(myApp.val.os != 'other'){
     myApp.elem.numOX.style.lineHeight   = '50px';
     myApp.elem.numOX.style.fontWeight   = 'bold';   
 }else{
-    myApp.elem.text.style.fontSize    = '28px';
-    myApp.elem.text.style.lineHeight  = '70px';
-    myApp.elem.text.style.fontWeight  = 'bold';
-    myApp.elem.subText.style.fontSize = '22px';
-    myApp.elem.ansCol.style.fontSize  = '25px';
-    myApp.elem.ansCol.style.textAlign = 'center';
-    myApp.elem.ansBtn.style.fontSize  = '25px';
-    myApp.elem.numOX.style.fontSize   = '25px';
-    myApp.elem.numOX.style.lineHeight = '35px';
-    myApp.elem.numOX.style.fontWeight = 'bold';
+    myApp.elem.text.style.fontSize      = '28px';
+    myApp.elem.text.style.lineHeight    = '70px';
+    myApp.elem.text.style.fontWeight    = 'bold';
+    myApp.elem.subText.style.fontSize   = '20px';
+    myApp.elem.subText.style.lineHeight = '30px';
+    myApp.elem.ansCol.style.fontSize    = '25px';
+    myApp.elem.ansCol.style.textAlign   = 'center';
+    myApp.elem.ansBtn.style.fontSize    = '25px';
+    myApp.elem.numOX.style.fontSize     = '25px';
+    myApp.elem.numOX.style.lineHeight   = '35px';
+    myApp.elem.numOX.style.fontWeight   = 'bold';
 }
 //
 myApp.elem.sounds.onerror  = function(){ myApp.val.loadErrorBool = true; };
@@ -814,7 +815,8 @@ myApp.val.srtFuncArray = [
             myApp.elem.textMargin.bottom.style.margin = '48px';
             myApp.elem.text.innerHTML = "<b> ＜ 遊び方 ＞ </b><br><p>　問題中に早押しボタンをタップすると、<br>　動画内のクイズに答えることができます。";
         }else{
-            myApp.elem.subText.innerHTML = "　問題中に早押しボタンを押すと、クイズに答えることができます。";
+            myApp.elem.text.innerHTML = "＜ 遊び方 ＞"
+            myApp.elem.subText.innerHTML = "　問題中に早押しボタンを押すと、<br>　動画内のクイズに答えることができます。";
         }
     },
     function(){
