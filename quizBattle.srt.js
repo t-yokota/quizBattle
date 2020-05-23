@@ -254,11 +254,11 @@ function materialCheckFunction(){
             if(myApp.val.os != "other"){
                 if(Math.abs(window.orientation) != 90){
                     myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src;
-                    myApp.elem.text.innerHTML = "下の早押しボタンをタップして動画を再生する";
+                    myApp.elem.text.innerHTML = "早押しボタンをタップして動画を再生する";
                     myApp.val.initOrientation = 'portrait';
                 }else{
                     myApp.elem.pushBtn.src = myApp.elem.imgBtn4.src;
-                    myApp.elem.text.innerHTML = "スマホ/タブレットを縦向きにしてクイズをはじめる";
+                    myApp.elem.text.innerHTML = "スマホ/タブレットを縦にしてクイズをはじめる";
                     myApp.val.initOrientation = 'landscape';
                 }
             }else{
@@ -337,13 +337,13 @@ function myOrientationChangeEvent(){
         }else{
             myApp.elem.pushBtn.src = myApp.elem.imgBtn4.src;
             if(myApp.val.orientationAlertBool == false && myApp.val.initOrientation == 'portrait'){
-                alert("このサイトはスマートフォン/タブレットを縦向きにしてお楽しみください。");
+                alert("このサイトはスマートフォン/タブレットを縦にしてお楽しみください。");
                 myApp.val.orientationAlertBool = true;
             }
         }
         if(myApp.val.status == myApp.state.ButtonCheck && myApp.val.initOrientation == 'landscape'){
             if(Math.abs(window.orientation) != 90){
-                myApp.elem.text.innerHTML = "下の早押しボタンをタップして開始";
+                myApp.elem.text.innerHTML = "早押しボタンをタップして動画を再生する";
             }else{
                 myApp.elem.text.innerHTML = "スマホ/タブレットを縦向きにしてクイズをはじめる";
             }
@@ -812,7 +812,7 @@ myApp.val.srtFuncArray = [
             myApp.elem.text.style.fontWeight = 'normal';
             myApp.elem.textMargin.top.style.margin = '48px';
             myApp.elem.textMargin.bottom.style.margin = '48px';
-            myApp.elem.text.innerHTML = "　問題中に早押しボタンをタップすると、<br>　動画内のクイズに答えることができます。";
+            myApp.elem.text.innerHTML = "*** 遊び方 ***<br><br>　問題中に早押しボタンをタップすると、<br>　動画内のクイズに答えることができます。";
         }else{
             myApp.elem.subText.innerHTML = "　問題中に早押しボタンを押すと、クイズに答えることができます。";
         }
