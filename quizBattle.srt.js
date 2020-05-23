@@ -17,20 +17,22 @@ const myApp = {
         Stopped : 2,
     },
     elem : {
-        text      : document.createElement("text"),
-        brTextTop : document.createElement("text"),
-        brTextBtm : document.createElement("text"),
-        subText   : document.createElement("text"),
-        ansCol    : document.createElement("textarea"), 
-        ansBtn    : document.createElement("button"),
-        numOX     : document.createElement("text"),
-        pushBtn   : document.createElement("img"),
-        imgBtn1   : document.createElement("img"),
-        imgBtn2   : document.createElement("img"),
-        imgBtn3   : document.createElement("img"),
-        imgBtn4   : document.createElement("img"),
-        sounds    : document.createElement("audio"),
-        paramText : document.createElement("text"),
+        text       : document.createElement("text"),
+        textMargin : {
+            top : document.createElement("p"),
+            bottom : document.createElement("p"),
+        },
+        subText    : document.createElement("text"),
+        ansCol     : document.createElement("textarea"),
+        ansBtn     : document.createElement("button"),
+        numOX      : document.createElement("text"),
+        pushBtn    : document.createElement("img"),
+        imgBtn1    : document.createElement("img"),
+        imgBtn2    : document.createElement("img"),
+        imgBtn3    : document.createElement("img"),
+        imgBtn4    : document.createElement("img"),
+        sounds     : document.createElement("audio"),
+        paramText  : document.createElement("text"),
     },
     val : {
         srtFuncArray : null, //array of functions that are executed in each subtitle
@@ -121,17 +123,21 @@ myApp.elem.ansBtn.onclick = myOnClickEvent;
 //
 /* View */
 /* add rule of body to style sheet */
-const p_margin = 12
+const p_margin = 12;
+let p_margin_dynamic = 32;
 document.styleSheets.item(0).insertRule('html {touch-action: manipulation;}'); //disable double tap gesture
 document.styleSheets.item(0).insertRule('body {text-align: center; margin: auto; background: #EFEFEF;}');
 document.styleSheets.item(0).insertRule('p {margin: '+p_margin+'px; background: #EFEFEF;}');
+document.styleSheets.item(0).insertRule('p.dynamic {margin: '+p_margin_dynamic+'px; background: #EFEFEF;}');
+myApp.elem.textMargin.top.className = 'dynamic';
+myApp.elem.textMargin.bottom.className = 'dynamic';
 //
 /* set elements */
 myApp.val.os = fetchOSType();
 if(myApp.val.os != 'other'){
-    document.getElementsByTagName("body")[0].appendChild(myApp.elem.brTextTop);
+    document.getElementsByTagName("body")[0].appendChild(myApp.elem.textMargin.top);
     document.getElementsByTagName("body")[0].appendChild(myApp.elem.text);
-    document.getElementsByTagName("body")[0].appendChild(myApp.elem.brTextBtm);
+    document.getElementsByTagName("body")[0].appendChild(myApp.elem.textMargin.bottom);
     document.getElementsByTagName("body")[0].appendChild(myApp.elem.ansCol);
     document.getElementsByTagName("body")[0].appendChild(document.createElement("p"));
     document.getElementsByTagName("body")[0].appendChild(myApp.elem.ansBtn);
@@ -145,7 +151,7 @@ if(myApp.val.os != 'other'){
     document.getElementsByTagName("body")[0].appendChild(myApp.elem.text);
     document.getElementsByTagName('body')[0].appendChild(document.createElement("br"));
     document.getElementsByTagName("body")[0].appendChild(myApp.elem.subText);
-    document.getElementsByTagName('body')[0].appendChild(document.createElement("p"));
+    document.getElementsByTagName("body")[0].appendChild(document.createElement("p"));
     document.getElementsByTagName("body")[0].appendChild(myApp.elem.ansCol);
     document.getElementsByTagName("body")[0].appendChild(document.createElement("p"));
     document.getElementsByTagName("body")[0].appendChild(myApp.elem.ansBtn);
@@ -167,23 +173,11 @@ myApp.elem.subText.appendChild(my_node_subText);
 myApp.elem.paramText.appendChild(my_node_paramText);
 myApp.elem.numOX.appendChild(my_node_numOX);
 //
-/* make text for <br> */
-if(myApp.val.os != 'other'){
-    const my_node_brTextTop = document.createTextNode("");
-    const my_node_brTextBtm = document.createTextNode("");
-    myApp.elem.brTextTop.appendChild(my_node_brTextTop);
-    myApp.elem.brTextBtm.appendChild(my_node_brTextBtm);
-    myApp.elem.brTextTop.innerHTML = "<br>"
-    myApp.elem.brTextBtm.innerHTML = "<br><br>"
-}
-//
 /* set parameters to the elements based on device type */
 if(myApp.val.os != 'other'){
-    myApp.elem.brTextTop.style.fontSize = '32px';
     myApp.elem.text.style.fontSize      = '40px';
     myApp.elem.text.style.lineHeight    = '60px';
     myApp.elem.text.style.fontWeight    = 'bold';
-    myApp.elem.brTextBtm.style.fontSize = '32px';
     myApp.elem.ansCol.style.fontSize    = '35px';
     myApp.elem.ansCol.style.textAlign   = 'center';
     myApp.elem.ansBtn.style.fontSize    = '35px';
@@ -192,7 +186,7 @@ if(myApp.val.os != 'other'){
     myApp.elem.numOX.style.fontWeight   = 'bold';   
 }else{
     myApp.elem.text.style.fontSize    = '28px';
-    myApp.elem.text.style.lineHeight  = '80px';
+    myApp.elem.text.style.lineHeight  = '70px';
     myApp.elem.text.style.fontWeight  = 'bold';
     myApp.elem.subText.style.fontSize = '22px';
     myApp.elem.ansCol.style.fontSize  = '25px';
@@ -349,9 +343,9 @@ function myOrientationChangeEvent(){
         }
         if(myApp.val.status == myApp.state.ButtonCheck && myApp.val.initOrientation == 'landscape'){
             if(Math.abs(window.orientation) != 90){
-                myApp.elem.subText.innerHTML = "下の早押しボタンをタップして開始";
+                myApp.elem.text.innerHTML = "下の早押しボタンをタップして開始";
             }else{
-                myApp.elem.subText.innerHTML = "スマホ/タブレットを縦向きにしてクイズをはじめる";
+                myApp.elem.text.innerHTML = "スマホ/タブレットを縦向きにしてクイズをはじめる";
             }
         }
     }, 500);
@@ -361,7 +355,7 @@ function myOrientationChangeEvent(){
 function myKeyDownEvent(){
     if(myApp.val.loadErrorBool == false && myApp.val.initLoadBool == true && Math.abs(window.orientation) != 90){
         if(event.keyCode == myApp.val.pushBtn){
-            buttonAction();
+            myButtonAction();
         }
         if(event.keyCode == myApp.val.enter){
             if(myApp.val.composingBool == false){
@@ -377,13 +371,13 @@ function myTouchEvent(event){
         myApp.val.touchObject = event.changedTouches[0];
         if(myApp.val.pushBtnArea.left < myApp.val.touchObject.pageX && myApp.val.touchObject.pageX < myApp.val.pushBtnArea.right){
             if(myApp.val.pushBtnArea.top < myApp.val.touchObject.pageY && myApp.val.touchObject.pageY < myApp.val.pushBtnArea.bottom){
-                buttonAction();
+                myButtonAction();
             }
         }
     }
 }
 /* common button action */
-function buttonAction(){
+function myButtonAction(){
     if(myApp.val.status == myApp.state.ButtonCheck){
         myApp.val.status = myApp.state.Talk;
         buttonCheck(myApp.val.btnCheck.sndInterval);
@@ -816,11 +810,11 @@ myApp.val.srtFuncArray = [
         myApp.val.status = myApp.state.Talk;
         if(myApp.val.os != 'other'){
             myApp.elem.text.style.fontWeight = 'normal';
-            myApp.elem.brTextTop.style.fontSize = '50px';
-            myApp.elem.brTextBtm.style.fontSize = '50px';
-            myApp.elem.text.innerHTML = "　問題中に早押しボタンをタップすると、<br>　動画内のクイズに解答することができます。";
+            myApp.elem.textMargin.top.style.margin = '48px';
+            myApp.elem.textMargin.bottom.style.margin = '48px';
+            myApp.elem.text.innerHTML = "　問題中に早押しボタンをタップすると、<br>　動画内のクイズに答えることができます。";
         }else{
-            myApp.elem.subText.innerHTML = "　問題中に早押しボタンを押すと、クイズに解答することができます。";
+            myApp.elem.subText.innerHTML = "　問題中に早押しボタンを押すと、クイズに答えることができます。";
         }
     },
     function(){
@@ -829,10 +823,12 @@ myApp.val.srtFuncArray = [
         myApp.val.numQues = 1;
         myApp.val.cntPush = 0;
         myApp.val.correctBool = false;
-        myApp.elem.text.style.fontWeight = 'bold';
-        myApp.elem.brTextTop.style.fontSize = '32px';
-        myApp.elem.brTextBtm.style.fontSize = '32px';
         myApp.elem.text.innerHTML = "第"+myApp.val.numQues+"問";
+        if(myApp.val.os != 'other'){
+            myApp.elem.text.style.fontWeight = 'bold';
+            myApp.elem.textMargin.top.style.margin = '32px';
+            myApp.elem.textMargin.bottom.style.margin = '32px';
+        }
         if(myApp.val.os == 'other'){
             myApp.elem.subText.innerHTML = "早押しボタン（スペースキー）を押して解答権を得る";
         }
