@@ -122,18 +122,21 @@ setInterval(myIntervalEvent, interval = 10);
 myApp.elem.ansBtn.onclick = myOnClickEvent;
 //
 /* View */
+myApp.val.os = fetchOSType();
+//
 /* add rule of body to style sheet */
-const p_margin = 20;
-let p_margin_dynamic = 32;
 document.styleSheets.item(0).insertRule('html {touch-action: manipulation;}'); //disable double tap gesture
 document.styleSheets.item(0).insertRule('body {text-align: center; margin: auto; background: #EFEFEF;}');
+let p_margin;
+let p_margin_dynamic;
+if(myApp.val.os != 'other'){ p_margin = 20; p_margin_dynamic = 32; }
+else{ p_margin = 12; p_margin_dynamic = 20; }
 document.styleSheets.item(0).insertRule('p {margin: '+p_margin+'px; background: #EFEFEF;}');
-document.styleSheets.item(0).insertRule('p.dynamic {margin: '+p_margin_dynamic+'px; background: #EFEFEF;}');
-myApp.elem.textMargin.top.className = 'dynamic';
-myApp.elem.textMargin.bottom.className = 'dynamic';
+document.styleSheets.item(0).insertRule('p.textmargin {margin: '+p_margin_dynamic+'px; background: #EFEFEF;}');
+myApp.elem.textMargin.top.className = 'textmargin';
+myApp.elem.textMargin.bottom.className = 'textmargin';
 //
 /* set elements */
-myApp.val.os = fetchOSType();
 if(myApp.val.os != 'other'){
     document.getElementsByTagName("body")[0].appendChild(myApp.elem.textMargin.top);
     document.getElementsByTagName("body")[0].appendChild(myApp.elem.text);
@@ -148,10 +151,12 @@ if(myApp.val.os != 'other'){
     document.getElementsByTagName("body")[0].appendChild(document.createElement("p"));
     document.getElementsByTagName("body")[0].appendChild(myApp.elem.paramText);
 }else{
+    document.getElementsByTagName("body")[0].appendChild(myApp.elem.textMargin.top);
     document.getElementsByTagName("body")[0].appendChild(myApp.elem.text);
-    document.getElementsByTagName('body')[0].appendChild(document.createElement("br"));
+    document.getElementsByTagName('body')[0].appendChild(document.createElement("p"));
     document.getElementsByTagName("body")[0].appendChild(myApp.elem.subText);
-    document.getElementsByTagName("body")[0].appendChild(document.createElement("p"));
+    document.getElementsByTagName("body")[0].appendChild(myApp.elem.textMargin.bottom);
+    document.getElementsByTagName('body')[0].appendChild(document.createElement("p"));
     document.getElementsByTagName("body")[0].appendChild(myApp.elem.ansCol);
     document.getElementsByTagName("body")[0].appendChild(document.createElement("p"));
     document.getElementsByTagName("body")[0].appendChild(myApp.elem.ansBtn);
@@ -186,7 +191,7 @@ if(myApp.val.os != 'other'){
     myApp.elem.numOX.style.fontWeight   = 'bold';   
 }else{
     myApp.elem.text.style.fontSize      = '28px';
-    myApp.elem.text.style.lineHeight    = '70px';
+    myApp.elem.text.style.lineHeight    = '48px';
     myApp.elem.text.style.fontWeight    = 'bold';
     myApp.elem.subText.style.fontSize   = '20px';
     myApp.elem.subText.style.lineHeight = '30px';
@@ -278,8 +283,8 @@ function materialCheckFunction(){
             if(Math.abs(myApp.elem.numOX.getBoundingClientRect().top - myApp.elem.ansBtn.getBoundingClientRect().bottom) < 50){
                 player.pauseVideo();
                 alert("画像の表示に失敗しました。ページを再読み込みしてください。");
+                myApp.val.loadAlertBool = true;
             }
-            myApp.val.loadAlertBool = true;
         }
     }else{
         if(myApp.val.loadAlertBool == false){
@@ -594,7 +599,7 @@ function resizePlayer(){
 //
 function resizePushButton(){
     if(myApp.val.os != "other" && Math.abs(window.orientation) != 90 || myApp.val.os == 'other'){
-        const tmpImgHeight = document.documentElement.clientHeight-myApp.elem.pushBtn.getBoundingClientRect().top-parseInt(myApp.elem.numOX.style.lineHeight)-p_margin-20;
+        const tmpImgHeight = document.documentElement.clientHeight-myApp.elem.pushBtn.getBoundingClientRect().top-parseInt(myApp.elem.numOX.style.lineHeight)-p_margin-30;
         const tmpImgWidth  = myApp.elem.pushBtn.naturalWidth*tmpImgHeight/myApp.elem.pushBtn.naturalHeight;
         if(tmpImgWidth < document.documentElement.clientWidth){
             myApp.val.pushBtnWidth  = tmpImgWidth;
