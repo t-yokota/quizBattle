@@ -151,21 +151,29 @@ document.styleSheets.item(0).insertRule('p.textmargin { margin: '+p_textMargin+'
 myApp.elem.textMargin.top.className    = 'textmargin';
 myApp.elem.textMargin.bottom.className = 'textmargin';
 //
+/* set init value to the elements */
+myApp.elem.text.innerHTML   = "quizBattle.srt.js";
+myApp.elem.ansCol.value     = "ここに解答を入力";
+myApp.elem.ansBtn.innerHTML = "解答を送信";
+myApp.elem.numOX.innerHTML  = "⭕️："+myApp.val.cntO+"　❌："+myApp.val.cntX;
+myApp.elem.ansCol.disabled  = true;
+myApp.elem.ansBtn.disabled  = true;
+//
 /* set elements */
 if(myApp.val.os != 'other'){
     myApp.elem.text.style.fontSize      = '40px';
     myApp.elem.text.style.lineHeight    = '60px';
     myApp.elem.text.style.fontWeight    = 'bold';
-    myApp.elem.text.style.margin        = '32px auto';
+    // myApp.elem.text.style.margin        = '32px auto';
     myApp.elem.ansCol.style.fontSize    = '35px';
     myApp.elem.ansCol.style.textAlign   = 'center';
-    myApp.elem.ansCol.style.margin      = '10px auto';
+    // myApp.elem.ansCol.style.margin      = '10px auto';
     myApp.elem.ansBtn.style.fontSize    = '35px';
-    myApp.elem.ansBtn.style.margin      = '10px auto';
+    // myApp.elem.ansBtn.style.margin      = '10px auto';
     myApp.elem.numOX.style.fontSize     = '40px';
     myApp.elem.numOX.style.lineHeight   = '50px';
     myApp.elem.numOX.style.fontWeight   = 'bold';
-    myApp.elem.numOX.style.margin       = '10px auto';
+    // myApp.elem.numOX.style.margin       = '10px auto';
     //
     // document.getElementsByTagName("body")[0].appendChild(myApp.elem.textMargin.top);
     document.getElementsByTagName("body")[0].appendChild(myApp.elem.text);
@@ -209,11 +217,11 @@ if(myApp.val.os != 'other'){
     myApp.elem.subText.style.margin     = '10px';
     myApp.elem.ansCol.style.fontSize    = '23px';
     myApp.elem.ansCol.style.textAlign   = 'center';
-    // let ansColMargin = (myApp.val.divElemWidth-parseInt(myApp.elem.ansCol.style.width,10))/2;
-    // myApp.elem.ansCol.style.margin      = '5px 75px 0px';
-    myApp.elem.ansCol.style.margin      = '5px auto 0px';
-    myApp.elem.ansBtn.style.margin      = '15px auto 20px';
+    myApp.elem.ansCol.style.width       = myApp.val.divElemWidth*0.75+'px';
+    myApp.elem.ansCol.style.margin      = '5px ' +(myApp.val.divElemWidth-parseInt(myApp.elem.ansCol.style.width, 10))/2+'px 0px';
     myApp.elem.ansBtn.style.fontSize    = '23px';
+    myApp.elem.ansBtn.style.width       = parseInt(myApp.elem.ansBtn.style.fontSize, 10)*7+'px';
+    myApp.elem.ansBtn.style.margin      = '15px '+(myApp.val.divElemWidth-parseInt(myApp.elem.ansBtn.style.width, 10))/2+'px 20px';
     myApp.elem.numOX.style.fontSize     = '25px';
     myApp.elem.numOX.style.lineHeight   = '35px';
     myApp.elem.numOX.style.fontWeight   = 'bold';
@@ -221,14 +229,10 @@ if(myApp.val.os != 'other'){
     document.getElementsByTagName("div")[4].appendChild(myApp.elem.text);
     document.getElementsByTagName("div")[4].appendChild(myApp.elem.subText);
     document.getElementsByTagName("div")[4].appendChild(myApp.elem.ansCol);
-    document.getElementsByTagName("div")[4].appendChild(document.createElement("br"));
     document.getElementsByTagName("div")[4].appendChild(myApp.elem.ansBtn);
-    document.getElementsByTagName("div")[4].appendChild(document.createElement("br"));
     document.getElementsByTagName("div")[4].appendChild(myApp.elem.numOX);
     document.getElementsByTagName("div")[4].appendChild(myApp.elem.paramText);
     document.getElementsByTagName("div")[5].appendChild(myApp.elem.pushBtn);
-    //
-    myApp.elem.ansCol.style.width = myApp.val.divElemWidth*0.75+'px';
 }
 /* set parameters to the elements based on device type */
 //
@@ -356,14 +360,6 @@ function spriteHandler(){
         myApp.elem.sounds.currentTime = myApp.val.spriteData.pushBtn.start;
     }
 };
-//
-/* set init value to the elements */
-myApp.elem.text.innerHTML   = "quizBattle.srt.js";
-myApp.elem.ansCol.value     = "ここに解答を入力";
-myApp.elem.ansBtn.innerHTML = "解答を送信";
-myApp.elem.numOX.innerHTML  = "⭕️："+myApp.val.cntO+"　❌："+myApp.val.cntX;
-myApp.elem.ansCol.disabled  = true;
-myApp.elem.ansBtn.disabled  = true;
 //
 /* set button check state */
 myApp.val.status = myApp.state.ButtonCheck;
