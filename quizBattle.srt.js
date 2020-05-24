@@ -167,13 +167,13 @@ if(myApp.val.os != 'other'){
     // myApp.elem.text.style.margin        = '32px auto';
     myApp.elem.ansCol.style.fontSize    = '35px';
     myApp.elem.ansCol.style.textAlign   = 'center';
-    // myApp.elem.ansCol.style.margin      = '10px auto';
+    myApp.elem.ansCol.style.margin      = '10px auto';
     myApp.elem.ansBtn.style.fontSize    = '35px';
-    // myApp.elem.ansBtn.style.margin      = '10px auto';
+    myApp.elem.ansBtn.style.margin      = '10px auto';
     myApp.elem.numOX.style.fontSize     = '40px';
     myApp.elem.numOX.style.lineHeight   = '50px';
     myApp.elem.numOX.style.fontWeight   = 'bold';
-    // myApp.elem.numOX.style.margin       = '10px auto';
+    myApp.elem.numOX.style.margin       = '10px auto';
     //
     // document.getElementsByTagName("body")[0].appendChild(myApp.elem.textMargin.top);
     document.getElementsByTagName("body")[0].appendChild(myApp.elem.text);
@@ -881,10 +881,10 @@ myApp.val.srtFuncArray = [
         myApp.val.numQues = 1;
         myApp.val.cntPush = 0;
         myApp.val.correctBool = false;
-        myApp.elem.text.innerHTML = "第"+myApp.val.numQues+"問";
+        myApp.elem.text.innerHTML = "第"+myApp.val.numQues+"問<br>";
         if(myApp.val.os != 'other'){
             myApp.elem.text.style.fontWeight = 'bold';
-            myApp.elem.text.style.margin = '48px auto';
+            myApp.elem.text.style.margin = '32px auto';
             // myApp.elem.textMargin.top.style.margin = '32px';
             // myApp.elem.textMargin.bottom.style.margin = '32px';
         }
