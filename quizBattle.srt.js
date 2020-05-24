@@ -8,7 +8,7 @@ const myApp = {
     state : {
         ButtonCheck : 0, //ボタンチェック待機
         Question    : 1, //問い読み中（早押し可能）
-        MyAnswer    : 2, //自分がを所持（解答入力・送信可能）
+        MyAnswer    : 2, //自分が解答権を所持（解答入力・送信可能）
         OthAnswer   : 3, //他者が解答権を所持（早押し不可能）
         Talk        : 4, //その他
     },
@@ -139,7 +139,7 @@ resizePlayer();
 //
 /* set style sheets */
 document.styleSheets.item(0).insertRule('html { touch-action: manipulation; }'); //disable double tap gesture
-document.styleSheets.item(0).insertRule('body { text-align: center; margin: auto; background: #EFEFEF; width:'+myApp.val.playerWidth+'px; }');
+document.styleSheets.item(0).insertRule('body { text-align: center; margin: auto; background: #EFEFEF; }');
 let p_margin;
 let p_textMargin;
 if(myApp.val.os != 'other'){
@@ -153,54 +153,45 @@ myApp.elem.textMargin.bottom.className = 'textmargin';
 //
 /* set elements */
 if(myApp.val.os != 'other'){
-    document.getElementsByTagName("body")[0].appendChild(myApp.elem.textMargin.top);
+    myApp.elem.text.style.fontSize      = '40px';
+    myApp.elem.text.style.lineHeight    = '60px';
+    myApp.elem.text.style.fontWeight    = 'bold';
+    myApp.elem.text.style.margin        = '32px auto';
+    myApp.elem.ansCol.style.fontSize    = '35px';
+    myApp.elem.ansCol.style.textAlign   = 'center';
+    myApp.elem.ansCol.style.margin      = '10px auto';
+    myApp.elem.ansBtn.style.fontSize    = '35px';
+    myApp.elem.ansBtn.style.margin      = '10px auto';
+    myApp.elem.numOX.style.fontSize     = '40px';
+    myApp.elem.numOX.style.lineHeight   = '50px';
+    myApp.elem.numOX.style.fontWeight   = 'bold';
+    myApp.elem.numOX.style.margin       = '10px auto';
+    //
+    // document.getElementsByTagName("body")[0].appendChild(myApp.elem.textMargin.top);
     document.getElementsByTagName("body")[0].appendChild(myApp.elem.text);
-    document.getElementsByTagName("body")[0].appendChild(myApp.elem.textMargin.bottom);
+    // document.getElementsByTagName("body")[0].appendChild(myApp.elem.textMargin.bottom);
     document.getElementsByTagName("body")[0].appendChild(myApp.elem.ansCol);
-    document.getElementsByTagName("body")[0].appendChild(document.createElement("p"));
+    // document.getElementsByTagName("body")[0].appendChild(document.createElement("p"));
     document.getElementsByTagName("body")[0].appendChild(myApp.elem.ansBtn);
-    document.getElementsByTagName("body")[0].appendChild(document.createElement("p"));
+    // document.getElementsByTagName("body")[0].appendChild(document.createElement("p"));
     document.getElementsByTagName("body")[0].appendChild(myApp.elem.pushBtn);
-    document.getElementsByTagName("body")[0].appendChild(document.createElement("p"));
+    // document.getElementsByTagName("body")[0].appendChild(document.createElement("p"));
     document.getElementsByTagName("body")[0].appendChild(myApp.elem.numOX);
-    document.getElementsByTagName("body")[0].appendChild(document.createElement("p"));
+    // document.getElementsByTagName("body")[0].appendChild(document.createElement("p"));
     document.getElementsByTagName("body")[0].appendChild(myApp.elem.paramText);
 }else{
-    document.getElementsByTagName("body")[0].appendChild(myApp.elem.divUI);
-    myApp.elem.divUI.appendChild(myApp.elem.divElem); //divElem is assigned to ('div')[4]
-    myApp.elem.divUI.appendChild(myApp.elem.divBtn);  //divBtn  is assigned to ('div')[5]
     myApp.val.divHeight    = myApp.val.playerHeight*0.9;
     myApp.val.divUIWidth   = myApp.val.playerWidth;
     myApp.val.divElemWidth = myApp.val.playerWidth*2/3;
     myApp.val.divBtnWidth  = myApp.val.playerWidth*1/3;
+    document.styleSheets.item(0).insertRule('body { width:'+myApp.val.playerWidth+'px; }');
     document.styleSheets.item(0).insertRule('div#divui   { width:'+myApp.val.divUIWidth  +'px; height:'+myApp.val.divHeight+'px; }');
     document.styleSheets.item(0).insertRule('div#divelem { width:'+myApp.val.divElemWidth+'px; height:'+myApp.val.divHeight+'px; float: left; }');
     document.styleSheets.item(0).insertRule('div#divbtn  { width:'+myApp.val.divBtnWidth +'px; height:'+myApp.val.divHeight+'px; float: left; display: flex; align-items: center; justify-content: center; }');
+    document.getElementsByTagName("body")[0].appendChild(myApp.elem.divUI);
+    myApp.elem.divUI.appendChild(myApp.elem.divElem); //divElem is assigned to ('div')[4]
+    myApp.elem.divUI.appendChild(myApp.elem.divBtn);  //divBtn  is assigned to ('div')[5]
     //
-    document.getElementsByTagName("div")[4].appendChild(myApp.elem.text);
-    document.getElementsByTagName("div")[4].appendChild(myApp.elem.subText);
-    document.getElementsByTagName("div")[4].appendChild(myApp.elem.ansCol);
-    document.getElementsByTagName("div")[4].appendChild(document.createElement("br"));
-    document.getElementsByTagName("div")[4].appendChild(myApp.elem.ansBtn);
-    document.getElementsByTagName("div")[4].appendChild(document.createElement("br"));
-    document.getElementsByTagName("div")[4].appendChild(myApp.elem.numOX);
-    document.getElementsByTagName("div")[4].appendChild(myApp.elem.paramText);
-    document.getElementsByTagName("div")[5].appendChild(myApp.elem.pushBtn);
-    //
-    myApp.elem.ansCol.style.width = myApp.val.divElemWidth*0.75+'px';
-}
-/* set parameters to the elements based on device type */
-if(myApp.val.os != 'other'){
-    myApp.elem.text.style.fontSize      = '40px';
-    myApp.elem.text.style.lineHeight    = '60px';
-    myApp.elem.text.style.fontWeight    = 'bold';
-    myApp.elem.ansCol.style.fontSize    = '35px';
-    myApp.elem.ansCol.style.textAlign   = 'center';
-    myApp.elem.ansBtn.style.fontSize    = '35px';
-    myApp.elem.numOX.style.fontSize     = '40px';
-    myApp.elem.numOX.style.lineHeight   = '50px';
-    myApp.elem.numOX.style.fontWeight   = 'bold';
-}else{
     myApp.elem.text.style.fontSize      = '28px';
     myApp.elem.text.style.lineHeight    = '48px';
     myApp.elem.text.style.fontWeight    = 'bold';
@@ -219,7 +210,20 @@ if(myApp.val.os != 'other'){
     myApp.elem.numOX.style.fontSize     = '25px';
     myApp.elem.numOX.style.lineHeight   = '35px';
     myApp.elem.numOX.style.fontWeight   = 'bold';
+    //
+    document.getElementsByTagName("div")[4].appendChild(myApp.elem.text);
+    document.getElementsByTagName("div")[4].appendChild(myApp.elem.subText);
+    document.getElementsByTagName("div")[4].appendChild(myApp.elem.ansCol);
+    document.getElementsByTagName("div")[4].appendChild(document.createElement("br"));
+    document.getElementsByTagName("div")[4].appendChild(myApp.elem.ansBtn);
+    document.getElementsByTagName("div")[4].appendChild(document.createElement("br"));
+    document.getElementsByTagName("div")[4].appendChild(myApp.elem.numOX);
+    document.getElementsByTagName("div")[4].appendChild(myApp.elem.paramText);
+    document.getElementsByTagName("div")[5].appendChild(myApp.elem.pushBtn);
+    //
+    myApp.elem.ansCol.style.width = myApp.val.divElemWidth*0.75+'px';
 }
+/* set parameters to the elements based on device type */
 //
 /* add textnodes to the elements */
 const my_node_text      = document.createTextNode("");
@@ -633,7 +637,7 @@ function resizePlayer(){
 function resizePushButton(){
     if(myApp.val.os != "other"){
         if(Math.abs(window.orientation) != 90){
-            const tmpImgHeight = document.documentElement.clientHeight-myApp.elem.pushBtn.getBoundingClientRect().top-parseInt(myApp.elem.numOX.style.lineHeight)-p_margin-30;
+            const tmpImgHeight = document.documentElement.clientHeight-myApp.elem.pushBtn.getBoundingClientRect().top-parseInt(myApp.elem.numOX.style.lineHeight, 10)-p_margin;
             const tmpImgWidth  = myApp.elem.pushBtn.naturalWidth*tmpImgHeight/myApp.elem.pushBtn.naturalHeight;
             if(tmpImgWidth < document.documentElement.clientWidth){
                 myApp.val.pushBtnWidth  = tmpImgWidth;
@@ -857,8 +861,9 @@ myApp.val.srtFuncArray = [
         myApp.val.status = myApp.state.Talk;
         if(myApp.val.os != 'other'){
             myApp.elem.text.style.fontWeight = 'normal';
-            myApp.elem.textMargin.top.style.margin = '48px';
-            myApp.elem.textMargin.bottom.style.margin = '48px';
+            myApp.elem.text.style.margin = '48px auto';
+            // myApp.elem.textMargin.top.style.margin = '48px';
+            // myApp.elem.textMargin.bottom.style.margin = '48px';
             myApp.elem.text.innerHTML = "<b> ＜ 遊び方 ＞ </b><br><p>　問い読み中に早押しボタンをタップすると、<br>　動画内のクイズに答えることができます。";
         }else{
             myApp.elem.text.innerHTML = "＜ 遊び方 ＞"
@@ -875,12 +880,14 @@ myApp.val.srtFuncArray = [
         myApp.elem.text.innerHTML = "第"+myApp.val.numQues+"問";
         if(myApp.val.os != 'other'){
             myApp.elem.text.style.fontWeight = 'bold';
-            myApp.elem.textMargin.top.style.margin = '32px';
-            myApp.elem.textMargin.bottom.style.margin = '32px';
+            myApp.elem.text.style.margin = '48px auto';
+            // myApp.elem.textMargin.top.style.margin = '32px';
+            // myApp.elem.textMargin.bottom.style.margin = '32px';
         }
         if(myApp.val.os == 'other'){
             myApp.elem.subText.style.padding = '20px'
             myApp.elem.subText.innerHTML = "早押しボタン（スペースキー）を押して解答する";
+            myApp.elem.text.parentNode.removeChild(myApp.elem.text);
         }
         if(Math.abs(window.orientation) != 90){ myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src; }
     },
