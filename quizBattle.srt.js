@@ -169,19 +169,19 @@ if(myApp.val.os != 'other'){
     //
     // document.getElementsByTagName("body")[0].appendChild(myApp.elem.textMargin.top);
     document.getElementsByTagName("body")[0].appendChild(myApp.elem.text);
-    document.getElementsByTagName("div")[4].appendChild(document.createElement("br"));
+    document.getElementsByTagName("body")[0].appendChild(document.createElement("br"));
     // document.getElementsByTagName("body")[0].appendChild(myApp.elem.textMargin.bottom);
     document.getElementsByTagName("body")[0].appendChild(myApp.elem.ansCol);
-    document.getElementsByTagName("div")[4].appendChild(document.createElement("br"));
+    document.getElementsByTagName("body")[0].appendChild(document.createElement("br"));
     // document.getElementsByTagName("body")[0].appendChild(document.createElement("p"));
     document.getElementsByTagName("body")[0].appendChild(myApp.elem.ansBtn);
-    document.getElementsByTagName("div")[4].appendChild(document.createElement("br"));
+    document.getElementsByTagName("body")[0].appendChild(document.createElement("br"));
     // document.getElementsByTagName("body")[0].appendChild(document.createElement("p"));
     document.getElementsByTagName("body")[0].appendChild(myApp.elem.pushBtn);
-    document.getElementsByTagName("div")[4].appendChild(document.createElement("br"));
+    document.getElementsByTagName("body")[0].appendChild(document.createElement("br"));
     // document.getElementsByTagName("body")[0].appendChild(document.createElement("p"));
     document.getElementsByTagName("body")[0].appendChild(myApp.elem.numOX);
-    document.getElementsByTagName("div")[4].appendChild(document.createElement("br"));
+    document.getElementsByTagName("body")[0].appendChild(document.createElement("br"));
     // document.getElementsByTagName("body")[0].appendChild(document.createElement("p"));
     document.getElementsByTagName("body")[0].appendChild(myApp.elem.paramText);
 }else{
