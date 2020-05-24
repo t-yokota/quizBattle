@@ -9,8 +9,8 @@ const myApp = {
         ButtonCheck : 0, //ボタンチェック待機
         Question    : 1, //問い読み中（早押し可能）
         MyAnswer    : 2, //自分が解答権を所持（解答入力・送信可能）
-        OthAnswer   : 3, //他者が解答権を所持（早押し不可能）
         Talk        : 4, //その他
+        OthAnswer   : 3, //他者が解答権を所持（早押し不可能）
     },
     videoState : {
         Playing : 1,
@@ -169,14 +169,19 @@ if(myApp.val.os != 'other'){
     //
     // document.getElementsByTagName("body")[0].appendChild(myApp.elem.textMargin.top);
     document.getElementsByTagName("body")[0].appendChild(myApp.elem.text);
+    document.getElementsByTagName("div")[4].appendChild(document.createElement("br"));
     // document.getElementsByTagName("body")[0].appendChild(myApp.elem.textMargin.bottom);
     document.getElementsByTagName("body")[0].appendChild(myApp.elem.ansCol);
+    document.getElementsByTagName("div")[4].appendChild(document.createElement("br"));
     // document.getElementsByTagName("body")[0].appendChild(document.createElement("p"));
     document.getElementsByTagName("body")[0].appendChild(myApp.elem.ansBtn);
+    document.getElementsByTagName("div")[4].appendChild(document.createElement("br"));
     // document.getElementsByTagName("body")[0].appendChild(document.createElement("p"));
     document.getElementsByTagName("body")[0].appendChild(myApp.elem.pushBtn);
+    document.getElementsByTagName("div")[4].appendChild(document.createElement("br"));
     // document.getElementsByTagName("body")[0].appendChild(document.createElement("p"));
     document.getElementsByTagName("body")[0].appendChild(myApp.elem.numOX);
+    document.getElementsByTagName("div")[4].appendChild(document.createElement("br"));
     // document.getElementsByTagName("body")[0].appendChild(document.createElement("p"));
     document.getElementsByTagName("body")[0].appendChild(myApp.elem.paramText);
 }else{
@@ -204,6 +209,8 @@ if(myApp.val.os != 'other'){
     myApp.elem.subText.style.margin     = '10px';
     myApp.elem.ansCol.style.fontSize    = '23px';
     myApp.elem.ansCol.style.textAlign   = 'center';
+    // let ansColMargin = (myApp.val.divElemWidth-parseInt(myApp.elem.ansCol.style.width,10))/2;
+    // myApp.elem.ansCol.style.margin      = '5px 75px 0px';
     myApp.elem.ansCol.style.margin      = '5px auto 0px';
     myApp.elem.ansBtn.style.margin      = '15px auto 20px';
     myApp.elem.ansBtn.style.fontSize    = '23px';
@@ -787,6 +794,7 @@ function checkAnswer(){
 }
 //
 function printParams(){
+    // myApp.elem.subText.innerHTML = Math.floor((myApp.val.divElemWidth-parseInt(myApp.elem.ansCol.style.width,10))/2);
     // myApp.elem.subText.innerHTML = (myApp.val.pushBtnArea.bottom-myApp.val.playerHeight-(parseInt(myApp.elem.text.style.lineHeight, 10)+p_textMargin*2+parseInt(myApp.elem.subText.style.lineHeight, 10)*2+parseInt(myApp.elem.numOX.style.lineHeight, 10)+(myApp.elem.ansBtn.getBoundingClientRect().bottom-myApp.elem.ansBtn.getBoundingClientRect().top)+(myApp.elem.ansCol.getBoundingClientRect().bottom-myApp.elem.ansCol.getBoundingClientRect().top)))/3; 
     // myApp.elem.subText.innerHTML = detectTouchPanel();
     // myApp.elem.subText.innerHTML = myApp.val.os + ', ' + navigator.userAgent;
