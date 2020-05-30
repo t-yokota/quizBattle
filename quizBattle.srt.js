@@ -140,7 +140,7 @@ document.styleSheets.item(0).insertRule('p.type1   { margin: 40px; background: #
 document.styleSheets.item(0).insertRule('p.type2-1 { margin-top: 40px; margin-bottom: 20px; background: #EFEFEF; }');
 document.styleSheets.item(0).insertRule('p.type2-2 { margin-top: 20px; margin-bottom: 40px; background: #EFEFEF; }');
 document.styleSheets.item(0).insertRule('p.type3   { margin: 32px; background: #EFEFEF; }');
-document.styleSheets.item(0).insertRule('p.type4   { padding: 5px; background: #EFEFEF; }');
+document.styleSheets.item(0).insertRule('p.type4   { margin: 5px; background: #EFEFEF; }');
 //
 /* set init value to the elements */
 myApp.elem.text.innerHTML   = "<p class='type1'><b>quizBattle.srt.js</b></p>";
