@@ -152,7 +152,7 @@ myApp.elem.textMargin.top.className    = 'textmargin';
 myApp.elem.textMargin.bottom.className = 'textmargin';
 //
 /* set init value to the elements */
-myApp.elem.text.innerHTML   = "quizBattle.srt.js";
+myApp.elem.text.innerHTML   = "<p>quizBattle.srt.js</p>";
 myApp.elem.ansCol.value     = "ここに解答を入力";
 myApp.elem.ansBtn.innerHTML = "解答を送信";
 myApp.elem.numOX.innerHTML  = "⭕️："+myApp.val.cntO+"　❌："+myApp.val.cntX;
@@ -164,17 +164,15 @@ if(myApp.val.os != 'other'){
     myApp.elem.text.style.fontSize      = '40px';
     myApp.elem.text.style.lineHeight    = '60px';
     myApp.elem.text.style.fontWeight    = 'bold';
-    // myApp.elem.text.style.margin        = '20px auto';
     myApp.elem.ansCol.style.fontSize    = '35px';
     myApp.elem.ansCol.style.textAlign   = 'center';
-    // myApp.elem.ansCol.style.margin      = '10px auto 0px';
     myApp.elem.ansBtn.style.fontSize    = '35px';
     myApp.elem.ansBtn.style.width       = parseInt(myApp.elem.ansBtn.style.fontSize,10)*7+'px';
-    myApp.elem.ansBtn.style.margin      = '10px '+(myApp.val.playerWidth-parseInt(myApp.elem.ansBtn.style.width, 10))/2+'px';
+    myApp.elem.ansBtn.style.margin      = 'auto '+(myApp.val.playerWidth-parseInt(myApp.elem.ansBtn.style.width, 10))/2+'px';
     myApp.elem.numOX.style.fontSize     = '40px';
     myApp.elem.numOX.style.lineHeight   = '50px';
     myApp.elem.numOX.style.fontWeight   = 'bold';
-    myApp.elem.numOX.style.margin       = '10px auto';
+    // myApp.elem.numOX.style.margin       = '10px auto';
     //
     /* set special width of anscol to prevent the window is zoomed when the focus moveds to anscol */
     if(myApp.val.os == 'Android' && navigator.userAgent.match(/Firefox/)){
