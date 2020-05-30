@@ -164,7 +164,7 @@ if(myApp.val.os != 'other'){
     myApp.elem.text.style.fontSize      = '40px';
     myApp.elem.text.style.lineHeight    = '60px';
     myApp.elem.text.style.fontWeight    = 'bold';
-    myApp.elem.text.style.margin        = '32px auto';
+    myApp.elem.text.style.margin        = '20px auto';
     myApp.elem.ansCol.style.fontSize    = '35px';
     myApp.elem.ansCol.style.textAlign   = 'center';
     myApp.elem.ansCol.style.margin      = '10px auto 0px';
@@ -862,7 +862,7 @@ myApp.val.srtFuncArray = [
             // myApp.elem.text.style.margin = '48px auto';
             // myApp.elem.textMargin.top.style.margin = '48px';
             // myApp.elem.textMargin.bottom.style.margin = '48px';
-            myApp.elem.text.innerHTML = "<b>＜ 遊び方 ＞</b><br><p>　問い読み中に早押しボタンをタップすると、<br>　動画内のクイズに答えることができます。";
+            myApp.elem.text.innerHTML = "<b>＜ 遊び方 ＞</b><p>　問い読み中に早押しボタンをタップすると、<br>　動画内のクイズに答えることができます。";
         }else{
             myApp.elem.text.innerHTML = "＜ 遊び方 ＞"
             myApp.elem.subText.style.padding = '4px'
