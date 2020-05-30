@@ -140,13 +140,14 @@ document.styleSheets.item(0).insertRule('p.type1   { margin: 40px; background: #
 document.styleSheets.item(0).insertRule('p.type2-1 { margin-top: 40px; margin-bottom: 20px; background: #EFEFEF; }');
 document.styleSheets.item(0).insertRule('p.type2-2 { margin-top: 20px; margin-bottom: 40px; background: #EFEFEF; }');
 document.styleSheets.item(0).insertRule('p.type3   { margin: 32px; background: #EFEFEF; }');
-document.styleSheets.item(0).insertRule('p.type4   { margin: 5px; background: #EFEFEF; }');
+// document.styleSheets.item(0).insertRule('p.type4   { margin: 5px; background: #EFEFEF; }');
 //
 /* set init value to the elements */
 myApp.elem.text.innerHTML   = "<p class='type1'><b>quizBattle.srt.js</b></p>";
 myApp.elem.ansCol.value     = "ここに解答を入力";
 myApp.elem.ansBtn.innerHTML = "解答を送信";
-myApp.elem.numOX.innerHTML  = "<p class='type4'><b>⭕️："+myApp.val.cntO+"　❌："+myApp.val.cntX+'</b></p>';
+myApp.elem.numOX.innerHTML  = "<b>⭕️："+myApp.val.cntO+"　❌："+myApp.val.cntX+'</b>';
+// myApp.elem.numOX.innerHTML  = "<p class='type4'><b>⭕️："+myApp.val.cntO+"　❌："+myApp.val.cntX+'</b></p>';
 myApp.elem.ansCol.disabled  = true;
 myApp.elem.ansBtn.disabled  = true;
 //
@@ -161,7 +162,7 @@ if(myApp.val.os != 'other'){
     myApp.elem.ansBtn.style.width       = parseInt(myApp.elem.ansBtn.style.fontSize,10)*7+'px';
     myApp.elem.ansBtn.style.margin      = '0px '+(myApp.val.playerWidth-parseInt(myApp.elem.ansBtn.style.width, 10))/2+'px 20px';
     myApp.elem.numOX.style.fontSize     = '40px';
-    myApp.elem.numOX.style.lineHeight   = '60px';
+    myApp.elem.numOX.style.lineHeight   = '80px';
     //
     /* set special width of anscol to prevent the window is zoomed when the focus moveds to anscol */
     if(myApp.val.os == 'Android' && navigator.userAgent.match(/Firefox/)){
@@ -752,7 +753,8 @@ function checkAnswer(){
             myApp.elem.subText.innerHTML = "<p class='type3'><b>不正解！</b></p>"; //あと"+(myApp.val.limPush-myApp.val.cntPush)+"回解答できます。";
         }
     }
-    myApp.elem.numOX.innerHTML  = "<p class='type4'><b>⭕️："+myApp.val.cntO+"　❌："+myApp.val.cntX+'</b></p>';
+    myApp.elem.numOX.innerHTML  = "<b>⭕️："+myApp.val.cntO+"　❌："+myApp.val.cntX+'</b>';
+    // myApp.elem.numOX.innerHTML  = "<p class='type4'><b>⭕️："+myApp.val.cntO+"　❌："+myApp.val.cntX+'</b></p>';
     opposePlayer();
     //
     if(window.orientation != 90){
