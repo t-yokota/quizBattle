@@ -152,10 +152,10 @@ myApp.elem.textMargin.top.className    = 'textmargin';
 myApp.elem.textMargin.bottom.className = 'textmargin';
 //
 /* set init value to the elements */
-myApp.elem.text.innerHTML   = "<br>quizBattle.srt.js<br>";
+myApp.elem.text.innerHTML   = "<br>quizBattle.srt.js<br><br>";
 myApp.elem.ansCol.value     = "ここに解答を入力";
 myApp.elem.ansBtn.innerHTML = "解答を送信";
-myApp.elem.numOX.innerHTML  = "<br>⭕️："+myApp.val.cntO+"　❌："+myApp.val.cntX+"<br>";
+myApp.elem.numOX.innerHTML  = "<br>⭕️："+myApp.val.cntO+"　❌："+myApp.val.cntX+"<br><br>";
 myApp.elem.ansCol.disabled  = true;
 myApp.elem.ansBtn.disabled  = true;
 //
@@ -304,19 +304,19 @@ function materialCheckFunction(){
             if(myApp.val.os != "other"){
                 if(Math.abs(window.orientation) != 90){
                     myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src;
-                    myApp.elem.text.innerHTML = "<br>早押しボタンをタップして動画を再生する<br>";
+                    myApp.elem.text.innerHTML = "<br>早押しボタンをタップして動画を再生する<br><br>";
                     myApp.val.initOrientation = 'portrait';
                 }else{
                     myApp.elem.pushBtn.src = myApp.elem.imgBtn4.src;
-                    myApp.elem.text.innerHTML = "<br>スマホ／タブレットを縦にしてクイズをはじめる<br>";
+                    myApp.elem.text.innerHTML = "<br>スマホ／タブレットを縦にしてクイズをはじめる<br><br>";
                     myApp.val.initOrientation = 'landscape';
                 }
             }else{
                 myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src;
                 if(detectTouchPanel() == true){
-                    myApp.elem.subText.innerHTML = "<br>早押しボタン（スペースキー）を押して動画を再生する<br>"; 
+                    myApp.elem.subText.innerHTML = "<br>早押しボタン（スペースキー）を押して動画を再生する<br><br>"; 
                 }else{
-                    myApp.elem.subText.innerHTML = "<br>早押しボタン（スペースキー）を押して動画を再生する<br>";
+                    myApp.elem.subText.innerHTML = "<br>早押しボタン（スペースキー）を押して動画を再生する<br><br>";
                 }
             }
             /* show alert based on initial orientation */
@@ -387,9 +387,9 @@ function myOrientationChangeEvent(){
         }
         if(myApp.val.status == myApp.state.ButtonCheck && myApp.val.initOrientation == 'landscape'){
             if(Math.abs(window.orientation) != 90){
-                myApp.elem.text.innerHTML = "<br>早押しボタンをタップして動画を再生する<br>";
+                myApp.elem.text.innerHTML = "<br>早押しボタンをタップして動画を再生する<br><br>";
             }else{
-                myApp.elem.text.innerHTML = "<br>スマホ／タブレットを縦向きにしてクイズをはじめる<br>";
+                myApp.elem.text.innerHTML = "<br>スマホ／タブレットを縦向きにしてクイズをはじめる<br><br>";
             }
         }
     }, 500);
