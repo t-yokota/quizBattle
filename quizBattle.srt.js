@@ -164,7 +164,7 @@ if(myApp.val.os != 'other'){
     myApp.elem.text.style.fontSize      = '40px';
     myApp.elem.text.style.lineHeight    = '60px';
     myApp.elem.text.style.fontWeight    = 'bold';
-    myApp.elem.text.style.padding       = '32px auto';
+    myApp.elem.text.style.margin       = '20px auto';
     myApp.elem.ansCol.style.fontSize    = '35px';
     myApp.elem.ansCol.style.textAlign   = 'center';
     myApp.elem.ansCol.style.margin      = '10px auto';
@@ -175,6 +175,15 @@ if(myApp.val.os != 'other'){
     myApp.elem.numOX.style.lineHeight   = '50px';
     myApp.elem.numOX.style.fontWeight   = 'bold';
     myApp.elem.numOX.style.margin       = '10px auto';
+    //
+    /* set special width of anscol to prevent the window is zoomed when the focus moveds to anscol */
+    if(myApp.val.os == 'Android' && navigator.userAgent.match(/Firefox/)){
+        // myApp.elem.ansCol.style.width = myApp.val.playerWidth/document.documentElement.clientWidth*100+'%'
+        myApp.elem.ansCol.style.width = myApp.val.playerWidth+'px';
+    }else{
+        // myApp.elem.ansCol.style.width = myApp.val.playerWidth/document.documentElement.clientWidth*90+'%';
+        myApp.elem.ansCol.style.width = myApp.val.playerWidth*0.9+'px';
+    }
     //
     // document.getElementsByTagName("body")[0].appendChild(myApp.elem.textMargin.top);
     document.getElementsByTagName("body")[0].appendChild(myApp.elem.text);
@@ -516,9 +525,9 @@ function myIntervalEvent(){
         if(document.activeElement.id == "anscol" || myApp.val.ansTime.elapsed != 0){
             myApp.val.ansTime.elapsed += interval;
             if(myApp.val.os != 'other'){
-                myApp.elem.text.innerHTML = "<br>のこり"+Math.floor((myApp.val.ansTime.limit-myApp.val.ansTime.elapsed)/1000+1)+"秒<br>";
+                myApp.elem.text.innerHTML = "<br>のこり"+Math.floor((myApp.val.ansTime.limit-myApp.val.ansTime.elapsed)/1000+1)+"秒<br><br>";
             }else{
-                myApp.elem.subText.innerHTML = "<br>のこり"+Math.floor((myApp.val.ansTime.limit-myApp.val.ansTime.elapsed)/1000+1)+"秒<br>";
+                myApp.elem.subText.innerHTML = "<br>のこり"+Math.floor((myApp.val.ansTime.limit-myApp.val.ansTime.elapsed)/1000+1)+"秒<br><br>";
             }
             if(myApp.val.ansTime.elapsed >= myApp.val.ansTime.limit){
                 checkAnswer();
@@ -619,12 +628,6 @@ function resizePlayer(){
             myApp.val.playerHeight = myApp.val.playerWidth/16*9;
             // myApp.val.playerHeight = document.documentElement.clientHeight-parseInt(myApp.elem.subText.style.lineHeight)-20;
             // myApp.val.playerWidth  = myApp.val.playerHeight/9*16;
-        }
-        if(myApp.val.os == 'Android' && navigator.userAgent.match(/Firefox/)){
-            /* set special width of anscol to prevent the window is zoomed when the focus moveds to anscol */
-            myApp.elem.ansCol.style.width = myApp.val.playerWidth/document.documentElement.clientWidth*100+'%';
-        }else{
-            myApp.elem.ansCol.style.width = myApp.val.playerWidth/document.documentElement.clientWidth*90+'%';
         }
     }else{
         myApp.val.playerHeight = document.documentElement.clientHeight/2;
@@ -763,17 +766,17 @@ function checkAnswer(){
         playSndO();
         myApp.val.cntO += 1;
         if(myApp.val.os != 'other'){
-            myApp.elem.text.innerHTML = "<br>正解！<br>";
+            myApp.elem.text.innerHTML = "<br>正解！<br><br>";
         }else{
-            myApp.elem.subText.innerHTML = "<br>正解！<br>";
+            myApp.elem.subText.innerHTML = "<br>正解！<br><br>";
         }
     }else{
         playSndX();
         myApp.val.cntX += 1;
         if(myApp.val.os != 'other'){
-            myApp.elem.text.innerHTML = "<br>不正解！<br>"; //あと"+(myApp.val.limPush-myApp.val.cntPush)+"回解答できます。";
+            myApp.elem.text.innerHTML = "<br>不正解！<br><br>"; //あと"+(myApp.val.limPush-myApp.val.cntPush)+"回解答できます。";
         }else{
-            myApp.elem.subText.innerHTML = "<br>不正解！<br>"; //あと"+(myApp.val.limPush-myApp.val.cntPush)+"回解答できます。";
+            myApp.elem.subText.innerHTML = "<br>不正解！<br><br>"; //あと"+(myApp.val.limPush-myApp.val.cntPush)+"回解答できます。";
         }
     }
     myApp.elem.numOX.innerHTML  = "⭕️："+myApp.val.cntO+"　❌："+myApp.val.cntX;
@@ -866,14 +869,14 @@ myApp.val.srtFuncArray = [
         myApp.val.status = myApp.state.Talk;
         if(myApp.val.os != 'other'){
             myApp.elem.text.style.fontWeight = 'normal';
-            myApp.elem.text.style.margin = '48px auto';
+            // myApp.elem.text.style.margin = '48px auto';
             // myApp.elem.textMargin.top.style.margin = '48px';
             // myApp.elem.textMargin.bottom.style.margin = '48px';
-            myApp.elem.text.innerHTML = "<br><b>＜ 遊び方 ＞</b><br><p>　問い読み中に早押しボタンをタップすると、<br>　動画内のクイズに答えることができます。<br>";
+            myApp.elem.text.innerHTML = "<br><b>＜ 遊び方 ＞</b><br><p>　問い読み中に早押しボタンをタップすると、<br>　動画内のクイズに答えることができます。<br><br>";
         }else{
-            myApp.elem.text.innerHTML = "<br>＜ 遊び方 ＞<br>"
+            myApp.elem.text.innerHTML = "<br>＜ 遊び方 ＞<br><br>"
             myApp.elem.subText.style.padding = '4px'
-            myApp.elem.subText.innerHTML = "<br>　問い読み中に早押しボタンを押すと、<br>　動画内のクイズに答えることができます。<br>";
+            myApp.elem.subText.innerHTML = "<br>　問い読み中に早押しボタンを押すと、<br>　動画内のクイズに答えることができます。<br><br>";
         }
     },
     function(){
@@ -882,16 +885,16 @@ myApp.val.srtFuncArray = [
         myApp.val.numQues = 1;
         myApp.val.cntPush = 0;
         myApp.val.correctBool = false;
-        myApp.elem.text.innerHTML = "<br>第"+myApp.val.numQues+"問<br>";
+        myApp.elem.text.innerHTML = "<br>第"+myApp.val.numQues+"問<br><br>";
         if(myApp.val.os != 'other'){
             myApp.elem.text.style.fontWeight = 'bold';
-            myApp.elem.text.style.margin = '32px auto';
+            // myApp.elem.text.style.margin = '32px auto';
             // myApp.elem.textMargin.top.style.margin = '32px';
             // myApp.elem.textMargin.bottom.style.margin = '32px';
         }
         if(myApp.val.os == 'other'){
             myApp.elem.subText.style.padding = '20px'
-            myApp.elem.subText.innerHTML = "<br>早押しボタン（スペースキー）を押して解答する<br>";
+            myApp.elem.subText.innerHTML = "<br>早押しボタン（スペースキー）を押して解答する<br><br>";
             myApp.elem.text.parentNode.removeChild(myApp.elem.text);
         }
         if(Math.abs(window.orientation) != 90){ myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src; }
@@ -905,9 +908,9 @@ myApp.val.srtFuncArray = [
         myApp.val.numQues = 2;
         myApp.val.cntPush = 0;
         myApp.val.correctBool = false;
-        myApp.elem.text.innerHTML = "<br>第"+myApp.val.numQues+"問<br>";
+        myApp.elem.text.innerHTML = "<br>第"+myApp.val.numQues+"問<br><br>";
         if(myApp.val.os == 'other'){
-            myApp.elem.subText.innerHTML = "<br>早押しボタン（スペースキー）を押して解答する<br>";
+            myApp.elem.subText.innerHTML = "<br>早押しボタン（スペースキー）を押して解答する<br><br>";
         }
         if(Math.abs(window.orientation) != 90){ myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src; }
     },
@@ -920,9 +923,9 @@ myApp.val.srtFuncArray = [
         myApp.val.numQues = 3;
         myApp.val.cntPush = 0;
         myApp.val.correctBool = false;
-        myApp.elem.text.innerHTML = "<br>第"+myApp.val.numQues+"問<br>";
+        myApp.elem.text.innerHTML = "<br>第"+myApp.val.numQues+"問<br><br>";
         if(myApp.val.os == 'other'){
-            myApp.elem.subText.innerHTML = "<br>早押しボタン（スペースキー）を押して解答する<br>";
+            myApp.elem.subText.innerHTML = "<br>早押しボタン（スペースキー）を押して解答する<br><br>";
         }
         if(Math.abs(window.orientation) != 90){ myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src; }
     },
