@@ -173,7 +173,7 @@ if(myApp.val.os != 'other'){
     myApp.elem.ansBtn.style.width       = parseInt(myApp.elem.ansBtn.style.fontSize,10)*7+'px';
     myApp.elem.ansBtn.style.margin      = '0px '+(myApp.val.playerWidth-parseInt(myApp.elem.ansBtn.style.width, 10))/2+'px 20px';
     myApp.elem.numOX.style.fontSize     = '40px';
-    myApp.elem.numOX.style.lineHeight   = '100px';
+    myApp.elem.numOX.style.lineHeight   = '80px';
     myApp.elem.numOX.style.fontWeight   = 'bold';
     // myApp.elem.numOX.style.margin       = 'auto';
     //
@@ -516,9 +516,9 @@ function myIntervalEvent(){
         if(document.activeElement.id == "anscol" || myApp.val.ansTime.elapsed != 0){
             myApp.val.ansTime.elapsed += interval;
             if(myApp.val.os != 'other'){
-                myApp.elem.text.innerHTML = "<p class='type3>のこり"+Math.floor((myApp.val.ansTime.limit-myApp.val.ansTime.elapsed)/1000+1)+"秒</p>";
+                myApp.elem.text.innerHTML = "<p class='type3'>のこり"+Math.floor((myApp.val.ansTime.limit-myApp.val.ansTime.elapsed)/1000+1)+"秒</p>";
             }else{
-                myApp.elem.subText.innerHTML = "<p class='type3>のこり"+Math.floor((myApp.val.ansTime.limit-myApp.val.ansTime.elapsed)/1000+1)+"秒</p>";
+                myApp.elem.subText.innerHTML = "<p class='type3'>のこり"+Math.floor((myApp.val.ansTime.limit-myApp.val.ansTime.elapsed)/1000+1)+"秒</p>";
             }
             if(myApp.val.ansTime.elapsed >= myApp.val.ansTime.limit){
                 checkAnswer();
@@ -757,17 +757,17 @@ function checkAnswer(){
         playSndO();
         myApp.val.cntO += 1;
         if(myApp.val.os != 'other'){
-            myApp.elem.text.innerHTML = "<p class='type3>正解！</p>";
+            myApp.elem.text.innerHTML = "<p class='type3'>正解！</p>";
         }else{
-            myApp.elem.subText.innerHTML = "<p class='type3>正解！</p>";
+            myApp.elem.subText.innerHTML = "<p class='type3'>正解！</p>";
         }
     }else{
         playSndX();
         myApp.val.cntX += 1;
         if(myApp.val.os != 'other'){
-            myApp.elem.text.innerHTML = "<p class='type3>不正解！</p>"; //あと"+(myApp.val.limPush-myApp.val.cntPush)+"回解答できます。";
+            myApp.elem.text.innerHTML = "<p class='type3'>不正解！</p>"; //あと"+(myApp.val.limPush-myApp.val.cntPush)+"回解答できます。";
         }else{
-            myApp.elem.subText.innerHTML = "<p class='type3>不正解！</p>"; //あと"+(myApp.val.limPush-myApp.val.cntPush)+"回解答できます。";
+            myApp.elem.subText.innerHTML = "<p class='type3'>不正解！</p>"; //あと"+(myApp.val.limPush-myApp.val.cntPush)+"回解答できます。";
         }
     }
     myApp.elem.numOX.innerHTML  = "⭕️："+myApp.val.cntO+"　❌："+myApp.val.cntX;
@@ -876,7 +876,7 @@ myApp.val.srtFuncArray = [
         myApp.val.numQues = 1;
         myApp.val.cntPush = 0;
         myApp.val.correctBool = false;
-        myApp.elem.text.innerHTML = "<p class='type3>第"+myApp.val.numQues+"問</p>";
+        myApp.elem.text.innerHTML = "<p class='type3'>第"+myApp.val.numQues+"問</p>";
         if(myApp.val.os != 'other'){
             myApp.elem.text.style.fontWeight = 'bold';
             // myApp.elem.text.style.margin = '32px auto';
@@ -899,7 +899,7 @@ myApp.val.srtFuncArray = [
         myApp.val.numQues = 2;
         myApp.val.cntPush = 0;
         myApp.val.correctBool = false;
-        myApp.elem.text.innerHTML = "<p class='type3>第"+myApp.val.numQues+"問</p>";
+        myApp.elem.text.innerHTML = "<p class='type3'>第"+myApp.val.numQues+"問</p>";
         if(myApp.val.os == 'other'){
             myApp.elem.subText.innerHTML = "<p class='type1'>早押しボタン（スペースキー）を押して解答する</p>";
         }
@@ -914,7 +914,7 @@ myApp.val.srtFuncArray = [
         myApp.val.numQues = 3;
         myApp.val.cntPush = 0;
         myApp.val.correctBool = false;
-        myApp.elem.text.innerHTML = "<p class='type3>第"+myApp.val.numQues+"問</p>";
+        myApp.elem.text.innerHTML = "<p class='type3'>第"+myApp.val.numQues+"問</p>";
         if(myApp.val.os == 'other'){
             myApp.elem.subText.innerHTML = "<p class='type1'>早押しボタン（スペースキー）を押して解答する</p>";
         }
