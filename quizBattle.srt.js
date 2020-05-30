@@ -171,7 +171,7 @@ if(myApp.val.os != 'other'){
     myApp.elem.ansBtn.style.width       = parseInt(myApp.elem.ansBtn.style.fontSize,10)*7+'px';
     myApp.elem.ansBtn.style.margin      = '0px '+(myApp.val.playerWidth-parseInt(myApp.elem.ansBtn.style.width, 10))/2+'px 20px';
     myApp.elem.numOX.style.fontSize     = '40px';
-    myApp.elem.numOX.style.lineHeight   = '50px';
+    myApp.elem.numOX.style.lineHeight   = '70px';
     myApp.elem.numOX.style.fontWeight   = 'bold';
     // myApp.elem.numOX.style.margin       = '10px auto';
     //
