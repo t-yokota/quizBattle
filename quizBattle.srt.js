@@ -183,7 +183,7 @@ if(myApp.val.os != 'other'){
         myApp.elem.ansCol.style.width = myApp.val.playerWidth*0.9+'px';
     }
     //
-    document.getElementsByTagName("body")[0].appendChild(document.createElement("br"));
+    // document.getElementsByTagName("body")[0].appendChild(document.createElement("br"));
     document.getElementsByTagName("body")[0].appendChild(myApp.elem.text);
     // document.getElementsByTagName("body")[0].appendChild(document.createElement("br"));
     document.getElementsByTagName("body")[0].appendChild(myApp.elem.ansCol);
