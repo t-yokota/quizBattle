@@ -140,16 +140,17 @@ resizePlayer();
 /* set style sheets */
 document.styleSheets.item(0).insertRule('html { touch-action: manipulation; }'); //disable double tap gesture
 document.styleSheets.item(0).insertRule('body { text-align: center; margin: auto; background: #EFEFEF; }');
-let p_margin;
-let p_textMargin;
-if(myApp.val.os != 'other'){
-    p_margin = 32; 
-    p_textMargin = 32;
-}
-document.styleSheets.item(0).insertRule('p { margin: '+p_margin+'px; background: #EFEFEF; }');
-document.styleSheets.item(0).insertRule('p.textmargin { margin: '+p_textMargin+'px; background: #EFEFEF; }');
-myApp.elem.textMargin.top.className    = 'textmargin';
-myApp.elem.textMargin.bottom.className = 'textmargin';
+// let p_margin;
+// let p_textMargin;
+// if(myApp.val.os != 'other'){
+//     p_margin = 32;
+//     p_inline_margin = 20;
+// }
+document.styleSheets.item(0).insertRule('p { margin-top: 32px; margin-bottom: 32px; background: #EFEFEF; }');
+document.styleSheets.item(0).insertRule('p.test1 { margin-top: 40px; margin-bottom: 20px; background: #EFEFEF; }');
+document.styleSheets.item(0).insertRule('p.test2 { margin-top: 20px; margin-bottom: 40px; background: #EFEFEF; }');
+// myApp.elem.textMargin.top.className    = 'textmargin';
+// myApp.elem.textMargin.bottom.className = 'textmargin';
 //
 /* set init value to the elements */
 myApp.elem.text.innerHTML   = "<p>quizBattle.srt.js</p>";
@@ -861,7 +862,7 @@ myApp.val.srtFuncArray = [
             // myApp.elem.text.style.margin = '48px auto';
             // myApp.elem.textMargin.top.style.margin = '48px';
             // myApp.elem.textMargin.bottom.style.margin = '48px';
-            myApp.elem.text.innerHTML = "<p><b>＜ 遊び方 ＞</b></p><p>　問い読み中に早押しボタンをタップすると、<br>　動画内のクイズに答えることができます。</p>";
+            myApp.elem.text.innerHTML = "<p class='test1'><b>＜ 遊び方 ＞</b></p><p class='test2'>　問い読み中に早押しボタンをタップすると、<br>　動画内のクイズに答えることができます。</p>";
         }else{
             myApp.elem.text.innerHTML = "<p>＜ 遊び方 ＞</p>"
             myApp.elem.subText.style.padding = '4px'
