@@ -146,7 +146,7 @@ document.styleSheets.item(0).insertRule('body { text-align: center; margin: auto
 //     p_margin = 32;
 //     p_inline_margin = 20;
 // }
-document.styleSheets.item(0).insertRule('p { margin-top: 32px; margin-bottom: 32px; background: #EFEFEF; }');
+document.styleSheets.item(0).insertRule('p { margin-top: 40px; margin-bottom: 40px; background: #EFEFEF; }');
 document.styleSheets.item(0).insertRule('p.test1 { margin-top: 40px; margin-bottom: 20px; background: #EFEFEF; }');
 document.styleSheets.item(0).insertRule('p.test2 { margin-top: 20px; margin-bottom: 40px; background: #EFEFEF; }');
 // myApp.elem.textMargin.top.className    = 'textmargin';
@@ -156,7 +156,7 @@ document.styleSheets.item(0).insertRule('p.test2 { margin-top: 20px; margin-bott
 myApp.elem.text.innerHTML   = "<p>quizBattle.srt.js</p>";
 myApp.elem.ansCol.value     = "ここに解答を入力";
 myApp.elem.ansBtn.innerHTML = "解答を送信";
-myApp.elem.numOX.innerHTML  = "⭕️："+myApp.val.cntO+"　❌："+myApp.val.cntX;
+myApp.elem.numOX.innerHTML  = "⭕️：";//+myApp.val.cntO+"　❌："+myApp.val.cntX;
 myApp.elem.ansCol.disabled  = true;
 myApp.elem.ansBtn.disabled  = true;
 //
@@ -172,7 +172,7 @@ if(myApp.val.os != 'other'){
     myApp.elem.ansBtn.style.width       = parseInt(myApp.elem.ansBtn.style.fontSize,10)*7+'px';
     myApp.elem.ansBtn.style.margin      = '0px '+(myApp.val.playerWidth-parseInt(myApp.elem.ansBtn.style.width, 10))/2+'px 20px';
     myApp.elem.numOX.style.fontSize     = '40px';
-    myApp.elem.numOX.style.lineHeight   = '70px';
+    myApp.elem.numOX.style.lineHeight   = '80px';
     myApp.elem.numOX.style.fontWeight   = 'bold';
     // myApp.elem.numOX.style.margin       = '10px auto';
     //
