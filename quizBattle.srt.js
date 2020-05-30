@@ -185,7 +185,7 @@ if(myApp.val.os != 'other'){
     //
     document.getElementsByTagName("body")[0].appendChild(document.createElement("br"));
     document.getElementsByTagName("body")[0].appendChild(myApp.elem.text);
-    document.getElementsByTagName("body")[0].appendChild(document.createElement("br"));
+    // document.getElementsByTagName("body")[0].appendChild(document.createElement("br"));
     document.getElementsByTagName("body")[0].appendChild(myApp.elem.ansCol);
     document.getElementsByTagName("body")[0].appendChild(myApp.elem.ansBtn);
     document.getElementsByTagName("body")[0].appendChild(myApp.elem.pushBtn);
@@ -862,7 +862,7 @@ myApp.val.srtFuncArray = [
             // myApp.elem.text.style.margin = '48px auto';
             // myApp.elem.textMargin.top.style.margin = '48px';
             // myApp.elem.textMargin.bottom.style.margin = '48px';
-            myApp.elem.text.innerHTML = "<b>＜ 遊び方 ＞</b><p>　問い読み中に早押しボタンをタップすると、<br>　動画内のクイズに答えることができます。";
+            myApp.elem.text.innerHTML = "<b>＜ 遊び方 ＞</b><p>　問い読み中に早押しボタンをタップすると、<br>　動画内のクイズに答えることができます。<br>";
         }else{
             myApp.elem.text.innerHTML = "＜ 遊び方 ＞"
             myApp.elem.subText.style.padding = '4px'
