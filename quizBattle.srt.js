@@ -173,7 +173,7 @@ if(myApp.val.os != 'other'){
     myApp.elem.numOX.style.fontSize     = '40px';
     myApp.elem.numOX.style.lineHeight   = '50px';
     myApp.elem.numOX.style.fontWeight   = 'bold';
-    // myApp.elem.numOX.style.margin       = '10px auto';
+    myApp.elem.numOX.style.padding      = '10px auto';
     //
     /* set special width of anscol to prevent the window is zoomed when the focus moveds to anscol */
     if(myApp.val.os == 'Android' && navigator.userAgent.match(/Firefox/)){
