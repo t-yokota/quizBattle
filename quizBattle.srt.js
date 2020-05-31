@@ -1,5 +1,5 @@
 0
-00:00:00,000 --> 00:00:00,999
+00:00:00,000 --> 00:00:01,999
 /* CAUTION : Each sections of subtitle has independent scope. */
 doOnce[index] = true;
 player.pauseVideo();
@@ -35,7 +35,8 @@ const myApp = {
         divBtn     : document.createElement('div'),
     },
     val : {
-        srtFuncArray : null, //array of functions that are executed in each subtitle
+        srtFuncArray  : null, //array of functions that are executed in each subtitle
+        viewFuncArray : null,
         //
         os : null,
         //
@@ -60,7 +61,7 @@ const myApp = {
         },
         touchObject : null,
         //
-        divHeight    : 0,
+        divUIHeight    : 0,
         divUIWidth   : 0,
         divElemWidth : 0,
         divBtnWidth  : 0,
@@ -115,7 +116,8 @@ const myApp = {
 /* set id */
 myApp.elem.ansCol.id  = 'anscol';
 myApp.elem.ansBtn.id  = 'ansbtn';
-myApp.elem.divUI.id   = 'divui'
+myApp.elem.pushBtn,id = 'pushbtn';
+myApp.elem.divUI.id   = 'divui';
 myApp.elem.divElem.id = 'divelem';
 myApp.elem.divBtn.id  = 'divbtn';
 //
@@ -140,14 +142,10 @@ document.styleSheets.item(0).insertRule('p.type1   { margin: 40px; background: #
 document.styleSheets.item(0).insertRule('p.type2-1 { margin-top: 40px; margin-bottom: 20px; background: #EFEFEF; }');
 document.styleSheets.item(0).insertRule('p.type2-2 { margin-top: 20px; margin-bottom: 40px; background: #EFEFEF; }');
 document.styleSheets.item(0).insertRule('p.type3   { margin: 32px; background: #EFEFEF; }');
-// document.styleSheets.item(0).insertRule('p.type4   { margin: 5px; background: #EFEFEF; }');
 //
 /* set init value to the elements */
-myApp.elem.text.innerHTML   = "<p class='type1'><b>quizBattle.srt.js</b></p>";
 myApp.elem.ansCol.value     = "ここに解答を入力";
 myApp.elem.ansBtn.innerHTML = "解答を送信";
-myApp.elem.numOX.innerHTML  = "<b>⭕️："+myApp.val.cntO+"　❌："+myApp.val.cntX+'</b>';
-// myApp.elem.numOX.innerHTML  = "<p class='type4'><b>⭕️："+myApp.val.cntO+"　❌："+myApp.val.cntX+'</b></p>';
 myApp.elem.ansCol.disabled  = true;
 myApp.elem.ansBtn.disabled  = true;
 //
@@ -159,67 +157,82 @@ if(myApp.val.os != 'other'){
     myApp.elem.ansCol.style.textAlign   = 'center';
     myApp.elem.ansCol.style.margin      = '0px auto 10px'
     myApp.elem.ansBtn.style.fontSize    = '35px';
-    myApp.elem.ansBtn.style.width       = parseInt(myApp.elem.ansBtn.style.fontSize,10)*7+'px';
+    myApp.elem.ansBtn.style.width       = parseInt(myApp.elem.ansBtn.style.fontSize,10)*8+'px';
     myApp.elem.ansBtn.style.margin      = '0px '+(myApp.val.playerWidth-parseInt(myApp.elem.ansBtn.style.width, 10))/2+'px 20px';
     myApp.elem.numOX.style.fontSize     = '40px';
     myApp.elem.numOX.style.lineHeight   = '80px';
-    //
-    /* set special width of anscol to prevent the window is zoomed when the focus moveds to anscol */
-    if(myApp.val.os == 'Android' && navigator.userAgent.match(/Firefox/)){
-        myApp.elem.ansCol.style.width = myApp.val.playerWidth+'px';
-    }else{
-        myApp.elem.ansCol.style.width = myApp.val.playerWidth*0.9+'px';
-    }
     //
     document.getElementsByTagName("body")[0].appendChild(myApp.elem.text);
     document.getElementsByTagName("body")[0].appendChild(myApp.elem.ansCol);
     document.getElementsByTagName("body")[0].appendChild(myApp.elem.ansBtn);
     document.getElementsByTagName("body")[0].appendChild(myApp.elem.pushBtn);
     document.getElementsByTagName("body")[0].appendChild(myApp.elem.numOX);
-    // document.getElementsByTagName("body")[0].appendChild(myApp.elem.paramText);
+    document.getElementsByTagName("body")[0].appendChild(myApp.elem.paramText);
+    //
+    myApp.elem.text.innerHTML   = "<p class='type1'><b>quizBattle.srt.js</b></p>";
+    myApp.elem.numOX.innerHTML  = "<b>⭕️："+myApp.val.cntO+"　❌："+myApp.val.cntX+'</b>';
 }else{
-    myApp.val.divHeight    = myApp.val.playerHeight*0.9;
+    myApp.val.divUIHeight    = myApp.val.playerHeight*0.9;
     myApp.val.divUIWidth   = myApp.val.playerWidth;
     myApp.val.divElemWidth = myApp.val.playerWidth*2/3;
     myApp.val.divBtnWidth  = myApp.val.playerWidth*1/3;
     document.styleSheets.item(0).insertRule('body { width:'+myApp.val.playerWidth+'px; }');
-    document.styleSheets.item(0).insertRule('div#divui   { width:'+myApp.val.divUIWidth  +'px; height:'+myApp.val.divHeight+'px; }');
-    document.styleSheets.item(0).insertRule('div#divelem { width:'+myApp.val.divElemWidth+'px; height:'+myApp.val.divHeight+'px; float: left; }');
-    document.styleSheets.item(0).insertRule('div#divbtn  { width:'+myApp.val.divBtnWidth +'px; height:'+myApp.val.divHeight+'px; float: left; display: flex; align-items: center; justify-content: center; }');
+    document.styleSheets.item(0).insertRule('div#divui   { width:'+myApp.val.divUIWidth  +'px; height:'+myApp.val.divUIHeight+'px; }');
+    document.styleSheets.item(0).insertRule('div#divelem { width:'+myApp.val.divElemWidth+'px; height:'+myApp.val.divUIHeight+'px; float: left; }');
+    document.styleSheets.item(0).insertRule('div#divbtn  { width:'+myApp.val.divBtnWidth +'px; height:'+myApp.val.divUIHeight+'px; float: left; display: flex; align-items: center; justify-content: center; }');
     document.getElementsByTagName("body")[0].appendChild(myApp.elem.divUI);
     myApp.elem.divUI.appendChild(myApp.elem.divElem); //divElem is assigned to ('div')[4]
     myApp.elem.divUI.appendChild(myApp.elem.divBtn);  //divBtn  is assigned to ('div')[5]
+    //
+    myApp.elem.divElem.style.display = 'flex';
+    myApp.elem.divElem.style.justifyContent = 'center';
+    myApp.elem.divElem.style.alignItems = 'center';
+    myApp.elem.divElem.style.flexDirection = 'column';
     //
     myApp.elem.text.style.fontSize      = '28px';
     myApp.elem.text.style.lineHeight    = '48px';
     myApp.elem.text.style.fontWeight    = 'bold';
     myApp.elem.text.style.display       = 'block';
-    myApp.elem.text.style.margin        = '60px auto 0px auto';
     myApp.elem.subText.style.fontSize   = '20px';
-    myApp.elem.subText.style.lineHeight = '32px';
+    myApp.elem.subText.style.lineHeight = '30px';
     myApp.elem.subText.style.display    = 'block';
-    myApp.elem.subText.style.padding    = '20px';
-    myApp.elem.subText.style.margin     = '10px';
     myApp.elem.ansCol.style.fontSize    = '23px';
     myApp.elem.ansCol.style.textAlign   = 'center';
     myApp.elem.ansCol.style.width       = myApp.val.divElemWidth*0.75+'px';
-    myApp.elem.ansCol.style.margin      = '5px ' +(myApp.val.divElemWidth-parseInt(myApp.elem.ansCol.style.width, 10))/2+'px 0px';
+    myApp.elem.ansCol.style.margin      = '0px ' +(myApp.val.divElemWidth-parseInt(myApp.elem.ansCol.style.width, 10))/2+'px';
     myApp.elem.ansBtn.style.fontSize    = '23px';
-    myApp.elem.ansBtn.style.width       = parseInt(myApp.elem.ansBtn.style.fontSize, 10)*7+'px';
+    myApp.elem.ansBtn.style.width       = parseInt(myApp.elem.ansBtn.style.fontSize, 10)*8+'px';
     myApp.elem.ansBtn.style.margin      = '15px '+(myApp.val.divElemWidth-parseInt(myApp.elem.ansBtn.style.width, 10))/2+'px 20px';
     myApp.elem.numOX.style.fontSize     = '25px';
-    myApp.elem.numOX.style.lineHeight   = '35px';
+    myApp.elem.numOX.style.lineHeight   = '45px';
     myApp.elem.numOX.style.fontWeight   = 'bold';
     //
-    document.getElementsByTagName("div")[4].appendChild(myApp.elem.text);
-    document.getElementsByTagName("div")[4].appendChild(myApp.elem.subText);
-    document.getElementsByTagName("div")[4].appendChild(myApp.elem.ansCol);
-    document.getElementsByTagName("div")[4].appendChild(myApp.elem.ansBtn);
-    document.getElementsByTagName("div")[4].appendChild(myApp.elem.numOX);
-    document.getElementsByTagName("div")[4].appendChild(myApp.elem.paramText);
-    document.getElementsByTagName("div")[5].appendChild(myApp.elem.pushBtn);
+    myApp.elem.pushBtn.tabIndex = 0;
+    //
+    myApp.val.viewFuncArray = [
+        function(){
+            // contentsHeight = parseInt(myApp.elem.text.style.lineHeight, 10) + parseInt(myApp.elem.subText.style.lineHeight, 10)*2;
+            myApp.elem.text.style.margin     = '0px auto 30px auto';
+            myApp.elem.text.style.padding    = '0px 40px';
+            myApp.elem.subText.style.margin  = '0px auto 60px auto';
+            myApp.elem.subText.style.padding = '0px 40px';
+            document.getElementsByTagName("div")[4].appendChild(myApp.elem.text);
+            document.getElementsByTagName("div")[4].appendChild(myApp.elem.subText);
+            document.getElementsByTagName("div")[5].appendChild(myApp.elem.pushBtn);
+        },
+        function(){
+            myApp.elem.text.style.margin = '0px auto 15px auto';
+            myApp.elem.text.parentNode.removeChild(myApp.elem.subText);
+            document.getElementsByTagName("div")[4].appendChild(myApp.elem.ansCol);
+            document.getElementsByTagName("div")[4].appendChild(myApp.elem.ansBtn);
+            document.getElementsByTagName("div")[4].appendChild(myApp.elem.numOX);
+            document.getElementsByTagName("div")[4].appendChild(myApp.elem.paramText);
+        },
+    ]
+    myApp.val.viewFuncArray.shift()();
+    myApp.elem.text.innerHTML   = "<b>quizBattle.srt.js</b>";
+    myApp.elem.numOX.innerHTML  = "<b>⭕️："+myApp.val.cntO+"　❌："+myApp.val.cntX+'</b>';
 }
-/* set parameters to the elements based on device type */
 //
 /* add textnodes to the elements */
 const my_node_text      = document.createTextNode("");
@@ -276,6 +289,7 @@ myApp.elem.pushBtn.onload = function(){
         /* change player and push button size after loading image */
         resizePlayer();
         resizePushButton();
+        // instantFocusToElement(myApp.elem.pushBtn);
         myApp.val.initLoadBool = true;
     }
 };
@@ -298,9 +312,9 @@ function materialCheckFunction(){
             }else{
                 myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src;
                 if(detectTouchPanel() == true){
-                    myApp.elem.subText.innerHTML = "<p class='type1'><b>早押しボタン（スペースキー）を押して動画を再生する</b></p>"; 
+                    myApp.elem.subText.innerHTML = "早押しボタン(スペースキー)を押して動画を再生する";
                 }else{
-                    myApp.elem.subText.innerHTML = "<p class='type1'><b>早押しボタン（スペースキー）を押して動画を再生する</b></p>";
+                    myApp.elem.subText.innerHTML = "早押しボタン(スペースキー)を押して動画を再生する";
                 }
             }
             /* show alert based on initial orientation */
@@ -502,7 +516,7 @@ function myIntervalEvent(){
             if(myApp.val.os != 'other'){
                 myApp.elem.text.innerHTML = "<p class='type3'><b>のこり"+Math.floor((myApp.val.ansTime.limit-myApp.val.ansTime.elapsed)/1000+1)+"秒</b></p>";
             }else{
-                myApp.elem.subText.innerHTML = "<p class='type3'><b>のこり"+Math.floor((myApp.val.ansTime.limit-myApp.val.ansTime.elapsed)/1000+1)+"秒</b></p>";
+                myApp.elem.text.innerHTML = "<b>のこり"+Math.floor((myApp.val.ansTime.limit-myApp.val.ansTime.elapsed)/1000+1)+"秒</b>";
             }
             if(myApp.val.ansTime.elapsed >= myApp.val.ansTime.limit){
                 checkAnswer();
@@ -515,9 +529,9 @@ function myIntervalEvent(){
             }
         }
     }else{
-        if(document.activeElement.id == "player"){
+        if(myApp.val.os == 'other' && document.activeElement.id == "player"){
             /* preparation of js keydown event */
-            instantFocusToElement(myApp.elem.ansCol);
+            instantFocusToElement(myApp.elem.pushBtn);
         }
         myApp.val.ansTime.elapsed = 0;
     }
@@ -604,9 +618,22 @@ function resizePlayer(){
             // myApp.val.playerHeight = document.documentElement.clientHeight-parseInt(myApp.elem.subText.style.lineHeight)-20;
             // myApp.val.playerWidth  = myApp.val.playerHeight/9*16;
         }
+        /* set special width of anscol to prevent the window is zoomed when the focus moveds to anscol */
+        if(myApp.val.os == 'Android' && navigator.userAgent.match(/Firefox/)){
+            myApp.elem.ansCol.style.width = myApp.val.playerWidth+'px';
+        }else{
+            myApp.elem.ansCol.style.width = myApp.val.playerWidth*0.9+'px';
+        }
     }else{
-        myApp.val.playerHeight = document.documentElement.clientHeight/2;
-        myApp.val.playerWidth  = myApp.val.playerHeight/9*16;
+        const tmpPlayerHeight = document.documentElement.clientHeight/2;
+        const tmpPlayerWidth  = tmpPlayerHeight/9*16;
+        if(tmpPlayerWidth < document.documentElement.clientWidth){
+            myApp.val.playerHeight = tmpPlayerHeight;
+            myApp.val.playerWidth  = tmpPlayerWidth;
+        }else{
+            myApp.val.playerWidth  = document.documentElement.clientWidth;
+            myApp.val.playerHeight = myApp.val.playerWidth/16*9;
+        }
     }
     if(myApp.val.initLoadBool == false || myApp.val.prevPlayerWidth != myApp.val.playerWidth){
         player.setSize(myApp.val.playerWidth, myApp.val.playerHeight);
@@ -632,7 +659,7 @@ function resizePushButton(){
             myApp.val.pushBtnWidth  = document.documentElement.clientWidth/5;
             myApp.val.pushBtnHeight = myApp.elem.pushBtn.naturalHeight*myApp.val.pushBtnWidth/myApp.elem.pushBtn.naturalWidth;
         }
-        myApp.elem.pushBtn.style.margin = 'auto '+(myApp.val.playerWidth-myApp.val.pushBtnWidth)/2+'px';
+        myApp.elem.pushBtn.style.margin = 'auto '+(document.documentElement.clientWidth-myApp.val.pushBtnWidth)/2+'px';
     }else{
         myApp.val.pushBtnWidth  = myApp.val.divBtnWidth;
         myApp.val.pushBtnHeight = myApp.elem.pushBtn.naturalHeight*myApp.val.pushBtnWidth/myApp.elem.pushBtn.naturalWidth;
@@ -742,7 +769,7 @@ function checkAnswer(){
         if(myApp.val.os != 'other'){
             myApp.elem.text.innerHTML = "<p class='type3'><b>正解！</b></p>";
         }else{
-            myApp.elem.subText.innerHTML = "<p class='type3'><b>正解！</b></p>";
+            myApp.elem.text.innerHTML = "<b>正解！</b>";
         }
     }else{
         playSndX();
@@ -750,11 +777,10 @@ function checkAnswer(){
         if(myApp.val.os != 'other'){
             myApp.elem.text.innerHTML = "<p class='type3'><b>不正解！</b></p>"; //あと"+(myApp.val.limPush-myApp.val.cntPush)+"回解答できます。";
         }else{
-            myApp.elem.subText.innerHTML = "<p class='type3'><b>不正解！</b></p>"; //あと"+(myApp.val.limPush-myApp.val.cntPush)+"回解答できます。";
+            myApp.elem.text.innerHTML = "<b>不正解！</b>"; //あと"+(myApp.val.limPush-myApp.val.cntPush)+"回解答できます。";
         }
     }
     myApp.elem.numOX.innerHTML  = "<b>⭕️："+myApp.val.cntO+"　❌："+myApp.val.cntX+'</b>';
-    // myApp.elem.numOX.innerHTML  = "<p class='type4'><b>⭕️："+myApp.val.cntO+"　❌："+myApp.val.cntX+'</b></p>';
     opposePlayer();
     //
     if(window.orientation != 90){
@@ -845,9 +871,8 @@ myApp.val.srtFuncArray = [
         if(myApp.val.os != 'other'){
             myApp.elem.text.innerHTML = "<p class='type2-1'><b>＜ 遊び方 ＞</b></p><p class='type2-2'>　問い読み中に早押しボタンをタップすると、<br>　動画内のクイズに答えることができます。</p>";
         }else{
-            myApp.elem.text.innerHTML = "<p class='type1'><b>＜ 遊び方 ＞</b></p>"
-            myApp.elem.subText.style.padding = '4px'
-            myApp.elem.subText.innerHTML = "<p class='type1'>　問い読み中に早押しボタンを押すと、<br>　動画内のクイズに答えることができます。</p>";
+            myApp.elem.text.innerHTML = "<b>＜ 遊び方 ＞</b>"
+            myApp.elem.subText.innerHTML = "問い読み中に早押しボタン(スペースキー)を押すと、動画内のクイズに答えることができます。";
         }
     },
     function(){
@@ -856,11 +881,11 @@ myApp.val.srtFuncArray = [
         myApp.val.numQues = 1;
         myApp.val.cntPush = 0;
         myApp.val.correctBool = false;
-        myApp.elem.text.innerHTML = "<p class='type3'><b>第"+myApp.val.numQues+"問</b></p>";
-        if(myApp.val.os == 'other'){
-            myApp.elem.subText.style.padding = '20px'
-            myApp.elem.subText.innerHTML = "<p class='type1'>早押しボタン（スペースキー）を押して解答する</p>";
-            myApp.elem.text.parentNode.removeChild(myApp.elem.text);
+        if(myApp.val.os != 'other'){
+            myApp.elem.text.innerHTML = "<p class='type3'><b>第"+myApp.val.numQues+"問</b></p>";
+        }else{
+            myApp.elem.text.innerHTML = "<b>第"+myApp.val.numQues+"問</b>";
+            myApp.val.viewFuncArray.shift()();
         }
         if(Math.abs(window.orientation) != 90){ myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src; }
     },
@@ -873,9 +898,10 @@ myApp.val.srtFuncArray = [
         myApp.val.numQues = 2;
         myApp.val.cntPush = 0;
         myApp.val.correctBool = false;
-        myApp.elem.text.innerHTML = "<p class='type3'><b>第"+myApp.val.numQues+"問</b></p>";
-        if(myApp.val.os == 'other'){
-            myApp.elem.subText.innerHTML = "<p class='type1'>早押しボタン（スペースキー）を押して解答する</p>";
+        if(myApp.val.os != 'other'){
+            myApp.elem.text.innerHTML = "<p class='type3'><b>第"+myApp.val.numQues+"問</b></p>";
+        }else{
+            myApp.elem.text.innerHTML = "<b>第"+myApp.val.numQues+"問</b>";
         }
         if(Math.abs(window.orientation) != 90){ myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src; }
     },
@@ -888,9 +914,10 @@ myApp.val.srtFuncArray = [
         myApp.val.numQues = 3;
         myApp.val.cntPush = 0;
         myApp.val.correctBool = false;
-        myApp.elem.text.innerHTML = "<p class='type3'><b>第"+myApp.val.numQues+"問</b></p>";
-        if(myApp.val.os == 'other'){
-            myApp.elem.subText.innerHTML = "<p class='type1'>早押しボタン（スペースキー）を押して解答する</p>";
+        if(myApp.val.os != 'other'){
+            myApp.elem.text.innerHTML = "<p class='type3'><b>第"+myApp.val.numQues+"問</b></p>";
+        }else{
+            myApp.elem.text.innerHTML = "<b>第"+myApp.val.numQues+"問</b>";
         }
         if(Math.abs(window.orientation) != 90){ myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src; }
     },
@@ -900,7 +927,7 @@ myApp.val.srtFuncArray = [
 ];
 
 1
-00:00:01,000 --> 00:00:05,999
+00:00:02,000 --> 00:00:05,999
 
 
 2
