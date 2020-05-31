@@ -269,10 +269,14 @@ else if(myApp.elem.sounds.canPlayType('audio/wav') == 'maybe'   ){ myApp.val.aud
 myApp.elem.sounds.src = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/sounds/sounds_3"+myApp.val.audioExt;
 //
 /* load push button image */
-myApp.elem.imgBtn1.src = "https://github.com/t-yokota/quizBattle/raw/master/figures/button_portrait_1.png";
-myApp.elem.imgBtn2.src = "https://github.com/t-yokota/quizBattle/raw/master/figures/button_portrait_2.png";
-myApp.elem.imgBtn3.src = "https://github.com/t-yokota/quizBattle/raw/master/figures/button_portrait_3.png";
-myApp.elem.imgBtn4.src = "https://github.com/t-yokota/quizBattle/raw/master/figures/button_portrait_4.png";
+myApp.elem.imgBtn1.src = "https://github.com/t-yokota/quizBattle/raw/master/figures/button_portrait_72ppi_1.png";
+myApp.elem.imgBtn2.src = "https://github.com/t-yokota/quizBattle/raw/master/figures/button_portrait_72ppi_2.png";
+myApp.elem.imgBtn3.src = "https://github.com/t-yokota/quizBattle/raw/master/figures/button_portrait_72ppi_3.png";
+myApp.elem.imgBtn4.src = "https://github.com/t-yokota/quizBattle/raw/master/figures/button_portrait_72ppi_4.png";
+// myApp.elem.imgBtn1.src = "https://github.com/t-yokota/quizBattle/raw/master/figures/button_portrait_1.png";
+// myApp.elem.imgBtn2.src = "https://github.com/t-yokota/quizBattle/raw/master/figures/button_portrait_2.png";
+// myApp.elem.imgBtn3.src = "https://github.com/t-yokota/quizBattle/raw/master/figures/button_portrait_3.png";
+// myApp.elem.imgBtn4.src = "https://github.com/t-yokota/quizBattle/raw/master/figures/button_portrait_4.png";
 //
 /* load answer file */
 myApp.val.ansFile.open("get", "https://raw.githubusercontent.com/t-yokota/quizBattle/master/answer_utf-8.csv", true);
