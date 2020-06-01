@@ -9,8 +9,8 @@ const myApp = {
         ButtonCheck : 0, //ボタンチェック待機
         Question    : 1, //問い読み中（早押し可能）
         MyAnswer    : 2, //自分が解答権を所持（解答入力・送信可能）
-        Talk        : 4, //その他
         OthAnswer   : 3, //他者が解答権を所持（早押し不可能）
+        Talk        : 4, //その他
     },
     videoState : {
         Playing : 1,
@@ -90,13 +90,13 @@ const myApp = {
         cntO        : 0,     //正答数
         cntX        : 0,     //誤答数
         cntPush     : 0,     //1問あたりの解答回数
-        limPush     : 3,     //1問あたりの上限解答回数
+        limPush     : 1,     //1問あたりの上限解答回数
         correctBool : false, //答え合わせ結果(結果に応じて状態遷移)
         //
         ansFile : new XMLHttpRequest(), //正答ファイル.csv
         //
         /* for status management */
-        status   : this.state.Talk,
+        status   : null,
         cntIndex : 0, //(index value has current section of subtitle)
         //
         /* for time management */
@@ -113,10 +113,13 @@ const myApp = {
     },
 };
 //
+/* set button check state */
+myApp.val.status = myApp.state.ButtonCheck;
+//
 /* set id */
 myApp.elem.ansCol.id  = 'anscol';
 myApp.elem.ansBtn.id  = 'ansbtn';
-myApp.elem.pushBtn,id = 'pushbtn';
+myApp.elem.pushBtn.id = 'pushbtn';
 myApp.elem.divUI.id   = 'divui';
 myApp.elem.divElem.id = 'divelem';
 myApp.elem.divBtn.id  = 'divbtn';
@@ -234,15 +237,15 @@ if(myApp.val.os != 'other'){
     myApp.elem.numOX.innerHTML  = "<b>⭕️："+myApp.val.cntO+"　❌："+myApp.val.cntX+'</b>';
 }
 //
-/* add textnodes to the elements */
-const my_node_text      = document.createTextNode("");
-const my_node_subText   = document.createTextNode("");
-const my_node_paramText = document.createTextNode("");
-const my_node_numOX     = document.createTextNode("");
-myApp.elem.text.appendChild(my_node_text);
-myApp.elem.subText.appendChild(my_node_subText);
-myApp.elem.paramText.appendChild(my_node_paramText);
-myApp.elem.numOX.appendChild(my_node_numOX);
+// /* add textnodes to the elements */
+// const my_node_text      = document.createTextNode("");
+// const my_node_subText   = document.createTextNode("");
+// const my_node_paramText = document.createTextNode("");
+// const my_node_numOX     = document.createTextNode("");
+// myApp.elem.text.appendChild(my_node_text);
+// myApp.elem.subText.appendChild(my_node_subText);
+// myApp.elem.paramText.appendChild(my_node_paramText);
+// myApp.elem.numOX.appendChild(my_node_numOX);
 //
 myApp.elem.sounds.onerror  = function(){ myApp.val.loadErrorBool = true; };
 myApp.elem.imgBtn1.onerror = function(){ myApp.val.loadErrorBool = true; };
@@ -293,7 +296,6 @@ myApp.elem.pushBtn.onload = function(){
         /* change player and push button size after loading image */
         resizePlayer();
         resizePushButton();
-        // instantFocusToElement(myApp.elem.pushBtn);
         myApp.val.initLoadBool = true;
     }
 };
@@ -330,6 +332,7 @@ function materialCheckFunction(){
                 if(Math.abs(myApp.elem.numOX.getBoundingClientRect().top - myApp.elem.ansBtn.getBoundingClientRect().bottom) < 50){
                     player.pauseVideo();
                     alert("画像の表示に失敗しました。ページを再読み込みしてください。");
+                    myApp.val.loadErrorBool = true;
                     myApp.val.loadAlertBool = true;
                 }
             }
@@ -364,10 +367,6 @@ function spriteHandler(){
     }
 };
 //
-/* set button check state */
-myApp.val.status = myApp.state.ButtonCheck;
-player.pauseVideo();
-//
 /* Event */
 /* orientation change event function */
 function myOrientationChangeEvent(){
@@ -380,18 +379,17 @@ function myOrientationChangeEvent(){
             }else{
                 myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src;
             }
+            if(myApp.val.status == myApp.state.ButtonCheck){
+                myApp.elem.text.innerHTML = "<p class='type1'><b>早押しボタンをタップして動画を再生する</b></p>";
+            }
         }else{
             myApp.elem.pushBtn.src = myApp.elem.imgBtn4.src;
+            if(myApp.val.status == myApp.state.ButtonCheck){
+                myApp.elem.text.innerHTML = "<p class='type1'><b>スマホ／タブレットを縦向きにしてクイズをはじめる</b></p>";
+            }
             if(myApp.val.orientationAlertBool == false && myApp.val.initOrientation == 'portrait'){
                 alert("このサイトはスマートフォン/タブレットを縦にしてお楽しみください。");
                 myApp.val.orientationAlertBool = true;
-            }
-        }
-        if(myApp.val.status == myApp.state.ButtonCheck && myApp.val.initOrientation == 'landscape'){
-            if(Math.abs(window.orientation) != 90){
-                myApp.elem.text.innerHTML = "<p class='type1'><b>早押しボタンをタップして動画を再生する</b></p>";
-            }else{
-                myApp.elem.text.innerHTML = "<p class='type1'><b>スマホ／タブレットを縦向きにしてクイズをはじめる</b></p>";
             }
         }
     }, 500);
@@ -413,7 +411,7 @@ function myKeyDownEvent(){
 //
 /* touchstart event function (for smartphonea and tablet) */
 function myTouchEvent(event){
-    if(myApp.val.loadErrorBool == false && myApp.val.initLoadBool == true && Math.abs(window.orientation) != 90){ 
+    if(myApp.val.loadErrorBool == false && myApp.val.initLoadBool == true && Math.abs(window.orientation) != 90){
         myApp.val.touchObject = event.changedTouches[0];
         if(myApp.val.pushBtnArea.left < myApp.val.touchObject.pageX && myApp.val.touchObject.pageX < myApp.val.pushBtnArea.right){
             if(myApp.val.pushBtnArea.top < myApp.val.touchObject.pageY && myApp.val.touchObject.pageY < myApp.val.pushBtnArea.bottom){
@@ -509,6 +507,14 @@ function myIntervalEvent(){
             }
         }
     }
+    if(myApp.val.status == myApp.state.ButtonCheck){
+        if(myApp.val.cntIndex > 0 && myApp.val.loadAlertBool == false){
+            player.pauseVideo();
+            alert('ページの読み込みに失敗しました。ページを再読み込みしてください。');
+            myApp.val.loadErrorBool = true;
+            myApp.val.loadAlertBool = true;
+        }
+    }
     if(myApp.val.status == myApp.state.MyAnswer){
         /* reforcus when anscol is blank */
         // if(document.activeElement.id != "anscol" && myApp.elem.ansCol.value.valueOf() === ""){
@@ -559,7 +565,7 @@ function myOnClickEvent(){
         player.playVideo();
     }
 }
-//git 
+//
 /* Function */
 function fetchOSType(){
     let osType = null;
@@ -799,6 +805,7 @@ function checkAnswer(){
 }
 //
 function printParams(){
+    // myApp.elem.text.innerHTML = myApp.val.cntIndex+', '+myApp.val.status;
     // myApp.elem.subText.innerHTML = Math.floor((myApp.val.divElemWidth-parseInt(myApp.elem.ansCol.style.width,10))/2);
     // myApp.elem.subText.innerHTML = (myApp.val.pushBtnArea.bottom-myApp.val.playerHeight-(parseInt(myApp.elem.text.style.lineHeight, 10)+p_textMargin*2+parseInt(myApp.elem.subText.style.lineHeight, 10)*2+parseInt(myApp.elem.numOX.style.lineHeight, 10)+(myApp.elem.ansBtn.getBoundingClientRect().bottom-myApp.elem.ansBtn.getBoundingClientRect().top)+(myApp.elem.ansCol.getBoundingClientRect().bottom-myApp.elem.ansCol.getBoundingClientRect().top)))/3; 
     // myApp.elem.subText.innerHTML = detectTouchPanel();
