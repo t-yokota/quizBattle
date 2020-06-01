@@ -392,7 +392,7 @@ function myOrientationChangeEvent(){
                 myApp.val.orientationAlertBool = true;
             }
         }
-    }, 1000);
+    }, 800);
 }
 //
 /* keydown event function */
