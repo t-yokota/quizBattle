@@ -312,7 +312,7 @@ function materialCheckFunction(){
                     myApp.val.initOrientation = 'portrait';
                 }else{
                     myApp.elem.pushBtn.src = myApp.elem.imgBtn4.src;
-                    myApp.elem.text.innerHTML = "<p class='type1'><b>スマホ／タブレットを縦にしてクイズをはじめる</b></p>";
+                    myApp.elem.text.innerHTML = "<p class='type1'><b>端末を縦向きにしてクイズをはじめる</b></p>";
                     myApp.val.initOrientation = 'landscape';
                 }
             }else{
@@ -385,14 +385,14 @@ function myOrientationChangeEvent(){
         }else{
             myApp.elem.pushBtn.src = myApp.elem.imgBtn4.src;
             if(myApp.val.status == myApp.state.ButtonCheck){
-                myApp.elem.text.innerHTML = "<p class='type1'><b>スマホ／タブレットを縦向きにしてクイズをはじめる</b></p>";
+                myApp.elem.text.innerHTML = "<p class='type1'><b>端末を縦向きにしてクイズをはじめる</b></p>";
             }
             if(myApp.val.orientationAlertBool == false && myApp.val.initOrientation == 'portrait'){
-                alert("このサイトはスマートフォン/タブレットを縦にしてお楽しみください。");
+                alert("このサイトはスマートフォン/タブレットを縦向きにしてお楽しみください。");
                 myApp.val.orientationAlertBool = true;
             }
         }
-    }, 500);
+    }, 1000);
 }
 //
 /* keydown event function */
