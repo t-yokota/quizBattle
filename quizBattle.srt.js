@@ -740,6 +740,12 @@ function buttonCheck(responseInterval){
     setTimeout(function(){
         playSndO();
         myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src;
+        if(myApp.val.os != 'other'){
+            myApp.elem.text.innerHTML = "<p class='type2-1'><b>＜ 遊び方 ＞</b></p><p class='type2-2'>　問い読み中に早押しボタンをタップすると、<br>　動画内のクイズに答えることができます。</p>";
+        }else{
+            myApp.elem.text.innerHTML = "<b>＜ 遊び方 ＞</b>"
+            myApp.elem.subText.innerHTML = "問い読み中に早押しボタン(スペースキー)を押すと、動画内のクイズに答えることができます。";
+        }
     }, responseInterval);
 }
 //
@@ -805,10 +811,6 @@ function checkAnswer(){
 }
 //
 function printParams(){
-    // myApp.elem.text.innerHTML = myApp.val.cntIndex+', '+myApp.val.status;
-    // myApp.elem.subText.innerHTML = Math.floor((myApp.val.divElemWidth-parseInt(myApp.elem.ansCol.style.width,10))/2);
-    // myApp.elem.subText.innerHTML = (myApp.val.pushBtnArea.bottom-myApp.val.playerHeight-(parseInt(myApp.elem.text.style.lineHeight, 10)+p_textMargin*2+parseInt(myApp.elem.subText.style.lineHeight, 10)*2+parseInt(myApp.elem.numOX.style.lineHeight, 10)+(myApp.elem.ansBtn.getBoundingClientRect().bottom-myApp.elem.ansBtn.getBoundingClientRect().top)+(myApp.elem.ansCol.getBoundingClientRect().bottom-myApp.elem.ansCol.getBoundingClientRect().top)))/3; 
-    // myApp.elem.subText.innerHTML = detectTouchPanel();
     // myApp.elem.subText.innerHTML = myApp.val.os + ', ' + navigator.userAgent;
     // myApp.elem.paramText.innerHTML = document.styleSheets.item(0).cssRules;
     // myApp.elem.subText.innerHTML = myApp.elem.sounds.src;
@@ -879,12 +881,6 @@ myApp.val.srtFuncArray = [
     function(){
         /* ボタンチェック後〜第１問 */
         myApp.val.status = myApp.state.Talk;
-        if(myApp.val.os != 'other'){
-            myApp.elem.text.innerHTML = "<p class='type2-1'><b>＜ 遊び方 ＞</b></p><p class='type2-2'>　問い読み中に早押しボタンをタップすると、<br>　動画内のクイズに答えることができます。</p>";
-        }else{
-            myApp.elem.text.innerHTML = "<b>＜ 遊び方 ＞</b>"
-            myApp.elem.subText.innerHTML = "問い読み中に早押しボタン(スペースキー)を押すと、動画内のクイズに答えることができます。";
-        }
     },
     function(){
         /* 第１問 */
@@ -895,8 +891,8 @@ myApp.val.srtFuncArray = [
         if(myApp.val.os != 'other'){
             myApp.elem.text.innerHTML = "<p class='type3'><b>第"+myApp.val.numQues+"問</b></p>";
         }else{
-            myApp.elem.text.innerHTML = "<b>第"+myApp.val.numQues+"問</b>";
             myApp.val.viewFuncArray.shift()();
+            myApp.elem.text.innerHTML = "<b>第"+myApp.val.numQues+"問</b>";
         }
         if(Math.abs(window.orientation) != 90){ myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src; }
     },
