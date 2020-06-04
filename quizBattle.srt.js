@@ -147,15 +147,20 @@ document.styleSheets.item(0).insertRule('p.type2-2 { margin-top: 20px; margin-bo
 document.styleSheets.item(0).insertRule('p.type3   { margin: 32px; background: #EFEFEF; }');
 //
 /* set init value to the elements */
+myApp.elem.text.innerHTML   = "quizBattle.srt.js";
 myApp.elem.ansCol.value     = "ここに解答を入力";
 myApp.elem.ansBtn.innerHTML = "解答を送信";
 myApp.elem.ansCol.disabled  = true;
 myApp.elem.ansBtn.disabled  = true;
+myApp.elem.numOX.innerHTML  = "⭕️："+myApp.val.cntO+"　❌："+myApp.val.cntX;
 //
 /* set elements */
 if(myApp.val.os != 'other'){
     myApp.elem.text.style.fontSize      = '40px';
     myApp.elem.text.style.lineHeight    = '60px';
+    myApp.elem.text.style.fontWeight    = 'bold';
+    myApp.elem.subText.style.fontSize   = '40px';
+    myApp.elem.subText.style.lineHeight = '60px';
     myApp.elem.ansCol.style.fontSize    = '35px';
     myApp.elem.ansCol.style.textAlign   = 'center';
     myApp.elem.ansCol.style.margin      = '0px auto 10px'
@@ -164,16 +169,29 @@ if(myApp.val.os != 'other'){
     myApp.elem.ansBtn.style.margin      = '0px '+(myApp.val.playerWidth-parseInt(myApp.elem.ansBtn.style.width, 10))/2+'px 20px';
     myApp.elem.numOX.style.fontSize     = '40px';
     myApp.elem.numOX.style.lineHeight   = '80px';
+    myApp.elem.numOX.style.fontWeight   = 'bold';
     //
-    document.getElementsByTagName("body")[0].appendChild(myApp.elem.text);
-    document.getElementsByTagName("body")[0].appendChild(myApp.elem.ansCol);
-    document.getElementsByTagName("body")[0].appendChild(myApp.elem.ansBtn);
-    document.getElementsByTagName("body")[0].appendChild(myApp.elem.pushBtn);
-    document.getElementsByTagName("body")[0].appendChild(myApp.elem.numOX);
-    document.getElementsByTagName("body")[0].appendChild(myApp.elem.paramText);
-    //
-    myApp.elem.text.innerHTML   = "<p class='type1'><b>quizBattle.srt.js</b></p>";
-    myApp.elem.numOX.innerHTML  = "<b>⭕️："+myApp.val.cntO+"　❌："+myApp.val.cntX+'</b>';
+    myApp.val.viewFuncArray = [
+        function(){
+            myApp.elem.text.style.margin = '40px auto';
+            document.getElementsByTagName("body")[0].appendChild(myApp.elem.text);
+            document.getElementsByTagName("body")[0].appendChild(myApp.elem.ansCol);
+            document.getElementsByTagName("body")[0].appendChild(myApp.elem.ansBtn);
+            document.getElementsByTagName("body")[0].appendChild(myApp.elem.pushBtn);
+            document.getElementsByTagName("body")[0].appendChild(myApp.elem.numOX);
+            document.getElementsByTagName("body")[0].appendChild(myApp.elem.paramText);
+        },
+        function(){
+            myApp.elem.text.style.margin = '40px auto 20px auto';
+            myApp.elem.subText.style.margin  = '0px auto 40px auto';
+            document.getElementsByTagName("body")[0].insertBefore(myApp.elem.subText, myApp.elem.text.nextSibling);
+        },
+        function(){
+            myApp.elem.text.style.margin = '32px auto';
+            myApp.elem.text.parentNode.removeChild(myApp.elem.subText);
+        },
+    ];
+    myApp.val.viewFuncArray.shift()();
 }else{
     myApp.val.divUIHeight    = myApp.val.playerHeight*0.9;
     myApp.val.divUIWidth   = myApp.val.playerWidth;
@@ -231,10 +249,8 @@ if(myApp.val.os != 'other'){
             document.getElementsByTagName("div")[4].appendChild(myApp.elem.numOX);
             document.getElementsByTagName("div")[4].appendChild(myApp.elem.paramText);
         },
-    ]
+    ];
     myApp.val.viewFuncArray.shift()();
-    myApp.elem.text.innerHTML   = "<b>quizBattle.srt.js</b>";
-    myApp.elem.numOX.innerHTML  = "<b>⭕️："+myApp.val.cntO+"　❌："+myApp.val.cntX+'</b>';
 }
 //
 // /* add textnodes to the elements */
@@ -308,11 +324,11 @@ function materialCheckFunction(){
             if(myApp.val.os != "other"){
                 if(Math.abs(window.orientation) != 90){
                     myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src;
-                    myApp.elem.text.innerHTML = "<p class='type1'><b>早押しボタンをタップして動画を再生する</b></p>";
+                    myApp.elem.text.innerHTML = "早押しボタンをタップして動画を再生する</b>";
                     myApp.val.initOrientation = 'portrait';
                 }else{
                     myApp.elem.pushBtn.src = myApp.elem.imgBtn4.src;
-                    myApp.elem.text.innerHTML = "<p class='type1'><b>端末を縦向きにしてクイズをはじめる</b></p>";
+                    myApp.elem.text.innerHTML = "端末を縦向きにしてクイズをはじめる";
                     myApp.val.initOrientation = 'landscape';
                 }
             }else{
@@ -380,12 +396,12 @@ function myOrientationChangeEvent(){
                 myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src;
             }
             if(myApp.val.status == myApp.state.ButtonCheck){
-                myApp.elem.text.innerHTML = "<p class='type1'><b>早押しボタンをタップして動画を再生する</b></p>";
+                myApp.elem.text.innerHTML = "早押しボタンをタップして動画を再生する";
             }
         }else{
             myApp.elem.pushBtn.src = myApp.elem.imgBtn4.src;
             if(myApp.val.status == myApp.state.ButtonCheck){
-                myApp.elem.text.innerHTML = "<p class='type1'><b>端末を縦向きにしてクイズをはじめる</b></p>";
+                myApp.elem.text.innerHTML = "端末を縦向きにしてクイズをはじめる";
             }
             if(myApp.val.orientationAlertBool == false && myApp.val.initOrientation == 'portrait'){
                 alert("このサイトはスマートフォン/タブレットを縦向きにしてお楽しみください。");
@@ -428,9 +444,11 @@ function myButtonAction(){
         setTimeout(function(){
             player.playVideo();
             if(myApp.val.os != 'other'){
-                myApp.elem.text.innerHTML = "<p class='type2-1'><b>＜ 遊び方 ＞</b></p><p class='type2-2'>　問い読み中に早押しボタンをタップすると、<br>　動画内のクイズに答えることができます。</p>";
+                myApp.val.viewFuncArray.shift()();
+                myApp.elem.text.innerHTML = "＜ 遊び方 ＞";
+                myApp.elem.subText.innerHTML = "　問い読み中に早押しボタンをタップすると、<br>　動画内のクイズに答えることができます。";
             }else{
-                myApp.elem.text.innerHTML = "<b>＜ 遊び方 ＞</b>"
+                myApp.elem.text.innerHTML = "＜ 遊び方 ＞"
                 myApp.elem.subText.innerHTML = "問い読み中に早押しボタン(スペースキー)を押すと、動画内のクイズに答えることができます。";
             }
         }, myApp.val.btnCheck.playInterval);
@@ -532,9 +550,9 @@ function myIntervalEvent(){
         if(document.activeElement.id == "anscol" || myApp.val.ansTime.elapsed != 0){
             myApp.val.ansTime.elapsed += interval;
             if(myApp.val.os != 'other'){
-                myApp.elem.text.innerHTML = "<p class='type3'><b>のこり"+Math.floor((myApp.val.ansTime.limit-myApp.val.ansTime.elapsed)/1000+1)+"秒</b></p>";
+                myApp.elem.text.innerHTML = "のこり"+Math.floor((myApp.val.ansTime.limit-myApp.val.ansTime.elapsed)/1000+1)+"秒";
             }else{
-                myApp.elem.text.innerHTML = "<b>のこり"+Math.floor((myApp.val.ansTime.limit-myApp.val.ansTime.elapsed)/1000+1)+"秒</b>";
+                myApp.elem.text.innerHTML = "のこり"+Math.floor((myApp.val.ansTime.limit-myApp.val.ansTime.elapsed)/1000+1)+"秒";
             }
             if(myApp.val.ansTime.elapsed >= myApp.val.ansTime.limit){
                 checkAnswer();
@@ -785,20 +803,20 @@ function checkAnswer(){
         playSndO();
         myApp.val.cntO += 1;
         if(myApp.val.os != 'other'){
-            myApp.elem.text.innerHTML = "<p class='type3'><b>正解！</b></p>";
+            myApp.elem.text.innerHTML = "正解！";
         }else{
-            myApp.elem.text.innerHTML = "<b>正解！</b>";
+            myApp.elem.text.innerHTML = "正解！";
         }
     }else{
         playSndX();
         myApp.val.cntX += 1;
         if(myApp.val.os != 'other'){
-            myApp.elem.text.innerHTML = "<p class='type3'><b>不正解！</b></p>"; //あと"+(myApp.val.limPush-myApp.val.cntPush)+"回解答できます。";
+            myApp.elem.text.innerHTML = "不正解！"; //あと"+(myApp.val.limPush-myApp.val.cntPush)+"回解答できます。";
         }else{
-            myApp.elem.text.innerHTML = "<b>不正解！</b>"; //あと"+(myApp.val.limPush-myApp.val.cntPush)+"回解答できます。";
+            myApp.elem.text.innerHTML = "不正解！"; //あと"+(myApp.val.limPush-myApp.val.cntPush)+"回解答できます。";
         }
     }
-    myApp.elem.numOX.innerHTML  = "<b>⭕️："+myApp.val.cntO+"　❌："+myApp.val.cntX+'</b>';
+    myApp.elem.numOX.innerHTML  = "⭕️："+myApp.val.cntO+"　❌："+myApp.val.cntX;
     opposePlayer();
     //
     if(window.orientation != 90){
@@ -891,10 +909,11 @@ myApp.val.srtFuncArray = [
         myApp.val.cntPush = 0;
         myApp.val.correctBool = false;
         if(myApp.val.os != 'other'){
-            myApp.elem.text.innerHTML = "<p class='type3'><b>第"+myApp.val.numQues+"問</b></p>";
+            myApp.val.viewFuncArray.shift()();
+            myApp.elem.text.innerHTML = "第"+myApp.val.numQues+"問";
         }else{
             myApp.val.viewFuncArray.shift()();
-            myApp.elem.text.innerHTML = "<b>第"+myApp.val.numQues+"問</b>";
+            myApp.elem.text.innerHTML = "第"+myApp.val.numQues+"問";
         }
         if(Math.abs(window.orientation) != 90){ myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src; }
     },
@@ -908,9 +927,9 @@ myApp.val.srtFuncArray = [
         myApp.val.cntPush = 0;
         myApp.val.correctBool = false;
         if(myApp.val.os != 'other'){
-            myApp.elem.text.innerHTML = "<p class='type3'><b>第"+myApp.val.numQues+"問</b></p>";
+            myApp.elem.text.innerHTML = "第"+myApp.val.numQues+"問";
         }else{
-            myApp.elem.text.innerHTML = "<b>第"+myApp.val.numQues+"問</b>";
+            myApp.elem.text.innerHTML = "第"+myApp.val.numQues+"問";
         }
         if(Math.abs(window.orientation) != 90){ myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src; }
     },
@@ -924,9 +943,9 @@ myApp.val.srtFuncArray = [
         myApp.val.cntPush = 0;
         myApp.val.correctBool = false;
         if(myApp.val.os != 'other'){
-            myApp.elem.text.innerHTML = "<p class='type3'><b>第"+myApp.val.numQues+"問</b></p>";
+            myApp.elem.text.innerHTML = "第"+myApp.val.numQues+"問";
         }else{
-            myApp.elem.text.innerHTML = "<b>第"+myApp.val.numQues+"問</b>";
+            myApp.elem.text.innerHTML = "第"+myApp.val.numQues+"問";
         }
         if(Math.abs(window.orientation) != 90){ myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src; }
     },
