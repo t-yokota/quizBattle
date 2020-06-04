@@ -148,7 +148,7 @@ document.styleSheets.item(0).insertRule('p.type2-2 { margin-top: 20px; margin-bo
 document.styleSheets.item(0).insertRule('p.type3   { margin: 32px; background: #EFEFEF; }');
 //
 /* set init value to the elements */
-// myApp.elem.text.innerHTML   = "quizBattle.srt.js";
+myApp.elem.text.innerHTML   = "quizBattle.srt.js";
 myApp.elem.ansCol.value     = "ここに解答を入力";
 myApp.elem.ansBtn.innerHTML = "解答を送信";
 myApp.elem.ansCol.disabled  = true;
@@ -160,8 +160,10 @@ if(myApp.val.os != 'other'){
     myApp.elem.text.style.fontSize      = '40px';
     myApp.elem.text.style.lineHeight    = '60px';
     myApp.elem.text.style.fontWeight    = 'bold';
+    myApp.elem.text.style.display       = 'block';
     myApp.elem.subText.style.fontSize   = '40px';
     myApp.elem.subText.style.lineHeight = '60px';
+    myApp.elem.subText.style.display    = 'block';
     myApp.elem.ansCol.style.fontSize    = '35px';
     myApp.elem.ansCol.style.textAlign   = 'center';
     myApp.elem.ansCol.style.margin      = '0px auto 10px'
