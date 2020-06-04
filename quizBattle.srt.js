@@ -425,7 +425,15 @@ function myButtonAction(){
     if(myApp.val.status == myApp.state.ButtonCheck){
         myApp.val.status = myApp.state.Talk;
         buttonCheck(myApp.val.btnCheck.sndInterval);
-        setTimeout(function(){ player.playVideo(); }, myApp.val.btnCheck.playInterval);
+        setTimeout(function(){
+            player.playVideo();
+            if(myApp.val.os != 'other'){
+                myApp.elem.text.innerHTML = "<p class='type2-1'><b>＜ 遊び方 ＞</b></p><p class='type2-2'>　問い読み中に早押しボタンをタップすると、<br>　動画内のクイズに答えることができます。</p>";
+            }else{
+                myApp.elem.text.innerHTML = "<b>＜ 遊び方 ＞</b>"
+                myApp.elem.subText.innerHTML = "問い読み中に早押しボタン(スペースキー)を押すと、動画内のクイズに答えることができます。";
+            }
+        }, myApp.val.btnCheck.playInterval);
     }
     if(myApp.val.status == myApp.state.Question){
         myApp.val.status = myApp.state.MyAnswer;
@@ -740,12 +748,6 @@ function buttonCheck(responseInterval){
     setTimeout(function(){
         playSndO();
         myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src;
-        if(myApp.val.os != 'other'){
-            myApp.elem.text.innerHTML = "<p class='type2-1'><b>＜ 遊び方 ＞</b></p><p class='type2-2'>　問い読み中に早押しボタンをタップすると、<br>　動画内のクイズに答えることができます。</p>";
-        }else{
-            myApp.elem.text.innerHTML = "<b>＜ 遊び方 ＞</b>"
-            myApp.elem.subText.innerHTML = "問い読み中に早押しボタン(スペースキー)を押すと、動画内のクイズに答えることができます。";
-        }
     }, responseInterval);
 }
 //
