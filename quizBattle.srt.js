@@ -141,13 +141,14 @@ resizePlayer();
 /* set style sheets */
 document.styleSheets.item(0).insertRule('html { touch-action: manipulation; }'); //disable double tap gesture
 document.styleSheets.item(0).insertRule('body { text-align: center; margin: auto; background: #EFEFEF; }');
+document.styleSheets.item(0).insertRule('p         { margin: 1px; background: #EFEFEF; }');
 document.styleSheets.item(0).insertRule('p.type1   { margin: 40px; background: #EFEFEF; }');
 document.styleSheets.item(0).insertRule('p.type2-1 { margin-top: 40px; margin-bottom: 20px; background: #EFEFEF; }');
 document.styleSheets.item(0).insertRule('p.type2-2 { margin-top: 20px; margin-bottom: 40px; background: #EFEFEF; }');
 document.styleSheets.item(0).insertRule('p.type3   { margin: 32px; background: #EFEFEF; }');
 //
 /* set init value to the elements */
-myApp.elem.text.innerHTML   = "quizBattle.srt.js";
+// myApp.elem.text.innerHTML   = "quizBattle.srt.js";
 myApp.elem.ansCol.value     = "ここに解答を入力";
 myApp.elem.ansBtn.innerHTML = "解答を送信";
 myApp.elem.ansCol.disabled  = true;
@@ -324,7 +325,7 @@ function materialCheckFunction(){
             if(myApp.val.os != "other"){
                 if(Math.abs(window.orientation) != 90){
                     myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src;
-                    myApp.elem.text.innerHTML = "<br>早押しボタンをタップして動画を再生する</br>";
+                    myApp.elem.text.innerHTML = "<p>早押しボタンをタップして動画を再生する</p>";
                     myApp.val.initOrientation = 'portrait';
                 }else{
                     myApp.elem.pushBtn.src = myApp.elem.imgBtn4.src;
