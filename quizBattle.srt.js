@@ -562,11 +562,11 @@ function myIntervalEvent(){
         }
         myApp.val.ansTime.elapsed = 0;
     }
-    /*  */
+    /* check results of importing material */
     materialCheckFunction();
     /* update push button area when the window is zoomed (mainly for iOS)*/
     updatePushButtonArea();
-    /*  */
+    /* print parameters for debug */
     printParams();
 }
 //
@@ -621,17 +621,6 @@ function CSVtoArray(str){
     return array;
 }
 //
-function hidePlayer(){
-    if(myApp.val.os != 'other'){
-        player.setSize(myApp.val.playerWidth, 0);
-    }
-}
-function opposePlayer(){
-    if(myApp.val.os != 'other'){
-        player.setSize(myApp.val.playerWidth, myApp.val.playerHeight);
-    }
-}
-//
 function resizePlayer(){
     if(myApp.val.os != 'other'){
         if(Math.abs(window.orientation) != 90){
@@ -642,8 +631,6 @@ function resizePlayer(){
         }else{
             myApp.val.playerWidth  = document.documentElement.clientWidth*2/3;
             myApp.val.playerHeight = myApp.val.playerWidth/16*9;
-            // myApp.val.playerHeight = document.documentElement.clientHeight-parseInt(myApp.elem.subText.style.lineHeight)-20;
-            // myApp.val.playerWidth  = myApp.val.playerHeight/9*16;
         }
         /* set special width of anscol to prevent the window is zoomed when the focus moveds to anscol */
         if(myApp.val.os == 'Android' && navigator.userAgent.match(/Firefox/)){
@@ -731,23 +718,33 @@ function updateWatchedTime(currentPlayingTime, watchedTime){
     return watchedTime;
 }
 //
-function playPushBtn(){
+function hidePlayer(){
+    player.setSize(myApp.val.playerWidth, 0);
+}
+//
+function opposePlayer(){
+    player.setSize(myApp.val.playerWidth, myApp.val.playerHeight);
+}
+//
+function playSndPushBtn(){
     if(myApp.elem.sounds.currentTime != myApp.val.spriteData.pushBtn.start){
         myApp.elem.sounds.currentTime = myApp.val.spriteData.pushBtn.start;
     }
     myApp.elem.sounds.play();
 }
+//
 function playSndO(){
     myApp.elem.sounds.currentTime = myApp.val.spriteData.sndO.start;
     myApp.elem.sounds.play();
 }
+//
 function playSndX(){
     myApp.elem.sounds.currentTime = myApp.val.spriteData.sndX.start;
     myApp.elem.sounds.play();
 }
 //
 function buttonCheck(responseInterval){
-    playPushBtn();
+    playSndPushBtn();
     if(myApp.val.os == 'iOS'){
         myApp.elem.pushBtn.src = myApp.elem.imgBtn3.src;
     }else{
@@ -761,8 +758,8 @@ function buttonCheck(responseInterval){
 }
 //
 function pushButton(){
-    playPushBtn();
-    hidePlayer();
+    playSndPushBtn();
+    if(myApp.val.os != 'other'){ hidePlayer(); }
     if(myApp.val.os == 'iOS'){
         myApp.elem.pushBtn.src = myApp.elem.imgBtn3.src;
     }else{
@@ -800,7 +797,7 @@ function checkAnswer(){
         myApp.elem.text.innerHTML = "不正解！"; //あと"+(myApp.val.limPush-myApp.val.cntPush)+"回解答できます。";
     }
     myApp.elem.numOX.innerHTML  = "⭕️："+myApp.val.cntO+"　❌："+myApp.val.cntX;
-    opposePlayer();
+    if(myApp.val.os != 'other'){ opposePlayer(); }
     //
     if(window.orientation != 90){
         if(myApp.val.correctBool == false && myApp.val.limPush - myApp.val.cntPush == 0){
