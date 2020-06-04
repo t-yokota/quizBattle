@@ -176,7 +176,8 @@ if(myApp.val.os != 'other'){
     //
     myApp.val.viewFuncArray = [
         function(){
-            myApp.elem.text.style.margin = '40px auto';
+            myApp.elem.text.style.margin  = '40px auto';
+            myApp.elem.text.style.padding = '0px 10px';
             document.getElementsByTagName("body")[0].appendChild(myApp.elem.text);
             document.getElementsByTagName("body")[0].appendChild(myApp.elem.ansCol);
             document.getElementsByTagName("body")[0].appendChild(myApp.elem.ansBtn);
@@ -185,8 +186,9 @@ if(myApp.val.os != 'other'){
             document.getElementsByTagName("body")[0].appendChild(myApp.elem.paramText);
         },
         function(){
-            myApp.elem.text.style.margin = '40px auto 20px auto';
-            myApp.elem.subText.style.margin  = '0px auto 40px auto';
+            myApp.elem.text.style.margin     = '40px auto 20px';
+            myApp.elem.subText.style.margin  = '0px auto 40px';
+            myApp.elem.subText.style.padding = '0px 10px';
             document.getElementsByTagName("body")[0].insertBefore(myApp.elem.subText, myApp.elem.text.nextSibling);
         },
         function(){
@@ -236,16 +238,16 @@ if(myApp.val.os != 'other'){
     myApp.val.viewFuncArray = [
         function(){
             // contentsHeight = parseInt(myApp.elem.text.style.lineHeight, 10) + parseInt(myApp.elem.subText.style.lineHeight, 10)*2;
-            myApp.elem.text.style.margin     = '0px auto 30px auto';
+            myApp.elem.text.style.margin     = '0px auto 30px';
             myApp.elem.text.style.padding    = '0px 40px';
-            myApp.elem.subText.style.margin  = '0px auto 60px auto';
+            myApp.elem.subText.style.margin  = '0px auto 60px';
             myApp.elem.subText.style.padding = '0px 40px';
             document.getElementsByTagName("div")[4].appendChild(myApp.elem.text);
             document.getElementsByTagName("div")[4].appendChild(myApp.elem.subText);
             document.getElementsByTagName("div")[5].appendChild(myApp.elem.pushBtn);
         },
         function(){
-            myApp.elem.text.style.margin = '0px auto 15px auto';
+            myApp.elem.text.style.margin = '0px auto 15px';
             myApp.elem.text.parentNode.removeChild(myApp.elem.subText);
             document.getElementsByTagName("div")[4].appendChild(myApp.elem.ansCol);
             document.getElementsByTagName("div")[4].appendChild(myApp.elem.ansBtn);
@@ -255,16 +257,6 @@ if(myApp.val.os != 'other'){
     ];
     myApp.val.viewFuncArray.shift()();
 }
-//
-// /* add textnodes to the elements */
-// const my_node_text      = document.createTextNode("");
-// const my_node_subText   = document.createTextNode("");
-// const my_node_paramText = document.createTextNode("");
-// const my_node_numOX     = document.createTextNode("");
-// myApp.elem.text.appendChild(my_node_text);
-// myApp.elem.subText.appendChild(my_node_subText);
-// myApp.elem.paramText.appendChild(my_node_paramText);
-// myApp.elem.numOX.appendChild(my_node_numOX);
 //
 myApp.elem.sounds.onerror  = function(){ myApp.val.loadErrorBool = true; };
 myApp.elem.imgBtn1.onerror = function(){ myApp.val.loadErrorBool = true; };
@@ -327,7 +319,7 @@ function materialCheckFunction(){
             if(myApp.val.os != "other"){
                 if(Math.abs(window.orientation) != 90){
                     myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src;
-                    myApp.elem.text.innerHTML = "<p>早押しボタンをタップして動画を再生する</p>";
+                    myApp.elem.text.innerHTML = "早押しボタンをタップして動画を再生する";
                     myApp.val.initOrientation = 'portrait';
                 }else{
                     myApp.elem.pushBtn.src = myApp.elem.imgBtn4.src;
@@ -552,11 +544,7 @@ function myIntervalEvent(){
         /* answer time managemant */
         if(document.activeElement.id == "anscol" || myApp.val.ansTime.elapsed != 0){
             myApp.val.ansTime.elapsed += interval;
-            if(myApp.val.os != 'other'){
-                myApp.elem.text.innerHTML = "のこり"+Math.floor((myApp.val.ansTime.limit-myApp.val.ansTime.elapsed)/1000+1)+"秒";
-            }else{
-                myApp.elem.text.innerHTML = "のこり"+Math.floor((myApp.val.ansTime.limit-myApp.val.ansTime.elapsed)/1000+1)+"秒";
-            }
+            myApp.elem.text.innerHTML = "のこり"+Math.floor((myApp.val.ansTime.limit-myApp.val.ansTime.elapsed)/1000+1)+"秒";
             if(myApp.val.ansTime.elapsed >= myApp.val.ansTime.limit){
                 checkAnswer();
                 if(myApp.val.correctBool == true || myApp.val.limPush - myApp.val.cntPush == 0){
@@ -805,19 +793,11 @@ function checkAnswer(){
     if(myApp.val.correctBool == true){
         playSndO();
         myApp.val.cntO += 1;
-        if(myApp.val.os != 'other'){
-            myApp.elem.text.innerHTML = "正解！";
-        }else{
-            myApp.elem.text.innerHTML = "正解！";
-        }
+        myApp.elem.text.innerHTML = "正解！";
     }else{
         playSndX();
         myApp.val.cntX += 1;
-        if(myApp.val.os != 'other'){
-            myApp.elem.text.innerHTML = "不正解！"; //あと"+(myApp.val.limPush-myApp.val.cntPush)+"回解答できます。";
-        }else{
-            myApp.elem.text.innerHTML = "不正解！"; //あと"+(myApp.val.limPush-myApp.val.cntPush)+"回解答できます。";
-        }
+        myApp.elem.text.innerHTML = "不正解！"; //あと"+(myApp.val.limPush-myApp.val.cntPush)+"回解答できます。";
     }
     myApp.elem.numOX.innerHTML  = "⭕️："+myApp.val.cntO+"　❌："+myApp.val.cntX;
     opposePlayer();
@@ -898,7 +878,7 @@ function printParams(){
     //     "cssRules: "         + document.styleSheets.item(0).cssRules.item(0).selectorText;
 }
 //
-//-----------------------------------------------------------------------------------------------------
+//---------------------------------------------------------------------------------------------------------------
 /* set functions executed in each subtitle */
 myApp.val.srtFuncArray = [
     function(){
@@ -911,13 +891,8 @@ myApp.val.srtFuncArray = [
         myApp.val.numQues = 1;
         myApp.val.cntPush = 0;
         myApp.val.correctBool = false;
-        if(myApp.val.os != 'other'){
-            myApp.val.viewFuncArray.shift()();
-            myApp.elem.text.innerHTML = "第"+myApp.val.numQues+"問";
-        }else{
-            myApp.val.viewFuncArray.shift()();
-            myApp.elem.text.innerHTML = "第"+myApp.val.numQues+"問";
-        }
+        myApp.val.viewFuncArray.shift()();
+        myApp.elem.text.innerHTML = "第"+myApp.val.numQues+"問";
         if(Math.abs(window.orientation) != 90){ myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src; }
     },
     function(){
@@ -929,11 +904,7 @@ myApp.val.srtFuncArray = [
         myApp.val.numQues = 2;
         myApp.val.cntPush = 0;
         myApp.val.correctBool = false;
-        if(myApp.val.os != 'other'){
-            myApp.elem.text.innerHTML = "第"+myApp.val.numQues+"問";
-        }else{
-            myApp.elem.text.innerHTML = "第"+myApp.val.numQues+"問";
-        }
+        myApp.elem.text.innerHTML = "第"+myApp.val.numQues+"問";
         if(Math.abs(window.orientation) != 90){ myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src; }
     },
     function(){
@@ -945,11 +916,7 @@ myApp.val.srtFuncArray = [
         myApp.val.numQues = 3;
         myApp.val.cntPush = 0;
         myApp.val.correctBool = false;
-        if(myApp.val.os != 'other'){
-            myApp.elem.text.innerHTML = "第"+myApp.val.numQues+"問";
-        }else{
-            myApp.elem.text.innerHTML = "第"+myApp.val.numQues+"問";
-        }
+        myApp.elem.text.innerHTML = "第"+myApp.val.numQues+"問";
         if(Math.abs(window.orientation) != 90){ myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src; }
     },
     function(){
