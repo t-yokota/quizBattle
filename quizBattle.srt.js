@@ -324,7 +324,11 @@ function materialCheckFunction(){
             if(myApp.val.os != "other"){
                 if(Math.abs(window.orientation) != 90){
                     myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src;
+<<<<<<< HEAD
                     myApp.elem.text.innerHTML = "<br>早押しボタンをタップして動画を再生する</br>";
+=======
+                    myApp.elem.text.innerHTML = "早押しボタンをタップして動画を再生する</b>";
+>>>>>>> 408b03c777dc77f35179a4f6c557e6d0a899dc55
                     myApp.val.initOrientation = 'portrait';
                 }else{
                     myApp.elem.pushBtn.src = myApp.elem.imgBtn4.src;
