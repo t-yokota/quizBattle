@@ -126,19 +126,19 @@ myApp.elem.divUI.id   = 'divui';
 myApp.elem.divElem.id = 'divelem';
 myApp.elem.divBtn.id  = 'divbtn';
 //
-/* set tabindex for adding focus */
-myApp.elem.pushBtn.tabIndex = 0;
-//
 /* set init value to the elements */
 myApp.elem.ansCol.value     = "ここに解答を入力";
 myApp.elem.ansBtn.innerHTML = "解答を送信";
 myApp.elem.ansCol.disabled  = true;
 myApp.elem.ansBtn.disabled  = true;
 myApp.elem.numOX.innerHTML  = "⭕️："+myApp.val.cntO+"　❌："+myApp.val.cntX;
+//
 if(myApp.val.os != 'other'){
     myApp.elem.text.innerHTML = "早押しボタンをタップして動画を再生する";
 }else{
     myApp.elem.text.innerHTML = "QuizBattle on YouTube";
+    /* set tabindex for adding focus */
+    myApp.elem.pushBtn.tabIndex = 0;
 }
 //
 /* set initial state (button check) */
