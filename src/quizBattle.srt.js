@@ -290,7 +290,7 @@ myApp.elem.imgBtn3.src = "https://github.com/t-yokota/quizBattle/raw/master/figu
 myApp.elem.imgBtn4.src = "https://github.com/t-yokota/quizBattle/raw/master/figures/button_portrait_72ppi_4.png";
 //
 /* load answer file */
-myApp.val.ansFile.open("get", "https://raw.githubusercontent.com/t-yokota/quizBattle/master/answer_sample.csv", true);
+myApp.val.ansFile.open("get", "https://raw.githubusercontent.com/t-yokota/quizBattle/master/src/answer_sample.csv", true);
 myApp.val.ansFile.send(null);
 //
 /* set audio sprite */
