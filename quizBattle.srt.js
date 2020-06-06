@@ -36,12 +36,24 @@ const myApp = {
     },
     val : {
         srtFuncArray  : null, //array of functions that are executed in each subtitle
-        viewFuncArray : null,
+        viewFuncArray : null, //array of functions for setting view elements
         //
         os : null,
         //
-        audioExt   : null,
-        spriteData : null, //for audio sprite
+        touchObject : null,
+        //
+        audioExt : null,
+        audioSpriteData : null,
+        //
+        loadCount     : 0,
+        initLoadBool  : false,
+        loadErrorBool : false,
+        loadAlertBool : false,
+        //
+        initOrientation      : null,
+        orientationAlertBool : false,
+        //
+        composingBool        : false,
         //
         playerWidth   : 0,
         playerHeight  : 0,
@@ -59,24 +71,15 @@ const myApp = {
             top    : 0,
             bottom : 0,
         },
-        touchObject : null,
         //
-        divUIHeight    : 0,
+        divUIHeight  : 0,
         divUIWidth   : 0,
         divElemWidth : 0,
         divBtnWidth  : 0,
         //
-        loadCount            : 0,
-        loadErrorBool        : false, //for error handling of loading sources
-        initLoadBool         : false, //for executing onload function only once
-        composingBool        : false, //for preventing to start new line in text area
-        initOrientation      : null,  //hold initial orientation of the device
-        orientationAlertBool : false, //for showing alert about device orientation only once
-        loadAlertBool        : false,
-        //
         /* keycode (for keyboard) */
-        pushBtn : 32, //Space key
-        enter   : 13, //Enter key
+        space : 32, //push buttion
+        enter : 13,
         //
         /* button check param */
         btnCheck : {
@@ -92,8 +95,7 @@ const myApp = {
         cntPush     : 0,     //1問あたりの解答回数
         limPush     : 1,     //1問あたりの上限解答回数
         correctBool : false, //答え合わせ結果(結果に応じて状態遷移)
-        //
-        ansFile : new XMLHttpRequest(), //正答ファイル.csv
+        ansFile     : new XMLHttpRequest(), //正答ファイル.csv
         //
         /* for status management */
         status   : null,
@@ -113,16 +115,34 @@ const myApp = {
     },
 };
 //
-/* set button check state */
-myApp.val.status = myApp.state.ButtonCheck;
+/* get os type */
+myApp.val.os = fetchOSType();
 //
-/* set id */
+/* set id to the elements */
 myApp.elem.ansCol.id  = 'anscol';
 myApp.elem.ansBtn.id  = 'ansbtn';
 myApp.elem.pushBtn.id = 'pushbtn';
 myApp.elem.divUI.id   = 'divui';
 myApp.elem.divElem.id = 'divelem';
 myApp.elem.divBtn.id  = 'divbtn';
+//
+/* set tabindex for adding focus */
+myApp.elem.pushBtn.tabIndex = 0;
+//
+/* set init value to the elements */
+myApp.elem.ansCol.value     = "ここに解答を入力";
+myApp.elem.ansBtn.innerHTML = "解答を送信";
+myApp.elem.ansCol.disabled  = true;
+myApp.elem.ansBtn.disabled  = true;
+myApp.elem.numOX.innerHTML  = "⭕️："+myApp.val.cntO+"　❌："+myApp.val.cntX;
+if(myApp.val.os != 'other'){
+    myApp.elem.text.innerHTML = "早押しボタンをタップして動画を再生する";
+}else{
+    myApp.elem.text.innerHTML = "QuizBattle on YouTube";
+}
+//
+/* set initial state (button check) */
+myApp.val.status = myApp.state.ButtonCheck;
 //
 /* set event functions */
 window.addEventListener('orientationchange', myOrientationChangeEvent);
@@ -134,26 +154,12 @@ player.addEventListener('onStateChange', myPlayerStateChangeEvent);
 setInterval(myIntervalEvent, interval = 10);
 myApp.elem.ansBtn.onclick = myOnClickEvent;
 //
-/* View */
-myApp.val.os = fetchOSType();
+/* VIEW */
 resizePlayer();
 //
 /* set style sheets */
 document.styleSheets.item(0).insertRule('html { touch-action: manipulation; }'); //disable double tap gesture
 document.styleSheets.item(0).insertRule('body { text-align: center; margin: auto; background: #EFEFEF; }');
-document.styleSheets.item(0).insertRule('p         { margin: 1px; background: #EFEFEF; }');
-document.styleSheets.item(0).insertRule('p.type1   { margin: 40px; background: #EFEFEF; }');
-document.styleSheets.item(0).insertRule('p.type2-1 { margin-top: 40px; margin-bottom: 20px; background: #EFEFEF; }');
-document.styleSheets.item(0).insertRule('p.type2-2 { margin-top: 20px; margin-bottom: 40px; background: #EFEFEF; }');
-document.styleSheets.item(0).insertRule('p.type3   { margin: 32px; background: #EFEFEF; }');
-//
-/* set init value to the elements */
-myApp.elem.text.innerHTML   = "quizBattle.srt.js";
-myApp.elem.ansCol.value     = "ここに解答を入力";
-myApp.elem.ansBtn.innerHTML = "解答を送信";
-myApp.elem.ansCol.disabled  = true;
-myApp.elem.ansBtn.disabled  = true;
-myApp.elem.numOX.innerHTML  = "⭕️："+myApp.val.cntO+"　❌："+myApp.val.cntX;
 //
 /* set elements */
 if(myApp.val.os != 'other'){
@@ -168,8 +174,8 @@ if(myApp.val.os != 'other'){
     myApp.elem.ansCol.style.textAlign   = 'center';
     myApp.elem.ansCol.style.margin      = '0px auto 10px'
     myApp.elem.ansBtn.style.fontSize    = '35px';
-    myApp.elem.ansBtn.style.width       = parseInt(myApp.elem.ansBtn.style.fontSize,10)*8+'px';
-    myApp.elem.ansBtn.style.margin      = '0px '+(myApp.val.playerWidth-parseInt(myApp.elem.ansBtn.style.width, 10))/2+'px 20px';
+    myApp.elem.ansBtn.style.width       = parseInt(myApp.elem.ansBtn.style.fontSize, 10)*8+'px';
+    myApp.elem.ansBtn.style.margin      = '0px '+(document.documentElement.clientWidth-parseInt(myApp.elem.ansBtn.style.width, 10))/2+'px 20px';
     myApp.elem.numOX.style.fontSize     = '40px';
     myApp.elem.numOX.style.lineHeight   = '80px';
     myApp.elem.numOX.style.fontWeight   = 'bold';
@@ -198,25 +204,20 @@ if(myApp.val.os != 'other'){
     ];
     myApp.val.viewFuncArray.shift()();
 }else{
-    myApp.val.divUIHeight    = myApp.val.playerHeight*0.9;
+    myApp.val.divUIHeight  = myApp.val.playerHeight*0.9;
     myApp.val.divUIWidth   = myApp.val.playerWidth;
     myApp.val.divElemWidth = myApp.val.playerWidth*2/3;
     myApp.val.divBtnWidth  = myApp.val.playerWidth*1/3;
     document.styleSheets.item(0).insertRule('body { width:'+myApp.val.playerWidth+'px; }');
     document.styleSheets.item(0).insertRule('div#divui   { width:'+myApp.val.divUIWidth  +'px; height:'+myApp.val.divUIHeight+'px; }');
-    document.styleSheets.item(0).insertRule('div#divelem { width:'+myApp.val.divElemWidth+'px; height:'+myApp.val.divUIHeight+'px; float: left; }');
+    document.styleSheets.item(0).insertRule('div#divelem { width:'+myApp.val.divElemWidth+'px; height:'+myApp.val.divUIHeight+'px; float: left; display: flex; align-items: center; justify-content: center; flex-direction: column; }');
     document.styleSheets.item(0).insertRule('div#divbtn  { width:'+myApp.val.divBtnWidth +'px; height:'+myApp.val.divUIHeight+'px; float: left; display: flex; align-items: center; justify-content: center; }');
     document.getElementsByTagName("body")[0].appendChild(myApp.elem.divUI);
     myApp.elem.divUI.appendChild(myApp.elem.divElem); //divElem is assigned to ('div')[4]
     myApp.elem.divUI.appendChild(myApp.elem.divBtn);  //divBtn  is assigned to ('div')[5]
     //
-    myApp.elem.divElem.style.display = 'flex';
-    myApp.elem.divElem.style.justifyContent = 'center';
-    myApp.elem.divElem.style.alignItems = 'center';
-    myApp.elem.divElem.style.flexDirection = 'column';
-    //
-    myApp.elem.text.style.fontSize      = '28px';
-    myApp.elem.text.style.lineHeight    = '48px';
+    myApp.elem.text.style.fontSize      = '25px';
+    myApp.elem.text.style.lineHeight    = '45px';
     myApp.elem.text.style.fontWeight    = 'bold';
     myApp.elem.text.style.display       = 'block';
     myApp.elem.subText.style.fontSize   = '20px';
@@ -225,24 +226,24 @@ if(myApp.val.os != 'other'){
     myApp.elem.ansCol.style.fontSize    = '23px';
     myApp.elem.ansCol.style.textAlign   = 'center';
     myApp.elem.ansCol.style.width       = myApp.val.divElemWidth*0.75+'px';
-    myApp.elem.ansCol.style.margin      = '0px ' +(myApp.val.divElemWidth-parseInt(myApp.elem.ansCol.style.width, 10))/2+'px';
+    myApp.elem.ansCol.style.margin      = '0px ' +(myApp.val.divElemWidth-parseInt(myApp.elem.ansCol.style.width, 10))/2+'px 15px';
     myApp.elem.ansBtn.style.fontSize    = '23px';
     myApp.elem.ansBtn.style.width       = parseInt(myApp.elem.ansBtn.style.fontSize, 10)*8+'px';
-    myApp.elem.ansBtn.style.margin      = '15px '+(myApp.val.divElemWidth-parseInt(myApp.elem.ansBtn.style.width, 10))/2+'px 20px';
+    myApp.elem.ansBtn.style.margin      = '0px '+(myApp.val.divElemWidth-parseInt(myApp.elem.ansBtn.style.width, 10))/2+'px 20px';
     myApp.elem.numOX.style.fontSize     = '25px';
     myApp.elem.numOX.style.lineHeight   = '45px';
     myApp.elem.numOX.style.fontWeight   = 'bold';
     //
-    myApp.elem.pushBtn.tabIndex = 0;
-    //
     myApp.val.viewFuncArray = [
         function(){
-            // contentsHeight = parseInt(myApp.elem.text.style.lineHeight, 10) + parseInt(myApp.elem.subText.style.lineHeight, 10)*2;
-            myApp.elem.text.style.margin     = '0px auto 30px';
+            myApp.elem.text.style.margin     = '0px auto';
             myApp.elem.text.style.padding    = '0px 40px';
+            document.getElementsByTagName("div")[4].appendChild(myApp.elem.text);
+        },
+        function(){
+            myApp.elem.text.style.margin     = '0px auto 30px';
             myApp.elem.subText.style.margin  = '0px auto 60px';
             myApp.elem.subText.style.padding = '0px 40px';
-            document.getElementsByTagName("div")[4].appendChild(myApp.elem.text);
             document.getElementsByTagName("div")[4].appendChild(myApp.elem.subText);
             document.getElementsByTagName("div")[5].appendChild(myApp.elem.pushBtn);
         },
@@ -258,13 +259,6 @@ if(myApp.val.os != 'other'){
     myApp.val.viewFuncArray.shift()();
 }
 //
-myApp.elem.sounds.onerror  = function(){ myApp.val.loadErrorBool = true; };
-myApp.elem.imgBtn1.onerror = function(){ myApp.val.loadErrorBool = true; };
-myApp.elem.imgBtn2.onerror = function(){ myApp.val.loadErrorBool = true; };
-myApp.elem.imgBtn3.onerror = function(){ myApp.val.loadErrorBool = true; };
-myApp.elem.imgBtn4.onerror = function(){ myApp.val.loadErrorBool = true; };
-myApp.val.ansFile.onerror  = function(){ myApp.val.loadErrorBool = true; };
-//
 const num_of_materials = 6;
 myApp.elem.sounds.onloadedmetadata = function(){ myApp.val.loadCount += 1; };
 myApp.elem.imgBtn1.onload = function(){ myApp.val.loadCount += 1; };
@@ -272,6 +266,13 @@ myApp.elem.imgBtn2.onload = function(){ myApp.val.loadCount += 1; };
 myApp.elem.imgBtn3.onload = function(){ myApp.val.loadCount += 1; };
 myApp.elem.imgBtn4.onload = function(){ myApp.val.loadCount += 1; };
 myApp.val.ansFile.onload  = function(){ myApp.val.loadCount += 1; myApp.val.ansArray = CSVtoArray(myApp.val.ansFile.responseText); };
+//
+myApp.elem.sounds.onerror  = function(){ myApp.val.loadErrorBool = true; };
+myApp.elem.imgBtn1.onerror = function(){ myApp.val.loadErrorBool = true; };
+myApp.elem.imgBtn2.onerror = function(){ myApp.val.loadErrorBool = true; };
+myApp.elem.imgBtn3.onerror = function(){ myApp.val.loadErrorBool = true; };
+myApp.elem.imgBtn4.onerror = function(){ myApp.val.loadErrorBool = true; };
+myApp.val.ansFile.onerror  = function(){ myApp.val.loadErrorBool = true; };
 //
 /* load audio data */
 if     (myApp.elem.sounds.canPlayType('audio/mp3') == 'probably'){ myApp.val.audioExt = '.mp3'; }
@@ -287,16 +288,34 @@ myApp.elem.imgBtn1.src = "https://github.com/t-yokota/quizBattle/raw/master/figu
 myApp.elem.imgBtn2.src = "https://github.com/t-yokota/quizBattle/raw/master/figures/button_portrait_72ppi_2.png";
 myApp.elem.imgBtn3.src = "https://github.com/t-yokota/quizBattle/raw/master/figures/button_portrait_72ppi_3.png";
 myApp.elem.imgBtn4.src = "https://github.com/t-yokota/quizBattle/raw/master/figures/button_portrait_72ppi_4.png";
-// myApp.elem.imgBtn1.src = "https://github.com/t-yokota/quizBattle/raw/master/figures/button_portrait_1.png";
-// myApp.elem.imgBtn2.src = "https://github.com/t-yokota/quizBattle/raw/master/figures/button_portrait_2.png";
-// myApp.elem.imgBtn3.src = "https://github.com/t-yokota/quizBattle/raw/master/figures/button_portrait_3.png";
-// myApp.elem.imgBtn4.src = "https://github.com/t-yokota/quizBattle/raw/master/figures/button_portrait_4.png";
 //
 /* load answer file */
 myApp.val.ansFile.open("get", "https://raw.githubusercontent.com/t-yokota/quizBattle/master/answer_utf-8.csv", true);
 myApp.val.ansFile.send(null);
 //
-/* function executed after initial loading */
+/* set audio sprite */
+myApp.val.audioSpriteData = {
+    pushBtn : { start : 0.0, end : 2.0 }, //[sec]
+    sndO    : { start : 3.0, end : 5.0 }, 
+    sndX    : { start : 6.0, end : 8.0 },
+};
+myApp.elem.sounds.addEventListener('timeupdate', spriteHandler, false);
+function spriteHandler(){
+    if(Math.abs(myApp.val.audioSpriteData.pushBtn.end - this.currentTime) < 0.25){
+        this.pause();
+        myApp.elem.sounds.currentTime = myApp.val.audioSpriteData.pushBtn.start;
+    }
+    if(Math.abs(myApp.val.audioSpriteData.sndO.end - this.currentTime) < 0.25){
+        this.pause();
+        myApp.elem.sounds.currentTime = myApp.val.audioSpriteData.pushBtn.start;
+    }
+    if(Math.abs(myApp.val.audioSpriteData.sndX.end - this.currentTime) < 0.25){
+        this.pause();
+        myApp.elem.sounds.currentTime = myApp.val.audioSpriteData.pushBtn.start;
+    }
+};
+//
+/* set function executed after initial loading */
 myApp.elem.pushBtn.onerror = function(){
     alert("画像の読み込みに失敗しました。ページを再読み込みしてください。" );
     myApp.val.loadErrorBool = true;
@@ -308,13 +327,14 @@ myApp.elem.pushBtn.onload = function(){
         resizePlayer();
         resizePushButton();
         myApp.val.initLoadBool = true;
+        if(myApp.val.os == 'other'){ myApp.val.viewFuncArray.shift()(); }
     }
 };
 function materialCheckFunction(){
     if(myApp.val.loadErrorBool == false){
         if(myApp.val.initLoadBool == false && myApp.val.loadCount == num_of_materials){
             myApp.val.loadCount = 0;
-            /* assign init push button image and main text */
+            /* assign push button image and main text */
             myApp.elem.pushBtn.width = document.documentElement.clientWidth/5; /* init size before loading */
             if(myApp.val.os != "other"){
                 if(Math.abs(window.orientation) != 90){
@@ -325,6 +345,7 @@ function materialCheckFunction(){
                     myApp.elem.pushBtn.src = myApp.elem.imgBtn4.src;
                     myApp.elem.text.innerHTML = "端末を縦向きにしてクイズをはじめる";
                     myApp.val.initOrientation = 'landscape';
+                    alert("このサイトはスマートフォン/タブレットを縦向きにしてお楽しみください。");
                 }
             }else{
                 myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src;
@@ -333,10 +354,6 @@ function materialCheckFunction(){
                 }else{
                     myApp.elem.subText.innerHTML = "早押しボタン(スペースキー)を押して動画を再生する";
                 }
-            }
-            /* show alert based on initial orientation */
-            if(myApp.val.os != "other" && myApp.val.initOrientation == 'landscape'){
-                alert("このサイトはスマートフォン/タブレットを縦向きにしてお楽しみください。");
             }
         }else if(myApp.val.initLoadBool == true && myApp.val.loadAlertBool == false){
             if(myApp.val.os != 'other'){
@@ -356,29 +373,7 @@ function materialCheckFunction(){
     }
 }
 //
-/* set value and eventListener for audio sprite */
-myApp.val.spriteData = {
-    pushBtn : { start : 0.0, end : 2.0 }, //[sec]
-    sndO    : { start : 3.0, end : 5.0 }, 
-    sndX    : { start : 6.0, end : 8.0 },
-};
-myApp.elem.sounds.addEventListener('timeupdate', spriteHandler, false);
-function spriteHandler(){
-    if(Math.abs(myApp.val.spriteData.pushBtn.end - this.currentTime) < 0.25){
-        this.pause();
-        myApp.elem.sounds.currentTime = myApp.val.spriteData.pushBtn.start;
-    }
-    if(Math.abs(myApp.val.spriteData.sndO.end    - this.currentTime) < 0.25){
-        this.pause();
-        myApp.elem.sounds.currentTime = myApp.val.spriteData.pushBtn.start;
-    }
-    if(Math.abs(myApp.val.spriteData.sndX.end    - this.currentTime) < 0.25){
-        this.pause();
-        myApp.elem.sounds.currentTime = myApp.val.spriteData.pushBtn.start;
-    }
-};
-//
-/* Event */
+/* EVENT */
 /* orientation change event function */
 function myOrientationChangeEvent(){
     setTimeout(function(){
@@ -409,9 +404,10 @@ function myOrientationChangeEvent(){
 /* keydown event function */
 function myKeyDownEvent(){
     if(myApp.val.loadErrorBool == false && myApp.val.initLoadBool == true && Math.abs(window.orientation) != 90){
-        if(event.keyCode == myApp.val.pushBtn){
+        if(event.keyCode == myApp.val.space){
             myButtonAction();
         }
+        /* prevent to start new line in text area */
         if(event.keyCode == myApp.val.enter){
             if(myApp.val.composingBool == false){
                 return false;
@@ -431,6 +427,7 @@ function myTouchEvent(event){
         }
     }
 }
+//
 /* common button action */
 function myButtonAction(){
     if(myApp.val.status == myApp.state.ButtonCheck){
@@ -492,7 +489,7 @@ function myPlayerStateChangeEvent(){
             setTimeout(function(){ focusToAnsCol(); }, 500);
         }
         /* prevent to jump video playback position by seekbar */
-        /* and prevent to pause video during the thinking time of each question */
+        /* and prevent to pause video during each question */
         if(myApp.val.status == myApp.state.Question || myApp.val.status == myApp.state.OthAnswer){
             myApp.val.diffTime = Math.abs(myApp.val.currTime.stopped - myApp.val.watchedTime);
             if(myApp.val.diffTime > 1.0){
@@ -564,7 +561,7 @@ function myIntervalEvent(){
     }
     /* check results of importing material */
     materialCheckFunction();
-    /* update push button area when the window is zoomed (mainly for iOS)*/
+    /* update push button area (mainly for when the window is zoomed in iOS)*/
     updatePushButtonArea();
     /* print parameters for debug */
     printParams();
@@ -583,7 +580,7 @@ function myOnClickEvent(){
     }
 }
 //
-/* Function */
+/* FUNCTION */
 function fetchOSType(){
     let osType = null;
     const ua = navigator.userAgent;
@@ -718,29 +715,29 @@ function updateWatchedTime(currentPlayingTime, watchedTime){
     return watchedTime;
 }
 //
+function playSndPushBtn(){
+    if(myApp.elem.sounds.currentTime != myApp.val.audioSpriteData.pushBtn.start){
+        myApp.elem.sounds.currentTime = myApp.val.audioSpriteData.pushBtn.start;
+    }
+    myApp.elem.sounds.play();
+}
+//
+function playSndO(){
+    myApp.elem.sounds.currentTime = myApp.val.audioSpriteData.sndO.start;
+    myApp.elem.sounds.play();
+}
+//
+function playSndX(){
+    myApp.elem.sounds.currentTime = myApp.val.audioSpriteData.sndX.start;
+    myApp.elem.sounds.play();
+}
+//
 function hidePlayer(){
     player.setSize(myApp.val.playerWidth, 0);
 }
 //
 function opposePlayer(){
     player.setSize(myApp.val.playerWidth, myApp.val.playerHeight);
-}
-//
-function playSndPushBtn(){
-    if(myApp.elem.sounds.currentTime != myApp.val.spriteData.pushBtn.start){
-        myApp.elem.sounds.currentTime = myApp.val.spriteData.pushBtn.start;
-    }
-    myApp.elem.sounds.play();
-}
-//
-function playSndO(){
-    myApp.elem.sounds.currentTime = myApp.val.spriteData.sndO.start;
-    myApp.elem.sounds.play();
-}
-//
-function playSndX(){
-    myApp.elem.sounds.currentTime = myApp.val.spriteData.sndX.start;
-    myApp.elem.sounds.play();
 }
 //
 function buttonCheck(responseInterval){
@@ -796,8 +793,8 @@ function checkAnswer(){
         myApp.val.cntX += 1;
         myApp.elem.text.innerHTML = "不正解！"; //あと"+(myApp.val.limPush-myApp.val.cntPush)+"回解答できます。";
     }
-    myApp.elem.numOX.innerHTML  = "⭕️："+myApp.val.cntO+"　❌："+myApp.val.cntX;
     if(myApp.val.os != 'other'){ opposePlayer(); }
+    myApp.elem.numOX.innerHTML  = "⭕️："+myApp.val.cntO+"　❌："+myApp.val.cntX;
     //
     if(window.orientation != 90){
         if(myApp.val.correctBool == false && myApp.val.limPush - myApp.val.cntPush == 0){
@@ -848,25 +845,22 @@ function printParams(){
     //                            (myApp.val.ansArray[myApp.val.numQues-1][2].valueOf() === 'てすと1')+", "+
     //                            (myApp.val.ansArray[myApp.val.numQues-1][3].valueOf() === 'テスト1')+", "+
     //                            (myApp.val.ansArray[myApp.val.numQues-1][4].valueOf() === 'test1')+", "+
-    //                            (myApp.val.ansArray[myApp.val.numQues-1][5].valueOf() === 'Test1')+"<br>"+
+    //                            (myApp.val.ansArray[myApp.val.numQues-1][4].valueOf() === 'Test1')+", "+
+    //                            (myApp.val.ansArray[myApp.val.numQues-1][5].valueOf() === 'TEST1')+"<br>"+
     //     "checkAns2: "        + (myApp.val.ansArray[myApp.val.numQues-1][0].valueOf() === 'てすと２')+", "+
     //                            (myApp.val.ansArray[myApp.val.numQues-1][1].valueOf() === 'テスト２')+", "+
     //                            (myApp.val.ansArray[myApp.val.numQues-1][2].valueOf() === 'てすと2')+", "+
     //                            (myApp.val.ansArray[myApp.val.numQues-1][3].valueOf() === 'テスト2')+", "+
     //                            (myApp.val.ansArray[myApp.val.numQues-1][4].valueOf() === 'test2')+", "+
-    //                            (myApp.val.ansArray[myApp.val.numQues-1][5].valueOf() === 'Test2')+"<br>"+
+    //                            (myApp.val.ansArray[myApp.val.numQues-1][4].valueOf() === 'Test2')+", "+
+    //                            (myApp.val.ansArray[myApp.val.numQues-1][5].valueOf() === 'TEST2')+"<br>"+
     //     "checkAns3: "        + (myApp.val.ansArray[myApp.val.numQues-1][0].valueOf() === 'てすと３')+", "+
     //                            (myApp.val.ansArray[myApp.val.numQues-1][1].valueOf() === 'テスト３')+", "+
     //                            (myApp.val.ansArray[myApp.val.numQues-1][2].valueOf() === 'てすと3')+", "+
     //                            (myApp.val.ansArray[myApp.val.numQues-1][3].valueOf() === 'テスト3')+", "+
     //                            (myApp.val.ansArray[myApp.val.numQues-1][4].valueOf() === 'test3')+", "+
-    //                            (myApp.val.ansArray[myApp.val.numQues-1][5].valueOf() === 'Test3')+"<br>"+
-    //     "checkAns4: "        + (myApp.val.ansArray[3][0].valueOf() === 'てすと４')+", "+
-    //                            (myApp.val.ansArray[3][1].valueOf() === 'テスト４')+", "+
-    //                            (myApp.val.ansArray[3][2].valueOf() === 'てすと4')+", "+
-    //                            (myApp.val.ansArray[3][3].valueOf() === 'テスト4')+", "+
-    //                            (myApp.val.ansArray[3][4].valueOf() === 'test4')+", "+
-    //                            (myApp.val.ansArray[3][5].valueOf() === 'Test4')+"<br>"+
+    //                            (myApp.val.ansArray[myApp.val.numQues-1][4].valueOf() === 'Test3')+", "+
+    //                            (myApp.val.ansArray[myApp.val.numQues-1][5].valueOf() === 'TEST3')+"<br>"+
     //     "answerLength: "     + myApp.val.ansArray[myApp.val.numQues-1].length+"<br>"+
     //     "correctBool: "      + myApp.val.correctBool+"<br>"+
     //     "composing: "        + myApp.val.composingBool+"<br>"+
@@ -883,12 +877,13 @@ myApp.val.srtFuncArray = [
         myApp.val.status = myApp.state.Talk;
     },
     function(){
+        myApp.val.viewFuncArray.shift()();
+        //
         /* 第１問 */
         myApp.val.status = myApp.state.Question;
         myApp.val.numQues = 1;
         myApp.val.cntPush = 0;
         myApp.val.correctBool = false;
-        myApp.val.viewFuncArray.shift()();
         myApp.elem.text.innerHTML = "第"+myApp.val.numQues+"問";
         if(Math.abs(window.orientation) != 90){ myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src; }
     },
