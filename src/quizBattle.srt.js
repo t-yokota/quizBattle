@@ -182,7 +182,7 @@ if(myApp.val.os != 'other'){
     //
     myApp.val.viewFuncArray = [
         function(){
-            myApp.elem.text.style.margin  = '40px auto';
+            myApp.elem.text.style.margin  = '32px auto';
             myApp.elem.text.style.padding = '0px 10px';
             document.getElementsByTagName("body")[0].appendChild(myApp.elem.text);
             document.getElementsByTagName("body")[0].appendChild(myApp.elem.ansCol);
@@ -192,7 +192,7 @@ if(myApp.val.os != 'other'){
             document.getElementsByTagName("body")[0].appendChild(myApp.elem.paramText);
         },
         function(){
-            myApp.elem.text.style.margin     = '40px auto 20px';
+            myApp.elem.text.style.margin  = '40px auto 20px';
             myApp.elem.subText.style.margin  = '0px auto 40px';
             myApp.elem.subText.style.padding = '0px 10px';
             document.getElementsByTagName("body")[0].insertBefore(myApp.elem.subText, myApp.elem.text.nextSibling);
@@ -236,12 +236,12 @@ if(myApp.val.os != 'other'){
     //
     myApp.val.viewFuncArray = [
         function(){
-            myApp.elem.text.style.margin     = '0px auto';
-            myApp.elem.text.style.padding    = '0px 40px';
+            myApp.elem.text.style.margin  = '0px auto';
+            myApp.elem.text.style.padding = '0px 40px';
             document.getElementsByTagName("div")[4].appendChild(myApp.elem.text);
         },
         function(){
-            myApp.elem.text.style.margin     = '0px auto 30px';
+            myApp.elem.text.style.margin  = '0px auto 30px';
             myApp.elem.subText.style.margin  = '0px auto 50px';
             myApp.elem.subText.style.padding = '0px 40px';
             document.getElementsByTagName("div")[4].appendChild(myApp.elem.subText);
