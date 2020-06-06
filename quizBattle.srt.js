@@ -242,7 +242,7 @@ if(myApp.val.os != 'other'){
         },
         function(){
             myApp.elem.text.style.margin     = '0px auto 30px';
-            myApp.elem.subText.style.margin  = '0px auto 60px';
+            myApp.elem.subText.style.margin  = '0px auto 50px';
             myApp.elem.subText.style.padding = '0px 40px';
             document.getElementsByTagName("div")[4].appendChild(myApp.elem.subText);
             document.getElementsByTagName("div")[5].appendChild(myApp.elem.pushBtn);
