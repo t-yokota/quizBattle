@@ -5,10 +5,11 @@ player.setSize(document.documentElement.clientWidth, 420);
 //
 const myElem = {
     test        : document.createElement('text'),
-    setTitle    : document.createElement('text'), 
-    setPosition : document.createElement('text'), 
+    setTitle    : document.createElement('text'),
+    setPosition : document.createElement('text'),
+    setRange1   : document.createElement('text'),
+    setRange2   : document.createElement('text'),
     setState    : document.createElement('text'),
-    setRange    : document.createElement('text'),
     setNumQues  : document.createElement('text'),
     setAnswer   : document.createElement('text'),
     regist      : document.createElement('text'),
@@ -16,14 +17,14 @@ const myElem = {
 };
 //
 document.styleSheets.item(0).insertRule('body { text-align: center; margin: auto; background: #EFEFEF; }');
-document.styleSheets.item(0).insertRule('p.setanswer1 { margin-top: 16px; margin-bottom: 1px; }');
-document.styleSheets.item(0).insertRule('p.setanswer2 { margin: 1px; }');
+document.styleSheets.item(0).insertRule('p.part1 { margin-top: 16px; margin-bottom: 1px; }');
+document.styleSheets.item(0).insertRule('p.part2 { margin: 1px; }');
 document.styleSheets.item(0).insertRule('p.regist { margin: 10px; }');
 //
-myElem.setRange.id   = 'setrange';
-myElem.setAnswer.id  = 'setanswer';
+myElem.setRange1.id = 'setrange1';
+myElem.setAnswer.id = 'setanswer';
 //
-myElem.setRange.tabIndex = 0;
+// myElem.setRange1.tabIndex = 0;
 //
 myElem.setTitle.innerHTML = `
     <p>
@@ -31,13 +32,28 @@ myElem.setTitle.innerHTML = `
     <input type='text' name='title' value='' id='title' style='width:400px'>
     </p>`;
 myElem.setPosition.innerHTML = `
-    <p>
-    <input type='button' value='<<< 1sec' onclick='setVideoPosition(-1)'>
-    <input type='button' value='<< 0.1sec' onclick='setVideoPosition(-0.1)'>
-    <input type='button' value='< 0.01sec' onclick='setVideoPosition(-0.01)'>
-    <input type='button' value='0.01sec >' onclick='setVideoPosition(0.01)'>
-    <input type='button' value='0.1sec >>' onclick='setVideoPosition(0.1)'>
-    <input type='button' value='1sec >>>' onclick='setVideoPosition(1)'>
+    <p class='part1'>
+    <input type='button' value='            pause            ' onclick='player.pauseVideo()'>
+    <input type='button' value='             play             '  onclick='player.playVideo()'>
+    </p>
+    <p class='part2'>
+    <input type='button' value='<< 10sec' onclick='player.seekTo(player.getCurrentTime()-10)'>
+    <input type='button' value='< 1sec' onclick='player.seekTo(player.getCurrentTime()-1)'>
+    <input type='button' value='1sec >' onclick='player.seekTo(player.getCurrentTime()+1)'>
+    <input type='button' value='10sec >>' onclick='player.seekTo(player.getCurrentTime()+10)'>
+    </p>`;
+myElem.setRange2.innerHTML = `
+    <p class='part2'>
+    <input type='button' value='          toStartPos          ' onclick='player.seekTo(myApp.val.startTime)'>
+    <input type='button' value='           toEndPos           ' onclick='player.seekTo(myApp.val.endTime)'>
+    </p>
+    <p class='part2'>
+    <input type='button' value='<<< 1sec' onclick='tweakRange(-1)'>
+    <input type='button' value='<< 0.1sec' onclick='tweakRange(-0.1)'>
+    <input type='button' value='< 0.01sec' onclick='tweakRange(-0.01)'>
+    <input type='button' value='0.01sec >' onclick='tweakRange(0.01)'>
+    <input type='button' value='0.1sec >>' onclick='tweakRange(0.1)'>
+    <input type='button' value='1sec >>>' onclick='tweakRange(1)'>
     </p>`;
 myElem.setState.innerHTML = `
     <p>
@@ -55,11 +71,11 @@ myElem.setNumQues.innerHTML = `
     <input type='button' value='-' onclick='down()'>
     </p>`;
 myElem.setAnswer.innerHTML = `
-    <p class='setanswer1'>
+    <p class='part1'>
     <b><label for='answer'>Set Answer :&nbsp;&nbsp;</label></b>
     <input type='button' value='add' onclick='add()'>
     </p>
-    <p class='setanswer2'>
+    <p class='part2'>
     00:&nbsp;<input type='text' id='answer0'>
     </p>`;
 myElem.regist.innerHTML = `
@@ -70,10 +86,12 @@ myElem.regist.innerHTML = `
 myElem.script.innerHTML = `
     const myApp = {
         state : {
-            SetNumQues   : 1,
-            SetStartTime : 2,
-            SetEndTime   : 3,
-            SetAnswer    : 4,
+            SetTitle     : 0,
+            SetStatus    : 1,
+            SetNumQues   : 2,
+            SetStartTime : 3,
+            SetEndTime   : 4,
+            SetAnswer    : 5,
         },
         val : {
             status    : null,
@@ -87,26 +105,41 @@ myElem.script.innerHTML = `
         },
     };
     myApp.val.status = myApp.state.SetNumQues;
-    document.getElementById('setrange').innerHTML = '<b>Set Range :&nbsp;</b>00:00:00 -> 00:00:00';
+    document.getElementById('setrange1').innerHTML = '<p class="part1"><b>Set Range :&nbsp;</b>00:00:00 -> 00:00:00</p>';
     //
     document.onkeydown = myKeyDownEvent;
     setInterval(myIntervalEvent, interval = 10);
     //
     function myKeyDownEvent(){
-        if(document.activeElement.id == '' || document.activeElement.id == 'setrange'){
+        if(document.activeElement.id == '' || document.activeElement.id == 'setrange1'){
             if(event.keyCode == myApp.val.key_s){ //s key
-                myApp.val.status = myApp.state.SetStartTime;
+                if(myApp.val.status == myApp.state.SetStartTime){
+                    updateStartTime(player.getCurrentTime());
+                }else{
+                    myApp.val.status = myApp.state.SetStartTime;
+                }
             }
             if(event.keyCode == myApp.val.key_e){ //e key
-                myApp.val.status = myApp.state.SetEndTime;
+                if(myApp.val.status == myApp.state.SetEndTime){
+                    updateEndTime(player.getCurrentTime());
+                }else{
+                    myApp.val.status = myApp.state.SetEndTime;
+                }
             }
         }
     }
     function myIntervalEvent(){
-        console.log(document.activeElement.id);
+        console.log(document.activeElement.id+', '+myApp.val.status);
+        printRange();
         if(document.activeElement.id == 'player'){
             document.getElementById('regist').focus();
             document.getElementById('regist').blur();
+        }
+        if(document.activeElement.id == 'title'){
+            myApp.val.status = myApp.state.SetTitle;
+        }
+        if(document.activeElement.id.indexOf('radio') === 0){
+            myApp.val.status = myApp.state.SetStatus;
         }
         if(document.activeElement.id == 'numques'){
             myApp.val.status = myApp.state.SetNumQues;
@@ -114,19 +147,14 @@ myElem.script.innerHTML = `
         if(document.activeElement.id.indexOf('answer') === 0){
             myApp.val.status = myApp.state.SetAnswer;
         }
-        if(myApp.val.status == myApp.state.SetStartTime){
-            updateStartTime();
-            document.getElementById('setrange').innerHTML = '<b>Set Range :&nbsp;</b><u>'+myApp.val.startTimeStamp+'</u> ->&nbsp;'+myApp.val.endTimeStamp;
-        }else if(myApp.val.status == myApp.state.SetEndTime){
-            updateEndTime();
-            document.getElementById('setrange').innerHTML = '<b>Set Range :&nbsp;</b>'+myApp.val.startTimeStamp+' ->&nbsp;<u>'+myApp.val.endTimeStamp+'</u>';
-        }else{
-            document.getElementById('setrange').innerHTML = '<b>Set Range :&nbsp;</b>'+myApp.val.startTimeStamp+' ->&nbsp;'+myApp.val.endTimeStamp;
-        }
     }
-    function setVideoPosition(diff){
-        let currTime = player.getCurrentTime();
-        player.seekTo(currTime+diff);
+    function updateStartTime(time){
+        myApp.val.startTime = Math.round(time*100)/100;
+        myApp.val.startTimeStamp = updateTimeStamp(myApp.val.startTime);
+    }
+    function updateEndTime(time){
+        myApp.val.endTime = Math.round(time*100)/100;
+        myApp.val.endTimeStamp = updateTimeStamp(myApp.val.endTime);
     }
     function updateTimeStamp(time){
         let m, s1, s2;
@@ -138,13 +166,24 @@ myElem.script.innerHTML = `
         if(s2 < 10){ s2 = '0'+s2; }
         return m+':'+s1+':'+s2;
     }
-    function updateStartTime(){
-        myApp.val.startTime = Math.round(player.getCurrentTime()*100)/100;
-        myApp.val.startTimeStamp = updateTimeStamp(myApp.val.startTime);
+    function tweakRange(time){
+        if(myApp.val.status == myApp.state.SetStartTime){
+            player.seekTo(myApp.val.startTime+time);
+            updateStartTime(myApp.val.startTime+time);
+        }
+        if(myApp.val.status == myApp.state.SetEndTime){
+            player.seekTo(myApp.val.endTime+time);
+            updateEndTime(myApp.val.endTime+time);
+        }
     }
-    function updateEndTime(){
-        myApp.val.endTime = Math.round(player.getCurrentTime()*100)/100;
-        myApp.val.endTimeStamp = updateTimeStamp(myApp.val.endTime);
+    function printRange(){
+        if(myApp.val.status == myApp.state.SetStartTime){
+            document.getElementById('setrange1').innerHTML = '<p class="part1"><b>Set Range :&nbsp;</b><u>'+myApp.val.startTimeStamp+'</u> ->&nbsp;'+myApp.val.endTimeStamp+'</p>';
+        }else if(myApp.val.status == myApp.state.SetEndTime){
+            document.getElementById('setrange1').innerHTML = '<p class="part1"><b>Set Range :&nbsp;</b>'+myApp.val.startTimeStamp+' ->&nbsp;<u>'+myApp.val.endTimeStamp+'</u></p>';
+        }else{
+            document.getElementById('setrange1').innerHTML = '<p class="part1"><b>Set Range :&nbsp;</b>'+myApp.val.startTimeStamp+' ->&nbsp;'+myApp.val.endTimeStamp+'</p>'
+        }
     }
     function up(){ 
         var val = parseInt(document.getElementById('numques').value, 10); 
@@ -166,10 +205,10 @@ myElem.script.innerHTML = `
         countAnsId += 1;
         if(countAnsId < 10){
             document.getElementById('setanswer').innerHTML = document.getElementById('setanswer').innerHTML+
-                                                            "<p class='setanswer2'>0"+countAnsId+":&nbsp;<input type='text' id=answer"+countAnsId+"></p>";
+                                                            "<p class='part2'>0"+countAnsId+":&nbsp;<input type='text' id=answer"+countAnsId+"></p>";
         }else{
             document.getElementById('setanswer').innerHTML = document.getElementById('setanswer').innerHTML+
-                                                            "<p class='setanswer2'>"+countAnsId+":&nbsp;<input type='text' id=answer"+countAnsId+"></p>";
+                                                            "<p class='part2'>"+countAnsId+":&nbsp;<input type='text' id=answer"+countAnsId+"></p>";
         }
         for(let i = 0; i < countAnsId; i++){
             document.getElementById('answer'+i).value = tmpAns[i];
@@ -183,9 +222,10 @@ myElem.script.innerHTML = `
 document.getElementsByTagName('body')[0].appendChild(myElem.test);
 document.getElementsByTagName('body')[0].appendChild(myElem.setPosition);
 document.getElementsByTagName('body')[0].appendChild(myElem.setTitle);
-document.getElementsByTagName('body')[0].appendChild(myElem.setState);
 document.getElementsByTagName('body')[0].appendChild(myElem.setNumQues);
-document.getElementsByTagName('body')[0].appendChild(myElem.setRange);
+document.getElementsByTagName('body')[0].appendChild(myElem.setState);
+document.getElementsByTagName('body')[0].appendChild(myElem.setRange1);
+document.getElementsByTagName('body')[0].appendChild(myElem.setRange2);
 document.getElementsByTagName('body')[0].appendChild(myElem.setAnswer);
 document.getElementsByTagName('body')[0].appendChild(myElem.regist);
 document.getElementsByTagName('body')[0].appendChild(myElem.script);
