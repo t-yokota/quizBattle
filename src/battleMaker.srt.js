@@ -33,27 +33,27 @@ myElem.setTitle.innerHTML = `
     </p>`;
 myElem.setPosition.innerHTML = `
     <p class='part1'>
-    <input type='button' value='            pause            ' onclick='player.pauseVideo()'>
-    <input type='button' value='             play             '  onclick='player.playVideo()'>
+    <input type='button' value='pause' onclick='player.pauseVideo()' style='width:165px'>
+    <input type='button' value='play' onclick='player.playVideo()' style='width:165px'>
     </p>
     <p class='part2'>
-    <input type='button' value='<< 10sec' onclick='player.seekTo(player.getCurrentTime()-10)'>
-    <input type='button' value='< 1sec' onclick='player.seekTo(player.getCurrentTime()-1)'>
-    <input type='button' value='1sec >' onclick='player.seekTo(player.getCurrentTime()+1)'>
-    <input type='button' value='10sec >>' onclick='player.seekTo(player.getCurrentTime()+10)'>
+    <input type='button' value='<< 10sec' onclick='player.seekTo(player.getCurrentTime()-10)' style='width:80px'>
+    <input type='button' value='< 1sec' onclick='player.seekTo(player.getCurrentTime()-1)' style='width:80px'>
+    <input type='button' value='1sec >' onclick='player.seekTo(player.getCurrentTime()+1)' style='width:80px'>
+    <input type='button' value='10sec >>' onclick='player.seekTo(player.getCurrentTime()+10)' style='width:80px'>
     </p>`;
 myElem.setRange2.innerHTML = `
     <p class='part2'>
-    <input type='button' value='          toStartPos          ' onclick='player.seekTo(myApp.val.startTime)'>
-    <input type='button' value='           toEndPos           ' onclick='player.seekTo(myApp.val.endTime)'>
+    <input type='button' value='toStartPos' onclick='player.seekTo(myApp.val.startTime)' style='width:145px'>
+    <input type='button' value='toEndPos' onclick='player.seekTo(myApp.val.endTime)' style='width:145px'>
     </p>
     <p class='part2'>
-    <input type='button' value='<<< 1sec' onclick='tweakRange(-1)'>
-    <input type='button' value='<< 0.1sec' onclick='tweakRange(-0.1)'>
-    <input type='button' value='< 0.01sec' onclick='tweakRange(-0.01)'>
-    <input type='button' value='0.01sec >' onclick='tweakRange(0.01)'>
-    <input type='button' value='0.1sec >>' onclick='tweakRange(0.1)'>
-    <input type='button' value='1sec >>>' onclick='tweakRange(1)'>
+    <input type='button' value='<<< 1sec' onclick='tweakRange(-1)' style='width:70px'>
+    <input type='button' value='<< 0.1sec' onclick='tweakRange(-0.1)' style='width:70px'>
+    <input type='button' value='< 0.01sec' onclick='tweakRange(-0.01)' style='width:70px'>
+    <input type='button' value='0.01sec >' onclick='tweakRange(0.01)' style='width:70px'>
+    <input type='button' value='0.1sec >>' onclick='tweakRange(0.1)' style='width:70px'>
+    <input type='button' value='1sec >>>' onclick='tweakRange(1)' style='width:70px'>
     </p>`;
 myElem.setState.innerHTML = `
     <p>
@@ -92,11 +92,13 @@ myElem.script.innerHTML = `
             SetStartTime : 3,
             SetEndTime   : 4,
             SetAnswer    : 5,
+            QuitState    : 6,
         },
         val : {
             status    : null,
             key_s     : 83,
             key_e     : 69,
+            key_q     : 81,
             quesNum   : 1,
             startTime : 0,
             endTime   : 0,
@@ -105,13 +107,12 @@ myElem.script.innerHTML = `
         },
     };
     myApp.val.status = myApp.state.SetNumQues;
-    document.getElementById('setrange1').innerHTML = '<p class="part1"><b>Set Range :&nbsp;</b>00:00:00 -> 00:00:00</p>';
     //
     document.onkeydown = myKeyDownEvent;
     setInterval(myIntervalEvent, interval = 10);
     //
     function myKeyDownEvent(){
-        if(document.activeElement.id == '' || document.activeElement.id == 'setrange1'){
+        if(document.activeElement.id == ''){
             if(event.keyCode == myApp.val.key_s){ //s key
                 if(myApp.val.status == myApp.state.SetStartTime){
                     updateStartTime(player.getCurrentTime());
@@ -125,6 +126,9 @@ myElem.script.innerHTML = `
                 }else{
                     myApp.val.status = myApp.state.SetEndTime;
                 }
+            }
+            if(event.keyCode == myApp.val.key_q){ //q key
+                myApp.val.status = myApp.state.QuitState;
             }
         }
     }
