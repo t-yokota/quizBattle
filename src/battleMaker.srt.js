@@ -104,9 +104,12 @@ myElem.script.innerHTML = `
             endTime   : 0,
             startTimeStamp : '00:00:00',
             endTimeStamp   : '00:00:00',
+            countAnsId : 0,
+            initSetAnswerHTML : null,
         },
     };
     myApp.val.status = myApp.state.SetNumQues;
+    myApp.val.initSetAnswerHTML = document.getElementById('setanswer').innerHTML;
     //
     document.onkeydown = myKeyDownEvent;
     setInterval(myIntervalEvent, interval = 10);
@@ -199,28 +202,26 @@ myElem.script.innerHTML = `
             document.getElementById('numques').value = val-1;
         }
     }
-    var countAnsId = 0;
-    var initSetAnswerHTML = document.getElementById('setanswer').innerHTML;
     function add(){
         let tmpAns = [];
-        for(let i = 0; i < countAnsId+1; i++){
+        for(let i = 0; i < myApp.val.countAnsId+1; i++){
             tmpAns.push(document.getElementById('answer'+i).value);
         }
-        countAnsId += 1;
-        if(countAnsId < 10){
+        myApp.val.countAnsId += 1;
+        if(myApp.val.countAnsId < 10){
             document.getElementById('setanswer').innerHTML = document.getElementById('setanswer').innerHTML+
-                                                            "<p class='part2'>0"+countAnsId+":&nbsp;<input type='text' id=answer"+countAnsId+"></p>";
+                                                            "<p class='part2'>0"+myApp.val.countAnsId+":&nbsp;<input type='text' id=answer"+myApp.val.countAnsId+"></p>";
         }else{
             document.getElementById('setanswer').innerHTML = document.getElementById('setanswer').innerHTML+
-                                                            "<p class='part2'>"+countAnsId+":&nbsp;<input type='text' id=answer"+countAnsId+"></p>";
+                                                            "<p class='part2'>"+myApp.val.countAnsId+":&nbsp;<input type='text' id=answer"+myApp.val.countAnsId+"></p>";
         }
-        for(let i = 0; i < countAnsId; i++){
+        for(let i = 0; i < myApp.val.countAnsId; i++){
             document.getElementById('answer'+i).value = tmpAns[i];
         }
     }
     function regist(){
-        countAnsId = 0;
-        document.getElementById('setanswer').innerHTML = initSetAnswerHTML;
+        myApp.val.countAnsId = 0;
+        document.getElementById('setanswer').innerHTML = myApp.val.initSetAnswerHTML;
     }`;
 //
 document.getElementsByTagName('body')[0].appendChild(myElem.test);
