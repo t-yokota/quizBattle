@@ -29,7 +29,7 @@ myElem.setAnswer.id = 'setanswer';
 myElem.setTitle.innerHTML = `
     <p>
     <b>Set title :</b>
-    <input type='text' name='title' value='' id='title' style='width:400px'>
+    <input type='text' value='' id='title' style='width:400px'>
     </p>`;
 myElem.setPosition.innerHTML = `
     <p class='part1'>
@@ -56,19 +56,19 @@ myElem.setRange2.innerHTML = `
     <input type='button' value='1sec >>>' onclick='tweakRange(1)' style='width:70px'>
     </p>`;
 myElem.setState.innerHTML = `
-    <p>
+    <form id='radio'>
     <b>Select Status :</b>
-    <input type='radio' name='state' value='Question' id='radio1' checked>
-    <label for='radio1'>During Question</label>
-    <input type='radio' name='state' value='OthAnswer' id='radio2'>
-    <label for='radio2'>During Other's Answer
-    </p>`;
+    <input type='radio' name='status' value='Question' id='state1' checked>
+    <label for='state1'>During Question</label>
+    <input type='radio' name='status' value='OthAnswer' id='state2'>
+    <label for='state2'>During Other's Answer
+    </form>`;
 myElem.setNumQues.innerHTML = `
     <p>
     <b><label for='numques'>Set Question Number :</label></b>
-    <input type='text' name='numques' value='1' id='numques'>
-    <input type='button' value='+' onclick='up()'>
-    <input type='button' value='-' onclick='down()'>
+    <input type='number' value='1' id='numques' min='1' style='width:30px'>
+    <input type='button' value='+' onclick='up()' style='width:30px'>
+    <input type='button' value='-' onclick='down()' style='width:30px'>
     </p>`;
 myElem.setAnswer.innerHTML = `
     <p class='part1'>
@@ -106,6 +106,8 @@ myElem.script.innerHTML = `
             endTimeStamp   : '00:00:00',
             countAnsId : 0,
             initSetAnswerHTML : null,
+            ansArray  : [],
+            statusRangeArray : [],
         },
     };
     myApp.val.status = myApp.state.SetNumQues;
@@ -145,7 +147,7 @@ myElem.script.innerHTML = `
         if(document.activeElement.id == 'title'){
             myApp.val.status = myApp.state.SetTitle;
         }
-        if(document.activeElement.id.indexOf('radio') === 0){
+        if(document.activeElement.id.indexOf('state') === 0){
             myApp.val.status = myApp.state.SetStatus;
         }
         if(document.activeElement.id == 'numques'){
@@ -220,8 +222,52 @@ myElem.script.innerHTML = `
         }
     }
     function regist(){
+        registAnswer();
+        registStatusRange();
         myApp.val.countAnsId = 0;
         document.getElementById('setanswer').innerHTML = myApp.val.initSetAnswerHTML;
+    }
+    function registAnswer(){
+        let tmpRow = [];
+        tmpRow.push(document.getElementById('numques').value);
+        for(let i = 0; i < myApp.val.countAnsId+1; i++){
+            if(document.getElementById('answer'+i).value != ''){
+                tmpRow.push(document.getElementById('answer'+i).value);
+            }
+        }
+        for(let i = 0; i < myApp.val.ansArray.length; i++){
+            if(myApp.val.ansArray[i][0] == document.getElementById('numques').value){
+                myApp.val.ansArray.splice(i, 1);
+            }
+        }
+        myApp.val.ansArray.push(tmpRow);
+        myApp.val.ansArray.sort();
+        console.log(myApp.val.ansArray);
+        for(let i = 0; i < myApp.val.ansArray.length; i++){
+            console.log(myApp.val.ansArray[i]);
+        }
+    }
+    function registStatusRange(){
+        let tmpRow = [];
+        tmpRow.push(document.getElementById('numques').value);
+        tmpRow.push(document.getElementById('radio').status.value);
+        tmpRow.push(myApp.val.startTimeStamp);
+        tmpRow.push(myApp.val.endTimeStamp);
+        for(let i = 0; i < myApp.val.statusRangeArray.length; i++){
+            if(myApp.val.statusRangeArray[i][0] == document.getElementById('numques').value){
+                if(myApp.val.statusRangeArray[i][1] == document.getElementById('radio').status.value){
+                    if(document.getElementById('radio').status.value == 'Question'){
+                        myApp.val.statusRangeArray.splice(i, 1);
+                    }
+                }
+            }
+        }
+        myApp.val.statusRangeArray.push(tmpRow);
+        myApp.val.statusRangeArray.sort();
+        console.log(myApp.val.statusRangeArray);
+        for(let i = 0; i < myApp.val.statusRangeArray.length; i++){
+            console.log(myApp.val.statusRangeArray[i]);
+        }
     }`;
 //
 document.getElementsByTagName('body')[0].appendChild(myElem.test);
