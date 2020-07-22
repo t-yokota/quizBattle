@@ -205,7 +205,7 @@ myElem.script.innerHTML = `
         }
     }
     function myIntervalEvent(){
-        console.log(document.activeElement.id+', '+myApp.val.status);
+        // console.log(document.activeElement.id+', '+myApp.val.status);
         updateCurrTime(player.getCurrentTime());
         printRange();
         if(document.activeElement.id == 'player'){
