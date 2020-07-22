@@ -5,6 +5,14 @@ doOnce[index] = true;
 player.pauseVideo();
 //
 const myApp = {
+    path : {
+        answer : "https://raw.githubusercontent.com/t-yokota/quizBattle/master/src/answer_sample.csv",
+        sound  : "https://raw.githubusercontent.com/t-yokota/quizBattle/master/sounds/sounds_3", //+ext;
+        btn1   : "https://github.com/t-yokota/quizBattle/raw/master/figures/button_portrait_72ppi_1.png",
+        btn2   : "https://github.com/t-yokota/quizBattle/raw/master/figures/button_portrait_72ppi_2.png",
+        btn3   : "https://github.com/t-yokota/quizBattle/raw/master/figures/button_portrait_72ppi_3.png",
+        btn4   : "https://github.com/t-yokota/quizBattle/raw/master/figures/button_portrait_72ppi_4.png",
+    },
     state : {
         ButtonCheck : 0, //ボタンチェック待機
         Question    : 1, //問い読み中（早押し可能）
@@ -281,16 +289,16 @@ else if(myApp.elem.sounds.canPlayType('audio/wav') == 'probably'){ myApp.val.aud
 else if(myApp.elem.sounds.canPlayType('audio/mp3') == 'maybe'   ){ myApp.val.audioExt = '.mp3'; }
 else if(myApp.elem.sounds.canPlayType('audio/aac') == 'maybe'   ){ myApp.val.audioExt = '.aac'; }
 else if(myApp.elem.sounds.canPlayType('audio/wav') == 'maybe'   ){ myApp.val.audioExt = '.wav'; }
-myApp.elem.sounds.src = "https://raw.githubusercontent.com/t-yokota/quizBattle/master/sounds/sounds_3"+myApp.val.audioExt;
+myApp.elem.sounds.src = myApp.path.sound+myApp.val.audioExt;
 //
 /* load push button image */
-myApp.elem.imgBtn1.src = "https://github.com/t-yokota/quizBattle/raw/master/figures/button_portrait_72ppi_1.png";
-myApp.elem.imgBtn2.src = "https://github.com/t-yokota/quizBattle/raw/master/figures/button_portrait_72ppi_2.png";
-myApp.elem.imgBtn3.src = "https://github.com/t-yokota/quizBattle/raw/master/figures/button_portrait_72ppi_3.png";
-myApp.elem.imgBtn4.src = "https://github.com/t-yokota/quizBattle/raw/master/figures/button_portrait_72ppi_4.png";
+myApp.elem.imgBtn1.src = myApp.path.btn1;
+myApp.elem.imgBtn2.src = myApp.path.btn2;
+myApp.elem.imgBtn3.src = myApp.path.btn3;
+myApp.elem.imgBtn4.src = myApp.path.btn4;
 //
 /* load answer file */
-myApp.val.ansFile.open("get", "https://raw.githubusercontent.com/t-yokota/quizBattle/master/src/answer_sample.csv", true);
+myApp.val.ansFile.open("get", myApp.path.answer, true);
 myApp.val.ansFile.send(null);
 //
 /* set audio sprite */
