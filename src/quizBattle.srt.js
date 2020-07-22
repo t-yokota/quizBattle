@@ -1,5 +1,5 @@
 0
-00:00:00,000 --> 00:00:01,999
+00:00:00,000 --> 00:00:05,999
 /* CAUTION : Each sections of subtitle has independent scope. */
 doOnce[index] = true;
 player.pauseVideo();
@@ -660,8 +660,13 @@ function resizePushButton(){
             const tmpImgHeight = document.documentElement.clientHeight-myApp.elem.pushBtn.getBoundingClientRect().top-parseInt(myApp.elem.numOX.style.lineHeight, 10);
             const tmpImgWidth  = myApp.elem.pushBtn.naturalWidth*tmpImgHeight/myApp.elem.pushBtn.naturalHeight;
             if(tmpImgWidth < document.documentElement.clientWidth){
-                myApp.val.pushBtnWidth  = tmpImgWidth;
-                myApp.val.pushBtnHeight = tmpImgHeight;
+                if(tmpImgHeight <= myApp.val.playerHeight){
+                    myApp.val.pushBtnWidth  = tmpImgWidth;
+                    myApp.val.pushBtnHeight = tmpImgHeight;
+                }else{
+                    myApp.val.pushBtnWidth  = myApp.elem.pushBtn.naturalWidth*myApp.val.playerHeight/myApp.elem.pushBtn.naturalHeight;
+                    myApp.val.pushBtnHeight = myApp.val.playerHeight;
+                }
             }else{
                 myApp.val.pushBtnWidth  = document.documentElement.clientWidth/5;
                 myApp.val.pushBtnHeight = myApp.elem.pushBtn.naturalHeight*myApp.val.pushBtnWidth/myApp.elem.pushBtn.naturalWidth;
@@ -872,10 +877,10 @@ function printParams(){
 //---------------------------------------------------------------------------------------------------------------
 /* set functions executed in each subtitle */
 myApp.val.srtFuncArray = [
-    function(){
-        /* ボタンチェック後〜第１問 */
-        myApp.val.status = myApp.state.Talk;
-    },
+    // function(){
+    //     /* ボタンチェック後〜第１問 */
+    //     myApp.val.status = myApp.state.Talk;
+    // },
     function(){
         myApp.val.viewFuncArray.shift()();
         //
@@ -917,28 +922,19 @@ myApp.val.srtFuncArray = [
 ];
 
 1
-00:00:02,000 --> 00:00:05,999
-
+00:00:05,999 --> 00:00:09,999
 
 2
-00:00:06,000 --> 00:00:09,999
-
+00:00:09,999 --> 00:00:13,999
 
 3
-00:00:10,000 --> 00:00:13,999
-
+00:00:13,999 --> 00:00:17,999
 
 4
-00:00:14,000 --> 00:00:17,999
-
+00:00:17,999 --> 00:00:21,999
 
 5
-00:00:18,000 --> 00:00:21,999
-
+00:00:21,999 --> 00:00:25,999
 
 6
-00:00:22,000 --> 00:00:25,999
-
-
-7
-00:00:26,000 --> 00:00:29,999
+00:00:25,999 --> 00:00:29,999
