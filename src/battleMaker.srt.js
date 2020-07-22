@@ -614,6 +614,7 @@ myElem.script.innerHTML = `
             res.push(i+1);
             res.push(start+'0 --> '+end+'0');
             res.push('');
+            res.push('');
         }
         // for(let i = 0; i < res.length; i++){
         //     console.log(res[i]);
