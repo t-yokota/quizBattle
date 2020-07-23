@@ -97,7 +97,7 @@ const myApp = {
         },
         //
         /* for question manegament */
-        numQues     : 0,     //問題番号
+        numQues     : 1,     //問題番号
         ansArray    : [],    //正答リスト
         cntO        : 0,     //正答数
         cntX        : 0,     //誤答数
