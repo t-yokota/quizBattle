@@ -476,7 +476,7 @@ myElem.script.innerHTML = `
                     }
                 }
                 if(i != table.length-1){
-                    str += '\\u000A';
+                    str += '\\r\\n';
                 }
             }
             return str;
