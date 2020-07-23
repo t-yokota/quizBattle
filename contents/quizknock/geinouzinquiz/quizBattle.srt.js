@@ -193,7 +193,7 @@ if(myApp.val.os != 'other'){
         function(){
             myApp.elem.text.style.margin  = '32px auto';
             myApp.elem.text.style.padding = '0px 10px';
-            document.getElementsByTagName("body")[0].appendChild(myApp.elem.text);
+            document.getElementsByTagName("body")[0].appendChild(myApp.elem.text);  
             document.getElementsByTagName("body")[0].appendChild(myApp.elem.ansCol);
             document.getElementsByTagName("body")[0].appendChild(myApp.elem.ansBtn);
             document.getElementsByTagName("body")[0].appendChild(myApp.elem.pushBtn);
@@ -849,12 +849,12 @@ function printParams(){
         "limPush: "          + myApp.val.limPush+"<br>"+ 
         "cntPush: "          + myApp.val.cntPush+"<br>"+
         "remainingAnsTime: " + Math.floor((myApp.val.ansTime.limit-myApp.val.ansTime.elapsed)/1000)+"<br>"+
-        "answer: "           + myApp.val.ansArray[myApp.val.numQues-1][0].valueOf()+", "+
-                               myApp.val.ansArray[myApp.val.numQues-1][1].valueOf()+", "+
-                               myApp.val.ansArray[myApp.val.numQues-1][2].valueOf()+", "+
-                               myApp.val.ansArray[myApp.val.numQues-1][3].valueOf()+", "+
-                               myApp.val.ansArray[myApp.val.numQues-1][4].valueOf()+", "+
-                               myApp.val.ansArray[myApp.val.numQues-1][5].valueOf()+"<br>"+
+        // "answer: "           + myApp.val.ansArray[myApp.val.numQues-1][0].valueOf()+", "+
+        //                        myApp.val.ansArray[myApp.val.numQues-1][1].valueOf()+", "+
+        //                        myApp.val.ansArray[myApp.val.numQues-1][2].valueOf()+", "+
+        //                        myApp.val.ansArray[myApp.val.numQues-1][3].valueOf()+", "+
+        //                        myApp.val.ansArray[myApp.val.numQues-1][4].valueOf()+", "+
+        //                        myApp.val.ansArray[myApp.val.numQues-1][5].valueOf()+"<br>"+
         // "checkAns1: "        + (myApp.val.ansArray[myApp.val.numQues-1][0].valueOf() === 'てすと１')+", "+
         //                        (myApp.val.ansArray[myApp.val.numQues-1][1].valueOf() === 'テスト１')+", "+
         //                        (myApp.val.ansArray[myApp.val.numQues-1][2].valueOf() === 'てすと1')+", "+
@@ -876,7 +876,7 @@ function printParams(){
         //                        (myApp.val.ansArray[myApp.val.numQues-1][4].valueOf() === 'test3')+", "+
         //                        (myApp.val.ansArray[myApp.val.numQues-1][4].valueOf() === 'Test3')+", "+
         //                        (myApp.val.ansArray[myApp.val.numQues-1][5].valueOf() === 'TEST3')+"<br>"+
-        "answerLength: "     + myApp.val.ansArray[myApp.val.numQues-1].length+"<br>"+
+        // "answerLength: "     + myApp.val.ansArray[myApp.val.numQues-1].length+"<br>"+
         "correctBool: "      + myApp.val.correctBool+"<br>"+
         "composing: "        + myApp.val.composingBool+"<br>"+
         "index: "            + index+"<br>"+
