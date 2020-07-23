@@ -572,6 +572,8 @@ function myIntervalEvent(){
     materialCheckFunction();
     /* update push button area (mainly for when the window is zoomed in iOS)*/
     updatePushButtonArea();
+    /* print parameters for debug */
+    printParams();
 }
 //
 /* onclick event function of send answer button */
@@ -817,6 +819,67 @@ function checkAnswer(){
     }else{
         myApp.elem.pushBtn.src = myApp.elem.imgBtn4.src;
     }
+}
+function printParams(){
+    // myApp.elem.subText.innerHTML = myApp.val.os + ', ' + navigator.userAgent;
+    // myApp.elem.paramText.innerHTML = document.styleSheets.item(0).cssRules;
+    // myApp.elem.subText.innerHTML = myApp.elem.sounds.src;
+    // myApp.elem.subText.innerHTML = "sounds.currentTime: " + Math.abs(Math.floor(myApp.elem.sounds.currentTime*1000)/1000);
+    // myApp.elem.subText.innerHTML = "docWidth: " + document.documentElement.clientWidth +", "+
+    //                             "docHeight: "+ document.documentElement.clientHeight + ", "+
+    //                             "inWidth: "  + window.innerWidth + ", "+
+    //                             "inHeight: " + window.innerHeight;
+    // myApp.elem.subText.innerHTML = Math.floor(myApp.val.touchObject.pageX)      +', '+ Math.floor(myApp.val.touchObject.pageY) +' '+
+    //                             '[' + Math.floor(myApp.val.pushBtnArea.left) +', '+ Math.floor(myApp.val.pushBtnArea.right) +'] '+
+    //                             '[' + Math.floor(myApp.val.pushBtnArea.top)  +', '+ Math.floor(myApp.val.pushBtnArea.bottom)+'] '+
+    //                             '| '+ window.pageXOffset +', '+ window.pageYOffset;
+    // myApp.elem.subText.innerHTML = myApp.elem.numOX.getBoundingClientRect().top - myApp.elem.ansBtn.getBoundingClientRect().bottom;
+    // myApp.elem.subText.innerHTML = 'loadErrorBool: ' + myApp.val.loadErrorBool + ', initLoadBool: ' + myApp.val.initLoadBool + ', loadCount: ' + myApp.val.loadCount;
+    // myApp.elem.subText.innerHTML = 'playerWidth: '  + myApp.val.playerWidth  + ', innerWidth: '      + window.innerWidth;
+    myApp.elem.paramText.innerHTML = 
+        "device: "           + myApp.val.os+"<br>"+
+        "activeElem: "       + document.activeElement.id+"<br>"+   
+        "status: "           + myApp.val.status+"<br>"+
+        "timePlay: "         + myApp.val.currTime.playing.toFixed(3)+"<br>"+
+        "timeStop: "         + myApp.val.currTime.stopped.toFixed(3)+"<br>"+
+        "WatchedTime: "      + myApp.val.watchedTime.toFixed(3)+"<br>"+
+        "diffTime: "         + myApp.val.diffTime.toFixed(3)+"<br>"+
+        "limPush: "          + myApp.val.limPush+"<br>"+ 
+        "cntPush: "          + myApp.val.cntPush+"<br>"+
+        "remainingAnsTime: " + Math.floor((myApp.val.ansTime.limit-myApp.val.ansTime.elapsed)/1000)+"<br>"+
+        "answer: "           + myApp.val.ansArray[myApp.val.numQues-1][0].valueOf()+", "+
+                               myApp.val.ansArray[myApp.val.numQues-1][1].valueOf()+", "+
+                               myApp.val.ansArray[myApp.val.numQues-1][2].valueOf()+", "+
+                               myApp.val.ansArray[myApp.val.numQues-1][3].valueOf()+", "+
+                               myApp.val.ansArray[myApp.val.numQues-1][4].valueOf()+", "+
+                               myApp.val.ansArray[myApp.val.numQues-1][5].valueOf()+"<br>"+
+        // "checkAns1: "        + (myApp.val.ansArray[myApp.val.numQues-1][0].valueOf() === 'てすと１')+", "+
+        //                        (myApp.val.ansArray[myApp.val.numQues-1][1].valueOf() === 'テスト１')+", "+
+        //                        (myApp.val.ansArray[myApp.val.numQues-1][2].valueOf() === 'てすと1')+", "+
+        //                        (myApp.val.ansArray[myApp.val.numQues-1][3].valueOf() === 'テスト1')+", "+
+        //                        (myApp.val.ansArray[myApp.val.numQues-1][4].valueOf() === 'test1')+", "+
+        //                        (myApp.val.ansArray[myApp.val.numQues-1][4].valueOf() === 'Test1')+", "+
+        //                        (myApp.val.ansArray[myApp.val.numQues-1][5].valueOf() === 'TEST1')+"<br>"+
+        // "checkAns2: "        + (myApp.val.ansArray[myApp.val.numQues-1][0].valueOf() === 'てすと２')+", "+
+        //                        (myApp.val.ansArray[myApp.val.numQues-1][1].valueOf() === 'テスト２')+", "+
+        //                        (myApp.val.ansArray[myApp.val.numQues-1][2].valueOf() === 'てすと2')+", "+
+        //                        (myApp.val.ansArray[myApp.val.numQues-1][3].valueOf() === 'テスト2')+", "+
+        //                        (myApp.val.ansArray[myApp.val.numQues-1][4].valueOf() === 'test2')+", "+
+        //                        (myApp.val.ansArray[myApp.val.numQues-1][4].valueOf() === 'Test2')+", "+
+        //                        (myApp.val.ansArray[myApp.val.numQues-1][5].valueOf() === 'TEST2')+"<br>"+
+        // "checkAns3: "        + (myApp.val.ansArray[myApp.val.numQues-1][0].valueOf() === 'てすと３')+", "+
+        //                        (myApp.val.ansArray[myApp.val.numQues-1][1].valueOf() === 'テスト３')+", "+
+        //                        (myApp.val.ansArray[myApp.val.numQues-1][2].valueOf() === 'てすと3')+", "+
+        //                        (myApp.val.ansArray[myApp.val.numQues-1][3].valueOf() === 'テスト3')+", "+
+        //                        (myApp.val.ansArray[myApp.val.numQues-1][4].valueOf() === 'test3')+", "+
+        //                        (myApp.val.ansArray[myApp.val.numQues-1][4].valueOf() === 'Test3')+", "+
+        //                        (myApp.val.ansArray[myApp.val.numQues-1][5].valueOf() === 'TEST3')+"<br>"+
+        "answerLength: "     + myApp.val.ansArray[myApp.val.numQues-1].length+"<br>"+
+        "correctBool: "      + myApp.val.correctBool+"<br>"+
+        "composing: "        + myApp.val.composingBool+"<br>"+
+        "index: "            + index+"<br>"+
+        "cntIndex: "         + myApp.val.cntIndex+"<br>"+
+        "cssRules: "         + document.styleSheets.item(0).cssRules.item(0).selectorText;
 }
 //
 //---------------------------------------------------------------------------------------------------------------
