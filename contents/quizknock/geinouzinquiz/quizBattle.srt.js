@@ -822,6 +822,7 @@ function checkAnswer(){
         myApp.elem.pushBtn.src = myApp.elem.imgBtn4.src;
     }
 }
+//
 function printParams(){
     // myApp.elem.subText.innerHTML = myApp.val.os + ', ' + navigator.userAgent;
     // myApp.elem.paramText.innerHTML = document.styleSheets.item(0).cssRules;
@@ -838,7 +839,7 @@ function printParams(){
     // myApp.elem.subText.innerHTML = myApp.elem.numOX.getBoundingClientRect().top - myApp.elem.ansBtn.getBoundingClientRect().bottom;
     // myApp.elem.subText.innerHTML = 'loadErrorBool: ' + myApp.val.loadErrorBool + ', initLoadBool: ' + myApp.val.initLoadBool + ', loadCount: ' + myApp.val.loadCount;
     // myApp.elem.subText.innerHTML = 'playerWidth: '  + myApp.val.playerWidth  + ', innerWidth: '      + window.innerWidth;
-    myApp.elem.paramText.innerHTML = 
+    myApp.elem.paramText.innerHTML = "<br>"+
         "device: "           + myApp.val.os+"<br>"+
         "activeElem: "       + document.activeElement.id+"<br>"+   
         "status: "           + myApp.val.status+"<br>"+
@@ -855,29 +856,8 @@ function printParams(){
         //                        myApp.val.ansArray[myApp.val.numQues-1][3].valueOf()+", "+
         //                        myApp.val.ansArray[myApp.val.numQues-1][4].valueOf()+", "+
         //                        myApp.val.ansArray[myApp.val.numQues-1][5].valueOf()+"<br>"+
-        // "checkAns1: "        + (myApp.val.ansArray[myApp.val.numQues-1][0].valueOf() === 'てすと１')+", "+
-        //                        (myApp.val.ansArray[myApp.val.numQues-1][1].valueOf() === 'テスト１')+", "+
-        //                        (myApp.val.ansArray[myApp.val.numQues-1][2].valueOf() === 'てすと1')+", "+
-        //                        (myApp.val.ansArray[myApp.val.numQues-1][3].valueOf() === 'テスト1')+", "+
-        //                        (myApp.val.ansArray[myApp.val.numQues-1][4].valueOf() === 'test1')+", "+
-        //                        (myApp.val.ansArray[myApp.val.numQues-1][4].valueOf() === 'Test1')+", "+
-        //                        (myApp.val.ansArray[myApp.val.numQues-1][5].valueOf() === 'TEST1')+"<br>"+
-        // "checkAns2: "        + (myApp.val.ansArray[myApp.val.numQues-1][0].valueOf() === 'てすと２')+", "+
-        //                        (myApp.val.ansArray[myApp.val.numQues-1][1].valueOf() === 'テスト２')+", "+
-        //                        (myApp.val.ansArray[myApp.val.numQues-1][2].valueOf() === 'てすと2')+", "+
-        //                        (myApp.val.ansArray[myApp.val.numQues-1][3].valueOf() === 'テスト2')+", "+
-        //                        (myApp.val.ansArray[myApp.val.numQues-1][4].valueOf() === 'test2')+", "+
-        //                        (myApp.val.ansArray[myApp.val.numQues-1][4].valueOf() === 'Test2')+", "+
-        //                        (myApp.val.ansArray[myApp.val.numQues-1][5].valueOf() === 'TEST2')+"<br>"+
-        // "checkAns3: "        + (myApp.val.ansArray[myApp.val.numQues-1][0].valueOf() === 'てすと３')+", "+
-        //                        (myApp.val.ansArray[myApp.val.numQues-1][1].valueOf() === 'テスト３')+", "+
-        //                        (myApp.val.ansArray[myApp.val.numQues-1][2].valueOf() === 'てすと3')+", "+
-        //                        (myApp.val.ansArray[myApp.val.numQues-1][3].valueOf() === 'テスト3')+", "+
-        //                        (myApp.val.ansArray[myApp.val.numQues-1][4].valueOf() === 'test3')+", "+
-        //                        (myApp.val.ansArray[myApp.val.numQues-1][4].valueOf() === 'Test3')+", "+
-        //                        (myApp.val.ansArray[myApp.val.numQues-1][5].valueOf() === 'TEST3')+"<br>"+
-        "answerLength: "     + myApp.val.ansArray[myApp.val.numQues-1].length+"<br>"+
         "numAnswer: "        + myApp.val.ansArray.length+"<br>"+
+        "answerLength: "     + myApp.val.ansArray[myApp.val.numQues-1].length+"<br>"+
         "correctBool: "      + myApp.val.correctBool+"<br>"+
         "composing: "        + myApp.val.composingBool+"<br>"+
         "index: "            + index+"<br>"+
@@ -896,6 +876,7 @@ myApp.val.srtFuncArray = [
         myApp.val.cntPush = 0;
         myApp.val.correctBool = false;
         myApp.elem.text.innerHTML = "第"+myApp.val.numQues+"問";
+        myApp.elem.ansCol.value = "";
         if(Math.abs(window.orientation) != 90){ myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src; }
     },
     function(){
@@ -908,6 +889,7 @@ myApp.val.srtFuncArray = [
         myApp.val.cntPush = 0;
         myApp.val.correctBool = false;
         myApp.elem.text.innerHTML = "第"+myApp.val.numQues+"問";
+        myApp.elem.ansCol.value = "";
         if(Math.abs(window.orientation) != 90){ myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src; }
     },
     function(){
@@ -920,6 +902,7 @@ myApp.val.srtFuncArray = [
         myApp.val.cntPush = 0;
         myApp.val.correctBool = false;
         myApp.elem.text.innerHTML = "第"+myApp.val.numQues+"問";
+        myApp.elem.ansCol.value = "";
         if(Math.abs(window.orientation) != 90){ myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src; }
     },
     function(){
@@ -932,6 +915,7 @@ myApp.val.srtFuncArray = [
         myApp.val.cntPush = 0;
         myApp.val.correctBool = false;
         myApp.elem.text.innerHTML = "第"+myApp.val.numQues+"問";
+        myApp.elem.ansCol.value = "";
         if(Math.abs(window.orientation) != 90){ myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src; }
     },
     function(){
@@ -944,6 +928,7 @@ myApp.val.srtFuncArray = [
         myApp.val.cntPush = 0;
         myApp.val.correctBool = false;
         myApp.elem.text.innerHTML = "第"+myApp.val.numQues+"問";
+        myApp.elem.ansCol.value = "";
         if(Math.abs(window.orientation) != 90){ myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src; }
     },
     function(){
@@ -956,6 +941,7 @@ myApp.val.srtFuncArray = [
         myApp.val.cntPush = 0;
         myApp.val.correctBool = false;
         myApp.elem.text.innerHTML = "第"+myApp.val.numQues+"問";
+        myApp.elem.ansCol.value = "";
         if(Math.abs(window.orientation) != 90){ myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src; }
     },
     function(){
@@ -968,6 +954,7 @@ myApp.val.srtFuncArray = [
         myApp.val.cntPush = 0;
         myApp.val.correctBool = false;
         myApp.elem.text.innerHTML = "第"+myApp.val.numQues+"問";
+        myApp.elem.ansCol.value = "";
         if(Math.abs(window.orientation) != 90){ myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src; }
     },
     function(){
@@ -980,6 +967,7 @@ myApp.val.srtFuncArray = [
         myApp.val.cntPush = 0;
         myApp.val.correctBool = false;
         myApp.elem.text.innerHTML = "第"+myApp.val.numQues+"問";
+        myApp.elem.ansCol.value = "";
         if(Math.abs(window.orientation) != 90){ myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src; }
     },
     function(){
@@ -992,6 +980,7 @@ myApp.val.srtFuncArray = [
         myApp.val.cntPush = 0;
         myApp.val.correctBool = false;
         myApp.elem.text.innerHTML = "第"+myApp.val.numQues+"問";
+        myApp.elem.ansCol.value = "";
         if(Math.abs(window.orientation) != 90){ myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src; }
     },
     function(){
@@ -1004,6 +993,7 @@ myApp.val.srtFuncArray = [
         myApp.val.cntPush = 0;
         myApp.val.correctBool = false;
         myApp.elem.text.innerHTML = "第"+myApp.val.numQues+"問";
+        myApp.elem.ansCol.value = "";
         if(Math.abs(window.orientation) != 90){ myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src; }
     },
     function(){
