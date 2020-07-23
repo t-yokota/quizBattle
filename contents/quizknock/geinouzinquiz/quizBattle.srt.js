@@ -530,7 +530,7 @@ function myIntervalEvent(){
         }
         /* execute srt function in each sections of subtitle */
         if(myApp.val.status != myApp.state.MyAnswer){
-            if(index > myApp.val.cntIndex){
+            if(index - myApp.val.cntIndex == 1){
                 myApp.val.srtFuncArray.shift()();
                 myApp.val.cntIndex += 1;
             }
