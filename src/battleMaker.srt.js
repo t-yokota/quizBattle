@@ -387,7 +387,7 @@ myElem.script.innerHTML = `
                     myApp.val.quesRangeArray.push(tmpRow);
                     myApp.val.quesRangeArray.sort(funcCompare);
                     //
-                    upNumQues();
+                    // upNumQues();
                     console.log(myApp.val.quesRangeArray);
                     for(let i = 0; i < myApp.val.quesRangeArray.length; i++){
                         console.log(myApp.val.quesRangeArray[i]);
