@@ -356,7 +356,7 @@ myElem.script.innerHTML = `
                 }
             }
             myApp.val.ansArray.push(tmpRow);
-            myApp.val.ansArray.sort();
+            myApp.val.ansArray.sort(funcCompare);
             upNumQues();
             //
             console.log(myApp.val.ansArray);
@@ -385,7 +385,7 @@ myElem.script.innerHTML = `
                     tmpRow.push(myApp.val.startTime);
                     tmpRow.push(myApp.val.endTime);
                     myApp.val.quesRangeArray.push(tmpRow);
-                    myApp.val.quesRangeArray.sort();
+                    myApp.val.quesRangeArray.sort(funcCompare);
                     //
                     upNumQues();
                     console.log(myApp.val.quesRangeArray);
