@@ -286,10 +286,10 @@ myElem.script.innerHTML = `
         }
     }
     function upNumQues(){
-        let numques = parseInt(document.getElementById('numques').value, 10); 
-        if(myApp.val.quesRangeArray.length >= numques){
+        // let numques = parseInt(document.getElementById('numques').value, 10); 
+        // if(myApp.val.quesRangeArray.length >= numques){
             document.getElementById('numques').value = numques+1;
-        }
+        // }
     }
     function downNumQues(){
         let numques = parseInt(document.getElementById('numques').value, 10); 
@@ -588,6 +588,7 @@ myElem.script.innerHTML = `
                     res.push(indent+indent+ 'myApp.val.cntPush = 0;');
                     res.push(indent+indent+ 'myApp.val.correctBool = false;');
                     res.push(indent+indent+ 'myApp.elem.text.innerHTML = "第"+myApp.val.numQues+"問";');
+                    res.push(indent+indent+ 'myApp.elem.ansCol.value = "";');
                     res.push(indent+indent+ 'if(Math.abs(window.orientation) != 90){ myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src; }');
                 }else{
                     res.push(indent+indent+ 'myApp.val.status = myApp.state.Question;');
