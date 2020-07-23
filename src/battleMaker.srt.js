@@ -1,7 +1,7 @@
 0
 00:00:00,000 --> 00:00:00,999
 doOnce[index] = true;
-// player.setSize(document.documentElement.clientWidth, 420);
+player.setSize(640, 360);
 //
 const myElem = {
     setPosition : document.createElement('text'),
