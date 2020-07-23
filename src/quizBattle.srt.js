@@ -1,6 +1,7 @@
 0
 00:00:00,000 --> 00:00:05,999
 /* CAUTION : Each sections of subtitle has independent scope. */
+/* Ver1.0 */
 doOnce[index] = true;
 player.pauseVideo();
 //
