@@ -62,6 +62,8 @@ const myApp = {
         initOrientation      : null,
         orientationAlertBool : false,
         //
+        processDelayAlertBool : false,
+        //
         composingBool        : false,
         //
         playerWidth   : 0,
@@ -102,7 +104,7 @@ const myApp = {
         cntO        : 0,     //正答数
         cntX        : 0,     //誤答数
         cntPush     : 0,     //1問あたりの解答回数
-        limPush     : 10,     //1問あたりの上限解答回数
+        limPush     : 1,     //1問あたりの上限解答回数
         correctBool : false, //答え合わせ結果(結果に応じて状態遷移)
         ansFile     : new XMLHttpRequest(), //正答ファイル.csv
         //
@@ -193,7 +195,7 @@ if(myApp.val.os != 'other'){
         function(){
             myApp.elem.text.style.margin  = '32px auto';
             myApp.elem.text.style.padding = '0px 10px';
-            document.getElementsByTagName("body")[0].appendChild(myApp.elem.text);  
+            document.getElementsByTagName("body")[0].appendChild(myApp.elem.text);
             document.getElementsByTagName("body")[0].appendChild(myApp.elem.ansCol);
             document.getElementsByTagName("body")[0].appendChild(myApp.elem.ansBtn);
             document.getElementsByTagName("body")[0].appendChild(myApp.elem.pushBtn);
@@ -524,6 +526,10 @@ function myIntervalEvent(){
     if(player.getPlayerState() == myApp.videoState.Playing){
         myApp.val.currTime.playing = player.getCurrentTime();
         myApp.val.watchedTime = updateWatchedTime(myApp.val.currTime.playing, myApp.val.watchedTime);
+        if(myApp.val.currTime.playing -  myApp.val.watchedTime > 2.0　&& myApp.val.processDelayAlertBool == false){
+            alert('処理が重い');
+            myApp.val.processDelayAlertBool = true;
+        }
         /* prevent to play video before button check */
         if(myApp.val.status == myApp.state.ButtonCheck){
             player.pauseVideo();
