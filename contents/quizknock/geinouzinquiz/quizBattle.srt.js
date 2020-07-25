@@ -390,17 +390,6 @@ function materialCheckFunction(){
 }
 //
 /* EVENT */
-/* page hidden check event function */
-function myPageHiddenCheckEvent(){
-    if(document.webkitHidden){
-        myApp.val.pageHiddenBool = true;
-        console.log('Hidden.');
-    }else{
-        myApp.val.pageHiddenBool = false;
-        myApp.val.playingCount = 0;
-        console.log('Opened.');
-    }
-}
 /* orientation change event function */
 function myOrientationChangeEvent(){
     setTimeout(function(){
@@ -535,14 +524,26 @@ function myPlayerStateChangeEvent(){
     }
 }
 //
-/* interval event function that are executed at a certain interval  */
+/* page hidden check event function */
+function myPageHiddenCheckEvent(){
+    if(document.webkitHidden){
+        myApp.val.pageHiddenBool = true;
+        console.log('Hidden.');
+    }else{
+        myApp.val.pageHiddenBool = false;
+        myApp.val.playingCount = 0;
+        console.log('Opened.');
+    }
+}
+//
+/* interval event function that are executed at a certain interval */
 function myIntervalEvent(){
     if(myApp.val.pageHiddenBool == false){
         if(player.getPlayerState() == myApp.videoState.Playing){
-            myApp.val.playingCount += interval;
             myApp.val.currTime.playing = player.getCurrentTime();
             myApp.val.watchedTime = updateWatchedTime(myApp.val.currTime.playing, myApp.val.watchedTime);
-            if(myApp.val.currTime.playing -  myApp.val.watchedTime > 1.0 && myApp.val.playingCount > interval*100){
+            if(myApp.val.playingCount < 10){ myApp.val.playingCount += 1; myApp.val.watchedTime = myApp.val.currTime; }
+            if(myApp.val.currTime.playing - myApp.val.watchedTime > 1.0 && myApp.val.playingCount >= 10){
                 alert('ページ内の処理が遅くなっています。早押しの判定に支障が出る可能性があるため、他のプロセスを終了してから改めてクイズをお楽しみください。');
             }
             /* prevent to play video before button check */
@@ -749,7 +750,7 @@ function instantFocusToElement(focusUsableElement){
 }
 //
 function updateWatchedTime(currentPlayingTime, watchedTime){
-    if(0.0 < currentPlayingTime - watchedTime && currentPlayingTime - watchedTime < 5.0){
+    if(0.0 < currentPlayingTime - watchedTime && currentPlayingTime - watchedTime < 1.0){
         watchedTime = currentPlayingTime;
     }
     return watchedTime;
