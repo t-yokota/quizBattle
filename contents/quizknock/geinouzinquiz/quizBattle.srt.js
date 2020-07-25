@@ -397,6 +397,7 @@ function myPageHiddenCheckEvent(){
         console.log('Hidden.');
     }else{
         myApp.val.pageHiddenBool = false;
+        myApp.val.playingCount = 0;
         console.log('Opened.');
     }
 }
