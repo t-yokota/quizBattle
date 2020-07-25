@@ -388,6 +388,13 @@ function materialCheckFunction(){
 }
 //
 /* EVENT */
+document.addEventListener('webkitvisibilitychange', function(){
+    if(document.webkitHidden){
+        console.log('Hiddnen');
+    }else{
+        console.log('not Hidden');
+    }
+}, false);
 /* orientation change event function */
 function myOrientationChangeEvent(){
     setTimeout(function(){
