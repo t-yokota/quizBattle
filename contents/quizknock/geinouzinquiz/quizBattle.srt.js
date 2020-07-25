@@ -528,13 +528,13 @@ function myPlayerStateChangeEvent(){
 function myPageHiddenCheckEvent(){
     if(document.webkitHidden){
         myApp.val.pageHiddenBool = true;
-        console.log('Hidden.');
+        // console.log('Hidden.');
     }else{
         myApp.val.pageHiddenBool = false;
         myApp.val.currTime.playing = player.getCurrentTime();
         myApp.val.watchedTime  = myApp.val.currTime.playing;
         myApp.val.playingCount = 0;
-        console.log('Opened.');
+        // console.log('Opened.');
     }
 }
 //
