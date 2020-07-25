@@ -542,8 +542,8 @@ function myIntervalEvent(){
         if(player.getPlayerState() == myApp.videoState.Playing){
             myApp.val.currTime.playing = player.getCurrentTime();
             myApp.val.watchedTime = updateWatchedTime(myApp.val.currTime.playing, myApp.val.watchedTime);
-            if(myApp.val.playingCount < 10){ myApp.val.playingCount += 1; myApp.val.watchedTime = myApp.val.currTime; }
-            if(myApp.val.currTime.playing - myApp.val.watchedTime > 1.0 && myApp.val.playingCount >= 10){
+            if(myApp.val.playingCount < 10){ myApp.val.playingCount += 1; myApp.val.watchedTime = myApp.val.currTime.playing; }
+            if(myApp.val.currTime.playing - myApp.val.watchedTime > 1.0){
                 alert('ページ内の処理が遅くなっています。早押しの判定に支障が出る可能性があるため、他のプロセスを終了してから改めてクイズをお楽しみください。');
             }
             /* prevent to play video before button check */
