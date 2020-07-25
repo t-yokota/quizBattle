@@ -749,7 +749,7 @@ function instantFocusToElement(focusUsableElement){
 }
 //
 function updateWatchedTime(currentPlayingTime, watchedTime){
-    if(0.0 < currentPlayingTime - watchedTime && currentPlayingTime - watchedTime < 1.0){
+    if(0.0 < currentPlayingTime - watchedTime && currentPlayingTime - watchedTime < 5.0){
         watchedTime = currentPlayingTime;
     }
     return watchedTime;
