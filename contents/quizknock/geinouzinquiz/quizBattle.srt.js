@@ -388,13 +388,13 @@ function materialCheckFunction(){
 }
 //
 /* EVENT */
-document.addEventListener('webkitvisibilitychange', function(){
-    if(document.webkitHidden){
-        console.log('Hiddnen');
-    }else{
-        console.log('not Hidden');
-    }
-}, false);
+// document.addEventListener('webkitvisibilitychange', function(){
+//     if(document.webkitHidden){
+//         console.log('Hiddnen');
+//     }else{
+//         console.log('not Hidden');
+//     }
+// }, false);
 /* orientation change event function */
 function myOrientationChangeEvent(){
     setTimeout(function(){
@@ -535,7 +535,7 @@ function myIntervalEvent(){
         myApp.val.playingCount += interval;
         myApp.val.currTime.playing = player.getCurrentTime();
         myApp.val.watchedTime = updateWatchedTime(myApp.val.currTime.playing, myApp.val.watchedTime);
-        if(myApp.val.currTime.playing -  myApp.val.watchedTime > 1.0 && myApp.val.playingCount > interval*2){
+        if(myApp.val.currTime.playing -  myApp.val.watchedTime > 1.0 && myApp.val.playingCount > interval*10){
             alert('ページ内の処理が遅くなっています。早押しの判定に支障が出る可能性があるため、他のプロセスを終了してから改めてクイズをお楽しみください。');
         }
         /* prevent to play video before button check */
