@@ -62,6 +62,7 @@ const myApp = {
         initOrientation      : null,
         orientationAlertBool : false,
         //
+        playingCount : 0,
         processDelayAlertBool : false,
         //
         composingBool        : false,
@@ -524,10 +525,11 @@ function myPlayerStateChangeEvent(){
 /* interval event function that are executed at a certain interval  */
 function myIntervalEvent(){
     if(player.getPlayerState() == myApp.videoState.Playing){
+        myApp.val.playingCount += interval;
         myApp.val.currTime.playing = player.getCurrentTime();
         myApp.val.watchedTime = updateWatchedTime(myApp.val.currTime.playing, myApp.val.watchedTime);
-        if(myApp.val.currTime.playing -  myApp.val.watchedTime > 1.0){
-            alert('処理が重い');
+        if(myApp.val.currTime.playing -  myApp.val.watchedTime > 1.0 && myApp.val.playingCount > interval*2){
+            alert('ページ内の処理が遅くなっています。早押しの判定に支障が出る可能性があるため、他のプロセスを終了してから改めてクイズをお楽しみください。');
         }
         /* prevent to play video before button check */
         if(myApp.val.status == myApp.state.ButtonCheck){
@@ -540,6 +542,8 @@ function myIntervalEvent(){
                 myApp.val.cntIndex += 1;
             }
         }
+    }else if(player.getPlayerState() == myApp.videoState.Stopped){
+        myApp.val.playingCount = 0;
     }
     if(myApp.val.status == myApp.state.ButtonCheck){
         if(myApp.val.cntIndex > 0 && myApp.val.loadAlertBool == false){
