@@ -62,6 +62,8 @@ const myApp = {
         initOrientation      : null,
         orientationAlertBool : false,
         //
+        processDelayAlertBool : false,
+        //
         composingBool        : false,
         //
         playerWidth   : 0,
@@ -97,7 +99,7 @@ const myApp = {
         },
         //
         /* for question manegament */
-        numQues     : 0,     //問題番号
+        numQues     : 1,     //問題番号
         ansArray    : [],    //正答リスト
         cntO        : 0,     //正答数
         cntX        : 0,     //誤答数
@@ -248,12 +250,14 @@ if(myApp.val.os != 'other'){
             myApp.elem.text.style.margin  = '0px auto';
             myApp.elem.text.style.padding = '0px 40px';
             document.getElementsByTagName("div")[4].appendChild(myApp.elem.text);
+            document.getElementsByTagName("div")[4].appendChild(myApp.elem.paramText);
         },
         function(){
             myApp.elem.text.style.margin  = '0px auto 30px';
             myApp.elem.subText.style.margin  = '0px auto 50px';
             myApp.elem.subText.style.padding = '0px 40px';
             document.getElementsByTagName("div")[4].appendChild(myApp.elem.subText);
+            document.getElementsByTagName("div")[4].appendChild(myApp.elem.paramText);
             document.getElementsByTagName("div")[5].appendChild(myApp.elem.pushBtn);
         },
         function(){
@@ -522,13 +526,17 @@ function myIntervalEvent(){
     if(player.getPlayerState() == myApp.videoState.Playing){
         myApp.val.currTime.playing = player.getCurrentTime();
         myApp.val.watchedTime = updateWatchedTime(myApp.val.currTime.playing, myApp.val.watchedTime);
+        if(myApp.val.currTime.playing -  myApp.val.watchedTime > 2.0　&& myApp.val.processDelayAlertBool == false){
+            alert('処理が重い');
+            myApp.val.processDelayAlertBool = true;
+        }
         /* prevent to play video before button check */
         if(myApp.val.status == myApp.state.ButtonCheck){
             player.pauseVideo();
         }
         /* execute srt function in each sections of subtitle */
         if(myApp.val.status != myApp.state.MyAnswer){
-            if(index > myApp.val.cntIndex){
+            if(index - myApp.val.cntIndex == 1){
                 myApp.val.srtFuncArray.shift()();
                 myApp.val.cntIndex += 1;
             }
@@ -837,7 +845,7 @@ function printParams(){
     // myApp.elem.subText.innerHTML = myApp.elem.numOX.getBoundingClientRect().top - myApp.elem.ansBtn.getBoundingClientRect().bottom;
     // myApp.elem.subText.innerHTML = 'loadErrorBool: ' + myApp.val.loadErrorBool + ', initLoadBool: ' + myApp.val.initLoadBool + ', loadCount: ' + myApp.val.loadCount;
     // myApp.elem.subText.innerHTML = 'playerWidth: '  + myApp.val.playerWidth  + ', innerWidth: '      + window.innerWidth;
-    // myApp.elem.paramText.innerHTML = 
+    // myApp.elem.paramText.innerHTML = "<br>"+ 
     //     "device: "           + myApp.val.os+"<br>"+
     //     "activeElem: "       + document.activeElement.id+"<br>"+   
     //     "status: "           + myApp.val.status+"<br>"+
@@ -854,27 +862,7 @@ function printParams(){
     //                            myApp.val.ansArray[myApp.val.numQues-1][3].valueOf()+", "+
     //                            myApp.val.ansArray[myApp.val.numQues-1][4].valueOf()+", "+
     //                            myApp.val.ansArray[myApp.val.numQues-1][5].valueOf()+"<br>"+
-    //     "checkAns1: "        + (myApp.val.ansArray[myApp.val.numQues-1][0].valueOf() === 'てすと１')+", "+
-    //                            (myApp.val.ansArray[myApp.val.numQues-1][1].valueOf() === 'テスト１')+", "+
-    //                            (myApp.val.ansArray[myApp.val.numQues-1][2].valueOf() === 'てすと1')+", "+
-    //                            (myApp.val.ansArray[myApp.val.numQues-1][3].valueOf() === 'テスト1')+", "+
-    //                            (myApp.val.ansArray[myApp.val.numQues-1][4].valueOf() === 'test1')+", "+
-    //                            (myApp.val.ansArray[myApp.val.numQues-1][4].valueOf() === 'Test1')+", "+
-    //                            (myApp.val.ansArray[myApp.val.numQues-1][5].valueOf() === 'TEST1')+"<br>"+
-    //     "checkAns2: "        + (myApp.val.ansArray[myApp.val.numQues-1][0].valueOf() === 'てすと２')+", "+
-    //                            (myApp.val.ansArray[myApp.val.numQues-1][1].valueOf() === 'テスト２')+", "+
-    //                            (myApp.val.ansArray[myApp.val.numQues-1][2].valueOf() === 'てすと2')+", "+
-    //                            (myApp.val.ansArray[myApp.val.numQues-1][3].valueOf() === 'テスト2')+", "+
-    //                            (myApp.val.ansArray[myApp.val.numQues-1][4].valueOf() === 'test2')+", "+
-    //                            (myApp.val.ansArray[myApp.val.numQues-1][4].valueOf() === 'Test2')+", "+
-    //                            (myApp.val.ansArray[myApp.val.numQues-1][5].valueOf() === 'TEST2')+"<br>"+
-    //     "checkAns3: "        + (myApp.val.ansArray[myApp.val.numQues-1][0].valueOf() === 'てすと３')+", "+
-    //                            (myApp.val.ansArray[myApp.val.numQues-1][1].valueOf() === 'テスト３')+", "+
-    //                            (myApp.val.ansArray[myApp.val.numQues-1][2].valueOf() === 'てすと3')+", "+
-    //                            (myApp.val.ansArray[myApp.val.numQues-1][3].valueOf() === 'テスト3')+", "+
-    //                            (myApp.val.ansArray[myApp.val.numQues-1][4].valueOf() === 'test3')+", "+
-    //                            (myApp.val.ansArray[myApp.val.numQues-1][4].valueOf() === 'Test3')+", "+
-    //                            (myApp.val.ansArray[myApp.val.numQues-1][5].valueOf() === 'TEST3')+"<br>"+
+    //     "numAnswer: "        + myApp.val.ansArray.length+"<br>"+
     //     "answerLength: "     + myApp.val.ansArray[myApp.val.numQues-1].length+"<br>"+
     //     "correctBool: "      + myApp.val.correctBool+"<br>"+
     //     "composing: "        + myApp.val.composingBool+"<br>"+
@@ -886,43 +874,41 @@ function printParams(){
 //---------------------------------------------------------------------------------------------------------------
 /* set functions executed in each subtitle */
 myApp.val.srtFuncArray = [
-    // function(){
-    //     /* ボタンチェック後〜第１問 */
-    //     myApp.val.status = myApp.state.Talk;
-    // },
     function(){
         myApp.val.viewFuncArray.shift()();
-        //
-        /* 第１問 */
+        /* 第1問 */
         myApp.val.status = myApp.state.Question;
         myApp.val.numQues = 1;
         myApp.val.cntPush = 0;
         myApp.val.correctBool = false;
         myApp.elem.text.innerHTML = "第"+myApp.val.numQues+"問";
+        myApp.elem.ansCol.value = "";
         if(Math.abs(window.orientation) != 90){ myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src; }
     },
     function(){
         myApp.val.status = myApp.state.Talk;
     },
     function(){
-        /* 第２問 */
+        /* 第2問 */
         myApp.val.status = myApp.state.Question;
         myApp.val.numQues = 2;
         myApp.val.cntPush = 0;
         myApp.val.correctBool = false;
         myApp.elem.text.innerHTML = "第"+myApp.val.numQues+"問";
+        myApp.elem.ansCol.value = "";
         if(Math.abs(window.orientation) != 90){ myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src; }
     },
     function(){
         myApp.val.status = myApp.state.Talk;
     },
     function(){
-        /* 第３問 */
+        /* 第3問 */
         myApp.val.status = myApp.state.Question;
         myApp.val.numQues = 3;
         myApp.val.cntPush = 0;
         myApp.val.correctBool = false;
         myApp.elem.text.innerHTML = "第"+myApp.val.numQues+"問";
+        myApp.elem.ansCol.value = "";
         if(Math.abs(window.orientation) != 90){ myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src; }
     },
     function(){
