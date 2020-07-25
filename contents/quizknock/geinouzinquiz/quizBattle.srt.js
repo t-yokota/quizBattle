@@ -526,9 +526,8 @@ function myIntervalEvent(){
     if(player.getPlayerState() == myApp.videoState.Playing){
         myApp.val.currTime.playing = player.getCurrentTime();
         myApp.val.watchedTime = updateWatchedTime(myApp.val.currTime.playing, myApp.val.watchedTime);
-        if(myApp.val.currTime.playing -  myApp.val.watchedTime > 2.0　&& myApp.val.processDelayAlertBool == false){
+        if(myApp.val.currTime.playing -  myApp.val.watchedTime > 1.0){
             alert('処理が重い');
-            myApp.val.processDelayAlertBool = true;
         }
         /* prevent to play video before button check */
         if(myApp.val.status == myApp.state.ButtonCheck){
