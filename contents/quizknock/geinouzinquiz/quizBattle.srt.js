@@ -540,7 +540,7 @@ function myIntervalEvent(){
         myApp.val.playingCount += interval;
         myApp.val.currTime.playing = player.getCurrentTime();
         myApp.val.watchedTime = updateWatchedTime(myApp.val.currTime.playing, myApp.val.watchedTime);
-        if(myApp.val.currTime.playing -  myApp.val.watchedTime > 1.0 && myApp.val.playingCount > interval*10){
+        if(myApp.val.currTime.playing -  myApp.val.watchedTime > 1.0 && myApp.val.playingCount > interval*100){
             if(myApp.val.pageHiddenBool == false){
                 alert('ページ内の処理が遅くなっています。早押しの判定に支障が出る可能性があるため、他のプロセスを終了してから改めてクイズをお楽しみください。');
             }
