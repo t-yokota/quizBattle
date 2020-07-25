@@ -63,6 +63,7 @@ const myApp = {
         orientationAlertBool : false,
         //
         playingCount : 0,
+        pageHiddenBool : false,
         processDelayAlertBool : false,
         //
         composingBool        : false,
@@ -158,6 +159,7 @@ myApp.val.status = myApp.state.ButtonCheck;
 //
 /* set event functions */
 window.addEventListener('orientationchange', myOrientationChangeEvent);
+document.addEventListener('webkitvisibilitychange', myPageHiddenCheckEvent, false);
 document.addEventListener("compositionstart", function(){ myApp.val.composingBool = true; });
 document.addEventListener('compositionend',   function(){ myApp.val.composingBool = false; });
 document.onkeydown = myKeyDownEvent;
@@ -388,13 +390,16 @@ function materialCheckFunction(){
 }
 //
 /* EVENT */
-// document.addEventListener('webkitvisibilitychange', function(){
-//     if(document.webkitHidden){
-//         console.log('Hiddnen');
-//     }else{
-//         console.log('not Hidden');
-//     }
-// }, false);
+/* page hidden check event function */
+function myPageHiddenCheckEvent(){
+    if(document.webkitHidden){
+        myApp.val.pageHiddenBool = true;
+        console.log('Hidden.');
+    }else{
+        myApp.val.pageHiddenBool = false;
+        console.log('Opened.');
+    }
+}
 /* orientation change event function */
 function myOrientationChangeEvent(){
     setTimeout(function(){
@@ -536,7 +541,9 @@ function myIntervalEvent(){
         myApp.val.currTime.playing = player.getCurrentTime();
         myApp.val.watchedTime = updateWatchedTime(myApp.val.currTime.playing, myApp.val.watchedTime);
         if(myApp.val.currTime.playing -  myApp.val.watchedTime > 1.0 && myApp.val.playingCount > interval*10){
-            alert('ページ内の処理が遅くなっています。早押しの判定に支障が出る可能性があるため、他のプロセスを終了してから改めてクイズをお楽しみください。');
+            if(myApp.val.pageHiddenBool == false){
+                alert('ページ内の処理が遅くなっています。早押しの判定に支障が出る可能性があるため、他のプロセスを終了してから改めてクイズをお楽しみください。');
+            }
         }
         /* prevent to play video before button check */
         if(myApp.val.status == myApp.state.ButtonCheck){
