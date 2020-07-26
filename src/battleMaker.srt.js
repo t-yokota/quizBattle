@@ -397,7 +397,7 @@ myElem.script.innerHTML = `
                         console.log('range of qustion is overlaped with privious question.')
                     }
                 }catch(e){
-                    console.log(e)
+                    console.log(e) // an error occurs when 'myApp.val.quesRangeArray[(numques-1)-1][3]' is undefined.
                 }
             }else if(document.getElementById('radio').status.value === 'OthAnswer'){
                 let overlapBool = false;
