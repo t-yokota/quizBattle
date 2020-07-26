@@ -62,6 +62,8 @@ const myApp = {
         initOrientation      : null,
         orientationAlertBool : false,
         //
+        playingCount : 0,
+        pageHiddenBool : false,
         processDelayAlertBool : false,
         //
         composingBool        : false,
@@ -162,6 +164,7 @@ document.addEventListener('compositionend',   function(){ myApp.val.composingBoo
 document.onkeydown = myKeyDownEvent;
 document.addEventListener("touchstart", myTouchEvent);
 player.addEventListener('onStateChange', myPlayerStateChangeEvent);
+document.addEventListener('webkitvisibilitychange', myPageHiddenCheckEvent, false);
 setInterval(myIntervalEvent, interval = 10);
 myApp.elem.ansBtn.onclick = myOnClickEvent;
 //
@@ -521,67 +524,89 @@ function myPlayerStateChangeEvent(){
     }
 }
 //
-/* interval event function that are executed at a certain interval  */
-function myIntervalEvent(){
-    if(player.getPlayerState() == myApp.videoState.Playing){
-        myApp.val.currTime.playing = player.getCurrentTime();
-        myApp.val.watchedTime = updateWatchedTime(myApp.val.currTime.playing, myApp.val.watchedTime);
-        if(myApp.val.currTime.playing -  myApp.val.watchedTime > 2.0　&& myApp.val.processDelayAlertBool == false){
-            alert('処理が重い');
-            myApp.val.processDelayAlertBool = true;
-        }
-        /* prevent to play video before button check */
-        if(myApp.val.status == myApp.state.ButtonCheck){
-            player.pauseVideo();
-        }
-        /* execute srt function in each sections of subtitle */
-        if(myApp.val.status != myApp.state.MyAnswer){
-            if(index - myApp.val.cntIndex == 1){
-                myApp.val.srtFuncArray.shift()();
-                myApp.val.cntIndex += 1;
-            }
-        }
-    }
-    if(myApp.val.status == myApp.state.ButtonCheck){
-        if(myApp.val.cntIndex > 0 && myApp.val.loadAlertBool == false){
-            player.pauseVideo();
-            alert('ページの読み込みに失敗しました。ページを再読み込みしてください。');
-            myApp.val.loadErrorBool = true;
-            myApp.val.loadAlertBool = true;
-        }
-    }
-    if(myApp.val.status == myApp.state.MyAnswer){
-        /* reforcus when anscol is blank */
-        // if(document.activeElement.id != "anscol" && myApp.elem.ansCol.value.valueOf() === ""){
-        //     myApp.elem.ansCol.focus();
-        // }
-        /* answer time managemant */
-        if(document.activeElement.id == "anscol" || myApp.val.ansTime.elapsed != 0){
-            myApp.val.ansTime.elapsed += interval;
-            myApp.elem.text.innerHTML = "のこり"+Math.floor((myApp.val.ansTime.limit-myApp.val.ansTime.elapsed)/1000+1)+"秒";
-            if(myApp.val.ansTime.elapsed >= myApp.val.ansTime.limit){
-                checkAnswer();
-                if(myApp.val.correctBool == true || myApp.val.limPush - myApp.val.cntPush == 0){
-                    myApp.val.status = myApp.state.Talk;
-                }else{
-                    myApp.val.status = myApp.state.Question;
-                }
-                player.playVideo();
-            }
-        }
+/* page hidden check event function */
+function myPageHiddenCheckEvent(){
+    if(document.webkitHidden){
+        myApp.val.pageHiddenBool = true;
+        // console.log('Hidden.');
     }else{
-        if(myApp.val.os == 'other' && document.activeElement.id == "player"){
-            /* preparation of js keydown event */
-            instantFocusToElement(myApp.elem.pushBtn);
-        }
-        myApp.val.ansTime.elapsed = 0;
+        myApp.val.pageHiddenBool = false;
+        myApp.val.currTime.playing = player.getCurrentTime();
+        myApp.val.watchedTime  = myApp.val.currTime.playing;
+        myApp.val.playingCount = 0;
+        // console.log('Opened.');
     }
-    /* check results of importing material */
-    materialCheckFunction();
-    /* update push button area (mainly for when the window is zoomed in iOS)*/
-    updatePushButtonArea();
-    /* print parameters for debug */
-    printParams();
+}
+//
+/* interval event function that are executed at a certain interval */
+function myIntervalEvent(){
+    if(myApp.val.pageHiddenBool == false){
+        if(player.getPlayerState() == myApp.videoState.Playing){
+            myApp.val.currTime.playing = player.getCurrentTime();
+            myApp.val.watchedTime = updateWatchedTime(myApp.val.currTime.playing, myApp.val.watchedTime);
+            if(myApp.val.playingCount < 10){ myApp.val.playingCount += 1; }
+            if(myApp.val.currTime.playing -  myApp.val.watchedTime > 1.0 && myApp.val.playingCount >= 10){
+                if(myApp.val.processDelayAlertBool == false){
+                    alert('ページ内の処理が遅くなっています。早押しの判定に支障が出る可能性があるため、他のプロセスを終了してから改めてクイズをお楽しみください。このポップアップは一度のみ表示されます。');
+                    myApp.val.processDelayAlertBool = true;
+                }
+                myApp.val.watchedTime  = myApp.val.currTime.playing;
+            }
+            /* prevent to play video before button check */
+            if(myApp.val.status == myApp.state.ButtonCheck){
+                player.pauseVideo();
+            }
+            /* execute srt function in each sections of subtitle */
+            if(myApp.val.status != myApp.state.MyAnswer){
+                if(index - myApp.val.cntIndex == 1){
+                    myApp.val.srtFuncArray.shift()();
+                    myApp.val.cntIndex += 1;
+                }
+            }
+        }else if(player.getPlayerState() == myApp.videoState.Stopped){
+            myApp.val.playingCount = 0;
+        }
+        if(myApp.val.status == myApp.state.ButtonCheck){
+            if(myApp.val.cntIndex > 0 && myApp.val.loadAlertBool == false){
+                player.pauseVideo();
+                alert('ページの読み込みに失敗しました。ページを再読み込みしてください。');
+                myApp.val.loadErrorBool = true;
+                myApp.val.loadAlertBool = true;
+            }
+        }
+        if(myApp.val.status == myApp.state.MyAnswer){
+            /* reforcus when anscol is blank */
+            // if(document.activeElement.id != "anscol" && myApp.elem.ansCol.value.valueOf() === ""){
+            //     myApp.elem.ansCol.focus();
+            // }
+            /* answer time managemant */
+            if(document.activeElement.id == "anscol" || myApp.val.ansTime.elapsed != 0){
+                myApp.val.ansTime.elapsed += interval;
+                myApp.elem.text.innerHTML = "のこり"+Math.floor((myApp.val.ansTime.limit-myApp.val.ansTime.elapsed)/1000+1)+"秒";
+                if(myApp.val.ansTime.elapsed >= myApp.val.ansTime.limit){
+                    checkAnswer();
+                    if(myApp.val.correctBool == true || myApp.val.limPush - myApp.val.cntPush == 0){
+                        myApp.val.status = myApp.state.Talk;
+                    }else{
+                        myApp.val.status = myApp.state.Question;
+                    }
+                    player.playVideo();
+                }
+            }
+        }else{
+            if(myApp.val.os == 'other' && document.activeElement.id == "player"){
+                /* preparation of js keydown event */
+                instantFocusToElement(myApp.elem.pushBtn);
+            }
+            myApp.val.ansTime.elapsed = 0;
+        }
+        /* check results of importing material */
+        materialCheckFunction();
+        /* update push button area (mainly for when the window is zoomed in iOS)*/
+        updatePushButtonArea();
+        /* print parameters for debug */
+        printParams();
+    }
 }
 //
 /* onclick event function of send answer button */
