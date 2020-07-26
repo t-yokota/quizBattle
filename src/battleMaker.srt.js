@@ -374,26 +374,30 @@ myElem.script.innerHTML = `
             // tmpRow.push(numques);
             // tmpRow.push(document.getElementById('radio').status.value);
             if(document.getElementById('radio').status.value === 'Question'){
-                if(numques == 1 || myApp.val.startTime > myApp.val.quesRangeArray[(numques-1)-1][3]){
-                    for(let i = 0; i < myApp.val.quesRangeArray.length; i++){
-                        if(myApp.val.quesRangeArray[i][0] == document.getElementById('numques').value){
-                            myApp.val.quesRangeArray.splice(i, 1);
+                try{
+                    if(numques == 1 || myApp.val.startTime > myApp.val.quesRangeArray[(numques-1)-1][3]){
+                        for(let i = 0; i < myApp.val.quesRangeArray.length; i++){
+                            if(myApp.val.quesRangeArray[i][0] == document.getElementById('numques').value){
+                                myApp.val.quesRangeArray.splice(i, 1);
+                            }
                         }
+                        tmpRow.push(numques);
+                        tmpRow.push(document.getElementById('radio').status.value);
+                        tmpRow.push(myApp.val.startTime);
+                        tmpRow.push(myApp.val.endTime);
+                        myApp.val.quesRangeArray.push(tmpRow);
+                        myApp.val.quesRangeArray.sort(funcCompare);
+                        //
+                        // upNumQues();
+                        console.log(myApp.val.quesRangeArray);
+                        for(let i = 0; i < myApp.val.quesRangeArray.length; i++){
+                            console.log(myApp.val.quesRangeArray[i]);
+                        }
+                    }else{
+                        console.log('range of qustion is overlaped with privious question.')
                     }
-                    tmpRow.push(numques);
-                    tmpRow.push(document.getElementById('radio').status.value);
-                    tmpRow.push(myApp.val.startTime);
-                    tmpRow.push(myApp.val.endTime);
-                    myApp.val.quesRangeArray.push(tmpRow);
-                    myApp.val.quesRangeArray.sort(funcCompare);
-                    //
-                    // upNumQues();
-                    console.log(myApp.val.quesRangeArray);
-                    for(let i = 0; i < myApp.val.quesRangeArray.length; i++){
-                        console.log(myApp.val.quesRangeArray[i]);
-                    }
-                }else{
-                    console.log('range of qustion is overlaped with privious question.')
+                }catch(e){
+                    console.log(e)
                 }
             }else if(document.getElementById('radio').status.value === 'OthAnswer'){
                 let overlapBool = false;
