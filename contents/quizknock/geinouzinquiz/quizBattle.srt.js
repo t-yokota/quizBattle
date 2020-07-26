@@ -550,6 +550,7 @@ function myIntervalEvent(){
                     alert('ページ内の処理が遅くなっています。早押しの判定に支障が出る可能性があるため、他のプロセスを終了してから改めてクイズをお楽しみください。このポップアップは一度のみ表示されます。');
                     myApp.val.processDelayAlertBool = true;
                 }
+                myApp.val.watchedTime  = myApp.val.currTime.playing;
             }
             /* prevent to play video before button check */
             if(myApp.val.status == myApp.state.ButtonCheck){
