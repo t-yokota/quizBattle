@@ -286,7 +286,7 @@ myElem.script.innerHTML = `
         }
     }
     function upNumQues(){
-        // let numques = parseInt(document.getElementById('numques').value, 10); 
+        let numques = parseInt(document.getElementById('numques').value, 10); 
         // if(myApp.val.quesRangeArray.length >= numques){
             document.getElementById('numques').value = numques+1;
         // }
