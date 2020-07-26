@@ -545,8 +545,11 @@ function myIntervalEvent(){
             myApp.val.currTime.playing = player.getCurrentTime();
             myApp.val.watchedTime = updateWatchedTime(myApp.val.currTime.playing, myApp.val.watchedTime);
             if(myApp.val.playingCount < 10){ myApp.val.playingCount += 1; }
-            if(myApp.val.currTime.playing -  myApp.val.watchedTime > 0.5 && myApp.val.playingCount >= 10){
-                alert('ページ内の処理が遅くなっています。早押しの判定に支障が出る可能性があるため、他のプロセスを終了してから改めてクイズをお楽しみください。');
+            if(myApp.val.currTime.playing -  myApp.val.watchedTime > 0.1 && myApp.val.playingCount >= 10){
+                if(myApp.processDelayAlertBool == false){
+                    alert('ページ内の処理が遅くなっています。早押しの判定に支障が出る可能性があるため、他のプロセスを終了してから改めてクイズをお楽しみください。このポップアップは一度のみ表示されます。');
+                    myApp.val.processDelayAlertBool = true;
+                }
             }
             /* prevent to play video before button check */
             if(myApp.val.status == myApp.state.ButtonCheck){
@@ -752,7 +755,7 @@ function instantFocusToElement(focusUsableElement){
 }
 //
 function updateWatchedTime(currentPlayingTime, watchedTime){
-    if(0.0 < currentPlayingTime - watchedTime && currentPlayingTime - watchedTime < 0.5){
+    if(0.0 < currentPlayingTime - watchedTime && currentPlayingTime - watchedTime < 0.1){
         watchedTime = currentPlayingTime;
     }
     return watchedTime;
