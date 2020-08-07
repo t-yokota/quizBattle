@@ -938,7 +938,7 @@ myApp.val.srtFuncArray = [
     },
     function(){
         myApp.val.status = myApp.state.Talk;
-    }
+    },
 ];
 
 1
