@@ -81,8 +81,6 @@ myElem.setAnswer.innerHTML = `
     <p class='top'>
     <b><label for='answer'>Set Answer :&nbsp;&nbsp;</label></b>
     <input type='button' value='add' onclick='addAnsCol()'>
-    &nbsp;(&nbsp;<input type='radio' value='jumptoans' id='jumpbool'>
-    <label for='jumpbool'>&nbsp;)</label>
     </p>
     <p class='middle'>
     00:&nbsp;<input type='text' id='answer0'>
@@ -564,14 +562,16 @@ myElem.script.innerHTML = `
                 if(array[i][3] < array[i+1][2]){
                     let start = array[i][3];
                     let end   = array[i+1][2];
-                    res.push([0, 'Talk', start, end]);
+                    // res.push([0, 'Talk', start, end]);
+                    res.push([array[i][0], 'Talk', start, end]);
                 }
             }
         }
         if(videoEnd > array[array.length-1][3]){
             start = array[array.length-1][3];
             end   = videoEnd;
-            res.push([0, 'Talk', start, end]);
+            // res.push([0, 'Talk', start, end]);
+            res.push([array[array.length-1][0], 'Talk', start, end]);
         }
         return res;
     }
@@ -579,6 +579,7 @@ myElem.script.innerHTML = `
         let res = [];
         let quesCount = 0;
         let indent = '&nbsp;&nbsp;&nbsp;&nbsp;';
+        res.push('myApp.val.jumpToAnsBool = false;');
         res.push('myApp.val.srtFuncArray = [');
         for(let i = 0; i < array.length; i++){
             res.push(indent+ 'function(){');
@@ -589,6 +590,9 @@ myElem.script.innerHTML = `
                         res.push(indent+indent+ 'myApp.val.viewFuncArray.shift()();');
                     }
                     res.push(indent+indent+ '/* 第'+quesCount+'問 */');
+                    // res.push(indent+indent+ 'myApp.val.ansIndex = 
+                    // res.push(indent+indent+ 'myApp.val.ansTime = 
+                    res.push(indent+indent+ '//');
                     res.push(indent+indent+ 'myApp.val.status = myApp.state.Question;');
                     res.push(indent+indent+ 'myApp.val.numQues = '+quesCount+';');
                     res.push(indent+indent+ 'myApp.val.cntPush = 0;');
