@@ -81,6 +81,8 @@ myElem.setAnswer.innerHTML = `
     <p class='top'>
     <b><label for='answer'>Set Answer :&nbsp;&nbsp;</label></b>
     <input type='button' value='add' onclick='addAnsCol()'>
+    &nbsp;(&nbsp;<input type='radio' value='jumptoans' id='jumpbool'>
+    <label for='jumpbool'>&nbsp;)</label>
     </p>
     <p class='middle'>
     00:&nbsp;<input type='text' id='answer0'>
