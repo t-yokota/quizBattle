@@ -836,12 +836,12 @@ function checkAnswer(){
         }
     }
     if(myApp.val.correctBool == true){
-        if(myApp.val.jumpToAnsBool){ jumpToAnswer(myApp.val.ansIndex, myApp.val.ansTime); }
+        // if(myApp.val.jumpToAnsBool){ jumpToAnswer(myApp.val.ansIndex, myApp.val.ansTime); }
         playSndO();
         myApp.val.cntO += 1;
         myApp.elem.text.innerHTML = "正解！";
     }else{
-        if(myApp.val.jumpToAnsBool){ jumpToAnswer(myApp.val.ansIndex, myApp.val.ansTime); }
+        // if(myApp.val.jumpToAnsBool){ jumpToAnswer(myApp.val.ansIndex, myApp.val.ansTime); }
         playSndX();
         myApp.val.cntX += 1;
         myApp.elem.text.innerHTML = "不正解！"; //あと"+(myApp.val.limPush-myApp.val.cntPush)+"回解答できます。";
