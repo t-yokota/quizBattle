@@ -580,7 +580,9 @@ myElem.script.innerHTML = `
     }
     function setSrtFuncArray(array){
         let res = [];
+        let quesArray = [];
         let quesCount = 0;
+        //
         let indent = '&nbsp;&nbsp;&nbsp;&nbsp;';
         res.push('myApp.val.jumpToAnsBool = false;');
         res.push('myApp.val.srtFuncArray = [');
@@ -589,12 +591,15 @@ myElem.script.innerHTML = `
             if(array[i][1] === 'Question'){
                 if(quesCount < array[i][0]){
                     quesCount = array[i][0];
+                    quesArray = array.filter(function(value){
+                        return value[0] == quesCount;
+                    });
                     if(quesCount == 1){
                         res.push(indent+indent+ 'myApp.val.viewFuncArray.shift()();');
                     }
                     res.push(indent+indent+ '/* 第'+quesCount+'問 */');
-                    // res.push(indent+indent+ 'myApp.val.ansIndex = 
-                    // res.push(indent+indent+ 'myApp.val.ansTime = 
+                    res.push(indent+indent+ 'myApp.val.ansIndex = '+quesArray.slice(-1)[0][4]+';');
+                    res.push(indent+indent+ 'myApp.val.ansTime = '+quesArray.slice(-1)[0][2]+';');
                     res.push(indent+indent+ '//');
                     res.push(indent+indent+ 'myApp.val.status = myApp.state.Question;');
                     res.push(indent+indent+ 'myApp.val.numQues = '+quesCount+';');
