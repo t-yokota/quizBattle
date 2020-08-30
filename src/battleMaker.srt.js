@@ -599,7 +599,7 @@ myElem.script.innerHTML = `
                     }
                     res.push(indent+indent+ '/* 第'+quesCount+'問 */');
                     res.push(indent+indent+ 'myApp.val.ansIndex = '+quesArray.slice(-1)[0][4]+';');
-                    res.push(indent+indent+ 'myApp.val.ansTime = '+quesArray.slice(-1)[0][2]+';');
+                    res.push(indent+indent+ 'myApp.val.ansIndexTime = '+quesArray.slice(-1)[0][2]+';');
                     res.push(indent+indent+ '//');
                     res.push(indent+indent+ 'myApp.val.status = myApp.state.Question;');
                     res.push(indent+indent+ 'myApp.val.numQues = '+quesCount+';');
