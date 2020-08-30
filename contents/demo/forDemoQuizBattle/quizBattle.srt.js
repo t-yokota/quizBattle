@@ -861,8 +861,8 @@ function checkAnswer(){
 }
 function jumpToAnswer(ansindex, ansindextime){
     myApp.val.cntIndex = ansindex-1;
-    myApp.val.watchedTime = ansindextime-0.5;
-    player.seekTo(ansindextime-0.5);
+    myApp.val.watchedTime = ansindextime-0.1;
+    player.seekTo(ansindextime-0.1);
 }
 //
 function printParams(){
