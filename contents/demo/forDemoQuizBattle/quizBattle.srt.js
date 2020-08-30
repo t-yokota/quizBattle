@@ -861,7 +861,7 @@ function checkAnswer(){
 }
 function jumpToAnswer(ansindex, anstime){
     myApp.val.cntIndex = ansindex-1;
-    palyer.seekTo(anstime-0.5);
+    player.seekTo(anstime-0.5);
 }
 //
 function printParams(){
