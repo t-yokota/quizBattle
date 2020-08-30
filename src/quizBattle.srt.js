@@ -125,6 +125,10 @@ const myApp = {
         },
         watchedTime : 0, //
         diffTime    : 0, //difference between watchedTime and currentTime (for preventing to jump playback position by seekbar)
+        //
+        ansIndex: 0,
+        ansTime : 0,
+        jumpToAnsBool: false,
     },
 };
 //
@@ -454,10 +458,10 @@ function myButtonAction(){
             if(myApp.val.os != 'other'){
                 myApp.val.viewFuncArray.shift()();
                 myApp.elem.text.innerHTML = "＜ 遊び方 ＞";
-                myApp.elem.subText.innerHTML = "　問い読み中に早押しボタンをタップすると、<br>　動画内のクイズに答えることができます。";
+                myApp.elem.subText.innerHTML = "　早押しボタンをタップすることで、<br>　動画内のクイズに答えることができます。";
             }else{
                 myApp.elem.text.innerHTML = "＜ 遊び方 ＞"
-                myApp.elem.subText.innerHTML = "問い読み中に早押しボタン(スペースキー)を押すと、動画内のクイズに答えることができます。";
+                myApp.elem.subText.innerHTML = "早押しボタン(スペースキー)を押すことで、動画内のクイズに答えることができます。";
             }
         }, myApp.val.btnCheck.playInterval);
     }
@@ -832,10 +836,12 @@ function checkAnswer(){
         }
     }
     if(myApp.val.correctBool == true){
+        if(myApp.val.jumpToAnsBool){ jumpToAnswer(myApp.val.ansIndex, myApp.val.ansTime); }
         playSndO();
         myApp.val.cntO += 1;
         myApp.elem.text.innerHTML = "正解！";
     }else{
+        if(myApp.val.jumpToAnsBool){ jumpToAnswer(myApp.val.ansIndex, myApp.val.ansTime); }
         playSndX();
         myApp.val.cntX += 1;
         myApp.elem.text.innerHTML = "不正解！"; //あと"+(myApp.val.limPush-myApp.val.cntPush)+"回解答できます。";
@@ -852,6 +858,10 @@ function checkAnswer(){
     }else{
         myApp.elem.pushBtn.src = myApp.elem.imgBtn4.src;
     }
+}
+function jumpToAnswer(ansindex, anstime){
+    myApp.val.cntIndex = ansindex-1;
+    palyer.seekTo(anstime-0.5);
 }
 //
 function printParams(){
@@ -898,6 +908,7 @@ function printParams(){
 //
 //---------------------------------------------------------------------------------------------------------------
 /* set functions executed in each subtitle */
+myApp.val.jumpToAnsBool = false;
 myApp.val.srtFuncArray = [
     function(){
         myApp.val.viewFuncArray.shift()();
