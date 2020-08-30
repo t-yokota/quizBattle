@@ -573,6 +573,9 @@ myElem.script.innerHTML = `
             // res.push([0, 'Talk', start, end]);
             res.push([array[array.length-1][0], 'Talk', start, end]);
         }
+        for(let i = 0; i < res.length; i++){
+            res[i].push(i+1);
+        }
         return res;
     }
     function setSrtFuncArray(array){
