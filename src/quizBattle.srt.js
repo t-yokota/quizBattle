@@ -127,7 +127,7 @@ const myApp = {
         diffTime    : 0, //difference between watchedTime and currentTime (for preventing to jump playback position by seekbar)
         //
         ansIndex: 0,
-        ansTime : 0,
+        ansIndexStartTime : 0,
         jumpToAnsBool: false,
     },
 };
@@ -836,15 +836,15 @@ function checkAnswer(){
         }
     }
     if(myApp.val.correctBool == true){
-        if(myApp.val.jumpToAnsBool){ jumpToAnswer(myApp.val.ansIndex, myApp.val.ansTime); }
         playSndO();
         myApp.val.cntO += 1;
         myApp.elem.text.innerHTML = "正解！";
+        if(myApp.val.jumpToAnsBool){ jumpToAnswerIndex(myApp.val.ansIndex, myApp.val.ansIndexStartTime); }
     }else{
-        if(myApp.val.jumpToAnsBool){ jumpToAnswer(myApp.val.ansIndex, myApp.val.ansTime); }
         playSndX();
         myApp.val.cntX += 1;
         myApp.elem.text.innerHTML = "不正解！"; //あと"+(myApp.val.limPush-myApp.val.cntPush)+"回解答できます。";
+        if(myApp.val.jumpToAnsBool){ jumpToAnswerIndex(myApp.val.ansIndex, myApp.val.ansIndexStartTime); }
     }
     if(myApp.val.os != 'other'){ opposePlayer(); }
     myApp.elem.numOX.innerHTML  = "⭕️："+myApp.val.cntO+"　❌："+myApp.val.cntX;
@@ -859,9 +859,10 @@ function checkAnswer(){
         myApp.elem.pushBtn.src = myApp.elem.imgBtn4.src;
     }
 }
-function jumpToAnswer(ansindex, anstime){
-    myApp.val.cntIndex = ansindex-1;
-    palyer.seekTo(anstime-0.5);
+function jumpToAnswerIndex(index, time){
+    myApp.val.cntIndex = index-1;
+    myApp.val.watchedTime = time-0.1;
+    player.seekTo(time-0.1);
 }
 //
 function printParams(){
@@ -913,6 +914,9 @@ myApp.val.srtFuncArray = [
     function(){
         myApp.val.viewFuncArray.shift()();
         /* 第1問 */
+        //myApp.val.ansIndex = 2;
+        //myApp.val.ansIndexStartTime = XXXX;
+        //
         myApp.val.status = myApp.state.Question;
         myApp.val.numQues = 1;
         myApp.val.cntPush = 0;
@@ -926,6 +930,9 @@ myApp.val.srtFuncArray = [
     },
     function(){
         /* 第2問 */
+        //myApp.val.ansIndex = 4;
+        //myApp.val.ansIndexStartTime = XXXX;
+        //
         myApp.val.status = myApp.state.Question;
         myApp.val.numQues = 2;
         myApp.val.cntPush = 0;
@@ -939,6 +946,9 @@ myApp.val.srtFuncArray = [
     },
     function(){
         /* 第3問 */
+        //myApp.val.ansIndex = 6;
+        //myApp.val.ansIndexStartTime = XXXX;
+        //
         myApp.val.status = myApp.state.Question;
         myApp.val.numQues = 3;
         myApp.val.cntPush = 0;

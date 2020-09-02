@@ -586,7 +586,7 @@ function myIntervalEvent(){
             /* answer time managemant */
             if(document.activeElement.id == "anscol" || myApp.val.ansTime.elapsed != 0){
                 myApp.val.ansTime.elapsed += interval;
-                myApp.elem.text.innerHTML = "のこり"+Math.floor((myApp.val.ansTime.limit-myApp.val.ansTime.elapsed)/1000+1)+"秒"; 
+                myApp.elem.text.innerHTML = "のこり"+Math.floor((myApp.val.ansTime.limit-myApp.val.ansTime.elapsed)/1000+1)+"秒";
                 if(myApp.val.ansTime.elapsed >= myApp.val.ansTime.limit){
                     checkAnswer();
                     if(myApp.val.correctBool == true || myApp.val.limPush - myApp.val.cntPush == 0){
