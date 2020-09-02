@@ -807,7 +807,8 @@ function buttonCheck(responseInterval){
 //
 function pushButton(){
     playSndPushBtn();
-    if(myApp.val.os != 'other'){ hidePlayer(); }
+    //if(myApp.val.os != 'other'){ hidePlayer(); }
+    hidePlayer();
     if(myApp.val.os == 'iOS'){
         myApp.elem.pushBtn.src = myApp.elem.imgBtn3.src;
     }else{
@@ -846,7 +847,8 @@ function checkAnswer(){
         myApp.elem.text.innerHTML = "不正解！"; //あと"+(myApp.val.limPush-myApp.val.cntPush)+"回解答できます。";
         if(myApp.val.jumpToAnsBool){ jumpToAnswerIndex(myApp.val.ansIndex, myApp.val.ansIndexStartTime); }
     }
-    if(myApp.val.os != 'other'){ opposePlayer(); }
+    // if(myApp.val.os != 'other'){ opposePlayer(); }
+    opposePlayer();
     myApp.elem.numOX.innerHTML  = "⭕️："+myApp.val.cntO+"　❌："+myApp.val.cntX;
     //
     if(window.orientation != 90){
