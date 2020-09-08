@@ -181,14 +181,14 @@ document.styleSheets.item(0).insertRule('body { text-align: center; margin: auto
 //
 /* set elements */
 if(myApp.val.os != 'other'){
-    myApp.elem.text.style.fontSize      = '40px';
+    myApp.elem.text.style.fontSize      = '42px';
     myApp.elem.text.style.lineHeight    = '60px';
     myApp.elem.text.style.fontWeight    = 'bold';
     myApp.elem.text.style.display       = 'block';
-    myApp.elem.subText.style.fontSize   = '40px';
+    myApp.elem.subText.style.fontSize   = '42px';
     myApp.elem.subText.style.lineHeight = '60px';
     myApp.elem.subText.style.display    = 'block';
-    myApp.elem.ansCol.style.fontSize    = '40px';
+    myApp.elem.ansCol.style.fontSize    = '42px';
     myApp.elem.ansCol.style.textAlign   = 'center';
     myApp.elem.ansCol.style.margin      = '0px auto 10px'
     myApp.elem.ansBtn.style.fontSize    = '35px';
