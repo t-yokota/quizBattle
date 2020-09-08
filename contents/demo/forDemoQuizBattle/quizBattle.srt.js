@@ -146,8 +146,8 @@ myApp.elem.divBtn.id  = 'divbtn';
 /* set init value to the elements */
 myApp.elem.ansCol.value     = "ここに解答を入力";
 myApp.elem.ansBtn.innerHTML = "解答を送信";
-// myApp.elem.ansCol.disabled  = true;
-// myApp.elem.ansBtn.disabled  = true;
+myApp.elem.ansCol.disabled  = true;
+myApp.elem.ansBtn.disabled  = true;
 myApp.elem.numOX.innerHTML  = "⭕️："+myApp.val.cntO+"　❌："+myApp.val.cntX;
 //
 if(myApp.val.os != 'other'){
@@ -754,10 +754,10 @@ function updatePushButtonArea(){
 //
 function instantFocusToElement(focusUsableElement){
     /* keydown event is ready during the focus is in a js element */
-    // focusUsableElement.disabled = false;
+    focusUsableElement.disabled = false;
     focusUsableElement.focus();
     focusUsableElement.blur();
-    // focusUsableElement.disabled = true;
+    focusUsableElement.disabled = true;
 }
 //
 function updateWatchedTime(currentPlayingTime, watchedTime){
@@ -820,17 +820,17 @@ function pushButton(){
 }
 //
 function focusToAnsCol(){
-    // myApp.elem.ansBtn.disabled = false;
-    // myApp.elem.ansCol.disabled = false;
+    myApp.elem.ansBtn.disabled = false;
+    myApp.elem.ansCol.disabled = false;
     myApp.elem.ansCol.focus();
-    // myApp.elem.ansCol.value = "";
+    myApp.elem.ansCol.value = "";
 }
 //
 function checkAnswer(){
     myApp.val.correctBool = false;
     myApp.elem.ansCol.blur();
-    // myApp.elem.ansCol.disabled  = true;
-    // myApp.elem.ansBtn.disabled  = true;
+    myApp.elem.ansCol.disabled  = true;
+    myApp.elem.ansBtn.disabled  = true;
     const answer = myApp.elem.ansCol.value;
     const length = myApp.val.ansArray[myApp.val.numQues-1].length;
     for(let i = 0; i < length; i++){
