@@ -458,7 +458,7 @@ function myButtonAction(){
             if(myApp.val.os != 'other'){
                 myApp.val.viewFuncArray.shift()();
                 myApp.elem.text.innerHTML = "＜ 遊び方 ＞";
-                myApp.elem.subText.innerHTML = "　早押しボタンをタップすることで、<br>　動画内のクイズに答えることができます。";
+                myApp.elem.subText.innerHTML = "早押しボタンをタップすることで、<br>動画内のクイズに答えることができます。";
             }else{
                 myApp.elem.text.innerHTML = "＜ 遊び方 ＞"
                 myApp.elem.subText.innerHTML = "早押しボタン(スペースキー)を押すことで、動画内のクイズに答えることができます。";
