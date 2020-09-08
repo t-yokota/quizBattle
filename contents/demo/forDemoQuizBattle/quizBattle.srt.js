@@ -470,6 +470,7 @@ function myButtonAction(){
         myApp.val.status = myApp.state.MyAnswer;
         player.pauseVideo();
         pushButton();
+        setTimeout(function(){ focusToAnsCol(); }, 500);
     }
 }
 //
@@ -506,9 +507,9 @@ function myPlayerStateChangeEvent(){
     if(player.getPlayerState() == myApp.videoState.Stopped){
         myApp.val.currTime.stopped = player.getCurrentTime();
         /* prepare to input and send answer */
-        if(myApp.val.status == myApp.state.MyAnswer){
-            setTimeout(function(){ focusToAnsCol(); }, 500);
-        }
+        // if(myApp.val.status == myApp.state.MyAnswer){
+        //     setTimeout(function(){ focusToAnsCol(); }, 500);
+        // }
         /* prevent to jump video playback position by seekbar */
         /* and prevent to pause video during each question */
         if(myApp.val.status == myApp.state.Question || myApp.val.status == myApp.state.OthAnswer){
