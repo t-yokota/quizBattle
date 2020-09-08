@@ -487,7 +487,6 @@ function myPlayerStateChangeEvent(){
                 myApp.val.status = myApp.state.Question;
             }
             player.playVideo();
-            player.focus();
         }
         /* prevent to jump playback position by seekbar */
         if(myApp.val.status == myApp.state.Question){
@@ -596,8 +595,6 @@ function myIntervalEvent(){
                         myApp.val.status = myApp.state.Question;
                     }
                     player.playVideo();
-                    // instantFocusToElement(player);
-                    player.focus();
                 }
             }
         }else{
@@ -626,8 +623,6 @@ function myOnClickEvent(){
             myApp.val.status = myApp.state.Question;
         }
         player.playVideo();
-        // instantFocusToElement(player);
-        player.focus();
     }
 }
 //
@@ -715,8 +710,8 @@ function resizePushButton(){
                     myApp.val.pushBtnWidth  = tmpImgWidth;
                     myApp.val.pushBtnHeight = tmpImgHeight;
                 }else{
-                    myApp.val.pushBtnWidth  = myApp.elem.pushBtn.naturalWidth*myApp.val.playerHeight*1.5/myApp.elem.pushBtn.naturalHeight;
-                    myApp.val.pushBtnHeight = myApp.val.playerHeight*1.5;
+                    myApp.val.pushBtnWidth  = myApp.elem.pushBtn.naturalWidth*myApp.val.playerHeight*1.25/myApp.elem.pushBtn.naturalHeight;
+                    myApp.val.pushBtnHeight = myApp.val.playerHeight*1.25;
                 }
             }else{
                 myApp.val.pushBtnWidth  = document.documentElement.clientWidth/5;
