@@ -580,9 +580,9 @@ function myIntervalEvent(){
         }
         if(myApp.val.status == myApp.state.MyAnswer){
             /* reforcus when anscol is blank */
-            if(document.activeElement.id != "anscol" && myApp.elem.ansCol.value.valueOf() === ""){
-                myApp.elem.ansCol.focus();
-            }
+            // if(document.activeElement.id != "anscol" && myApp.elem.ansCol.value.valueOf() === ""){
+            //     myApp.elem.ansCol.focus();
+            // }
             /* answer time managemant */
             if(document.activeElement.id == "anscol" || myApp.val.ansTime.elapsed != 0){
                 myApp.val.ansTime.elapsed += interval;
