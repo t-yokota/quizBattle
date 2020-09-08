@@ -827,6 +827,7 @@ function focusToAnsCol(){
 //
 function checkAnswer(){
     myApp.val.correctBool = false;
+    myApp.elem.ansCol.blur();
     myApp.elem.ansCol.disabled  = true;
     myApp.elem.ansBtn.disabled  = true;
     const answer = myApp.elem.ansCol.value;
