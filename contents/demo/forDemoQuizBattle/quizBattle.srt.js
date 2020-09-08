@@ -191,10 +191,10 @@ if(myApp.val.os != 'other'){
     myApp.elem.ansCol.style.fontSize    = '42px';
     myApp.elem.ansCol.style.textAlign   = 'center';
     myApp.elem.ansCol.style.margin      = '0px auto 10px'
-    myApp.elem.ansBtn.style.fontSize    = '35px';
+    myApp.elem.ansBtn.style.fontSize    = '42px';
     myApp.elem.ansBtn.style.width       = parseInt(myApp.elem.ansBtn.style.fontSize, 10)*8+'px';
     myApp.elem.ansBtn.style.margin      = '0px '+(document.documentElement.clientWidth-parseInt(myApp.elem.ansBtn.style.width, 10))/2+'px 20px';
-    myApp.elem.numOX.style.fontSize     = '40px';
+    myApp.elem.numOX.style.fontSize     = '42px';
     myApp.elem.numOX.style.lineHeight   = '80px';
     myApp.elem.numOX.style.fontWeight   = 'bold';
     //
@@ -819,10 +819,10 @@ function pushButton(){
 }
 //
 function focusToAnsCol(){
+    myApp.elem.ansBtn.disabled = false;
     myApp.elem.ansCol.disabled = false;
     myApp.elem.ansCol.value = "";
     myApp.elem.ansCol.focus();
-    myApp.elem.ansBtn.disabled = false;
 }
 //
 function checkAnswer(){
