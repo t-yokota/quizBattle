@@ -458,10 +458,10 @@ function myButtonAction(){
             if(myApp.val.os != 'other'){
                 myApp.val.viewFuncArray.shift()();
                 myApp.elem.text.innerHTML = "＜ 遊び方 ＞";
-                myApp.elem.subText.innerHTML = "早押しボタンをタップすることで<br>クイズに答えることができます";
+                myApp.elem.subText.innerHTML = "早押しボタンをタップすることで<br>動画内のクイズに答えることができます";
             }else{
                 myApp.elem.text.innerHTML = "＜ 遊び方 ＞"
-                myApp.elem.subText.innerHTML = "早押しボタン(スペースキー)を押すことで<br>クイズに答えることができます";
+                myApp.elem.subText.innerHTML = "早押しボタン(スペースキー)を押すことで<br>動画内のクイズに答えることができます";
             }
         }, myApp.val.btnCheck.playInterval);
     }
@@ -487,6 +487,7 @@ function myPlayerStateChangeEvent(){
                 myApp.val.status = myApp.state.Question;
             }
             player.playVideo();
+            instantFocusToElement(player);
         }
         /* prevent to jump playback position by seekbar */
         if(myApp.val.status == myApp.state.Question){
@@ -595,6 +596,7 @@ function myIntervalEvent(){
                         myApp.val.status = myApp.state.Question;
                     }
                     player.playVideo();
+                    instantFocusToElement(player);
                 }
             }
         }else{
@@ -623,6 +625,7 @@ function myOnClickEvent(){
             myApp.val.status = myApp.state.Question;
         }
         player.playVideo();
+        instantFocusToElement(player);
     }
 }
 //
