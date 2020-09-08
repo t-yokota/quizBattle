@@ -823,8 +823,8 @@ function pushButton(){
 function focusToAnsCol(){
     myApp.elem.ansBtn.disabled = false;
     myApp.elem.ansCol.disabled = false;
-    myApp.elem.ansCol.focus();
     myApp.elem.ansCol.value = "";
+    myApp.elem.ansCol.focus();
 }
 //
 function checkAnswer(){
