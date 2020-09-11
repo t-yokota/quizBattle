@@ -20,7 +20,6 @@ const myApp = {
         MyAnswer    : 2, //自分が解答権を所持（解答入力・送信可能）
         OthAnswer   : 3, //他者が解答権を所持（早押し不可能）
         Talk        : 4, //その他
-        ShowAlert   : 5, //alert表示中
     },
     videoState : {
         Playing : 1,
@@ -113,7 +112,6 @@ const myApp = {
         //
         /* for status management */
         status     : null,
-        prevStatus : null,
         cntIndex   : 0, //(index value has current section of subtitle)
         //
         /* for time management */
@@ -183,6 +181,8 @@ document.styleSheets.item(0).insertRule('body { text-align: center; margin: auto
 //
 /* set elements */
 if(myApp.val.os != 'other'){
+    document.styleSheets.item(0).insertRule('body { align-items: center; justify-content: center; flex-direction: column; }');
+    //
     myApp.elem.text.style.fontSize      = '42px';
     myApp.elem.text.style.lineHeight    = '60px';
     myApp.elem.text.style.fontWeight    = 'bold';
@@ -417,11 +417,8 @@ function myOrientationChangeEvent(){
                 myApp.elem.text.innerHTML = "端末を縦向きにしてクイズをはじめる";
             }
             if(myApp.val.orientationAlertBool == false && myApp.val.initOrientation == 'portrait'){
-                // myApp.val.prevStatus = myApp.val.status;
-                // myApp.val.status = myApp.state.ShowAlert;
                 myApp.val.playingCount = -10;
                 myApp.val.orientationAlertBool = true;
-                // player.pauseVideo();
                 alert("このサイトはスマートフォン/タブレットを縦向きにしてお楽しみください。");
             }
         }
@@ -576,10 +573,6 @@ function myIntervalEvent(){
                     myApp.val.cntIndex += 1;
                 }
             }
-            // if(myApp.val.status == myApp.state.ShowAlert){
-            //     myApp.val.status = myApp.val.prevStatus;
-            //     myApp.val.watchedTime = 
-            // }
         }else if(player.getPlayerState() == myApp.videoState.Stopped){
             myApp.val.playingCount = 0;
         }
