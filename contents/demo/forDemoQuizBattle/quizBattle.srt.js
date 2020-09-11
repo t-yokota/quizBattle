@@ -20,6 +20,7 @@ const myApp = {
         MyAnswer    : 2, //自分が解答権を所持（解答入力・送信可能）
         OthAnswer   : 3, //他者が解答権を所持（早押し不可能）
         Talk        : 4, //その他
+        ShowAlert   : 5, //alert表示中
     },
     videoState : {
         Playing : 1,
@@ -111,8 +112,9 @@ const myApp = {
         ansFile     : new XMLHttpRequest(), //正答ファイル.csv
         //
         /* for status management */
-        status   : null,
-        cntIndex : 0, //(index value has current section of subtitle)
+        status     : null,
+        prevStatus : null,
+        cntIndex   : 0, //(index value has current section of subtitle)
         //
         /* for time management */
         ansTime : {
@@ -338,9 +340,9 @@ function spriteHandler(){
 //
 /* set function executed after initial loading */
 myApp.elem.pushBtn.onerror = function(){
-    alert("画像の読み込みに失敗しました。ページを再読み込みしてください。" );
     myApp.val.loadErrorBool = true;
     myApp.val.loadAlertBool = true;
+    alert("画像の読み込みに失敗しました。ページを再読み込みしてください。" );
 };
 myApp.elem.pushBtn.onload = function(){
     if(myApp.val.initLoadBool == false){
@@ -379,17 +381,17 @@ function materialCheckFunction(){
         }else if(myApp.val.initLoadBool == true && myApp.val.loadAlertBool == false){
             if(myApp.val.os != 'other'){
                 if(Math.abs(myApp.elem.numOX.getBoundingClientRect().top - myApp.elem.ansBtn.getBoundingClientRect().bottom) < 50){
-                    player.pauseVideo();
-                    alert("画像の表示に失敗しました。ページを再読み込みしてください。");
                     myApp.val.loadErrorBool = true;
                     myApp.val.loadAlertBool = true;
+                    player.pauseVideo();
+                    alert("画像の表示に失敗しました。ページを再読み込みしてください。");
                 }
             }
         }
     }else{
         if(myApp.val.loadAlertBool == false){
-            alert("ページの読み込みに失敗しました。ページを再読み込みしてください。");
             myApp.val.loadAlertBool = true;
+            alert("ページの読み込みに失敗しました。ページを再読み込みしてください。");
         }
     }
 }
@@ -415,8 +417,11 @@ function myOrientationChangeEvent(){
                 myApp.elem.text.innerHTML = "端末を縦向きにしてクイズをはじめる";
             }
             if(myApp.val.orientationAlertBool == false && myApp.val.initOrientation == 'portrait'){
-                alert("このサイトはスマートフォン/タブレットを縦向きにしてお楽しみください。");
+                myApp.val.prevStatus = myApp.val.status;
+                myApp.val.status = myApp.state.ShowAlert;
                 myApp.val.orientationAlertBool = true;
+                player.pauseVideo();
+                alert("このサイトはスマートフォン/タブレットを縦向きにしてお楽しみください。");
             }
         }
     }, 800);
@@ -553,8 +558,8 @@ function myIntervalEvent(){
             if(myApp.val.playingCount < 10){ myApp.val.playingCount += 1; }
             if(myApp.val.currTime.playing -  myApp.val.watchedTime > 1.0 && myApp.val.playingCount >= 10){
                 if(myApp.val.processDelayAlertBool == false){
-                    alert('ページ内の処理が遅くなっています。早押しの判定に支障が出る可能性があるため、他のプロセスを終了してから改めてクイズをお楽しみください。このポップアップは一度のみ表示されます。');
                     myApp.val.processDelayAlertBool = true;
+                    alert('ページ内の処理が遅くなっています。早押しの判定に支障が出る可能性があるため、他のプロセスを終了してから改めてクイズをお楽しみください。このポップアップは一度のみ表示されます。');
                 }
                 myApp.val.watchedTime  = myApp.val.currTime.playing;
             }
@@ -570,14 +575,20 @@ function myIntervalEvent(){
                 }
             }
         }else if(player.getPlayerState() == myApp.videoState.Stopped){
+            if(myApp.val.status == myApp.state.ShowAlert && myApp.val.playingCount == 0){
+                myApp.val.status = myApp.val.prevStatus;
+                if(myApp.val.status == myApp.state.Question || myApp.val.status == myApp.state.OthAnswer){
+                    player.playVideo();
+                }
+            }
             myApp.val.playingCount = 0;
         }
         if(myApp.val.status == myApp.state.ButtonCheck){
             if(myApp.val.cntIndex > 0 && myApp.val.loadAlertBool == false){
-                player.pauseVideo();
-                alert('ページの読み込みに失敗しました。ページを再読み込みしてください。');
                 myApp.val.loadErrorBool = true;
                 myApp.val.loadAlertBool = true;
+                player.pauseVideo();
+                alert('ページの読み込みに失敗しました。ページを再読み込みしてください。');
             }
         }
         if(myApp.val.status == myApp.state.MyAnswer){
