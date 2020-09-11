@@ -111,8 +111,8 @@ const myApp = {
         ansFile     : new XMLHttpRequest(), //正答ファイル.csv
         //
         /* for status management */
-        status     : null,
-        cntIndex   : 0, //(index value has current section of subtitle)
+        status   : null,
+        cntIndex : 0, //(index value has current section of subtitle)
         //
         /* for time management */
         ansTime : {
@@ -181,7 +181,7 @@ document.styleSheets.item(0).insertRule('body { text-align: center; margin: auto
 //
 /* set elements */
 if(myApp.val.os != 'other'){
-    document.styleSheets.item(0).insertRule('body { float: none; align-items: center; justify-content: center; flex-direction: column; }');
+    // document.styleSheets.item(0).insertRule('body { align-items: center; justify-content: center; flex-direction: column; }');
     //
     myApp.elem.text.style.fontSize      = '42px';
     myApp.elem.text.style.lineHeight    = '60px';
@@ -200,6 +200,7 @@ if(myApp.val.os != 'other'){
     myApp.elem.numOX.style.fontSize     = '42px';
     myApp.elem.numOX.style.lineHeight   = '80px';
     myApp.elem.numOX.style.fontWeight   = 'bold';
+    myApp.elem.numOX.style.display      = 'block';
     //
     myApp.val.viewFuncArray = [
         function(){
@@ -254,6 +255,7 @@ if(myApp.val.os != 'other'){
     myApp.elem.numOX.style.fontSize     = '25px';
     myApp.elem.numOX.style.lineHeight   = '45px';
     myApp.elem.numOX.style.fontWeight   = 'bold';
+    myApp.elem.numOX.style.display      = 'block';
     //
     myApp.val.viewFuncArray = [
         function(){
