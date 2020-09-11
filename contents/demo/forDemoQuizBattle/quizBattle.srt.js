@@ -419,10 +419,10 @@ function myOrientationChangeEvent(){
             if(myApp.val.orientationAlertBool == false && myApp.val.initOrientation == 'portrait'){
                 // myApp.val.prevStatus = myApp.val.status;
                 // myApp.val.status = myApp.state.ShowAlert;
-                myApp.val.playingCount = 0;
                 myApp.val.orientationAlertBool = true;
                 // player.pauseVideo();
                 alert("このサイトはスマートフォン/タブレットを縦向きにしてお楽しみください。");
+                myApp.val.playingCount = 0;
             }
         }
     }, 800);
