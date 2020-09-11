@@ -404,6 +404,9 @@ function myOrientationChangeEvent(){
     setTimeout(function(){
         resizePlayer();
         resizePushButton();
+        if(myApp.val.status == myApp.val.MyAnswer){
+            hidePlayer();
+        }
         if(Math.abs(window.orientation) != 90){
             if(myApp.val.status == myApp.state.MyAnswer){
                 myApp.elem.pushBtn.src = myApp.elem.imgBtn3.src;
