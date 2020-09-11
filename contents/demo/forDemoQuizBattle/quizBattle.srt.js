@@ -404,7 +404,7 @@ function myOrientationChangeEvent(){
     setTimeout(function(){
         resizePlayer();
         resizePushButton();
-        if(myApp.val.status == myApp.val.MyAnswer){
+        if(myApp.val.status == myApp.state.MyAnswer){
             hidePlayer();
         }
         if(Math.abs(window.orientation) != 90){
