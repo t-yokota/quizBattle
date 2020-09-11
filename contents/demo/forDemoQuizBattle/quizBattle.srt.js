@@ -419,7 +419,7 @@ function myOrientationChangeEvent(){
             if(myApp.val.orientationAlertBool == false && myApp.val.initOrientation == 'portrait'){
                 // myApp.val.prevStatus = myApp.val.status;
                 // myApp.val.status = myApp.state.ShowAlert;
-                myApp.val.playingCount = -100;
+                myApp.val.playingCount = -10;
                 myApp.val.orientationAlertBool = true;
                 // player.pauseVideo();
                 alert("このサイトはスマートフォン/タブレットを縦向きにしてお楽しみください。");
@@ -556,6 +556,7 @@ function myIntervalEvent(){
         if(player.getPlayerState() == myApp.videoState.Playing){
             myApp.val.currTime.playing = player.getCurrentTime();
             myApp.val.watchedTime = updateWatchedTime(myApp.val.currTime.playing, myApp.val.watchedTime);
+            if(myApp.val.playingCount < 0) { myApp.val.watchedTime = myApp.val.currTime.playing; }
             if(myApp.val.playingCount < 10){ myApp.val.playingCount += 1; }
             if(myApp.val.currTime.playing -  myApp.val.watchedTime > 1.0 && myApp.val.playingCount >= 10){
                 if(myApp.val.processDelayAlertBool == false){
