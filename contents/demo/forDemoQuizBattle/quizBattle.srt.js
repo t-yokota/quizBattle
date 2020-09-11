@@ -181,8 +181,6 @@ document.styleSheets.item(0).insertRule('body { text-align: center; margin: auto
 //
 /* set elements */
 if(myApp.val.os != 'other'){
-    // document.styleSheets.item(0).insertRule('body { align-items: center; justify-content: center; flex-direction: column; }');
-    //
     myApp.elem.text.style.fontSize      = '42px';
     myApp.elem.text.style.lineHeight    = '60px';
     myApp.elem.text.style.fontWeight    = 'bold';
@@ -478,7 +476,11 @@ function myButtonAction(){
         myApp.val.status = myApp.state.MyAnswer;
         player.pauseVideo();
         pushButton();
-        setTimeout(function(){ focusToAnsCol(); }, 500);
+        if(myApp.val.os == "iOS"){
+            focusToAnsCol();
+        }else{
+            setTimeout(function(){ focusToAnsCol(); }, 500);
+        }
     }
 }
 //
