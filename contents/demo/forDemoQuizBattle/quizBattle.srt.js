@@ -181,7 +181,7 @@ document.styleSheets.item(0).insertRule('body { text-align: center; margin: auto
 //
 /* set elements */
 if(myApp.val.os != 'other'){
-    document.styleSheets.item(0).insertRule('body { align-items: center; justify-content: center; flex-direction: column; }');
+    document.styleSheets.item(0).insertRule('body { float: none; align-items: center; justify-content: center; flex-direction: column; }');
     //
     myApp.elem.text.style.fontSize      = '42px';
     myApp.elem.text.style.lineHeight    = '60px';
