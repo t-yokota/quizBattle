@@ -171,6 +171,7 @@ player.addEventListener('onStateChange', myPlayerStateChangeEvent);
 document.addEventListener('webkitvisibilitychange', myPageHiddenCheckEvent, false);
 setInterval(myIntervalEvent, interval = 10);
 myApp.elem.ansBtn.onclick = myOnClickEvent;
+myApp.elem.ansCol.onfocus = function(){ myApp.elem.ansCol.val = ""; }
 //
 /* VIEW */
 resizePlayer();
@@ -944,7 +945,7 @@ myApp.val.srtFuncArray = [
         myApp.val.cntPush = 0;
         myApp.val.correctBool = false;
         myApp.elem.text.innerHTML = "第"+myApp.val.numQues+"問";
-        myApp.elem.ansCol.value = "";
+        myApp.elem.ansCol.value = "ここに解答を入力";
         if(Math.abs(window.orientation) != 90){ myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src; }
     },
     function(){
@@ -960,7 +961,7 @@ myApp.val.srtFuncArray = [
         myApp.val.cntPush = 0;
         myApp.val.correctBool = false;
         myApp.elem.text.innerHTML = "第"+myApp.val.numQues+"問";
-        myApp.elem.ansCol.value = "";
+        myApp.elem.ansCol.value = "ここに解答を入力";
         if(Math.abs(window.orientation) != 90){ myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src; }
     },
     function(){
@@ -976,7 +977,7 @@ myApp.val.srtFuncArray = [
         myApp.val.cntPush = 0;
         myApp.val.correctBool = false;
         myApp.elem.text.innerHTML = "第"+myApp.val.numQues+"問";
-        myApp.elem.ansCol.value = "";
+        myApp.elem.ansCol.value = "ここに解答を入力";
         if(Math.abs(window.orientation) != 90){ myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src; }
     },
     function(){
@@ -992,7 +993,7 @@ myApp.val.srtFuncArray = [
         myApp.val.cntPush = 0;
         myApp.val.correctBool = false;
         myApp.elem.text.innerHTML = "第"+myApp.val.numQues+"問";
-        myApp.elem.ansCol.value = "";
+        myApp.elem.ansCol.value = "ここに解答を入力";
         if(Math.abs(window.orientation) != 90){ myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src; }
     },
     function(){
@@ -1008,7 +1009,7 @@ myApp.val.srtFuncArray = [
         myApp.val.cntPush = 0;
         myApp.val.correctBool = false;
         myApp.elem.text.innerHTML = "第"+myApp.val.numQues+"問";
-        myApp.elem.ansCol.value = "";
+        myApp.elem.ansCol.value = "ここに解答を入力";
         if(Math.abs(window.orientation) != 90){ myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src; }
     },
     function(){
