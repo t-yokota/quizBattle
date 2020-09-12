@@ -1,5 +1,5 @@
 0
-00:00:00,000 --> 00:00:03,330
+00:00:00,000 --> 00:00:04,010
 /* CAUTION : Each sections of subtitle has independent scope. */
 /* Ver1.0 */
 doOnce[index] = true;
@@ -974,7 +974,7 @@ myApp.val.srtFuncArray = [
         myApp.val.viewFuncArray.shift()();
         /* 第1問 */
         myApp.val.ansIndex = 2;
-        myApp.val.ansIndexStartTime = 19.78;
+        myApp.val.ansIndexStartTime = 18.78;
         //
         myApp.val.status = myApp.state.Question;
         myApp.val.numQues = 1;
@@ -990,7 +990,7 @@ myApp.val.srtFuncArray = [
     function(){
         /* 第2問 */
         myApp.val.ansIndex = 4;
-        myApp.val.ansIndexStartTime = 34.93;
+        myApp.val.ansIndexStartTime = 33.93;
         //
         myApp.val.status = myApp.state.Question;
         myApp.val.numQues = 2;
@@ -1006,7 +1006,7 @@ myApp.val.srtFuncArray = [
     function(){
         /* 第3問 */
         myApp.val.ansIndex = 6;
-        myApp.val.ansIndexStartTime = 53.61;
+        myApp.val.ansIndexStartTime = 52.61;
         //
         myApp.val.status = myApp.state.Question;
         myApp.val.numQues = 3;
@@ -1022,7 +1022,7 @@ myApp.val.srtFuncArray = [
     function(){
         /* 第4問 */
         myApp.val.ansIndex = 8;
-        myApp.val.ansIndexStartTime = 68.5;
+        myApp.val.ansIndexStartTime = 67.5;
         //
         myApp.val.status = myApp.state.Question;
         myApp.val.numQues = 4;
@@ -1038,7 +1038,7 @@ myApp.val.srtFuncArray = [
     function(){
         /* 第5問 */
         myApp.val.ansIndex = 10;
-        myApp.val.ansIndexStartTime = 85.39;
+        myApp.val.ansIndexStartTime = 84.39;
         //
         myApp.val.status = myApp.state.Question;
         myApp.val.numQues = 5;
@@ -1054,41 +1054,41 @@ myApp.val.srtFuncArray = [
 ];
 
 1
-00:00:05,010 --> 00:00:19,780
+00:00:04,010 --> 00:00:18,780
 
 
 2
-00:00:19,780 --> 00:00:22,800
+00:00:18,780 --> 00:00:21,800
 
 
 3
-00:00:22,800 --> 00:00:34,930
+00:00:21,800 --> 00:00:33,930
 
 
 4
-00:00:34,930 --> 00:00:37,950
+00:00:33,930 --> 00:00:36,950
 
 
 5
-00:00:37,950 --> 00:00:53,610
+00:00:36,950 --> 00:00:52,610
 
 
 6
-00:00:53,610 --> 00:00:56,630
+00:00:52,610 --> 00:00:55,630
 
 
 7
-00:00:56,630 --> 00:01:08,500
+00:00:55,630 --> 00:01:07,500
 
 
 8
-00:01:08,500 --> 00:01:11,510
+00:01:07,500 --> 00:01:10,510
 
 
 9
-00:01:11,510 --> 00:01:25,390
+00:01:10,510 --> 00:01:24,390
 
 
 10
-00:01:25,390 --> 00:01:28,420
+00:01:24,390 --> 00:01:27,420
 
