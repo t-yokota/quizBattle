@@ -871,7 +871,7 @@ function printParams(){
     // myApp.elem.subText.innerHTML = 'loadErrorBool: ' + myApp.val.loadErrorBool + ', initLoadBool: ' + myApp.val.initLoadBool + ', loadCount: ' + myApp.val.loadCount;
     // myApp.elem.subText.innerHTML = 'playerWidth: '  + myApp.val.playerWidth  + ', innerWidth: '      + window.innerWidth;
     myApp.elem.paramText.innerHTML = "<br>"+
-        "device: "           + myApp.val.os+"<br>"+
+        "device: "           + myApp.val.os+', ' +navigator.userAgent+"<br>"+
         "activeElem: "       + document.activeElement.id+"<br>"+   
         "status: "           + myApp.val.status+"<br>"+
         "videoStatus: "      + player.getPlayerState()+"<br>"+
