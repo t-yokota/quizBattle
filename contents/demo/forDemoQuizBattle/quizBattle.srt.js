@@ -188,7 +188,7 @@ if(myApp.val.os != 'other'){
     myApp.elem.subText.style.fontSize   = '42px';
     myApp.elem.subText.style.lineHeight = '60px';
     myApp.elem.subText.style.display    = 'block';
-    myApp.elem.ansCol.style.fontSize    = '42px';
+    myApp.elem.ansCol.style.fontSize    = '45px';
     myApp.elem.ansCol.style.textAlign   = 'center';
     myApp.elem.ansCol.style.margin      = '0px auto 10px'
     myApp.elem.ansBtn.style.fontSize    = '42px';
@@ -683,7 +683,7 @@ function resizePlayer(){
             // myApp.val.playerWidth  = document.documentElement.clientWidth;
             if(myApp.val.os == 'Android'){ myApp.val.playerWidth = window.innerWidth; } // In Android, clientWidth doesn't include scrollbar.
             if(myApp.val.os == 'iOS'){ myApp.val.playerWidth = document.documentElement.clientWidth; } // In iOS, innerWidth isn't static (it changes with device orientation).
-            myApp.val.playerHeight = myApp.val.playerWidth/16*9.5;
+            myApp.val.playerHeight = myApp.val.playerWidth/16*9;
         }else{
             myApp.val.playerWidth  = document.documentElement.clientWidth*2/3;
             myApp.val.playerHeight = myApp.val.playerWidth/16*9;
