@@ -666,10 +666,7 @@ function fetchOSType(){
 function fetchBrowserType(){
     let bwType = null;
     const ua = navigator.userAgent;
-    if(ua.match(/CriOS/) || ua.match(/Chrome/)){
-        bwType = "Chrome";
-        return bwType;
-    }else if(ua.match(/Firefox/)){
+    if(ua.match(/Firefox/)){
         bwType = "Firefox";
         return bwType;
     }else if(ua.match(/EdgiOS/) || ua.match(/EdgA/)){
@@ -686,6 +683,9 @@ function fetchBrowserType(){
         return bwType;
     }else if(ua.match(/Smooz/)){
         bwType = "Smooz";
+        return bwType;
+    }else if(ua.match(/CriOS/) || ua.match(/Chrome/)){
+        bwType = "Chrome";
         return bwType;
     }else{
         //Safari, Firefox(iOS), Brave and so on...
