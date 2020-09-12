@@ -974,7 +974,7 @@ myApp.val.srtFuncArray = [
         myApp.val.viewFuncArray.shift()();
         /* 第1問 */
         myApp.val.ansIndex = 2;
-        myApp.val.ansIndexStartTime = 18.78;
+        myApp.val.ansIndexStartTime = 18.78-1;
         //
         myApp.val.status = myApp.state.Question;
         myApp.val.numQues = 1;
