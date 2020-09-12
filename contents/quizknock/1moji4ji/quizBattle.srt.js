@@ -107,7 +107,7 @@ const myApp = {
         cntO        : 0,     //正答数
         cntX        : 0,     //誤答数
         cntPush     : 0,     //1問あたりの解答回数
-        limPush     : 1,     //1問あたりの上限解答回数
+        limPush     : 10,     //1問あたりの上限解答回数
         correctBool : false, //答え合わせ結果(結果に応じて状態遷移)
         ansFile     : new XMLHttpRequest(), //正答ファイル.csv
         //
