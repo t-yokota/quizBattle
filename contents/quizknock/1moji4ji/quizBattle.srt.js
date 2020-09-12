@@ -1,5 +1,5 @@
 0
-00:00:00,000 --> 00:00:04,010
+00:00:00,000 --> 00:02:06,060
 /* CAUTION : Each sections of subtitle has independent scope. */
 /* Ver1.0 */
 doOnce[index] = true;
@@ -7,7 +7,7 @@ player.pauseVideo();
 //
 const myApp = {
     path : {
-        answer : "https://raw.githubusercontent.com/t-yokota/quizBattle/master/src/answer.csv",
+        answer : "https://raw.githubusercontent.com/t-yokota/quizBattle/master/contents/quizknock/1moji4ji/answer.csv",
         sound  : "https://raw.githubusercontent.com/t-yokota/quizBattle/master/sounds/sounds_3", //+ext;
         btn1   : "https://github.com/t-yokota/quizBattle/raw/master/figures/button_portrait_72ppi_1.png",
         btn2   : "https://github.com/t-yokota/quizBattle/raw/master/figures/button_portrait_72ppi_2.png",
@@ -968,13 +968,13 @@ function printParams(){
 //
 //---------------------------------------------------------------------------------------------------------------
 /* set functions executed in each subtitle */
-myApp.val.jumpToAnsBool = true;
+myApp.val.jumpToAnsBool = false;
 myApp.val.srtFuncArray = [
     function(){
         myApp.val.viewFuncArray.shift()();
         /* 第1問 */
         myApp.val.ansIndex = 2;
-        myApp.val.ansIndexStartTime = 18.78-1;
+        myApp.val.ansIndexStartTime = 127.79;
         //
         myApp.val.status = myApp.state.Question;
         myApp.val.numQues = 1;
@@ -990,7 +990,7 @@ myApp.val.srtFuncArray = [
     function(){
         /* 第2問 */
         myApp.val.ansIndex = 4;
-        myApp.val.ansIndexStartTime = 33.93-1;
+        myApp.val.ansIndexStartTime = 178.24;
         //
         myApp.val.status = myApp.state.Question;
         myApp.val.numQues = 2;
@@ -1005,8 +1005,8 @@ myApp.val.srtFuncArray = [
     },
     function(){
         /* 第3問 */
-        myApp.val.ansIndex = 6;
-        myApp.val.ansIndexStartTime = 52.61-1;
+        myApp.val.ansIndex = 8;
+        myApp.val.ansIndexStartTime = 226.39;
         //
         myApp.val.status = myApp.state.Question;
         myApp.val.numQues = 3;
@@ -1017,12 +1017,18 @@ myApp.val.srtFuncArray = [
         if(Math.abs(window.orientation) != 90){ myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src; }
     },
     function(){
+        myApp.val.status = myApp.state.OthAnswer;
+    },
+    function(){
+        myApp.val.status = myApp.state.Question;
+    },
+    function(){
         myApp.val.status = myApp.state.Talk;
     },
     function(){
         /* 第4問 */
-        myApp.val.ansIndex = 8;
-        myApp.val.ansIndexStartTime = 67.5-1;
+        myApp.val.ansIndex = 10;
+        myApp.val.ansIndexStartTime = 283.11;
         //
         myApp.val.status = myApp.state.Question;
         myApp.val.numQues = 4;
@@ -1037,11 +1043,49 @@ myApp.val.srtFuncArray = [
     },
     function(){
         /* 第5問 */
-        myApp.val.ansIndex = 10;
-        myApp.val.ansIndexStartTime = 84.39-1;
+        myApp.val.ansIndex = 14;
+        myApp.val.ansIndexStartTime = 365.49;
         //
         myApp.val.status = myApp.state.Question;
         myApp.val.numQues = 5;
+        myApp.val.cntPush = 0;
+        myApp.val.correctBool = false;
+        myApp.elem.text.innerHTML = "第"+myApp.val.numQues+"問";
+        myApp.elem.ansCol.value = "ここに解答を入力";
+        if(Math.abs(window.orientation) != 90){ myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src; }
+    },
+    function(){
+        myApp.val.status = myApp.state.OthAnswer;
+    },
+    function(){
+        myApp.val.status = myApp.state.Question;
+    },
+    function(){
+        myApp.val.status = myApp.state.Talk;
+    },
+    function(){
+        /* 第6問 */
+        myApp.val.ansIndex = 16;
+        myApp.val.ansIndexStartTime = 442.11;
+        //
+        myApp.val.status = myApp.state.Question;
+        myApp.val.numQues = 6;
+        myApp.val.cntPush = 0;
+        myApp.val.correctBool = false;
+        myApp.elem.text.innerHTML = "第"+myApp.val.numQues+"問";
+        myApp.elem.ansCol.value = "ここに解答を入力";
+        if(Math.abs(window.orientation) != 90){ myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src; }
+    },
+    function(){
+        myApp.val.status = myApp.state.Talk;
+    },
+    function(){
+        /* 第7問 */
+        myApp.val.ansIndex = 18;
+        myApp.val.ansIndexStartTime = 499.49;
+        //
+        myApp.val.status = myApp.state.Question;
+        myApp.val.numQues = 7;
         myApp.val.cntPush = 0;
         myApp.val.correctBool = false;
         myApp.elem.text.innerHTML = "第"+myApp.val.numQues+"問";
@@ -1054,41 +1098,73 @@ myApp.val.srtFuncArray = [
 ];
 
 1
-00:00:04,010 --> 00:00:18,780
+00:02:06,060 --> 00:02:07,790
 
 
 2
-00:00:18,780 --> 00:00:21,800
+00:02:07,790 --> 00:02:57,010
 
 
 3
-00:00:21,800 --> 00:00:33,930
+00:02:57,010 --> 00:02:58,240
 
 
 4
-00:00:33,930 --> 00:00:36,950
+00:02:58,240 --> 00:03:37,590
 
 
 5
-00:00:36,950 --> 00:00:52,610
+00:03:37,590 --> 00:03:40,390
 
 
 6
-00:00:52,610 --> 00:00:55,630
+00:03:40,390 --> 00:03:46,190
 
 
 7
-00:00:55,630 --> 00:01:07,500
+00:03:46,190 --> 00:03:46,390
 
 
 8
-00:01:07,500 --> 00:01:10,510
+00:03:46,390 --> 00:04:27,500
 
 
 9
-00:01:10,510 --> 00:01:24,390
+00:04:27,500 --> 00:04:43,110
 
 
 10
-00:01:24,390 --> 00:01:27,420
+00:04:43,110 --> 00:05:56,660
+
+
+11
+00:05:56,660 --> 00:05:57,900
+
+
+12
+00:05:57,900 --> 00:06:04,000
+
+
+13
+00:06:04,000 --> 00:06:05,490
+
+
+14
+00:06:05,490 --> 00:07:02,000
+
+
+15
+00:07:02,000 --> 00:07:22,110
+
+
+16
+00:07:22,110 --> 00:08:19,100
+
+
+17
+00:08:19,100 --> 00:08:19,490
+
+
+18
+00:08:19,490 --> 00:09:56,020
 
