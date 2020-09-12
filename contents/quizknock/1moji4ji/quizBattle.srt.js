@@ -226,7 +226,12 @@ if(myApp.val.os != 'other'){
             myApp.elem.text.style.margin = '32px auto';
             myApp.elem.text.parentNode.removeChild(myApp.elem.subText);
             document.getElementsByTagName("body")[0].insertBefore(myApp.elem.ansCol, myApp.elem.text.nextSibling);
-            resizePushButton();
+            player.pauseVideo();
+            setTimeout(function(){
+                // resizePlayer();
+                resizePushButton();
+                player.playVideo();
+            }, 100);
         },
     ];
     myApp.val.viewFuncArray.shift()();
