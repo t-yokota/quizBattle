@@ -149,9 +149,9 @@ myApp.elem.divBtn.id  = 'divbtn';
 //
 /* set init value to the elements */
 myApp.elem.ansCol.value     = "ここに解答を入力";
-myApp.elem.ansBtn.innerHTML = "１問目へ";
+myApp.elem.ansBtn.innerHTML = "１問目まで移動";
 myApp.elem.ansCol.disabled  = true;
-// myApp.elem.ansBtn.disabled  = true;
+myApp.elem.ansBtn.disabled  = true;
 myApp.elem.numOX.innerHTML  = "⭕️："+myApp.val.cntO+"　❌："+myApp.val.cntX;
 //
 if(myApp.val.os != 'other'){
@@ -467,6 +467,7 @@ function myButtonAction(){
         buttonCheck(myApp.val.btnCheck.sndInterval);
         setTimeout(function(){
             player.playVideo();
+            myApp.elem.ansBtn.disabled = false;
             if(myApp.val.os != 'other'){
                 myApp.val.viewFuncArray.shift()();
                 myApp.elem.text.innerHTML = "＜ 遊び方 ＞";
