@@ -663,7 +663,7 @@ function fetchOSType(){
         return osType;
     }
 }
-function fetchBrowserTyepe(){
+function fetchBrowserType(){
     let bwType = null;
     const ua = navigator.userAgent;
     if(ua.match(/CriOS/) || ua.match(/Chrome/)){
@@ -918,7 +918,7 @@ function jumpToAnswerIndex(index, time){
 }
 //
 function printParams(){
-    myApp.elem.paramText.innerHTML = myApp.val.browser;
+    // myApp.elem.paramText.innerHTML = myApp.val.browser;
     // myApp.elem.subText.innerHTML = myApp.val.os + ', ' + navigator.userAgent;
     // myApp.elem.paramText.innerHTML = document.styleSheets.item(0).cssRules;
     // myApp.elem.subText.innerHTML = myApp.elem.sounds.src;
