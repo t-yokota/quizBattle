@@ -974,7 +974,7 @@ myApp.val.srtFuncArray = [
         myApp.val.viewFuncArray.shift()();
         /* 第1問 */
         myApp.val.ansIndex = 2;
-        myApp.val.ansIndexStartTime = 20.78;
+        myApp.val.ansIndexStartTime = 19.78;
         //
         myApp.val.status = myApp.state.Question;
         myApp.val.numQues = 1;
@@ -990,7 +990,7 @@ myApp.val.srtFuncArray = [
     function(){
         /* 第2問 */
         myApp.val.ansIndex = 4;
-        myApp.val.ansIndexStartTime = 35.93;
+        myApp.val.ansIndexStartTime = 34.93;
         //
         myApp.val.status = myApp.state.Question;
         myApp.val.numQues = 2;
@@ -1006,7 +1006,7 @@ myApp.val.srtFuncArray = [
     function(){
         /* 第3問 */
         myApp.val.ansIndex = 6;
-        myApp.val.ansIndexStartTime = 54.61;
+        myApp.val.ansIndexStartTime = 53.61;
         //
         myApp.val.status = myApp.state.Question;
         myApp.val.numQues = 3;
@@ -1022,7 +1022,7 @@ myApp.val.srtFuncArray = [
     function(){
         /* 第4問 */
         myApp.val.ansIndex = 8;
-        myApp.val.ansIndexStartTime = 69.5;
+        myApp.val.ansIndexStartTime = 68.5;
         //
         myApp.val.status = myApp.state.Question;
         myApp.val.numQues = 4;
@@ -1038,7 +1038,7 @@ myApp.val.srtFuncArray = [
     function(){
         /* 第5問 */
         myApp.val.ansIndex = 10;
-        myApp.val.ansIndexStartTime = 86.39;
+        myApp.val.ansIndexStartTime = 85.39;
         //
         myApp.val.status = myApp.state.Question;
         myApp.val.numQues = 5;
@@ -1054,41 +1054,41 @@ myApp.val.srtFuncArray = [
 ];
 
 1
-00:00:06,010 --> 00:00:20,780
+00:00:05,010 --> 00:00:19,780
 
 
 2
-00:00:20,780 --> 00:00:23,800
+00:00:19,780 --> 00:00:22,800
 
 
 3
-00:00:23,800 --> 00:00:35,930
+00:00:22,800 --> 00:00:34,930
 
 
 4
-00:00:35,930 --> 00:00:38,950
+00:00:34,930 --> 00:00:37,950
 
 
 5
-00:00:38,950 --> 00:00:54,610
+00:00:37,950 --> 00:00:53,610
 
 
 6
-00:00:54,610 --> 00:00:57,630
+00:00:53,610 --> 00:00:56,630
 
 
 7
-00:00:57,630 --> 00:01:09,500
+00:00:56,630 --> 00:01:08,500
 
 
 8
-00:01:09,500 --> 00:01:12,510
+00:01:08,500 --> 00:01:11,510
 
 
 9
-00:01:12,510 --> 00:01:26,390
+00:01:11,510 --> 00:01:25,390
 
 
 10
-00:01:26,390 --> 00:01:29,420
+00:01:25,390 --> 00:01:28,420
 
