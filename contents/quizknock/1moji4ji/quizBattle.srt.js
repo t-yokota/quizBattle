@@ -285,6 +285,7 @@ if(myApp.val.os != 'other'){
             document.getElementsByTagName("div")[4].appendChild(myApp.elem.ansBtn);
             document.getElementsByTagName("div")[4].appendChild(myApp.elem.numOX);
             // document.getElementsByTagName("div")[4].appendChild(myApp.elem.paramText);
+            resizePushButton();
         },
     ];
     myApp.val.viewFuncArray.shift()();
