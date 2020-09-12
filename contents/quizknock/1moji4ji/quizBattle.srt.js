@@ -148,7 +148,7 @@ myApp.elem.divElem.id = 'divelem';
 myApp.elem.divBtn.id  = 'divbtn';
 //
 /* set init value to the elements */
-myApp.elem.ansCol.value     = "ここに解答を入力";
+myApp.elem.ansCol.value     = "";
 myApp.elem.ansBtn.innerHTML = "１問目まで移動";
 myApp.elem.ansCol.disabled  = true;
 myApp.elem.ansBtn.disabled  = true;
