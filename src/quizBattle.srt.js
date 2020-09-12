@@ -1,5 +1,5 @@
 0
-00:00:00,000 --> 00:00:05,999
+00:00:00,000 --> 00:00:04,010
 /* CAUTION : Each sections of subtitle has independent scope. */
 /* Ver1.0 */
 doOnce[index] = true;
@@ -7,7 +7,7 @@ player.pauseVideo();
 //
 const myApp = {
     path : {
-        answer : "https://raw.githubusercontent.com/t-yokota/quizBattle/master/src/answer_sample.csv",
+        answer : "https://raw.githubusercontent.com/t-yokota/quizBattle/master/src/answer.csv",
         sound  : "https://raw.githubusercontent.com/t-yokota/quizBattle/master/sounds/sounds_3", //+ext;
         btn1   : "https://github.com/t-yokota/quizBattle/raw/master/figures/button_portrait_72ppi_1.png",
         btn2   : "https://github.com/t-yokota/quizBattle/raw/master/figures/button_portrait_72ppi_2.png",
@@ -48,6 +48,7 @@ const myApp = {
         viewFuncArray : null, //array of functions for setting view elements
         //
         os : null,
+        browser : null,
         //
         touchObject : null,
         //
@@ -134,6 +135,7 @@ const myApp = {
 //
 /* get os type */
 myApp.val.os = fetchOSType();
+myApp.val.browser = fetchBrowserType();
 //
 /* set id to the elements */
 myApp.elem.ansCol.id  = 'anscol';
@@ -171,6 +173,7 @@ player.addEventListener('onStateChange', myPlayerStateChangeEvent);
 document.addEventListener('webkitvisibilitychange', myPageHiddenCheckEvent, false);
 setInterval(myIntervalEvent, interval = 10);
 myApp.elem.ansBtn.onclick = myOnClickEvent;
+myApp.elem.ansCol.onfocus = function(){ myApp.elem.ansCol.val = ""; }
 //
 /* VIEW */
 resizePlayer();
@@ -181,22 +184,24 @@ document.styleSheets.item(0).insertRule('body { text-align: center; margin: auto
 //
 /* set elements */
 if(myApp.val.os != 'other'){
-    myApp.elem.text.style.fontSize      = '40px';
+    myApp.elem.text.style.fontSize      = '42px';
     myApp.elem.text.style.lineHeight    = '60px';
     myApp.elem.text.style.fontWeight    = 'bold';
     myApp.elem.text.style.display       = 'block';
-    myApp.elem.subText.style.fontSize   = '40px';
+    myApp.elem.subText.style.fontSize   = '42px';
     myApp.elem.subText.style.lineHeight = '60px';
     myApp.elem.subText.style.display    = 'block';
-    myApp.elem.ansCol.style.fontSize    = '35px';
+    myApp.elem.ansCol.style.fontSize    = '50px';
     myApp.elem.ansCol.style.textAlign   = 'center';
     myApp.elem.ansCol.style.margin      = '0px auto 10px'
-    myApp.elem.ansBtn.style.fontSize    = '35px';
+    myApp.elem.ansBtn.style.fontSize    = '42px';
     myApp.elem.ansBtn.style.width       = parseInt(myApp.elem.ansBtn.style.fontSize, 10)*8+'px';
+    myApp.elem.ansBtn.style.height      = parseInt(myApp.elem.ansBtn.style.fontSize, 10)*2+'px';
     myApp.elem.ansBtn.style.margin      = '0px '+(document.documentElement.clientWidth-parseInt(myApp.elem.ansBtn.style.width, 10))/2+'px 20px';
-    myApp.elem.numOX.style.fontSize     = '40px';
+    myApp.elem.numOX.style.fontSize     = '42px';
     myApp.elem.numOX.style.lineHeight   = '80px';
     myApp.elem.numOX.style.fontWeight   = 'bold';
+    myApp.elem.numOX.style.display      = 'block';
     //
     myApp.val.viewFuncArray = [
         function(){
@@ -251,6 +256,7 @@ if(myApp.val.os != 'other'){
     myApp.elem.numOX.style.fontSize     = '25px';
     myApp.elem.numOX.style.lineHeight   = '45px';
     myApp.elem.numOX.style.fontWeight   = 'bold';
+    myApp.elem.numOX.style.display      = 'block';
     //
     myApp.val.viewFuncArray = [
         function(){
@@ -337,9 +343,9 @@ function spriteHandler(){
 //
 /* set function executed after initial loading */
 myApp.elem.pushBtn.onerror = function(){
-    alert("画像の読み込みに失敗しました。ページを再読み込みしてください。" );
     myApp.val.loadErrorBool = true;
     myApp.val.loadAlertBool = true;
+    alert("画像の読み込みに失敗しました。ページを再読み込みしてください。" );
 };
 myApp.elem.pushBtn.onload = function(){
     if(myApp.val.initLoadBool == false){
@@ -378,17 +384,17 @@ function materialCheckFunction(){
         }else if(myApp.val.initLoadBool == true && myApp.val.loadAlertBool == false){
             if(myApp.val.os != 'other'){
                 if(Math.abs(myApp.elem.numOX.getBoundingClientRect().top - myApp.elem.ansBtn.getBoundingClientRect().bottom) < 50){
-                    player.pauseVideo();
-                    alert("画像の表示に失敗しました。ページを再読み込みしてください。");
                     myApp.val.loadErrorBool = true;
                     myApp.val.loadAlertBool = true;
+                    player.pauseVideo();
+                    alert("画像の表示に失敗しました。ページを再読み込みしてください。");
                 }
             }
         }
     }else{
         if(myApp.val.loadAlertBool == false){
-            alert("ページの読み込みに失敗しました。ページを再読み込みしてください。");
             myApp.val.loadAlertBool = true;
+            alert("ページの読み込みに失敗しました。ページを再読み込みしてください。");
         }
     }
 }
@@ -399,6 +405,9 @@ function myOrientationChangeEvent(){
     setTimeout(function(){
         resizePlayer();
         resizePushButton();
+        if(myApp.val.status == myApp.state.MyAnswer){
+            hidePlayer();
+        }
         if(Math.abs(window.orientation) != 90){
             if(myApp.val.status == myApp.state.MyAnswer){
                 myApp.elem.pushBtn.src = myApp.elem.imgBtn3.src;
@@ -414,8 +423,9 @@ function myOrientationChangeEvent(){
                 myApp.elem.text.innerHTML = "端末を縦向きにしてクイズをはじめる";
             }
             if(myApp.val.orientationAlertBool == false && myApp.val.initOrientation == 'portrait'){
-                alert("このサイトはスマートフォン/タブレットを縦向きにしてお楽しみください。");
+                myApp.val.playingCount = -10;
                 myApp.val.orientationAlertBool = true;
+                alert("このサイトはスマートフォン/タブレットを縦向きにしてお楽しみください。");
             }
         }
     }, 800);
@@ -458,10 +468,10 @@ function myButtonAction(){
             if(myApp.val.os != 'other'){
                 myApp.val.viewFuncArray.shift()();
                 myApp.elem.text.innerHTML = "＜ 遊び方 ＞";
-                myApp.elem.subText.innerHTML = "　早押しボタンをタップすることで、<br>　動画内のクイズに答えることができます。";
+                myApp.elem.subText.innerHTML = "早押しボタンをタップすることで<br>動画内のクイズに答えることができます";
             }else{
                 myApp.elem.text.innerHTML = "＜ 遊び方 ＞"
-                myApp.elem.subText.innerHTML = "早押しボタン(スペースキー)を押すことで、動画内のクイズに答えることができます。";
+                myApp.elem.subText.innerHTML = "早押しボタン(スペースキー)を押すことで<br>動画内のクイズに答えることができます";
             }
         }, myApp.val.btnCheck.playInterval);
     }
@@ -469,6 +479,11 @@ function myButtonAction(){
         myApp.val.status = myApp.state.MyAnswer;
         player.pauseVideo();
         pushButton();
+        // if(myApp.val.os == 'iOS'){
+        //     focusToAnsCol();
+        // }else{
+        //     setTimeout(function(){ focusToAnsCol(); }, 500);
+        // }
     }
 }
 //
@@ -505,9 +520,9 @@ function myPlayerStateChangeEvent(){
     if(player.getPlayerState() == myApp.videoState.Stopped){
         myApp.val.currTime.stopped = player.getCurrentTime();
         /* prepare to input and send answer */
-        if(myApp.val.status == myApp.state.MyAnswer){
-            setTimeout(function(){ focusToAnsCol(); }, 500);
-        }
+        // if(myApp.val.status == myApp.state.MyAnswer){
+        //     setTimeout(function(){ focusToAnsCol(); }, 500);
+        // }
         /* prevent to jump video playback position by seekbar */
         /* and prevent to pause video during each question */
         if(myApp.val.status == myApp.state.Question || myApp.val.status == myApp.state.OthAnswer){
@@ -548,11 +563,12 @@ function myIntervalEvent(){
         if(player.getPlayerState() == myApp.videoState.Playing){
             myApp.val.currTime.playing = player.getCurrentTime();
             myApp.val.watchedTime = updateWatchedTime(myApp.val.currTime.playing, myApp.val.watchedTime);
+            if(myApp.val.playingCount < 0) { myApp.val.watchedTime = myApp.val.currTime.playing; }
             if(myApp.val.playingCount < 10){ myApp.val.playingCount += 1; }
             if(myApp.val.currTime.playing -  myApp.val.watchedTime > 1.0 && myApp.val.playingCount >= 10){
                 if(myApp.val.processDelayAlertBool == false){
-                    alert('ページ内の処理が遅くなっています。早押しの判定に支障が出る可能性があるため、他のプロセスを終了してから改めてクイズをお楽しみください。このポップアップは一度のみ表示されます。');
                     myApp.val.processDelayAlertBool = true;
+                    alert('ページ内の処理が遅くなっています。早押しの判定に支障が出る可能性があるため、他のプロセスを終了してから改めてクイズをお楽しみください。このポップアップは一度のみ表示されます。');
                 }
                 myApp.val.watchedTime  = myApp.val.currTime.playing;
             }
@@ -572,10 +588,10 @@ function myIntervalEvent(){
         }
         if(myApp.val.status == myApp.state.ButtonCheck){
             if(myApp.val.cntIndex > 0 && myApp.val.loadAlertBool == false){
-                player.pauseVideo();
-                alert('ページの読み込みに失敗しました。ページを再読み込みしてください。');
                 myApp.val.loadErrorBool = true;
                 myApp.val.loadAlertBool = true;
+                player.pauseVideo();
+                alert('ページの読み込みに失敗しました。ページを再読み込みしてください。');
             }
         }
         if(myApp.val.status == myApp.state.MyAnswer){
@@ -647,6 +663,36 @@ function fetchOSType(){
         return osType;
     }
 }
+function fetchBrowserType(){
+    let bwType = null;
+    const ua = navigator.userAgent;
+    if(ua.match(/Firefox/)){
+        bwType = "Firefox";
+        return bwType;
+    }else if(ua.match(/EdgiOS/) || ua.match(/EdgA/)){
+        bwType = "Edge";
+        return bwType;
+    }else if(ua.match(/OPR/)){
+        bwType = "Opera";
+        return bwType;
+    }else if(ua.match(/OPT/)){
+        bwType = "OperaTouch";
+        return bwType;
+    }else if(ua.match(/YJApp/)){
+        bwType = "Yahoo";
+        return bwType;
+    }else if(ua.match(/Smooz/)){
+        bwType = "Smooz";
+        return bwType;
+    }else if(ua.match(/CriOS/) || ua.match(/Chrome/)){
+        bwType = "Chrome";
+        return bwType;
+    }else{
+        //Safari, Firefox(iOS), Brave and so on...
+        bwType = "Other";
+        return bwType;
+    }
+}
 //
 function detectTouchPanel(){
     return window.ontouchstart === null;
@@ -676,8 +722,9 @@ function resizePlayer(){
             myApp.val.playerHeight = myApp.val.playerWidth/16*9;
         }
         /* set special width of anscol to prevent the window is zoomed when the focus moveds to anscol */
-        if(myApp.val.os == 'Android' && navigator.userAgent.match(/Firefox/)){
-            myApp.elem.ansCol.style.width = myApp.val.playerWidth+'px';
+        if(myApp.val.os == 'Android' && myApp.val.browser == "Firefox"){
+            // myApp.elem.ansCol.style.width = myApp.val.playerWidth+'px';
+            myApp.elem.ansCol.style.width = myApp.val.playerWidth*0.98+'px';
         }else{
             myApp.elem.ansCol.style.width = myApp.val.playerWidth*0.9+'px';
         }
@@ -710,8 +757,8 @@ function resizePushButton(){
                     myApp.val.pushBtnWidth  = tmpImgWidth;
                     myApp.val.pushBtnHeight = tmpImgHeight;
                 }else{
-                    myApp.val.pushBtnWidth  = myApp.elem.pushBtn.naturalWidth*myApp.val.playerHeight/myApp.elem.pushBtn.naturalHeight;
-                    myApp.val.pushBtnHeight = myApp.val.playerHeight;
+                    myApp.val.pushBtnWidth  = myApp.elem.pushBtn.naturalWidth*myApp.val.playerHeight*1.25/myApp.elem.pushBtn.naturalHeight;
+                    myApp.val.pushBtnHeight = myApp.val.playerHeight*1.25;
                 }
             }else{
                 myApp.val.pushBtnWidth  = document.documentElement.clientWidth/5;
@@ -811,22 +858,31 @@ function pushButton(){
     hidePlayer();
     if(myApp.val.os == 'iOS'){
         myApp.elem.pushBtn.src = myApp.elem.imgBtn3.src;
+        if(myApp.val.os == 'iOS'){
+            if(myApp.val.browser == 'Chrome' || myApp.val.browser == 'Edge' || myApp.val.browser == 'Smooz'){
+                setTimeout(function(){ focusToAnsCol(); }, 500); // In above browsers, focus() doesn't work by the script below.
+            }
+        }else{
+            focusToAnsCol(); // In iOS, focus() doesn't work properly in setTimeout (keyboard doesn't appear).
+        }
     }else{
         myApp.elem.pushBtn.src = myApp.elem.imgBtn2.src;
         setTimeout(function(){ myApp.elem.pushBtn.src = myApp.elem.imgBtn3.src; }, 100);    
+        setTimeout(function(){ focusToAnsCol(); }, 500);
     }
     myApp.val.cntPush = myApp.val.cntPush+1;
 }
 //
 function focusToAnsCol(){
+    myApp.elem.ansBtn.disabled = false;
     myApp.elem.ansCol.disabled = false;
     myApp.elem.ansCol.value = "";
     myApp.elem.ansCol.focus();
-    myApp.elem.ansBtn.disabled = false;
 }
 //
 function checkAnswer(){
     myApp.val.correctBool = false;
+    myApp.elem.ansCol.blur();
     myApp.elem.ansCol.disabled  = true;
     myApp.elem.ansBtn.disabled  = true;
     const answer = myApp.elem.ansCol.value;
@@ -868,6 +924,7 @@ function jumpToAnswerIndex(index, time){
 }
 //
 function printParams(){
+    // myApp.elem.text.innerHTML = myApp.val.browser;
     // myApp.elem.subText.innerHTML = myApp.val.os + ', ' + navigator.userAgent;
     // myApp.elem.paramText.innerHTML = document.styleSheets.item(0).cssRules;
     // myApp.elem.subText.innerHTML = myApp.elem.sounds.src;
@@ -911,20 +968,20 @@ function printParams(){
 //
 //---------------------------------------------------------------------------------------------------------------
 /* set functions executed in each subtitle */
-myApp.val.jumpToAnsBool = false;
+myApp.val.jumpToAnsBool = true;
 myApp.val.srtFuncArray = [
     function(){
         myApp.val.viewFuncArray.shift()();
         /* 第1問 */
-        //myApp.val.ansIndex = 2;
-        //myApp.val.ansIndexStartTime = XXXX;
+        myApp.val.ansIndex = 2;
+        myApp.val.ansIndexStartTime = 18.78-1;
         //
         myApp.val.status = myApp.state.Question;
         myApp.val.numQues = 1;
         myApp.val.cntPush = 0;
         myApp.val.correctBool = false;
         myApp.elem.text.innerHTML = "第"+myApp.val.numQues+"問";
-        myApp.elem.ansCol.value = "";
+        myApp.elem.ansCol.value = "ここに解答を入力";
         if(Math.abs(window.orientation) != 90){ myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src; }
     },
     function(){
@@ -932,15 +989,15 @@ myApp.val.srtFuncArray = [
     },
     function(){
         /* 第2問 */
-        //myApp.val.ansIndex = 4;
-        //myApp.val.ansIndexStartTime = XXXX;
+        myApp.val.ansIndex = 4;
+        myApp.val.ansIndexStartTime = 33.93-1;
         //
         myApp.val.status = myApp.state.Question;
         myApp.val.numQues = 2;
         myApp.val.cntPush = 0;
         myApp.val.correctBool = false;
         myApp.elem.text.innerHTML = "第"+myApp.val.numQues+"問";
-        myApp.elem.ansCol.value = "";
+        myApp.elem.ansCol.value = "ここに解答を入力";
         if(Math.abs(window.orientation) != 90){ myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src; }
     },
     function(){
@@ -948,15 +1005,47 @@ myApp.val.srtFuncArray = [
     },
     function(){
         /* 第3問 */
-        //myApp.val.ansIndex = 6;
-        //myApp.val.ansIndexStartTime = XXXX;
+        myApp.val.ansIndex = 6;
+        myApp.val.ansIndexStartTime = 52.61-1;
         //
         myApp.val.status = myApp.state.Question;
         myApp.val.numQues = 3;
         myApp.val.cntPush = 0;
         myApp.val.correctBool = false;
         myApp.elem.text.innerHTML = "第"+myApp.val.numQues+"問";
-        myApp.elem.ansCol.value = "";
+        myApp.elem.ansCol.value = "ここに解答を入力";
+        if(Math.abs(window.orientation) != 90){ myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src; }
+    },
+    function(){
+        myApp.val.status = myApp.state.Talk;
+    },
+    function(){
+        /* 第4問 */
+        myApp.val.ansIndex = 8;
+        myApp.val.ansIndexStartTime = 67.5-1;
+        //
+        myApp.val.status = myApp.state.Question;
+        myApp.val.numQues = 4;
+        myApp.val.cntPush = 0;
+        myApp.val.correctBool = false;
+        myApp.elem.text.innerHTML = "第"+myApp.val.numQues+"問";
+        myApp.elem.ansCol.value = "ここに解答を入力";
+        if(Math.abs(window.orientation) != 90){ myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src; }
+    },
+    function(){
+        myApp.val.status = myApp.state.Talk;
+    },
+    function(){
+        /* 第5問 */
+        myApp.val.ansIndex = 10;
+        myApp.val.ansIndexStartTime = 84.39-1;
+        //
+        myApp.val.status = myApp.state.Question;
+        myApp.val.numQues = 5;
+        myApp.val.cntPush = 0;
+        myApp.val.correctBool = false;
+        myApp.elem.text.innerHTML = "第"+myApp.val.numQues+"問";
+        myApp.elem.ansCol.value = "ここに解答を入力";
         if(Math.abs(window.orientation) != 90){ myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src; }
     },
     function(){
@@ -965,24 +1054,41 @@ myApp.val.srtFuncArray = [
 ];
 
 1
-00:00:05,999 --> 00:00:09,999
+00:00:04,010 --> 00:00:18,780
 
 
 2
-00:00:09,999 --> 00:00:13,999
+00:00:18,780 --> 00:00:21,800
 
 
 3
-00:00:13,999 --> 00:00:17,999
+00:00:21,800 --> 00:00:33,930
 
 
 4
-00:00:17,999 --> 00:00:21,999
+00:00:33,930 --> 00:00:36,950
 
 
 5
-00:00:21,999 --> 00:00:25,999
+00:00:36,950 --> 00:00:52,610
 
 
 6
-00:00:25,999 --> 00:00:29,999
+00:00:52,610 --> 00:00:55,630
+
+
+7
+00:00:55,630 --> 00:01:07,500
+
+
+8
+00:01:07,500 --> 00:01:10,510
+
+
+9
+00:01:10,510 --> 00:01:24,390
+
+
+10
+00:01:24,390 --> 00:01:27,420
+
