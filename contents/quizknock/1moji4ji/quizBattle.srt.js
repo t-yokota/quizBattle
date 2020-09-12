@@ -79,6 +79,8 @@ const myApp = {
         prevClientWidth  : 0,
         prevClientHeight : 0,
         //
+        elemHeight : 0,
+        //
         pushBtnArea : {
             left   : 0,
             right  : 0,
@@ -190,26 +192,43 @@ if(myApp.val.os != 'other'){
     myApp.elem.text.style.lineHeight    = '60px';
     myApp.elem.text.style.fontWeight    = 'bold';
     myApp.elem.text.style.display       = 'block';
+    myApp.elem.text.style.marginTop    = '32px';
+    myApp.elem.text.style.marginBottom = '32px';
+    myApp.elem.text.style.padding       = '0px 10px';
     myApp.elem.subText.style.fontSize   = '42px';
     myApp.elem.subText.style.lineHeight = '60px';
     myApp.elem.subText.style.display    = 'block';
     myApp.elem.ansCol.style.fontSize    = '50px';
     myApp.elem.ansCol.style.height      = '100px';
     myApp.elem.ansCol.style.textAlign   = 'center';
-    myApp.elem.ansCol.style.margin      = '0px auto 10px'
+    // myApp.elem.ansCol.style.margin      = '0px auto 10px'
+    myApp.elem.ansCol.style.marginBottom = '10px'
     myApp.elem.ansBtn.style.fontSize    = '42px';
     myApp.elem.ansBtn.style.width       = parseInt(myApp.elem.ansBtn.style.fontSize, 10)*10+'px';
     myApp.elem.ansBtn.style.height      = parseInt(myApp.elem.ansBtn.style.fontSize, 10)*2+'px';
-    myApp.elem.ansBtn.style.margin      = '0px '+(document.documentElement.clientWidth-parseInt(myApp.elem.ansBtn.style.width, 10))/2+'px 20px';
+    // myApp.elem.ansBtn.style.margin      = '0px '+(document.documentElement.clientWidth-parseInt(myApp.elem.ansBtn.style.width, 10))/2+'px 20px';
+    myApp.elem.ansBtn.style.marginBottom = '20px';
     myApp.elem.numOX.style.fontSize     = '42px';
     myApp.elem.numOX.style.lineHeight   = '80px';
     myApp.elem.numOX.style.fontWeight   = 'bold';
     myApp.elem.numOX.style.display      = 'block';
     //
+    myApp.val.elemHeight = (function(e){
+        let res = 0;
+        res += parseInt(e.text.style.lineHeight, 10);
+        res += parseInt(e.text.style.marginTop, 10);
+        res += parseInt(e.text.style.marginBottom, 10);
+        res += parseInt(e.ansCol.style.height, 10);
+        res += parseInt(e.ansCol.style.marginBottom, 10);
+        res += parseInt(e.ansBtn.style.height, 10);
+        res += parseInt(e.ansBtn.style.marginBottom, 10);
+        res += parseInt(e.numOX.style.lineHeight, 10);
+        return res
+    })(myApp.elem);
+    //
     myApp.val.viewFuncArray = [
         function(){
-            myApp.elem.text.style.margin  = '32px auto';
-            myApp.elem.text.style.padding = '0px 10px';
+            // myApp.elem.text.style.margin  = '32px auto';
             document.getElementsByTagName("body")[0].appendChild(myApp.elem.text);
             // document.getElementsByTagName("body")[0].appendChild(myApp.elem.ansCol);
             document.getElementsByTagName("body")[0].appendChild(myApp.elem.ansBtn);
@@ -218,13 +237,19 @@ if(myApp.val.os != 'other'){
             // document.getElementsByTagName("body")[0].appendChild(myApp.elem.paramText);
         },
         function(){
-            myApp.elem.text.style.margin  = '40px auto 20px';
-            myApp.elem.subText.style.margin  = '0px auto 40px';
+            // myApp.elem.text.style.margin  = '40px auto 20px';
+            myApp.elem.text.style.marginTop = '40px';
+            myApp.elem.text.style.marginBottom = '20px';
+            // myApp.elem.subText.style.margin  = '0px auto 40px';
+            // myApp.elem.subText.style.marginTop = '0px';
+            myApp.elem.subText.style.marginBottom = '40px';
             myApp.elem.subText.style.padding = '0px 10px';
             document.getElementsByTagName("body")[0].insertBefore(myApp.elem.subText, myApp.elem.text.nextSibling);
         },
         function(){
-            myApp.elem.text.style.margin = '32px auto';
+            // myApp.elem.text.style.margin = '32px auto';
+            myApp.elem.text.style.marginTop    = '32px';
+            myApp.elem.text.style.marginBottom = '32px';
             myApp.elem.text.parentNode.removeChild(myApp.elem.subText);
             document.getElementsByTagName("body")[0].insertBefore(myApp.elem.ansCol, myApp.elem.text.nextSibling);
         },
@@ -763,8 +788,9 @@ function resizePushButton(){
     if(myApp.val.os != "other"){
         if(Math.abs(window.orientation) != 90){
             // const tmpImgHeight = document.documentElement.clientHeight-myApp.elem.pushBtn.getBoundingClientRect().top-parseInt(myApp.elem.numOX.style.lineHeight, 10);
-            const tmpImgHeight = document.documentElement.clientHeight-myApp.val.playerHeight-32*2-20-parseInt(myApp.elem.text.style.lineHeight, 10)-parseInt(myApp.elem.ansCol.style.height, 10)-parseInt(myApp.elem.ansBtn.style.height, 10)-parseInt(myApp.elem.numOX.style.lineHeight, 10);
-            myApp.elem.text.innerHTML = myApp.elem.text.style.margin+', '+myApp.elem.ansCol.style.height+', '+parseInt(myApp.elem.ansBtn.style.height, 10);
+            // const tmpImgHeight = document.documentElement.clientHeight-myApp.val.playerHeight-32*2-20-parseInt(myApp.elem.text.style.lineHeight, 10)-parseInt(myApp.elem.ansCol.style.height, 10)-parseInt(myApp.elem.ansBtn.style.height, 10)-parseInt(myApp.elem.numOX.style.lineHeight, 10);
+            // myApp.elem.text.innerHTML = myApp.elem.text.style.margin+', '+myApp.elem.ansCol.style.height+', '+parseInt(myApp.elem.ansBtn.style.height, 10);
+            const tmpImgHeight = document.documentElement.clientHeight-myApp.val.playerHeight-myApp.val.elemHeight;
             const tmpImgWidth  = myApp.elem.pushBtn.naturalWidth*tmpImgHeight/myApp.elem.pushBtn.naturalHeight;
             if(tmpImgWidth < document.documentElement.clientWidth){
                 if(tmpImgHeight <= myApp.val.playerHeight){
