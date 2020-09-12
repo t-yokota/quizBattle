@@ -190,7 +190,7 @@ if(myApp.val.os != 'other'){
     myApp.elem.subText.style.display    = 'block';
     myApp.elem.ansCol.style.fontSize    = '50px';
     if(myApp.val.os == 'Android' && navigator.userAgent.match(/Firefox/)){
-        myApp.elem.ansCol.style.fontSize = '60px';
+        myApp.elem.ansCol.style.fontSize = '80px';
     }
     myApp.elem.ansCol.style.textAlign   = 'center';
     myApp.elem.ansCol.style.margin      = '0px auto 10px'
