@@ -210,11 +210,11 @@ if(myApp.val.os != 'other'){
             myApp.elem.text.style.margin  = '32px auto';
             myApp.elem.text.style.padding = '0px 10px';
             document.getElementsByTagName("body")[0].appendChild(myApp.elem.text);
-            document.getElementsByTagName("body")[0].appendChild(myApp.elem.ansCol);
+            // document.getElementsByTagName("body")[0].appendChild(myApp.elem.ansCol);
             document.getElementsByTagName("body")[0].appendChild(myApp.elem.ansBtn);
             document.getElementsByTagName("body")[0].appendChild(myApp.elem.pushBtn);
             document.getElementsByTagName("body")[0].appendChild(myApp.elem.numOX);
-            document.getElementsByTagName("body")[0].appendChild(myApp.elem.paramText);
+            // document.getElementsByTagName("body")[0].appendChild(myApp.elem.paramText);
         },
         function(){
             myApp.elem.text.style.margin  = '40px auto 20px';
@@ -225,6 +225,7 @@ if(myApp.val.os != 'other'){
         function(){
             myApp.elem.text.style.margin = '32px auto';
             myApp.elem.text.parentNode.removeChild(myApp.elem.subText);
+            document.getElementsByTagName("body")[0].insertBefore(myApp.elem.ansCol, myApp.elem.text.nextSibling);
         },
     ];
     myApp.val.viewFuncArray.shift()();
@@ -283,7 +284,7 @@ if(myApp.val.os != 'other'){
             document.getElementsByTagName("div")[4].appendChild(myApp.elem.ansCol);
             document.getElementsByTagName("div")[4].appendChild(myApp.elem.ansBtn);
             document.getElementsByTagName("div")[4].appendChild(myApp.elem.numOX);
-            document.getElementsByTagName("div")[4].appendChild(myApp.elem.paramText);
+            // document.getElementsByTagName("div")[4].appendChild(myApp.elem.paramText);
         },
     ];
     myApp.val.viewFuncArray.shift()();
