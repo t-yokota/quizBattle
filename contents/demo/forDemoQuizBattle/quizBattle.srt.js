@@ -858,7 +858,12 @@ function pushButton(){
     hidePlayer();
     if(myApp.val.os == 'iOS'){
         myApp.elem.pushBtn.src = myApp.elem.imgBtn3.src;
-        focusToAnsCol();
+        if(myApp.val.os == 'iOS'){
+            if(myApp.val.browser == 'Chrome' || myApp.val.browser == 'Edge' || myApp.val.browser == 'Smooz'){
+            setTimeout(function(){ focusToAnsCol(); }, 500); // In above browsers, focus() doesn't work by the script below.
+        }else{
+            focusToAnsCol(); // In iOS, focus() doesn't work properly in setTimeout (keyboard doesn't appear).
+        }
     }else{
         myApp.elem.pushBtn.src = myApp.elem.imgBtn2.src;
         setTimeout(function(){ myApp.elem.pushBtn.src = myApp.elem.imgBtn3.src; }, 100);    
@@ -918,7 +923,7 @@ function jumpToAnswerIndex(index, time){
 }
 //
 function printParams(){
-    myApp.elem.text.innerHTML = myApp.val.browser;
+    // myApp.elem.text.innerHTML = myApp.val.browser;
     // myApp.elem.subText.innerHTML = myApp.val.os + ', ' + navigator.userAgent;
     // myApp.elem.paramText.innerHTML = document.styleSheets.item(0).cssRules;
     // myApp.elem.subText.innerHTML = myApp.elem.sounds.src;
