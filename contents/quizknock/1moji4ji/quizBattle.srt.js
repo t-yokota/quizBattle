@@ -658,8 +658,8 @@ function myIntervalEvent(){
 function myOnClickEvent(){
     if(index == 0){
         myApp.elem.ansBtn.disabled = true;
-        myApp.val.watchedTime = myApp.val.firstQuesStartTime-1;
-        player.seekTo(myApp.val.firstQuesStartTime-1);
+        myApp.val.watchedTime = myApp.val.firstQuesStartTime-2;
+        player.seekTo(myApp.val.firstQuesStartTime-2);
     }
     if(myApp.val.status == myApp.state.MyAnswer){
         checkAnswer();
