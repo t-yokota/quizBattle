@@ -48,6 +48,7 @@ const myApp = {
         viewFuncArray : null, //array of functions for setting view elements
         //
         os : null,
+        browser : null,
         //
         touchObject : null,
         //
@@ -134,6 +135,7 @@ const myApp = {
 //
 /* get os type */
 myApp.val.os = fetchOSType();
+myApp.val.browser = fetchBrowserType();
 //
 /* set id to the elements */
 myApp.elem.ansCol.id  = 'anscol';
@@ -190,9 +192,6 @@ if(myApp.val.os != 'other'){
     myApp.elem.subText.style.lineHeight = '60px';
     myApp.elem.subText.style.display    = 'block';
     myApp.elem.ansCol.style.fontSize    = '50px';
-    if(myApp.val.os == 'Android' && navigator.userAgent.match(/Firefox/)){
-        myApp.elem.ansCol.style.fontSize = '75px';
-    }
     myApp.elem.ansCol.style.textAlign   = 'center';
     myApp.elem.ansCol.style.margin      = '0px auto 10px'
     myApp.elem.ansBtn.style.fontSize    = '42px';
@@ -664,6 +663,36 @@ function fetchOSType(){
         return osType;
     }
 }
+function fetchBrowserTyepe(){
+    let bwType = null;
+    const ua = navigator.userAgent;
+    if(ua.match(/CriOS/) || ua.match(/Chrome/)){
+        bwType = "Chrome";
+        return bwType;
+    }else if(ua.match(/Firefox/)){
+        bwType = "Firefox";
+        return bwType;
+    }else if(ua.match(/EdgiOS/) || ua.match(/EdgA/)){
+        bwType = "Edge";
+        return bwType;
+    }else if(ua.match(/OPR/)){
+        bwType = "Opera";
+        return bwType;
+    }else if(ua.match(/OPT/)){
+        bwType = "OperaTouch";
+        return bwType;
+    }else if(ua.match(/YJApp/)){
+        bwType = "Yahoo";
+        return bwType;
+    }else if(ua.match(/Smooz/)){
+        bwType = "Smooz";
+        return bwType;
+    }else{
+        //Safari, Firefox(iOS), Brave and so on...
+        bwType = "Other";
+        return bwType;
+    }
+}
 //
 function detectTouchPanel(){
     return window.ontouchstart === null;
@@ -693,9 +722,9 @@ function resizePlayer(){
             myApp.val.playerHeight = myApp.val.playerWidth/16*9;
         }
         /* set special width of anscol to prevent the window is zoomed when the focus moveds to anscol */
-        if(myApp.val.os == 'Android' && navigator.userAgent.match(/Firefox/)){
+        if(myApp.val.os == 'Android' && myApp.val.browser == "Firefox"){
             // myApp.elem.ansCol.style.width = myApp.val.playerWidth+'px';
-            myApp.elem.ansCol.style.width = myApp.val.playerWidth*0.9+'px';
+            myApp.elem.ansCol.style.width = myApp.val.playerWidth*0.98+'px';
         }else{
             myApp.elem.ansCol.style.width = myApp.val.playerWidth*0.9+'px';
         }
@@ -889,6 +918,7 @@ function jumpToAnswerIndex(index, time){
 }
 //
 function printParams(){
+    myApp.elem.paramText.innerHTML = myApp.val.browser;
     // myApp.elem.subText.innerHTML = myApp.val.os + ', ' + navigator.userAgent;
     // myApp.elem.paramText.innerHTML = document.styleSheets.item(0).cssRules;
     // myApp.elem.subText.innerHTML = myApp.elem.sounds.src;
