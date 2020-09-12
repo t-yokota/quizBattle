@@ -130,6 +130,8 @@ const myApp = {
         ansIndex: 0,
         ansIndexStartTime : 0,
         jumpToAnsBool: false,
+        //
+        firstQuesStartTime : 0,
     },
 };
 //
@@ -147,9 +149,9 @@ myApp.elem.divBtn.id  = 'divbtn';
 //
 /* set init value to the elements */
 myApp.elem.ansCol.value     = "ここに解答を入力";
-myApp.elem.ansBtn.innerHTML = "解答を送信";
+myApp.elem.ansBtn.innerHTML = "１問目へ";
 myApp.elem.ansCol.disabled  = true;
-myApp.elem.ansBtn.disabled  = true;
+// myApp.elem.ansBtn.disabled  = true;
 myApp.elem.numOX.innerHTML  = "⭕️："+myApp.val.cntO+"　❌："+myApp.val.cntX;
 //
 if(myApp.val.os != 'other'){
@@ -631,6 +633,10 @@ function myIntervalEvent(){
 //
 /* onclick event function of send answer button */
 function myOnClickEvent(){
+    if(index == 0){
+        myApp.val.watchedTime = myApp.val.firstQuesStartTime-1;
+        player.seekTo(myApp.val.firstQuesStartTime-1);
+    }
     if(myApp.val.status == myApp.state.MyAnswer){
         checkAnswer();
         if(myApp.val.correctBool == true || myApp.val.limPush - myApp.val.cntPush == 0){
@@ -969,9 +975,11 @@ function printParams(){
 //---------------------------------------------------------------------------------------------------------------
 /* set functions executed in each subtitle */
 myApp.val.jumpToAnsBool = false;
+myApp.val.firstQuesStartTime = 126.06;
 myApp.val.srtFuncArray = [
     function(){
         myApp.val.viewFuncArray.shift()();
+        myApp.elem.ansBtn.innerHTML = "解答を送信"
         /* 第1問 */
         myApp.val.ansIndex = 2;
         myApp.val.ansIndexStartTime = 127.79;
