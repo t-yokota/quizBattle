@@ -202,10 +202,14 @@ if(myApp.val.os != 'other'){
     myApp.elem.ansCol.style.height       = '100px';
     myApp.elem.ansCol.style.textAlign    = 'center';
     myApp.elem.ansCol.style.marginBottom = '10px'
+    myApp.elem.ansCol.style.display      = 'block'
     myApp.elem.ansBtn.style.fontSize     = '42px';
     myApp.elem.ansBtn.style.width        = parseInt(myApp.elem.ansBtn.style.fontSize, 10)*10+'px';
     myApp.elem.ansBtn.style.height       = parseInt(myApp.elem.ansBtn.style.fontSize, 10)*2+'px';
+    // myApp.elem.ansBtn.style.marginLeft   = (document.documentElement.clientWidth-parseInt(myApp.elem.ansBtn.style.width, 10))/2+'px';
+    // myApp.elem.ansBtn.style.marginRight  = (document.documentElement.clientWidth-parseInt(myApp.elem.ansBtn.style.width, 10))/2+'px';
     myApp.elem.ansBtn.style.marginBottom = '20px';
+    myApp.elem.ansBtn.style.display      = 'block';
     myApp.elem.numOX.style.fontSize      = '42px';
     myApp.elem.numOX.style.lineHeight    = '80px';
     myApp.elem.numOX.style.fontWeight    = 'bold';
@@ -781,7 +785,7 @@ function resizePushButton(){
     if(myApp.val.os != "other"){
         if(Math.abs(window.orientation) != 90){
             const tmpImgHeight = document.documentElement.clientHeight-myApp.val.playerHeight-myApp.val.elemHeight;
-            const tmpImgWidth  = myApp.elem.pushBtn.naturalWidth*tmpImgHeight/myApp.elem.pushBtn.naturalHeight-10;
+            const tmpImgWidth  = myApp.elem.pushBtn.naturalWidth*tmpImgHeight/myApp.elem.pushBtn.naturalHeight;
             if(tmpImgWidth < document.documentElement.clientWidth){
                 if(tmpImgHeight <= myApp.val.playerHeight){
                     myApp.val.pushBtnWidth  = tmpImgWidth;
