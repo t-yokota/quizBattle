@@ -2,7 +2,7 @@
 
 YouTube動画内のクイズ企画に視聴者が参加できるようにするもの
 
-[デモページ](https://srtjs.azurewebsites.net/?v=5HPPGh7bNrQ&surl=https://raw.githubusercontent.com/t-yokota/quizBattle/master/contents/demo/forDemoQuizBattle/quizBattle.srt.js)
+[デモページ](https://srtjs.azurewebsites.net/?v=JNxnxuAHLmk&surl=https://raw.githubusercontent.com/t-yokota/quizBattle/master/src/quizBattle.srt.js)
 
 ## battleMaker.srt.js
 
