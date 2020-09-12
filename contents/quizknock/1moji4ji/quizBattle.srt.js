@@ -226,9 +226,6 @@ if(myApp.val.os != 'other'){
             myApp.elem.text.style.margin = '32px auto';
             myApp.elem.text.parentNode.removeChild(myApp.elem.subText);
             document.getElementsByTagName("body")[0].insertBefore(myApp.elem.ansCol, myApp.elem.text.nextSibling);
-            setTimeout(function(){
-                resizePushButton();
-            }, 500);
         },
     ];
     myApp.val.viewFuncArray.shift()();
@@ -763,7 +760,7 @@ function resizePlayer(){
 function resizePushButton(){
     if(myApp.val.os != "other"){
         if(Math.abs(window.orientation) != 90){
-            const tmpImgHeight = document.documentElement.clientHeight-myApp.elem.pushBtn.getBoundingClientRect().top-parseInt(myApp.elem.numOX.style.lineHeight, 10);
+            const tmpImgHeight = document.documentElement.clientHeight-myApp.elem.pushBtn.getBoundingClientRect().top-parseInt(myApp.elem.numOX.style.lineHeight, 10)-parseInt(myApp.elem.ansCol.style.height, 10);
             const tmpImgWidth  = myApp.elem.pushBtn.naturalWidth*tmpImgHeight/myApp.elem.pushBtn.naturalHeight;
             if(tmpImgWidth < document.documentElement.clientWidth){
                 if(tmpImgHeight <= myApp.val.playerHeight){
