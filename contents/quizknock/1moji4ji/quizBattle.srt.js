@@ -789,7 +789,7 @@ function resizePushButton(){
     if(myApp.val.os != "other"){
         if(Math.abs(window.orientation) != 90){
             const tmpImgHeight = document.documentElement.clientHeight-myApp.val.playerHeight-myApp.val.elemHeight;
-            const tmpImgWidth  = myApp.elem.pushBtn.naturalWidth*tmpImgHeight/myApp.elem.pushBtn.naturalHeight;
+            const tmpImgWidth  = myApp.elem.pushBtn.naturalWidth*tmpImgHeight/myApp.elem.pushBtn.naturalHeight-30;
             if(tmpImgWidth < document.documentElement.clientWidth){
                 if(tmpImgHeight <= myApp.val.playerHeight){
                     myApp.val.pushBtnWidth  = tmpImgWidth;
