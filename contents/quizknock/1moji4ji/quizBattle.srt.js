@@ -763,7 +763,7 @@ function resizePushButton(){
     if(myApp.val.os != "other"){
         if(Math.abs(window.orientation) != 90){
             // const tmpImgHeight = document.documentElement.clientHeight-myApp.elem.pushBtn.getBoundingClientRect().top-parseInt(myApp.elem.numOX.style.lineHeight, 10);
-            const tmpImgHeight = document.documentElement.clientHeight-myApp.val.playerHeight-32-parseInt(myApp.elem.ansCol.style.height, 10)-parseInt(myApp.elem.ansBtn.style.height, 10)-parseInt(myApp.elem.numOX.style.lineHeight, 10);
+            const tmpImgHeight = document.documentElement.clientHeight-myApp.val.playerHeight-32-parseInt(myApp.elem.text.style.lineHeight, 10)-parseInt(myApp.elem.ansCol.style.height, 10)-parseInt(myApp.elem.ansBtn.style.height, 10)-parseInt(myApp.elem.numOX.style.lineHeight, 10);
             myApp.elem.text.innerHTML = myApp.elem.text.style.margin+', '+myApp.elem.ansCol.style.height+', '+parseInt(myApp.elem.ansBtn.style.height, 10);
             const tmpImgWidth  = myApp.elem.pushBtn.naturalWidth*tmpImgHeight/myApp.elem.pushBtn.naturalHeight;
             if(tmpImgWidth < document.documentElement.clientWidth){
