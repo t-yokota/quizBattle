@@ -197,7 +197,7 @@ if(myApp.val.os != 'other'){
     myApp.elem.ansCol.style.textAlign   = 'center';
     myApp.elem.ansCol.style.margin      = '0px auto 10px'
     myApp.elem.ansBtn.style.fontSize    = '42px';
-    myApp.elem.ansBtn.style.width       = parseInt(myApp.elem.ansBtn.style.fontSize, 10)*8+'px';
+    myApp.elem.ansBtn.style.width       = parseInt(myApp.elem.ansBtn.style.fontSize, 10)*10+'px';
     myApp.elem.ansBtn.style.height      = parseInt(myApp.elem.ansBtn.style.fontSize, 10)*2+'px';
     myApp.elem.ansBtn.style.margin      = '0px '+(document.documentElement.clientWidth-parseInt(myApp.elem.ansBtn.style.width, 10))/2+'px 20px';
     myApp.elem.numOX.style.fontSize     = '42px';
@@ -226,6 +226,7 @@ if(myApp.val.os != 'other'){
             myApp.elem.text.style.margin = '32px auto';
             myApp.elem.text.parentNode.removeChild(myApp.elem.subText);
             document.getElementsByTagName("body")[0].insertBefore(myApp.elem.ansCol, myApp.elem.text.nextSibling);
+            resizePushButton();
         },
     ];
     myApp.val.viewFuncArray.shift()();
@@ -285,7 +286,6 @@ if(myApp.val.os != 'other'){
             document.getElementsByTagName("div")[4].appendChild(myApp.elem.ansBtn);
             document.getElementsByTagName("div")[4].appendChild(myApp.elem.numOX);
             // document.getElementsByTagName("div")[4].appendChild(myApp.elem.paramText);
-            resizePushButton();
         },
     ];
     myApp.val.viewFuncArray.shift()();
