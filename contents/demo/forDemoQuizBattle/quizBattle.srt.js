@@ -683,7 +683,7 @@ function resizePlayer(){
             // myApp.val.playerWidth  = document.documentElement.clientWidth;
             if(myApp.val.os == 'Android'){ myApp.val.playerWidth = window.innerWidth; } // In Android, clientWidth doesn't include scrollbar.
             if(myApp.val.os == 'iOS'){ myApp.val.playerWidth = document.documentElement.clientWidth; } // In iOS, innerWidth isn't static (it changes with device orientation).
-            myApp.val.playerHeight = myApp.val.playerWidth/16*9;
+            myApp.val.playerHeight = myApp.val.playerWidth/16*9.5;
         }else{
             myApp.val.playerWidth  = document.documentElement.clientWidth*2/3;
             myApp.val.playerHeight = myApp.val.playerWidth/16*9;
