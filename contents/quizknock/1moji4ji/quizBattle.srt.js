@@ -265,19 +265,21 @@ if(myApp.val.os != 'other'){
             myApp.elem.text.style.margin  = '0px auto';
             myApp.elem.text.style.padding = '0px 40px';
             document.getElementsByTagName("div")[4].appendChild(myApp.elem.text);
-            document.getElementsByTagName("div")[4].appendChild(myApp.elem.paramText);
+            // document.getElementsByTagName("div")[4].appendChild(myApp.elem.paramText);
         },
         function(){
             myApp.elem.text.style.margin  = '0px auto 30px';
             myApp.elem.subText.style.margin  = '0px auto 50px';
             myApp.elem.subText.style.padding = '0px 40px';
             document.getElementsByTagName("div")[4].appendChild(myApp.elem.subText);
-            document.getElementsByTagName("div")[4].appendChild(myApp.elem.paramText);
+            document.getElementsByTagName("div")[4].appendChild(myApp.elem.ansBtn);
+            // document.getElementsByTagName("div")[4].appendChild(myApp.elem.paramText);
             document.getElementsByTagName("div")[5].appendChild(myApp.elem.pushBtn);
         },
         function(){
             myApp.elem.text.style.margin = '0px auto 15px';
             myApp.elem.text.parentNode.removeChild(myApp.elem.subText);
+            myApp.elem.text.parentNode.removeChild(myApp.elem.ansBtn);
             document.getElementsByTagName("div")[4].appendChild(myApp.elem.ansCol);
             document.getElementsByTagName("div")[4].appendChild(myApp.elem.ansBtn);
             document.getElementsByTagName("div")[4].appendChild(myApp.elem.numOX);
