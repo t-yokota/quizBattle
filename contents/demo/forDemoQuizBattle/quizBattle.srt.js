@@ -476,11 +476,11 @@ function myButtonAction(){
         myApp.val.status = myApp.state.MyAnswer;
         player.pauseVideo();
         pushButton();
-        if(myApp.val.os == "iOS"){
-            focusToAnsCol();
-        }else{
-            setTimeout(function(){ focusToAnsCol(); }, 500);
-        }
+        // if(myApp.val.os == 'iOS'){
+        //     focusToAnsCol();
+        // }else{
+        //     setTimeout(function(){ focusToAnsCol(); }, 500);
+        // }
     }
 }
 //
@@ -824,9 +824,11 @@ function pushButton(){
     hidePlayer();
     if(myApp.val.os == 'iOS'){
         myApp.elem.pushBtn.src = myApp.elem.imgBtn3.src;
+        focusToAnsCol();
     }else{
         myApp.elem.pushBtn.src = myApp.elem.imgBtn2.src;
         setTimeout(function(){ myApp.elem.pushBtn.src = myApp.elem.imgBtn3.src; }, 100);    
+        setTimeout(function(){ focusToAnsCol(); }, 500);
     }
     myApp.val.cntPush = myApp.val.cntPush+1;
 }
