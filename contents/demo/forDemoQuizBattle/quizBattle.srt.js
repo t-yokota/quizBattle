@@ -690,7 +690,8 @@ function resizePlayer(){
         }
         /* set special width of anscol to prevent the window is zoomed when the focus moveds to anscol */
         if(myApp.val.os == 'Android' && navigator.userAgent.match(/Firefox/)){
-            myApp.elem.ansCol.style.width = myApp.val.playerWidth+'px';
+            // myApp.elem.ansCol.style.width = myApp.val.playerWidth+'px';
+            myApp.elem.ansCol.style.width = myApp.val.playerWidth*0.9+'px';
         }else{
             myApp.elem.ansCol.style.width = myApp.val.playerWidth*0.9+'px';
         }
