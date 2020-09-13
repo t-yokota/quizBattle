@@ -652,11 +652,14 @@ function myIntervalEvent(){
 //
 /* onclick event function of send answer button */
 function myOnClickEvent(){
+    /* jump to init question */
     if(index == 0){
         myApp.elem.ansBtn.disabled = true;
         myApp.val.watchedTime = myApp.val.firstQuesStartTime-2;
+        myApp.val.currTime.playing = myApp.val.firstQuesStartTime-2;
         player.seekTo(myApp.val.firstQuesStartTime-2);
     }
+    /* send answer */
     if(myApp.val.status == myApp.state.MyAnswer){
         checkAnswer();
         if(myApp.val.correctBool == true || myApp.val.limPush - myApp.val.cntPush == 0){
