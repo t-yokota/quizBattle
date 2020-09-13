@@ -947,7 +947,7 @@ function jumpToAnswerIndex(index, time){
 }
 //
 function printParams(){
-    myApp.elem.printParams.innerHTML = "timePlay: "    + myApp.val.currTime.playing.toFixed(3)+"<br>"+
+    myApp.elem.printText.innerHTML = "timePlay: "    + myApp.val.currTime.playing.toFixed(3)+"<br>"+
                                        "timeStop: "    +myApp.val.currTime.stopped.toFixed(3)+"<br>"+
                                        "WatchedTime: " + myApp.val.watchedTime.toFixed(3)+"<br>"+
                                        "diffTime: "    + myApp.val.diffTime.toFixed(3);
