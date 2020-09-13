@@ -300,9 +300,11 @@ if(myApp.val.os != 'other'){
             myApp.elem.subText.style.margin  = '0px auto 50px';
             myApp.elem.subText.style.padding = '0px 40px';
             document.getElementsByTagName("div")[4].appendChild(myApp.elem.subText);
-            document.getElementsByTagName("div")[4].appendChild(myApp.elem.ansBtn);
             // document.getElementsByTagName("div")[4].appendChild(myApp.elem.paramText);
             document.getElementsByTagName("div")[5].appendChild(myApp.elem.pushBtn);
+        },
+        function(){
+            document.getElementsByTagName("div")[4].appendChild(myApp.elem.ansBtn);
         },
         function(){
             myApp.elem.text.style.margin = '0px auto 15px';
@@ -503,6 +505,7 @@ function myButtonAction(){
                 myApp.elem.text.innerHTML = "＜ 遊び方 ＞";
                 myApp.elem.subText.innerHTML = "早押しボタンをタップすることで<br>動画内のクイズに答えることができます";
             }else{
+                if(myApp.val.os == 'other'){ myApp.val.viewFuncArray.shift()(); }
                 myApp.elem.text.innerHTML = "＜ 遊び方 ＞"
                 myApp.elem.subText.innerHTML = "早押しボタン(スペースキー)を押すことで<br>動画内のクイズに答えることができます";
             }
