@@ -896,10 +896,8 @@ function pushButton(){
     hidePlayer();
     if(myApp.val.os == 'iOS'){
         myApp.elem.pushBtn.src = myApp.elem.imgBtn3.src;
-        if(myApp.val.os == 'iOS'){
-            if(myApp.val.browser == 'Chrome' || myApp.val.browser == 'Edge' || myApp.val.browser == 'Smooz'){
+        if(myApp.val.browser == 'Chrome' || myApp.val.browser == 'Edge' || myApp.val.browser == 'Smooz'){
                 setTimeout(function(){ focusToAnsCol(); }, 500); // In above browsers, focus() doesn't work by the script below.
-            }
         }else{
             focusToAnsCol(); // In iOS, focus() doesn't work properly in setTimeout (keyboard doesn't appear).
         }
