@@ -654,10 +654,12 @@ function myIntervalEvent(){
 function myOnClickEvent(){
     /* jump to init question */
     if(index == 0){
-        myApp.elem.ansBtn.disabled = true;
-        myApp.val.watchedTime = myApp.val.firstQuesStartTime-2;
-        myApp.val.currTime.playing = myApp.val.firstQuesStartTime-2;
-        player.seekTo(myApp.val.firstQuesStartTime-2);
+        let tmpTime = myApp.val.firstQuesStartTime-2;
+        if(myApp.val.currTime.playing > tmpTime){
+            myApp.elem.ansBtn.disabled = true;
+            myApp.val.watchedTime = tmpTime;
+            player.seekTo(tmpTime);
+        }
     }
     /* send answer */
     if(myApp.val.status == myApp.state.MyAnswer){
