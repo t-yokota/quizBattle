@@ -236,7 +236,7 @@ if(myApp.val.os != 'other'){
             document.getElementsByTagName("body")[0].appendChild(myApp.elem.ansBtn);
             document.getElementsByTagName("body")[0].appendChild(myApp.elem.pushBtn);
             document.getElementsByTagName("body")[0].appendChild(myApp.elem.numOX);
-            // document.getElementsByTagName("body")[0].appendChild(myApp.elem.paramText);
+            document.getElementsByTagName("body")[0].appendChild(myApp.elem.paramText);
         },
         function(){
             myApp.elem.text.style.marginTop = '40px';
@@ -297,23 +297,16 @@ if(myApp.val.os != 'other'){
             myApp.elem.subText.style.margin  = '0px auto 50px';
             myApp.elem.subText.style.padding = '0px 40px';
             document.getElementsByTagName("div")[4].insertBefore(myApp.elem.subText, myApp.elem.text.nextSibling);
-            // document.getElementsByTagName("div")[4].appendChild(myApp.elem.subText);
-            // document.getElementsByTagName("div")[4].appendChild(myApp.elem.paramText);
             document.getElementsByTagName("div")[5].appendChild(myApp.elem.pushBtn);
         },
         function(){
-            // document.getElementsByTagName("div")[4].appendChild(myApp.elem.ansBtn);
             document.getElementsByTagName("div")[4].insertBefore(myApp.elem.ansBtn, myApp.elem.subText.nextSibling);
         },
         function(){
             myApp.elem.text.style.margin = '0px auto 15px';
             myApp.elem.text.parentNode.removeChild(myApp.elem.subText);
-            // myApp.elem.text.parentNode.removeChild(myApp.elem.ansBtn);
             document.getElementsByTagName("div")[4].insertBefore(myApp.elem.ansCol, myApp.elem.text.nextSibling);
-            // document.getElementsByTagName("div")[4].appendChild(myApp.elem.ansCol);
-            // document.getElementsByTagName("div")[4].appendChild(myApp.elem.ansBtn);
             document.getElementsByTagName("div")[4].appendChild(myApp.elem.numOX);
-            // document.getElementsByTagName("div")[4].appendChild(myApp.elem.paramText);
         },
     ];
     myApp.val.viewFuncArray.shift()();
