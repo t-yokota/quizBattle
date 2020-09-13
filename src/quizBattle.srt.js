@@ -947,10 +947,10 @@ function jumpToAnswerIndex(index, time){
 }
 //
 function printParams(){
-    myApp.elem.printText.innerHTML = "timePlay: "    + myApp.val.currTime.playing.toFixed(3)+"<br>"+
-                                       "timeStop: "    +myApp.val.currTime.stopped.toFixed(3)+"<br>"+
-                                       "WatchedTime: " + myApp.val.watchedTime.toFixed(3)+"<br>"+
-                                       "diffTime: "    + myApp.val.diffTime.toFixed(3);
+    myApp.elem.paramText.innerHTML = "timePlay: "    + myApp.val.currTime.playing.toFixed(3)+"<br>"+
+                                     "timeStop: "    +myApp.val.currTime.stopped.toFixed(3)+"<br>"+
+                                     "WatchedTime: " + myApp.val.watchedTime.toFixed(3)+"<br>"+
+                                     "diffTime: "    + myApp.val.diffTime.toFixed(3);
     // myApp.elem.paramText.innerHTML = myApp.val.browser;
     // myApp.elem.paramText.innerHTML = myApp.val.os + ', ' + navigator.userAgent;
     // myApp.elem.paramText.innerHTML = document.styleSheets.item(0).cssRules;
