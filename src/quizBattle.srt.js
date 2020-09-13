@@ -655,7 +655,7 @@ function myOnClickEvent(){
     /* jump to init question */
     if(index == 0){
         let tmpTime = myApp.val.firstQuesStartTime-2;
-        if(myApp.val.currTime.playing > tmpTime){
+        if(tmpTime < myApp.val.currTime.playing){
             myApp.elem.ansBtn.disabled = true;
             myApp.val.watchedTime = tmpTime;
             player.seekTo(tmpTime);
