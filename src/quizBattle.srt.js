@@ -952,7 +952,7 @@ function jumpToAnswerIndex(index, time){
 }
 //
 function printParams(){
-    myApp.elem.paramText.innerHTML = "firstQuesTime: " +myApp.val.firstQuesStartTime-2+"<br>"+
+    myApp.elem.paramText.innerHTML = "firstQuesTime: " +myApp.val.firstQuesStartTime-2.0+"<br>"+
                                      "timePlay: "    + myApp.val.currTime.playing.toFixed(3)+"<br>"+
                                      "timeStop: "    +myApp.val.currTime.stopped.toFixed(3)+"<br>"+
                                      "WatchedTime: " + myApp.val.watchedTime.toFixed(3)+"<br>"+
