@@ -1,5 +1,5 @@
 0
-00:00:00,000 --> 00:00:04,010
+00:00:00,000 --> 00:02:06,060
 /* CAUTION : Each sections of subtitle has independent scope. */
 /* Ver1.0 */
 doOnce[index] = true;
@@ -7,7 +7,7 @@ player.pauseVideo();
 //
 const myApp = {
     path : {
-        answer : "https://raw.githubusercontent.com/t-yokota/quizBattle/master/src/answer.csv",
+        answer : "https://raw.githubusercontent.com/t-yokota/quizBattle/master/contents/quizknock/1moji4ji/answer.csv",
         sound  : "https://raw.githubusercontent.com/t-yokota/quizBattle/master/sounds/sounds_3", //+ext;
         btn1   : "https://github.com/t-yokota/quizBattle/raw/master/figures/button_portrait_72ppi_1.png",
         btn2   : "https://github.com/t-yokota/quizBattle/raw/master/figures/button_portrait_72ppi_2.png",
@@ -79,6 +79,8 @@ const myApp = {
         prevClientWidth  : 0,
         prevClientHeight : 0,
         //
+        elemHeight : 0,
+        //
         pushBtnArea : {
             left   : 0,
             right  : 0,
@@ -130,6 +132,8 @@ const myApp = {
         ansIndex: 0,
         ansIndexStartTime : 0,
         jumpToAnsBool: false,
+        //
+        firstQuesStartTime : 0,
     },
 };
 //
@@ -147,7 +151,7 @@ myApp.elem.divBtn.id  = 'divbtn';
 //
 /* set init value to the elements */
 myApp.elem.ansCol.value     = "ここに解答を入力";
-myApp.elem.ansBtn.innerHTML = "解答を送信";
+myApp.elem.ansBtn.innerHTML = "１問目まで移動";
 myApp.elem.ansCol.disabled  = true;
 myApp.elem.ansBtn.disabled  = true;
 myApp.elem.numOX.innerHTML  = "⭕️："+myApp.val.cntO+"　❌："+myApp.val.cntX;
@@ -184,45 +188,68 @@ document.styleSheets.item(0).insertRule('body { text-align: center; margin: auto
 //
 /* set elements */
 if(myApp.val.os != 'other'){
-    myApp.elem.text.style.fontSize      = '42px';
-    myApp.elem.text.style.lineHeight    = '60px';
-    myApp.elem.text.style.fontWeight    = 'bold';
-    myApp.elem.text.style.display       = 'block';
-    myApp.elem.subText.style.fontSize   = '42px';
-    myApp.elem.subText.style.lineHeight = '60px';
-    myApp.elem.subText.style.display    = 'block';
-    myApp.elem.ansCol.style.fontSize    = '50px';
-    myApp.elem.ansCol.style.textAlign   = 'center';
-    myApp.elem.ansCol.style.margin      = '0px auto 10px'
-    myApp.elem.ansBtn.style.fontSize    = '42px';
-    myApp.elem.ansBtn.style.width       = parseInt(myApp.elem.ansBtn.style.fontSize, 10)*8+'px';
-    myApp.elem.ansBtn.style.height      = parseInt(myApp.elem.ansBtn.style.fontSize, 10)*2+'px';
-    myApp.elem.ansBtn.style.margin      = '0px '+(document.documentElement.clientWidth-parseInt(myApp.elem.ansBtn.style.width, 10))/2+'px 20px';
-    myApp.elem.numOX.style.fontSize     = '42px';
-    myApp.elem.numOX.style.lineHeight   = '80px';
-    myApp.elem.numOX.style.fontWeight   = 'bold';
-    myApp.elem.numOX.style.display      = 'block';
+    myApp.elem.text.style.fontSize       = '42px';
+    myApp.elem.text.style.lineHeight     = '60px';
+    myApp.elem.text.style.fontWeight     = 'bold';
+    myApp.elem.text.style.display        = 'block';
+    myApp.elem.text.style.marginTop      = '32px';
+    myApp.elem.text.style.marginBottom   = '32px';
+    myApp.elem.text.style.padding        = '0px 10px';
+    myApp.elem.subText.style.fontSize    = '42px';
+    myApp.elem.subText.style.lineHeight  = '60px';
+    myApp.elem.subText.style.display     = 'block';
+    myApp.elem.ansCol.style.fontSize     = '50px';
+    myApp.elem.ansCol.style.height       = '100px';
+    myApp.elem.ansCol.style.textAlign    = 'center';
+    myApp.elem.ansCol.style.marginBottom = '10px';
+    myApp.elem.ansCol.style.marginLeft   = 'auto';
+    myApp.elem.ansCol.style.marginRight  = 'auto';
+    myApp.elem.ansCol.style.display      = 'block'
+    myApp.elem.ansBtn.style.fontSize     = '42px';
+    myApp.elem.ansBtn.style.width        = parseInt(myApp.elem.ansBtn.style.fontSize, 10)*10+'px';
+    myApp.elem.ansBtn.style.height       = parseInt(myApp.elem.ansBtn.style.fontSize, 10)*2+'px';
+    myApp.elem.ansBtn.style.marginBottom = '20px';
+    myApp.elem.ansBtn.style.marginLeft   = 'auto';
+    myApp.elem.ansBtn.style.marginRight  = 'auto';
+    myApp.elem.ansBtn.style.display      = 'block';
+    myApp.elem.numOX.style.fontSize      = '42px';
+    myApp.elem.numOX.style.lineHeight    = '80px';
+    myApp.elem.numOX.style.fontWeight    = 'bold';
+    myApp.elem.numOX.style.display       = 'block';
+    //
+    myApp.val.elemHeight = (function(e){
+        let res = 0;
+        res += parseInt(e.text.style.lineHeight, 10);
+        res += parseInt(e.text.style.marginTop, 10);
+        res += parseInt(e.text.style.marginBottom, 10);
+        res += parseInt(e.ansCol.style.height, 10);
+        res += parseInt(e.ansCol.style.marginBottom, 10);
+        res += parseInt(e.ansBtn.style.height, 10);
+        res += parseInt(e.ansBtn.style.marginBottom, 10);
+        res += parseInt(e.numOX.style.lineHeight, 10);
+        return res
+    })(myApp.elem);
     //
     myApp.val.viewFuncArray = [
         function(){
-            myApp.elem.text.style.margin  = '32px auto';
-            myApp.elem.text.style.padding = '0px 10px';
             document.getElementsByTagName("body")[0].appendChild(myApp.elem.text);
-            document.getElementsByTagName("body")[0].appendChild(myApp.elem.ansCol);
             document.getElementsByTagName("body")[0].appendChild(myApp.elem.ansBtn);
             document.getElementsByTagName("body")[0].appendChild(myApp.elem.pushBtn);
             document.getElementsByTagName("body")[0].appendChild(myApp.elem.numOX);
             document.getElementsByTagName("body")[0].appendChild(myApp.elem.paramText);
         },
         function(){
-            myApp.elem.text.style.margin  = '40px auto 20px';
-            myApp.elem.subText.style.margin  = '0px auto 40px';
+            myApp.elem.text.style.marginTop = '40px';
+            myApp.elem.text.style.marginBottom = '20px';
+            myApp.elem.subText.style.marginBottom = '40px';
             myApp.elem.subText.style.padding = '0px 10px';
             document.getElementsByTagName("body")[0].insertBefore(myApp.elem.subText, myApp.elem.text.nextSibling);
         },
         function(){
-            myApp.elem.text.style.margin = '32px auto';
+            myApp.elem.text.style.marginTop    = '32px';
+            myApp.elem.text.style.marginBottom = '32px';
             myApp.elem.text.parentNode.removeChild(myApp.elem.subText);
+            document.getElementsByTagName("body")[0].insertBefore(myApp.elem.ansCol, myApp.elem.text.nextSibling);
         },
     ];
     myApp.val.viewFuncArray.shift()();
@@ -269,17 +296,17 @@ if(myApp.val.os != 'other'){
             myApp.elem.text.style.margin  = '0px auto 30px';
             myApp.elem.subText.style.margin  = '0px auto 50px';
             myApp.elem.subText.style.padding = '0px 40px';
-            document.getElementsByTagName("div")[4].appendChild(myApp.elem.subText);
-            document.getElementsByTagName("div")[4].appendChild(myApp.elem.paramText);
+            document.getElementsByTagName("div")[4].insertBefore(myApp.elem.subText, myApp.elem.text.nextSibling);
             document.getElementsByTagName("div")[5].appendChild(myApp.elem.pushBtn);
+        },
+        function(){
+            document.getElementsByTagName("div")[4].insertBefore(myApp.elem.ansBtn, myApp.elem.subText.nextSibling);
         },
         function(){
             myApp.elem.text.style.margin = '0px auto 15px';
             myApp.elem.text.parentNode.removeChild(myApp.elem.subText);
-            document.getElementsByTagName("div")[4].appendChild(myApp.elem.ansCol);
-            document.getElementsByTagName("div")[4].appendChild(myApp.elem.ansBtn);
+            document.getElementsByTagName("div")[4].insertBefore(myApp.elem.ansCol, myApp.elem.text.nextSibling);
             document.getElementsByTagName("div")[4].appendChild(myApp.elem.numOX);
-            document.getElementsByTagName("div")[4].appendChild(myApp.elem.paramText);
         },
     ];
     myApp.val.viewFuncArray.shift()();
@@ -465,11 +492,13 @@ function myButtonAction(){
         buttonCheck(myApp.val.btnCheck.sndInterval);
         setTimeout(function(){
             player.playVideo();
+            myApp.elem.ansBtn.disabled = false;
             if(myApp.val.os != 'other'){
                 myApp.val.viewFuncArray.shift()();
                 myApp.elem.text.innerHTML = "＜ 遊び方 ＞";
                 myApp.elem.subText.innerHTML = "早押しボタンをタップすることで<br>動画内のクイズに答えることができます";
             }else{
+                myApp.val.viewFuncArray.shift()();
                 myApp.elem.text.innerHTML = "＜ 遊び方 ＞"
                 myApp.elem.subText.innerHTML = "早押しボタン(スペースキー)を押すことで<br>動画内のクイズに答えることができます";
             }
@@ -479,11 +508,6 @@ function myButtonAction(){
         myApp.val.status = myApp.state.MyAnswer;
         player.pauseVideo();
         pushButton();
-        // if(myApp.val.os == 'iOS'){
-        //     focusToAnsCol();
-        // }else{
-        //     setTimeout(function(){ focusToAnsCol(); }, 500);
-        // }
     }
 }
 //
@@ -519,10 +543,6 @@ function myPlayerStateChangeEvent(){
     }
     if(player.getPlayerState() == myApp.videoState.Stopped){
         myApp.val.currTime.stopped = player.getCurrentTime();
-        /* prepare to input and send answer */
-        // if(myApp.val.status == myApp.state.MyAnswer){
-        //     setTimeout(function(){ focusToAnsCol(); }, 500);
-        // }
         /* prevent to jump video playback position by seekbar */
         /* and prevent to pause video during each question */
         if(myApp.val.status == myApp.state.Question || myApp.val.status == myApp.state.OthAnswer){
@@ -563,8 +583,9 @@ function myIntervalEvent(){
         if(player.getPlayerState() == myApp.videoState.Playing){
             myApp.val.currTime.playing = player.getCurrentTime();
             myApp.val.watchedTime = updateWatchedTime(myApp.val.currTime.playing, myApp.val.watchedTime);
-            if(myApp.val.playingCount < 0) { myApp.val.watchedTime = myApp.val.currTime.playing; }
-            if(myApp.val.playingCount < 10){ myApp.val.playingCount += 1; }
+            /* check delay of processing */
+            if(myApp.val.playingCount < 0) { myApp.val.watchedTime = myApp.val.currTime.playing; } // fix delay of watchedTime caused by showing orientation alert.
+            if(myApp.val.playingCount < 10){ myApp.val.playingCount += 1; }　// allow initial delay of watchedTime just after playing video.
             if(myApp.val.currTime.playing -  myApp.val.watchedTime > 1.0 && myApp.val.playingCount >= 10){
                 if(myApp.val.processDelayAlertBool == false){
                     myApp.val.processDelayAlertBool = true;
@@ -631,6 +652,11 @@ function myIntervalEvent(){
 //
 /* onclick event function of send answer button */
 function myOnClickEvent(){
+    if(index == 0){
+        myApp.elem.ansBtn.disabled = true;
+        myApp.val.watchedTime = myApp.val.firstQuesStartTime-2;
+        player.seekTo(myApp.val.firstQuesStartTime-2);
+    }
     if(myApp.val.status == myApp.state.MyAnswer){
         checkAnswer();
         if(myApp.val.correctBool == true || myApp.val.limPush - myApp.val.cntPush == 0){
@@ -643,6 +669,10 @@ function myOnClickEvent(){
 }
 //
 /* FUNCTION */
+function detectTouchPanel(){
+    return window.ontouchstart === null;
+}
+//
 function fetchOSType(){
     let osType = null;
     const ua = navigator.userAgent;
@@ -663,6 +693,7 @@ function fetchOSType(){
         return osType;
     }
 }
+//
 function fetchBrowserType(){
     let bwType = null;
     const ua = navigator.userAgent;
@@ -685,17 +716,14 @@ function fetchBrowserType(){
         bwType = "Smooz";
         return bwType;
     }else if(ua.match(/CriOS/) || ua.match(/Chrome/)){
+        //Chrome or Others ...
         bwType = "Chrome";
         return bwType;
     }else{
-        //Safari, Firefox(iOS), Brave and so on...
+        //Safari, Firefox(iOS), Brave or Others ...
         bwType = "Other";
         return bwType;
     }
-}
-//
-function detectTouchPanel(){
-    return window.ontouchstart === null;
 }
 /**
  * @param {string} str
@@ -723,7 +751,6 @@ function resizePlayer(){
         }
         /* set special width of anscol to prevent the window is zoomed when the focus moveds to anscol */
         if(myApp.val.os == 'Android' && myApp.val.browser == "Firefox"){
-            // myApp.elem.ansCol.style.width = myApp.val.playerWidth+'px';
             myApp.elem.ansCol.style.width = myApp.val.playerWidth*0.98+'px';
         }else{
             myApp.elem.ansCol.style.width = myApp.val.playerWidth*0.9+'px';
@@ -750,7 +777,7 @@ function resizePlayer(){
 function resizePushButton(){
     if(myApp.val.os != "other"){
         if(Math.abs(window.orientation) != 90){
-            const tmpImgHeight = document.documentElement.clientHeight-myApp.elem.pushBtn.getBoundingClientRect().top-parseInt(myApp.elem.numOX.style.lineHeight, 10);
+            const tmpImgHeight = document.documentElement.clientHeight-myApp.val.playerHeight-myApp.val.elemHeight-20;
             const tmpImgWidth  = myApp.elem.pushBtn.naturalWidth*tmpImgHeight/myApp.elem.pushBtn.naturalHeight;
             if(tmpImgWidth < document.documentElement.clientWidth){
                 if(tmpImgHeight <= myApp.val.playerHeight){
@@ -853,15 +880,12 @@ function buttonCheck(responseInterval){
 }
 //
 function pushButton(){
-    playSndPushBtn();
-    // if(myApp.val.os != 'other'){ hidePlayer(); }
     hidePlayer();
+    playSndPushBtn();
     if(myApp.val.os == 'iOS'){
         myApp.elem.pushBtn.src = myApp.elem.imgBtn3.src;
-        if(myApp.val.os == 'iOS'){
-            if(myApp.val.browser == 'Chrome' || myApp.val.browser == 'Edge' || myApp.val.browser == 'Smooz'){
+        if(myApp.val.browser == 'Chrome' || myApp.val.browser == 'Edge' || myApp.val.browser == 'Smooz'){
                 setTimeout(function(){ focusToAnsCol(); }, 500); // In above browsers, focus() doesn't work by the script below.
-            }
         }else{
             focusToAnsCol(); // In iOS, focus() doesn't work properly in setTimeout (keyboard doesn't appear).
         }
@@ -903,10 +927,7 @@ function checkAnswer(){
         myApp.elem.text.innerHTML = "不正解！"; //あと"+(myApp.val.limPush-myApp.val.cntPush)+"回解答できます。";
         if(myApp.val.jumpToAnsBool){ jumpToAnswerIndex(myApp.val.ansIndex, myApp.val.ansIndexStartTime); }
     }
-    // if(myApp.val.os != 'other'){ opposePlayer(); }
-    opposePlayer();
     myApp.elem.numOX.innerHTML  = "⭕️："+myApp.val.cntO+"　❌："+myApp.val.cntX;
-    //
     if(window.orientation != 90){
         if(myApp.val.correctBool == false && myApp.val.limPush - myApp.val.cntPush == 0){
             myApp.elem.pushBtn.src = myApp.elem.imgBtn4.src;
@@ -916,7 +937,9 @@ function checkAnswer(){
     }else{
         myApp.elem.pushBtn.src = myApp.elem.imgBtn4.src;
     }
+    opposePlayer();
 }
+//
 function jumpToAnswerIndex(index, time){
     myApp.val.cntIndex = index-1;
     myApp.val.watchedTime = time-0.1;
@@ -924,8 +947,8 @@ function jumpToAnswerIndex(index, time){
 }
 //
 function printParams(){
-    // myApp.elem.text.innerHTML = myApp.val.browser;
-    // myApp.elem.subText.innerHTML = myApp.val.os + ', ' + navigator.userAgent;
+    // myApp.elem.paramText.innerHTML = myApp.val.browser;
+    // myApp.elem.paramText.innerHTML = myApp.val.os + ', ' + navigator.userAgent;
     // myApp.elem.paramText.innerHTML = document.styleSheets.item(0).cssRules;
     // myApp.elem.subText.innerHTML = myApp.elem.sounds.src;
     // myApp.elem.subText.innerHTML = "sounds.currentTime: " + Math.abs(Math.floor(myApp.elem.sounds.currentTime*1000)/1000);
@@ -942,6 +965,7 @@ function printParams(){
     // myApp.elem.subText.innerHTML = 'playerWidth: '  + myApp.val.playerWidth  + ', innerWidth: '      + window.innerWidth;
     // myApp.elem.paramText.innerHTML = "<br>"+ 
     //     "device: "           + myApp.val.os+"<br>"+
+    //     "browser: "          + myApp.val.browser+"<br>"+
     //     "activeElem: "       + document.activeElement.id+"<br>"+   
     //     "status: "           + myApp.val.status+"<br>"+
     //     "timePlay: "         + myApp.val.currTime.playing.toFixed(3)+"<br>"+

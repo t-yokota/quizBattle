@@ -585,6 +585,7 @@ myElem.script.innerHTML = `
         //
         let indent = '&nbsp;&nbsp;&nbsp;&nbsp;';
         res.push('myApp.val.jumpToAnsBool = false;');
+        res.push('myApp.val.firstQuesStartTime = '+array[0][2]+';');
         res.push('myApp.val.srtFuncArray = [');
         for(let i = 0; i < array.length; i++){
             res.push(indent+ 'function(){');
@@ -596,6 +597,7 @@ myElem.script.innerHTML = `
                     });
                     if(quesCount == 1){
                         res.push(indent+indent+ 'myApp.val.viewFuncArray.shift()();');
+                        res.push(indent+indent+ 'myApp.elem.ansBtn.innerHTML = "解答を送信";')
                     }
                     res.push(indent+indent+ '/* 第'+quesCount+'問 */');
                     res.push(indent+indent+ 'myApp.val.ansIndex = '+quesArray.slice(-1)[0][4]+';');
