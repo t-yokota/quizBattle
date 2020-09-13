@@ -1,5 +1,5 @@
 0
-00:00:00,000 --> 00:02:06,060
+00:00:00,000 --> 00:00:04,010
 /* CAUTION : Each sections of subtitle has independent scope. */
 /* Ver1.0 */
 doOnce[index] = true;
