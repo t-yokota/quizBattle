@@ -654,7 +654,7 @@ function myIntervalEvent(){
 function myOnClickEvent(){
     /* jump to init question */
     if(index == 0){
-        let tmpTime = myApp.val.firstQuesStartTime-2;
+        let tmpTime = myApp.val.firstQuesStartTime-0.1;
         if(myApp.val.currTime.playing < tmpTime){
             myApp.elem.ansBtn.disabled = true;
             myApp.val.watchedTime = tmpTime;
@@ -952,27 +952,21 @@ function jumpToAnswerIndex(index, time){
 }
 //
 function printParams(){
-    myApp.elem.paramText.innerHTML = "firstQuesTime: " +(myApp.val.firstQuesStartTime-2)+"<br>"+
-                                     "timePlay: "    + myApp.val.currTime.playing.toFixed(3)+"<br>"+
-                                     "timeStop: "    +myApp.val.currTime.stopped.toFixed(3)+"<br>"+
-                                     "WatchedTime: " + myApp.val.watchedTime.toFixed(3)+"<br>"+
-                                     "diffTime: "    + myApp.val.diffTime.toFixed(3);
+    // myApp.elem.paramText.innerHTML = "timePlay: "    + myApp.val.currTime.playing.toFixed(3)+"<br>"+
+    //                                  "timeStop: "    +myApp.val.currTime.stopped.toFixed(3)+"<br>"+
+    //                                  "WatchedTime: " + myApp.val.watchedTime.toFixed(3)+"<br>"+
+    //                                  "diffTime: "    + myApp.val.diffTime.toFixed(3);
     // myApp.elem.paramText.innerHTML = myApp.val.browser;
     // myApp.elem.paramText.innerHTML = myApp.val.os + ', ' + navigator.userAgent;
     // myApp.elem.paramText.innerHTML = document.styleSheets.item(0).cssRules;
-    // myApp.elem.subText.innerHTML = myApp.elem.sounds.src;
     // myApp.elem.subText.innerHTML = "sounds.currentTime: " + Math.abs(Math.floor(myApp.elem.sounds.currentTime*1000)/1000);
-    // myApp.elem.subText.innerHTML = "docWidth: " + document.documentElement.clientWidth +", "+
-    //                             "docHeight: "+ document.documentElement.clientHeight + ", "+
-    //                             "inWidth: "  + window.innerWidth + ", "+
-    //                             "inHeight: " + window.innerHeight;
     // myApp.elem.subText.innerHTML = Math.floor(myApp.val.touchObject.pageX)      +', '+ Math.floor(myApp.val.touchObject.pageY) +' '+
     //                             '[' + Math.floor(myApp.val.pushBtnArea.left) +', '+ Math.floor(myApp.val.pushBtnArea.right) +'] '+
     //                             '[' + Math.floor(myApp.val.pushBtnArea.top)  +', '+ Math.floor(myApp.val.pushBtnArea.bottom)+'] '+
     //                             '| '+ window.pageXOffset +', '+ window.pageYOffset;
     // myApp.elem.subText.innerHTML = myApp.elem.numOX.getBoundingClientRect().top - myApp.elem.ansBtn.getBoundingClientRect().bottom;
     // myApp.elem.subText.innerHTML = 'loadErrorBool: ' + myApp.val.loadErrorBool + ', initLoadBool: ' + myApp.val.initLoadBool + ', loadCount: ' + myApp.val.loadCount;
-    // myApp.elem.subText.innerHTML = 'playerWidth: '  + myApp.val.playerWidth  + ', innerWidth: '      + window.innerWidth;
+    // myApp.elem.subText.innerHTML = 'playerWidth: ' + myApp.val.playerWidth + ', innerWidth: ' + window.innerWidth;
     // myApp.elem.paramText.innerHTML = "<br>"+ 
     //     "device: "           + myApp.val.os+"<br>"+
     //     "browser: "          + myApp.val.browser+"<br>"+
