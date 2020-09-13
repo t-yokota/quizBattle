@@ -947,8 +947,8 @@ function jumpToAnswerIndex(index, time){
 }
 //
 function printParams(){
-    myApp.elem.paramText.innerHTML = myApp.val.browser;
-    // myApp.elem.subText.innerHTML = myApp.val.os + ', ' + navigator.userAgent;
+    // myApp.elem.paramText.innerHTML = myApp.val.browser;
+    // myApp.elem.paramText.innerHTML = myApp.val.os + ', ' + navigator.userAgent;
     // myApp.elem.paramText.innerHTML = document.styleSheets.item(0).cssRules;
     // myApp.elem.subText.innerHTML = myApp.elem.sounds.src;
     // myApp.elem.subText.innerHTML = "sounds.currentTime: " + Math.abs(Math.floor(myApp.elem.sounds.currentTime*1000)/1000);
@@ -965,6 +965,7 @@ function printParams(){
     // myApp.elem.subText.innerHTML = 'playerWidth: '  + myApp.val.playerWidth  + ', innerWidth: '      + window.innerWidth;
     // myApp.elem.paramText.innerHTML = "<br>"+ 
     //     "device: "           + myApp.val.os+"<br>"+
+    //     "browser: "          + myApp.val.browser+"<br>"+
     //     "activeElem: "       + document.activeElement.id+"<br>"+   
     //     "status: "           + myApp.val.status+"<br>"+
     //     "timePlay: "         + myApp.val.currTime.playing.toFixed(3)+"<br>"+
@@ -996,7 +997,7 @@ myApp.val.firstQuesStartTime = 126.06;
 myApp.val.srtFuncArray = [
     function(){
         myApp.val.viewFuncArray.shift()();
-        myApp.elem.ansBtn.innerHTML = "解答を送信"
+        myApp.elem.ansBtn.innerHTML = "解答を送信";
         /* 第1問 */
         myApp.val.ansIndex = 2;
         myApp.val.ansIndexStartTime = 127.79;
