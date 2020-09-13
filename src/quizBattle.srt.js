@@ -584,9 +584,9 @@ function myIntervalEvent(){
             myApp.val.currTime.playing = player.getCurrentTime();
             myApp.val.watchedTime = updateWatchedTime(myApp.val.currTime.playing, myApp.val.watchedTime);
             /* check delay of processing */
-            if(myApp.val.playingCount < 0) { myApp.val.watchedTime = myApp.val.currTime.playing; } // fix delay of watchedTime caused by showing orientation alert.
+            if(myApp.val.playingCount < 0 ){ myApp.val.watchedTime = myApp.val.currTime.playing; } // fix delay of watchedTime caused by showing orientation alert.
             if(myApp.val.playingCount < 10){ myApp.val.playingCount += 1; }　// allow initial delay of watchedTime just after playing video.
-            if(myApp.val.currTime.playing -  myApp.val.watchedTime > 1.0 && myApp.val.playingCount >= 10){
+            if(myApp.val.currTime.playing - myApp.val.watchedTime > 1.0 && myApp.val.playingCount >= 10){
                 if(myApp.val.processDelayAlertBool == false){
                     myApp.val.processDelayAlertBool = true;
                     alert('ページ内の処理が遅くなっています。早押しの判定に支障が出る可能性があるため、他のプロセスを終了してから改めてクイズをお楽しみください。このポップアップは一度のみ表示されます。');
@@ -947,6 +947,10 @@ function jumpToAnswerIndex(index, time){
 }
 //
 function printParams(){
+    myApp.elem.printParams.innerHTML = "timePlay: "    + myApp.val.currTime.playing.toFixed(3)+"<br>"+
+                                       "timeStop: "    +myApp.val.currTime.stopped.toFixed(3)+"<br>"+
+                                       "WatchedTime: " + myApp.val.watchedTime.toFixed(3)+"<br>"+
+                                       "diffTime: "    + myApp.val.diffTime.toFixed(3);
     // myApp.elem.paramText.innerHTML = myApp.val.browser;
     // myApp.elem.paramText.innerHTML = myApp.val.os + ', ' + navigator.userAgent;
     // myApp.elem.paramText.innerHTML = document.styleSheets.item(0).cssRules;
@@ -997,6 +1001,7 @@ myApp.val.firstQuesStartTime = 4.01;
 myApp.val.srtFuncArray = [
     function(){
         myApp.val.viewFuncArray.shift()();
+        myApp.elem.ansBtn.innerHTML = "解答を送信";
         /* 第1問 */
         myApp.val.ansIndex = 2;
         myApp.val.ansIndexStartTime = 18.78-1;
