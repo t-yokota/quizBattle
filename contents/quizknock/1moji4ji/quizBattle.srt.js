@@ -208,8 +208,6 @@ if(myApp.val.os != 'other'){
     myApp.elem.ansBtn.style.fontSize     = '42px';
     myApp.elem.ansBtn.style.width        = parseInt(myApp.elem.ansBtn.style.fontSize, 10)*10+'px';
     myApp.elem.ansBtn.style.height       = parseInt(myApp.elem.ansBtn.style.fontSize, 10)*2+'px';
-    // myApp.elem.ansBtn.style.marginLeft   = (document.documentElement.clientWidth-parseInt(myApp.elem.ansBtn.style.width, 10))/2+'px';
-    // myApp.elem.ansBtn.style.marginRight  = (document.documentElement.clientWidth-parseInt(myApp.elem.ansBtn.style.width, 10))/2+'px';
     myApp.elem.ansBtn.style.marginBottom = '20px';
     myApp.elem.ansBtn.style.marginLeft   = 'auto';
     myApp.elem.ansBtn.style.marginRight  = 'auto';
@@ -235,7 +233,6 @@ if(myApp.val.os != 'other'){
     myApp.val.viewFuncArray = [
         function(){
             document.getElementsByTagName("body")[0].appendChild(myApp.elem.text);
-            // document.getElementsByTagName("body")[0].appendChild(myApp.elem.ansCol);
             document.getElementsByTagName("body")[0].appendChild(myApp.elem.ansBtn);
             document.getElementsByTagName("body")[0].appendChild(myApp.elem.pushBtn);
             document.getElementsByTagName("body")[0].appendChild(myApp.elem.numOX);
@@ -515,11 +512,6 @@ function myButtonAction(){
         myApp.val.status = myApp.state.MyAnswer;
         player.pauseVideo();
         pushButton();
-        // if(myApp.val.os == 'iOS'){
-        //     focusToAnsCol();
-        // }else{
-        //     setTimeout(function(){ focusToAnsCol(); }, 500);
-        // }
     }
 }
 //
@@ -555,10 +547,6 @@ function myPlayerStateChangeEvent(){
     }
     if(player.getPlayerState() == myApp.videoState.Stopped){
         myApp.val.currTime.stopped = player.getCurrentTime();
-        /* prepare to input and send answer */
-        // if(myApp.val.status == myApp.state.MyAnswer){
-        //     setTimeout(function(){ focusToAnsCol(); }, 500);
-        // }
         /* prevent to jump video playback position by seekbar */
         /* and prevent to pause video during each question */
         if(myApp.val.status == myApp.state.Question || myApp.val.status == myApp.state.OthAnswer){
@@ -599,8 +587,9 @@ function myIntervalEvent(){
         if(player.getPlayerState() == myApp.videoState.Playing){
             myApp.val.currTime.playing = player.getCurrentTime();
             myApp.val.watchedTime = updateWatchedTime(myApp.val.currTime.playing, myApp.val.watchedTime);
-            if(myApp.val.playingCount < 0) { myApp.val.watchedTime = myApp.val.currTime.playing; }
-            if(myApp.val.playingCount < 10){ myApp.val.playingCount += 1; }
+            /* check delay of processing */
+            if(myApp.val.playingCount < 0) { myApp.val.watchedTime = myApp.val.currTime.playing; } // fix delay of watchedTime caused by showing orientation alert.
+            if(myApp.val.playingCount < 10){ myApp.val.playingCount += 1; }　// allow initial delay of watchedTime just after playing video.
             if(myApp.val.currTime.playing -  myApp.val.watchedTime > 1.0 && myApp.val.playingCount >= 10){
                 if(myApp.val.processDelayAlertBool == false){
                     myApp.val.processDelayAlertBool = true;
@@ -684,6 +673,10 @@ function myOnClickEvent(){
 }
 //
 /* FUNCTION */
+function detectTouchPanel(){
+    return window.ontouchstart === null;
+}
+//
 function fetchOSType(){
     let osType = null;
     const ua = navigator.userAgent;
@@ -704,6 +697,7 @@ function fetchOSType(){
         return osType;
     }
 }
+//
 function fetchBrowserType(){
     let bwType = null;
     const ua = navigator.userAgent;
@@ -726,17 +720,14 @@ function fetchBrowserType(){
         bwType = "Smooz";
         return bwType;
     }else if(ua.match(/CriOS/) || ua.match(/Chrome/)){
+        //Chrome or Others ...
         bwType = "Chrome";
         return bwType;
     }else{
-        //Safari, Firefox(iOS), Brave and so on...
+        //Safari, Firefox(iOS), Brave or Others ...
         bwType = "Other";
         return bwType;
     }
-}
-//
-function detectTouchPanel(){
-    return window.ontouchstart === null;
 }
 /**
  * @param {string} str
@@ -764,7 +755,6 @@ function resizePlayer(){
         }
         /* set special width of anscol to prevent the window is zoomed when the focus moveds to anscol */
         if(myApp.val.os == 'Android' && myApp.val.browser == "Firefox"){
-            // myApp.elem.ansCol.style.width = myApp.val.playerWidth+'px';
             myApp.elem.ansCol.style.width = myApp.val.playerWidth*0.98+'px';
         }else{
             myApp.elem.ansCol.style.width = myApp.val.playerWidth*0.9+'px';
@@ -894,9 +884,8 @@ function buttonCheck(responseInterval){
 }
 //
 function pushButton(){
-    playSndPushBtn();
-    // if(myApp.val.os != 'other'){ hidePlayer(); }
     hidePlayer();
+    playSndPushBtn();
     if(myApp.val.os == 'iOS'){
         myApp.elem.pushBtn.src = myApp.elem.imgBtn3.src;
         if(myApp.val.browser == 'Chrome' || myApp.val.browser == 'Edge' || myApp.val.browser == 'Smooz'){
@@ -942,10 +931,7 @@ function checkAnswer(){
         myApp.elem.text.innerHTML = "不正解！"; //あと"+(myApp.val.limPush-myApp.val.cntPush)+"回解答できます。";
         if(myApp.val.jumpToAnsBool){ jumpToAnswerIndex(myApp.val.ansIndex, myApp.val.ansIndexStartTime); }
     }
-    // if(myApp.val.os != 'other'){ opposePlayer(); }
-    opposePlayer();
     myApp.elem.numOX.innerHTML  = "⭕️："+myApp.val.cntO+"　❌："+myApp.val.cntX;
-    //
     if(window.orientation != 90){
         if(myApp.val.correctBool == false && myApp.val.limPush - myApp.val.cntPush == 0){
             myApp.elem.pushBtn.src = myApp.elem.imgBtn4.src;
@@ -955,7 +941,9 @@ function checkAnswer(){
     }else{
         myApp.elem.pushBtn.src = myApp.elem.imgBtn4.src;
     }
+    opposePlayer();
 }
+//
 function jumpToAnswerIndex(index, time){
     myApp.val.cntIndex = index-1;
     myApp.val.watchedTime = time-0.1;
