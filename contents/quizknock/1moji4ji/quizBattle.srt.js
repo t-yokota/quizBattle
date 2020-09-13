@@ -150,7 +150,7 @@ myApp.elem.divElem.id = 'divelem';
 myApp.elem.divBtn.id  = 'divbtn';
 //
 /* set init value to the elements */
-myApp.elem.ansCol.value     = "";
+myApp.elem.ansCol.value     = "ここに解答を入力";
 myApp.elem.ansBtn.innerHTML = "１問目まで移動";
 myApp.elem.ansCol.disabled  = true;
 myApp.elem.ansBtn.disabled  = true;
@@ -287,7 +287,7 @@ if(myApp.val.os != 'other'){
     myApp.elem.numOX.style.lineHeight   = '45px';
     myApp.elem.numOX.style.fontWeight   = 'bold';
     myApp.elem.numOX.style.display      = 'block';
-    //
+    //git 
     myApp.val.viewFuncArray = [
         function(){
             myApp.elem.text.style.margin  = '0px auto';
@@ -300,9 +300,11 @@ if(myApp.val.os != 'other'){
             myApp.elem.subText.style.margin  = '0px auto 50px';
             myApp.elem.subText.style.padding = '0px 40px';
             document.getElementsByTagName("div")[4].appendChild(myApp.elem.subText);
-            document.getElementsByTagName("div")[4].appendChild(myApp.elem.ansBtn);
             // document.getElementsByTagName("div")[4].appendChild(myApp.elem.paramText);
             document.getElementsByTagName("div")[5].appendChild(myApp.elem.pushBtn);
+        },
+        function(){
+            document.getElementsByTagName("div")[4].appendChild(myApp.elem.ansBtn);
         },
         function(){
             myApp.elem.text.style.margin = '0px auto 15px';
@@ -503,6 +505,7 @@ function myButtonAction(){
                 myApp.elem.text.innerHTML = "＜ 遊び方 ＞";
                 myApp.elem.subText.innerHTML = "早押しボタンをタップすることで<br>動画内のクイズに答えることができます";
             }else{
+                myApp.val.viewFuncArray.shift()();
                 myApp.elem.text.innerHTML = "＜ 遊び方 ＞"
                 myApp.elem.subText.innerHTML = "早押しボタン(スペースキー)を押すことで<br>動画内のクイズに答えることができます";
             }
