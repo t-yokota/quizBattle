@@ -1004,7 +1004,7 @@ myApp.val.srtFuncArray = [
         myApp.elem.ansBtn.innerHTML = "解答を送信";
         /* 第1問 */
         myApp.val.ansIndex = 2;
-        myApp.val.ansIndexStartTime = 18.78-1;
+        myApp.val.ansIndexStartTime = 18.78;
         //
         myApp.val.status = myApp.state.Question;
         myApp.val.numQues = 1;
@@ -1020,7 +1020,7 @@ myApp.val.srtFuncArray = [
     function(){
         /* 第2問 */
         myApp.val.ansIndex = 4;
-        myApp.val.ansIndexStartTime = 33.93-1;
+        myApp.val.ansIndexStartTime = 33.93;
         //
         myApp.val.status = myApp.state.Question;
         myApp.val.numQues = 2;
@@ -1036,7 +1036,7 @@ myApp.val.srtFuncArray = [
     function(){
         /* 第3問 */
         myApp.val.ansIndex = 6;
-        myApp.val.ansIndexStartTime = 52.61-1;
+        myApp.val.ansIndexStartTime = 52.61;
         //
         myApp.val.status = myApp.state.Question;
         myApp.val.numQues = 3;
@@ -1052,7 +1052,7 @@ myApp.val.srtFuncArray = [
     function(){
         /* 第4問 */
         myApp.val.ansIndex = 8;
-        myApp.val.ansIndexStartTime = 67.5-1;
+        myApp.val.ansIndexStartTime = 67.5;
         //
         myApp.val.status = myApp.state.Question;
         myApp.val.numQues = 4;
@@ -1068,7 +1068,7 @@ myApp.val.srtFuncArray = [
     function(){
         /* 第5問 */
         myApp.val.ansIndex = 10;
-        myApp.val.ansIndexStartTime = 84.39-1;
+        myApp.val.ansIndexStartTime = 84.39;
         //
         myApp.val.status = myApp.state.Question;
         myApp.val.numQues = 5;
