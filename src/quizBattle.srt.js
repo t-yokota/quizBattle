@@ -885,7 +885,8 @@ function buttonCheck(responseInterval){
 }
 //
 function pushButton(){
-    hidePlayer();
+    // hidePlayer();
+    if(myApp.val.os != 'other'){ hidePlayer(); }
     playSndPushBtn();
     if(myApp.val.os == 'iOS'){
         myApp.elem.pushBtn.src = myApp.elem.imgBtn3.src;
@@ -942,7 +943,8 @@ function checkAnswer(){
     }else{
         myApp.elem.pushBtn.src = myApp.elem.imgBtn4.src;
     }
-    opposePlayer();
+    if(myApp.val.os != 'other'){ opposePlayer(); }
+    // opposePlayer();
 }
 //
 function jumpToAnswerIndex(index, time){
