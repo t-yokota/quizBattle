@@ -1000,7 +1000,7 @@ function printParams(){
 //---------------------------------------------------------------------------------------------------------------
 /* set functions executed in each subtitle */
 myApp.val.jumpToAnsBool = true;
-myApp.val.firstQuesStartTime = 37.34;
+myApp.val.firstQuesStartTime = 34;
 myApp.val.srtFuncArray = [
     function(){
         myApp.val.viewFuncArray.shift()();
