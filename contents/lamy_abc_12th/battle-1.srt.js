@@ -7,7 +7,7 @@ player.pauseVideo();
 //
 const myApp = {
     path : {
-        answer : "https://raw.githubusercontent.com/t-yokota/quizBattle/contents/lamy_abc_12th/answer-1.csv",
+        answer : "https://raw.githubusercontent.com/t-yokota/quizBattle/master/contents/lamy_abc_12th/answer-1.csv",
         sound  : "https://raw.githubusercontent.com/t-yokota/quizBattle/master/sounds/sounds_3", //+ext;
         btn1   : "https://github.com/t-yokota/quizBattle/raw/master/figures/button_portrait_72ppi_1.png",
         btn2   : "https://github.com/t-yokota/quizBattle/raw/master/figures/button_portrait_72ppi_2.png",
