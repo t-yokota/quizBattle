@@ -167,18 +167,6 @@ if(myApp.val.os != 'other'){
 /* set initial state (button check) */
 myApp.val.status = myApp.state.ButtonCheck;
 //
-/* set event functions */
-window.addEventListener('orientationchange', myOrientationChangeEvent);
-document.addEventListener("compositionstart", function(){ myApp.val.composingBool = true; });
-document.addEventListener('compositionend',   function(){ myApp.val.composingBool = false; });
-document.onkeydown = myKeyDownEvent;
-document.addEventListener("touchstart", myTouchEvent);
-player.addEventListener('onStateChange', myPlayerStateChangeEvent);
-document.addEventListener('webkitvisibilitychange', myPageHiddenCheckEvent, false);
-setInterval(myIntervalEvent, interval = 10);
-myApp.elem.ansBtn.onclick = myOnClickEvent;
-myApp.elem.ansCol.onfocus = function(){ myApp.elem.ansCol.val = ""; }
-//
 /* VIEW */
 resizePlayer();
 //
@@ -428,6 +416,7 @@ function materialCheckFunction(){
 //
 /* EVENT */
 /* orientation change event function */
+window.addEventListener('orientationchange', myOrientationChangeEvent);
 function myOrientationChangeEvent(){
     setTimeout(function(){
         resizePlayer();
@@ -458,7 +447,26 @@ function myOrientationChangeEvent(){
     }, 800);
 }
 //
+/* page hidden check event function */
+document.addEventListener('webkitvisibilitychange', myPageHiddenCheckEvent, false);
+function myPageHiddenCheckEvent(){
+    if(document.webkitHidden){
+        myApp.val.pageHiddenBool = true;
+        // console.log('Hidden.');
+    }else{
+        myApp.val.pageHiddenBool = false;
+        myApp.val.currTime.playing = player.getCurrentTime();
+        myApp.val.watchedTime  = myApp.val.currTime.playing;
+        myApp.val.playingCount = 0;
+        // console.log('Opened.');
+    }
+}
+//
 /* keydown event function */
+document.onkeydown = myKeyDownEvent;
+//
+document.addEventListener("compositionstart", function(){ myApp.val.composingBool = true; });
+document.addEventListener('compositionend',   function(){ myApp.val.composingBool = false; });
 function myKeyDownEvent(){
     if(myApp.val.loadErrorBool == false && myApp.val.initLoadBool == true && Math.abs(window.orientation) != 90){
         if(event.keyCode == myApp.val.space){
@@ -474,6 +482,7 @@ function myKeyDownEvent(){
 }
 //
 /* touchstart event function (for smartphonea and tablet) */
+document.addEventListener("touchstart", myTouchEvent);
 function myTouchEvent(event){
     if(myApp.val.loadErrorBool == false && myApp.val.initLoadBool == true && Math.abs(window.orientation) != 90){
         myApp.val.touchObject = event.changedTouches[0];
@@ -512,6 +521,7 @@ function myButtonAction(){
 }
 //
 /* player's state change event function */
+player.addEventListener('onStateChange', myPlayerStateChangeEvent);
 function myPlayerStateChangeEvent(){
     if(player.getPlayerState() == myApp.videoState.Playing){
         myApp.val.currTime.playing = player.getCurrentTime();
@@ -563,21 +573,8 @@ function myPlayerStateChangeEvent(){
     }
 }
 //
-/* page hidden check event function */
-function myPageHiddenCheckEvent(){
-    if(document.webkitHidden){
-        myApp.val.pageHiddenBool = true;
-        // console.log('Hidden.');
-    }else{
-        myApp.val.pageHiddenBool = false;
-        myApp.val.currTime.playing = player.getCurrentTime();
-        myApp.val.watchedTime  = myApp.val.currTime.playing;
-        myApp.val.playingCount = 0;
-        // console.log('Opened.');
-    }
-}
-//
 /* interval event function that are executed at a certain interval */
+setInterval(myIntervalEvent, interval = 10);
 function myIntervalEvent(){
     if(myApp.val.pageHiddenBool == false){
         if(player.getPlayerState() == myApp.videoState.Playing){
@@ -651,6 +648,7 @@ function myIntervalEvent(){
 }
 //
 /* onclick event function of send answer button */
+myApp.elem.ansBtn.onclick = myOnClickEvent;
 function myOnClickEvent(){
     /* jump to init question */
     if(index == 0){
@@ -672,6 +670,9 @@ function myOnClickEvent(){
         player.playVideo();
     }
 }
+//
+/* onfocus event function of answer column */
+myApp.elem.ansCol.onfocus = function(){ myApp.elem.ansCol.val = ""; }
 //
 /* FUNCTION */
 function detectTouchPanel(){
