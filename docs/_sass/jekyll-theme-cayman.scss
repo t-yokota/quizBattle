@@ -378,21 +378,14 @@ a {
 }
 
 //yokota added
-.list {
-	position: relative;
-	overflow: hidden; /* ulでリスト全体を右に50%移動している分幅が広がりスクロールバーが表示されるのを防ぐ */
+table.sample {
+  display: block;
+  border: none;
 }
-
-.list ul {
-	position: relative;
-	left: 50%; /* ulを右に50%移動 */
-	float: left;
-	margin-left: -5px;/* liのmarginの半分をネガティブマージン（しないと右にずれる） */
+table.sample tr {
+  display: inline;
 }
-
-.list ul li {
-	position: relative;
-	left: -50%; /* 左に50%移動 */
-	float: left;
-	margin-left: 10px;    
+table.sample td {
+  display: inline-block;
+  margin-bottom: 8px;
 }
