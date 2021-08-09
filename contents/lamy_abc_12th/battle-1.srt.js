@@ -1025,7 +1025,7 @@ function printParams(){
 myApp.val.hidePlayerBool.phone = true;
 myApp.val.hidePlayerBool.other = false;
 myApp.val.jumpToAnsBool = true;
-myApp.val.firstQuesStartTime = 34;
+myApp.val.firstQuesStartTime = 36;
 myApp.val.srtFuncArray = [
     function(){
         myApp.val.viewFuncArray.shift()();
