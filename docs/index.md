@@ -25,24 +25,24 @@ PC、スマホのブラウザで（大体）利用可能です。
 <table class="sample">
     <tr>
         <td>
-            <img src="https://raw.githubusercontent.com/t-yokota/quizBattle/master/figures/button_portrait_1.png" width="50%" alt="1行1列目"><br>1行1列目
+            <img src="https://raw.githubusercontent.com/t-yokota/quizBattle/master/figures/button_portrait_1.png" width="600" alt="1行1列目"><br>1行1列目
         </td>
         <td>
-            <img src="https://raw.githubusercontent.com/t-yokota/quizBattle/master/figures/button_portrait_1.png" width="50%" alt="1行2列目"><br>1行2列目
+            <img src="https://raw.githubusercontent.com/t-yokota/quizBattle/master/figures/button_portrait_1.png" width="600" alt="1行2列目"><br>1行2列目
         </td>
         <td>
-            <img src="https://raw.githubusercontent.com/t-yokota/quizBattle/master/figures/button_portrait_1.png" width="50%" alt="1行2列目"><br>1行3列目
+            <img src="https://raw.githubusercontent.com/t-yokota/quizBattle/master/figures/button_portrait_1.png" width="600" alt="1行2列目"><br>1行3列目
         </td>
     </tr>
     <tr>
         <td>
-            <img src="https://raw.githubusercontent.com/t-yokota/quizBattle/master/figures/button_portrait_1.png" width="50%" alt="2行1列目"><br>2行1列目
+            <img src="https://raw.githubusercontent.com/t-yokota/quizBattle/master/figures/button_portrait_1.png" width="600" alt="2行1列目"><br>2行1列目
         </td>
         <td>
-            <img src="https://raw.githubusercontent.com/t-yokota/quizBattle/master/figures/button_portrait_1.png" width="50%" alt="2行2列目"><br>2行2列目
+            <img src="https://raw.githubusercontent.com/t-yokota/quizBattle/master/figures/button_portrait_1.png" width="600" alt="2行2列目"><br>2行2列目
         </td>
         <td>
-            <img src="https://raw.githubusercontent.com/t-yokota/quizBattle/master/figures/button_portrait_1.png" width="50%" alt="2行2列目"><br>2行3列目
+            <img src="https://raw.githubusercontent.com/t-yokota/quizBattle/master/figures/button_portrait_1.png" width="600" alt="2行2列目"><br>2行3列目
         </td>
     </tr>
 </table>
