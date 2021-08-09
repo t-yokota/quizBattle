@@ -8,11 +8,22 @@ PC、スマホのブラウザで（大体）利用可能です。
 
 本ツールを利用する際、ブラウザ上でJavaScriptのプログラムが実行されます。利用中に正常に動作しなくなった場合は、ブラウザのタブを閉じるか、再度読み込んでください。
 
+# How to use
+
+<div class="list">
+	<ul>
+		<li>1</li>
+		<li>2</li>
+		<li>3</li>
+		<li>4</li>
+	</ul>
+</div>
+
 # Contents
 
-## サンプル動画
+## お試しクイズ
 
-サンプル用に作成した、簡単なクイズ5問の動画です（1分30秒）。
+本ツールのデモ用に作成した、1分30秒の短いクイズ動画です（全5問）。
 
 [link](https://srtjs.azurewebsites.net/?v=BHWd-HDorfY&surl=https://raw.githubusercontent.com/t-yokota/quizBattle/master/src/quizBattle.srt.js)
 
