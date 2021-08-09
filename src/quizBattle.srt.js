@@ -93,6 +93,11 @@ const myApp = {
         divElemWidth : 0,
         divBtnWidth  : 0,
         //
+        hidePlayerBool : {
+            phone : false,
+            other : false,
+        },
+        //
         /* keycode (for keyboard) */
         space : 32, //push buttion
         enter : 13,
@@ -422,7 +427,9 @@ function myOrientationChangeEvent(){
         resizePlayer();
         resizePushButton();
         if(myApp.val.status == myApp.state.MyAnswer){
-            hidePlayer();
+            if(myApp.val.hidePlayerBool.phone == true){
+                hidePlayer();
+            }
         }
         if(Math.abs(window.orientation) != 90){
             if(myApp.val.status == myApp.state.MyAnswer){
@@ -886,8 +893,16 @@ function buttonCheck(responseInterval){
 }
 //
 function pushButton(){
-    hidePlayer();
-    // if(myApp.val.os != 'other'){ hidePlayer(); }
+    // hide player during answer.
+    if(myApp.val.os != 'other'){
+        if(myApp.val.hidePlayerBool.phone == true){
+            hidePlayer();
+        }
+    }else{
+        if(myApp.val.hidePlayerBool.other == true){
+            hidePlayer();
+        }
+    }
     playSndPushBtn();
     if(myApp.val.os == 'iOS'){
         myApp.elem.pushBtn.src = myApp.elem.imgBtn3.src;
@@ -944,8 +959,16 @@ function checkAnswer(){
     }else{
         myApp.elem.pushBtn.src = myApp.elem.imgBtn4.src;
     }
-    // if(myApp.val.os != 'other'){ opposePlayer(); }
-    opposePlayer();
+    // oppose player after answer.
+    if(myApp.val.os != 'other'){
+        if(myApp.val.hidePlayerBool.phone == true){
+            opposePlayer();
+        }
+    }else{
+        if(myApp.val.hidePlayerBool.other == true){
+            opposePlayer();
+        }
+    }
 }
 //
 function jumpToAnswerIndex(index, time){
@@ -999,6 +1022,8 @@ function printParams(){
 //
 //---------------------------------------------------------------------------------------------------------------
 /* set functions executed in each subtitle */
+myApp.val.hidePlayerBool.phone = true;
+myApp.val.hidePlayerBool.other = false;
 myApp.val.jumpToAnsBool = true;
 myApp.val.firstQuesStartTime = 4.01;
 myApp.val.srtFuncArray = [

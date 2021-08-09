@@ -584,6 +584,8 @@ myElem.script.innerHTML = `
         let quesCount = 0;
         //
         let indent = '&nbsp;&nbsp;&nbsp;&nbsp;';
+        res.push('myApp.val.hidePlayerBool.phone = true;');
+        res.push('myApp.val.hidePlayerBool.other = false;');
         res.push('myApp.val.jumpToAnsBool = false;');
         res.push('myApp.val.firstQuesStartTime = '+array[0][2]+';');
         res.push('myApp.val.srtFuncArray = [');
