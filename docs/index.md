@@ -6,15 +6,13 @@ PC、スマホのブラウザで（大体）利用可能です。
 
 ## 注意事項
 
-本ツールを利用する際、ブラウザ上でJavaScriptのプログラムが実行されます。ツールの挙動がおかしい場合は、ブラウザのタブを閉じるか、再度読み込んでください。
+本ツールを利用する際、ブラウザ上でJavaScriptのプログラムが実行されます。利用中に正常に動作しなくなった場合は、ブラウザのタブを閉じるか、再度読み込んでください。
 
 # Contents
 
-## Short demo
+## サンプル動画
 
-デモ用に作成した5問1分30秒の短い動画です。
-
-https://srtjs.azurewebsites.net/?v=BHWd-HDorfY&surl=https://raw.githubusercontent.com/t-yokota/quizBattle/master/src/quizBattle.srt.js
+サンプル用に作成した、簡単なクイズ5問の動画です（1分30秒）。
 
 [link](https://srtjs.azurewebsites.net/?v=BHWd-HDorfY&surl=https://raw.githubusercontent.com/t-yokota/quizBattle/master/src/quizBattle.srt.js)
 
