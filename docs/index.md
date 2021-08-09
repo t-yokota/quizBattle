@@ -1,8 +1,13 @@
 # QuizBattle on YouTube
 
-YouTube動画内で出題されたクイズに視聴者が早押しで解答することができるツールです。
+このツールを使ってYouTube上にアップロードされたクイズ動画を見ると、動画内のクイズに早押しで解答することができます。</br>
+PC、スマホのブラウザで大体利用できます。
 
-## Contents
+# Contents
+
+## Short demo
+
+## acb the 12th by ラミィ(@quiz_reader)
 
 | head1        | head two          | three |
 |:-------------|:------------------|:------|
@@ -11,7 +16,5 @@ YouTube動画内で出題されたクイズに視聴者が早押しで解答す�
 | ok           | good `oreos`      | hmm   |
 | ok           | good `zoute` drop | yumm  |
 
-## Spectial Thanks
-
-## Contact
+# Contact
 

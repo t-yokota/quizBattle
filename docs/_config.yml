@@ -1,3 +1,3 @@
 theme: jekyll-theme-cayman
-description: YouTube動画内のクイズに視聴者が解答できるツール
-show_downloads: true
+description: YouTube動画の早押しクイズに参加できるツール
+show_downloads: false
