@@ -21,7 +21,7 @@ PC、スマホのブラウザで（大体）利用可能です。
 <table class="contents">
     <tr>
         <td>
-            <img src="https://raw.githubusercontent.com/t-yokota/quizBattle/master/figures/button_portrait_1.png" class="width" alt="1行1列目"><br>1行1列目
+            <img src="https://raw.githubusercontent.com/t-yokota/quizBattle/master/figures/button_portrait_1.png" class="contents" alt="1行1列目"><br>1行1列目
         </td>
     </tr>
 </table>
@@ -33,23 +33,23 @@ PC、スマホのブラウザで（大体）利用可能です。
 <table class="contents">
     <tr>
         <td>
-            <img src="https://raw.githubusercontent.com/t-yokota/quizBattle/master/figures/button_portrait_1.png" class="width" alt="1行1列目"><br>1行1列目
+            <img src="https://raw.githubusercontent.com/t-yokota/quizBattle/master/figures/button_portrait_1.png" class="contents" alt="1行1列目"><br>1行1列目
         </td>
         <td>
-            <img src="https://raw.githubusercontent.com/t-yokota/quizBattle/master/figures/button_portrait_1.png" class="width" alt="1行2列目"><br>1行2列目
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <img src="https://raw.githubusercontent.com/t-yokota/quizBattle/master/figures/button_portrait_1.png" class="width" alt="1行2列目"><br>2行1列目
-        </td>
-        <td>
-            <img src="https://raw.githubusercontent.com/t-yokota/quizBattle/master/figures/button_portrait_1.png" class="width" alt="2行1列目"><br>2行2列目
+            <img src="https://raw.githubusercontent.com/t-yokota/quizBattle/master/figures/button_portrait_1.png" class="contents" alt="1行2列目"><br>1行2列目
         </td>
     </tr>
     <tr>
         <td>
-            <img src="https://raw.githubusercontent.com/t-yokota/quizBattle/master/figures/button_portrait_1.png" class="width" alt="2行2列目"><br>3行1列目
+            <img src="https://raw.githubusercontent.com/t-yokota/quizBattle/master/figures/button_portrait_1.png" class="contents" alt="1行2列目"><br>2行1列目
+        </td>
+        <td>
+            <img src="https://raw.githubusercontent.com/t-yokota/quizBattle/master/figures/button_portrait_1.png" class="contents" alt="2行1列目"><br>2行2列目
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <img src="https://raw.githubusercontent.com/t-yokota/quizBattle/master/figures/button_portrait_1.png" class="contents" alt="2行2列目"><br>3行1列目
         </td>
     </tr>
 </table>
