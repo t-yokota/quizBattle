@@ -378,18 +378,30 @@ a {
 }
 
 //yokota added
-table.sample {
+table.contents {
+  @include medium {
+    display: block;
+    border: none;
+  }
   @include small {
     display: block;
     border: none;
   }
 }
-table.sample tr {
+table.contents tr {
+  @include medium {
+    display: inline;
+  }
   @include small {
     display: inline;
   }
 }
-table.sample td {
+table.contents td {
+  border: 1px none;
+  @include medium {
+    display: inline-block;
+    margin-bottom: 8px;
+  }
   @include small {
     display: inline-block;
     margin-bottom: 8px;
@@ -401,9 +413,9 @@ img.width {
     width: 382px;
   }
   
-  @include medium {
-    width: 382px;
-  }
+  // @include medium {
+  //   width: 382px;
+  // }
 
   // @include small {
   // }
