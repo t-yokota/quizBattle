@@ -307,7 +307,6 @@ a {
   }
 
   table {
-    table-layout: fixed;
     display: block;
     width: 100%;
     overflow: auto;
@@ -380,6 +379,7 @@ a {
 
 //yokota added
 table.contents {
+  display: table;
   @include large {
     table-layout: fixed;
   }
