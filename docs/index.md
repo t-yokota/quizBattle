@@ -1,8 +1,10 @@
+<div style="text-align: center">
+    <img src="https://raw.githubusercontent.com/t-yokota/quizBattle/master/docs/images/main-figure.png">
+</div>
+
 # QuizBattle on YouTube
 
-このツールを使ってYouTube上にアップロードされたクイズ動画を見ると、視聴者も動画内のクイズに早押しで解答することができます。
-
-スマホ、PCのブラウザで（大体）利用可能です。
+スマホやPCを使ってYouTube上にアップロードされたクイズ動画を見ながら、動画内のクイズに早押しで解答することができるツールです。
 
 ## 注意事項
 
@@ -41,7 +43,7 @@
             <img src="https://raw.githubusercontent.com/t-yokota/quizBattle/master/figures/button_portrait_1.png" width="200px" alt="1行2列目"><br>1行2列目
         </td>
     </tr>
-    <tr>
+    <!-- <tr>
         <td>
             <img src="https://raw.githubusercontent.com/t-yokota/quizBattle/master/figures/button_portrait_1.png" class="contents" alt="1行2列目"><br>2行1列目
         </td>
@@ -53,7 +55,7 @@
         <td>
             <img src="https://raw.githubusercontent.com/t-yokota/quizBattle/master/figures/button_portrait_1.png" class="contents" alt="2行2列目"><br>3行1列目
         </td>
-    </tr>
+    </tr> -->
 </table>
 
 # Contact

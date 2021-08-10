@@ -406,13 +406,13 @@ table.contents td {
 }
 
 img.contents {
-  @include large {
-    width: 382px;
-  }
+  // @include large {
+  //   width: 382px;
+  // }
   
-  @include medium {
-    width: 382px;
-  }
+  // @include medium {
+  //   width: 382px;
+  // }
 
   // @include small {
   // }
