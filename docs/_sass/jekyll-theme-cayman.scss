@@ -396,15 +396,15 @@ table.sample td {
   }
 }
 
-// img.width {
-//   @include large {
-//     width: calc($large-breakpoint - calc(6rem*2));
-//   }
+img.width {
+  @include large {
+    width: calc(calc($large-breakpoint - 6rem)/2);
+  }
   
-//   @include medium {
-//     width: calc($large-breakpoint - calc(6rem*2));
-//   }
+  @include medium {
+    width: calc(calc($large-breakpoint - 6rem)/2);
+  }
 
-//   @include small {
-//   }
-// }
+  // @include small {
+  // }
+}
