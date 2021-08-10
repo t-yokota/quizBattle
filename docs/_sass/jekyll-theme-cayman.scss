@@ -383,25 +383,31 @@ table.contents {
     display: block;
     border: none;
   }
+
   @include small {
     display: block;
     border: none;
   }
 }
+
 table.contents tr {
   @include medium {
     display: inline;
   }
+
   @include small {
     display: inline;
   }
 }
+
 table.contents td {
   border: 1px none;
+  
   @include medium {
     display: inline-block;
     margin-bottom: 8px;
   }
+  
   @include small {
     display: inline-block;
     margin-bottom: 8px;
