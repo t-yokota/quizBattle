@@ -2,7 +2,7 @@
 
 このツールを使ってYouTube上にアップロードされたクイズ動画を見ると、視聴者も動画内のクイズに早押しで解答することができます。
 
-PC、スマホのブラウザで（大体）利用可能です。
+スマホ、PCのブラウザで（大体）利用可能です。
 
 ## 注意事項
 
@@ -21,7 +21,7 @@ PC、スマホのブラウザで（大体）利用可能です。
 <table class="contents">
     <tr>
         <td>
-            <img src="https://raw.githubusercontent.com/t-yokota/quizBattle/master/figures/button_portrait_1.png" class="contents" alt="1行1列目"><br>1行1列目
+            <a href="https://srtjs.azurewebsites.net/?v=BHWd-HDorfY&surl=https://raw.githubusercontent.com/t-yokota/quizBattle/master/src/quizBattle.srt.js"><img src="https://raw.githubusercontent.com/t-yokota/quizBattle/master/figures/button_portrait_1.png" class="contents" alt="1行1列目"></a><br>1行1列目
         </td>
         <td>
         </td>
@@ -38,7 +38,7 @@ PC、スマホのブラウザで（大体）利用可能です。
             <img src="https://raw.githubusercontent.com/t-yokota/quizBattle/master/figures/button_portrait_1.png" class="contents" alt="1行1列目"><br>1行1列目
         </td>
         <td>
-            <img src="https://raw.githubusercontent.com/t-yokota/quizBattle/master/figures/button_portrait_1.png" class="contents" alt="1行2列目"><br>1行2列目
+            <img src="https://raw.githubusercontent.com/t-yokota/quizBattle/master/figures/button_portrait_1.png" width="200px" alt="1行2列目"><br>1行2列目
         </td>
     </tr>
     <tr>

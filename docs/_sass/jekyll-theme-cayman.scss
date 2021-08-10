@@ -379,9 +379,13 @@ a {
 
 //yokota added
 table.contents {
+  @include large {
+    table-layout: fixed;
+    width: 100%;
+  }
   @include medium {
-    display: block;
-    border: none;
+    table-layout: fixed;
+    width: 100%;
   }
   @include small {
     display: block;
@@ -389,19 +393,12 @@ table.contents {
   }
 }
 table.contents tr {
-  @include medium {
-    display: inline;
-  }
   @include small {
     display: inline;
   }
 }
 table.contents td {
   border: 1px none;
-  @include medium {
-    display: inline-block;
-    margin-bottom: 8px;
-  }
   @include small {
     display: inline-block;
     margin-bottom: 8px;
