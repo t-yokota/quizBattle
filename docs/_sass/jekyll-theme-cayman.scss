@@ -381,11 +381,9 @@ a {
 table.contents {
   @include large {
     table-layout: fixed;
-    width: 100%;
   }
   @include medium {
     table-layout: fixed;
-    width: 100%;
   }
   @include small {
     display: block;

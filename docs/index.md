@@ -4,7 +4,9 @@
 
 # QuizBattle on YouTube
 
-スマホやPCを使ってYouTube上にアップロードされたクイズ動画を見ながら、動画内のクイズに早押しで解答することができるツールです。
+YouTube上のクイズ動画に早押しで解答することができるツールです。
+
+スマホやPCのブラウザから利用できます。
 
 ## 注意事項
 
@@ -17,8 +19,6 @@
 ## お試しクイズ
 
 本ツールのデモ用に作成した1分30秒の短いクイズ動画です（全5問）。
-
-[link](https://srtjs.azurewebsites.net/?v=BHWd-HDorfY&surl=https://raw.githubusercontent.com/t-yokota/quizBattle/master/src/quizBattle.srt.js)
 
 <table class="contents">
     <tr>
