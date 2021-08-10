@@ -379,9 +379,14 @@ a {
 
 //yokota added
 table.contents {
+  // @include large {
+  //   table-layout: fixed;
+  //   width: 100%;
+  // }
+  
   @include medium {
-    display: block;
-    border: none;
+    table-layout: fixed;
+    width: 100%;
   }
 
   @include small {
@@ -391,10 +396,9 @@ table.contents {
 }
 
 table.contents tr {
-  @include medium {
-    display: inline;
-  }
-
+  // @include medium {
+  // }
+  
   @include small {
     display: inline;
   }
@@ -403,11 +407,9 @@ table.contents tr {
 table.contents td {
   border: 1px none;
   
-  @include medium {
-    display: inline-block;
-    margin-bottom: 8px;
-  }
-  
+  // @include medium {
+  // }
+
   @include small {
     display: inline-block;
     margin-bottom: 8px;
@@ -415,13 +417,13 @@ table.contents td {
 }
 
 img.contents {
-  @include large {
-    width: 382px;
-  }
+  // @include large {
+  //   width: 382px;
+  // }
   
-  @include medium {
-    width: 382px;
-  }
+  // @include medium {
+  //   width: 382px;
+  // }
 
   // @include small {
   // }

@@ -23,6 +23,8 @@ PC、スマホのブラウザで（大体）利用可能です。
         <td>
             <img src="https://raw.githubusercontent.com/t-yokota/quizBattle/master/figures/button_portrait_1.png" class="contents" alt="1行1列目"><br>1行1列目
         </td>
+        <td>
+        </td>
     </tr>
 </table>
 
