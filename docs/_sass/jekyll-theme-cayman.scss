@@ -380,6 +380,7 @@ a {
 //yokota added
 table.contents {
   display: table;
+  text-align: center;
   @include large {
     table-layout: fixed;
   }
@@ -391,11 +392,13 @@ table.contents {
     border: none;
   }
 }
+
 table.contents tr {
   @include small {
     display: inline;
   }
 }
+
 table.contents td {
   border: 1px none;
   @include small {
