@@ -379,37 +379,29 @@ a {
 
 //yokota added
 table.contents {
-  // @include large {
-  //   table-layout: fixed;
-  //   width: 100%;
-  // }
-  
   @include medium {
-    table-layout: fixed;
-    width: 100%;
+    display: block;
+    border: none;
   }
-
   @include small {
     display: block;
     border: none;
   }
 }
-
 table.contents tr {
-  // @include medium {
-  // }
-  
+  @include medium {
+    display: inline;
+  }
   @include small {
     display: inline;
   }
 }
-
 table.contents td {
   border: 1px none;
-  
-  // @include medium {
-  // }
-
+  @include medium {
+    display: inline-block;
+    margin-bottom: 8px;
+  }
   @include small {
     display: inline-block;
     margin-bottom: 8px;
@@ -417,13 +409,13 @@ table.contents td {
 }
 
 img.contents {
-  // @include large {
-  //   width: 382px;
-  // }
+  @include large {
+    width: 382px;
+  }
   
-  // @include medium {
-  //   width: 382px;
-  // }
+  @include medium {
+    width: 382px;
+  }
 
   // @include small {
   // }
