@@ -403,7 +403,7 @@ table.contents td {
   border: 1px none;
   @include small {
     display: inline-block;
-    margin-bottom: 8px;
+    margin: 8px 32px;
   }
 }
 
@@ -412,4 +412,19 @@ table.contents img {
   object-fit: contain;
   border: 1px solid #ccc;
   border-radius: 8px;
+}
+
+.sample-box {
+  position: relative;
+}
+
+.youtube {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  
+  // position: absolute;
+  // top: 0%;
+  // left: 55%;
 }
