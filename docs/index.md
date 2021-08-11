@@ -28,10 +28,11 @@
         <td>
             <a href="https://srtjs.azurewebsites.net/?v=BHWd-HDorfY&surl=https://raw.githubusercontent.com/t-yokota/quizBattle/master/src/quizBattle.srt.js">
                 <div class="sample-box">
-                    <img class='thumbnail' src="https://i.ytimg.com/vi_webp/ue9b06lFQG0/sddefault.webp" alt="1行1列目">
-                    <img class='youtube' src="https://img.icons8.com/color/50/000000/youtube-play.png">
+                    <img class='thumbnail' src="https://i.ytimg.com/vi_webp/BHWd-HDorfY/sddefault.webp" alt="お試しクイズ">
+                    <!-- <img class='youtube' src="https://img.icons8.com/color/50/000000/youtube-play.png"> -->
                 </div>
-            </a><br>1行1列目
+            </a>
+            <br>1行1列目
         </td>
         <td>
         </td>
@@ -45,25 +46,24 @@
 <table class="contents">
     <tr>
         <td>
-            <img src="https://raw.githubusercontent.com/t-yokota/quizBattle/master/figures/button_portrait_1.png" alt="1行1列目"><br>1行1列目
+            <a href="https://srtjs.azurewebsites.net/?v=BHWd-HDorfY&surl=https://raw.githubusercontent.com/t-yokota/quizBattle/master/src/quizBattle.srt.js">
+                <div class="sample-box">
+                    <img class='thumbnail' src="https://i.ytimg.com/vi_webp/ue9b06lFQG0/sddefault.webp" alt="【問い読み】クイズの問題を読む 第1回【abc the 12th】">
+                    <!-- <img class='youtube' src="https://img.icons8.com/color/50/000000/youtube-play.png"> -->
+                </div>
+            </a>
+            <br>【問い読み】クイズの問題を読む 第1回【abc the 12th】
         </td>
         <td>
-            <img src="https://raw.githubusercontent.com/t-yokota/quizBattle/master/figures/button_portrait_1.png" width="200px" alt="1行2列目"><br>1行2列目
+            <a href="https://srtjs.azurewebsites.net/?v=BHWd-HDorfY&surl=https://raw.githubusercontent.com/t-yokota/quizBattle/master/src/quizBattle.srt.js">
+                <div class="sample-box">
+                    <img class='thumbnail' src="https://i.ytimg.com/vi_webp/Mlxs5v3bQK4/sddefault.webp" alt="【問い読み】クイズの問題を読む 第2回【abc the 12th】">
+                    <!-- <img class='youtube' src="https://img.icons8.com/color/50/000000/youtube-play.png"> -->
+                </div>
+            </a>
+            <br>【問い読み】クイズの問題を読む 第2回【abc the 12th】
         </td>
     </tr>
-    <!-- <tr>
-        <td>
-            <img src="https://raw.githubusercontent.com/t-yokota/quizBattle/master/figures/button_portrait_1.png" class="contents" alt="1行2列目"><br>2行1列目
-        </td>
-        <td>
-            <img src="https://raw.githubusercontent.com/t-yokota/quizBattle/master/figures/button_portrait_1.png" class="contents" alt="2行1列目"><br>2行2列目
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <img src="https://raw.githubusercontent.com/t-yokota/quizBattle/master/figures/button_portrait_1.png" class="contents" alt="2行2列目"><br>3行1列目
-        </td>
-    </tr> -->
 </table>
 
 # Contact
