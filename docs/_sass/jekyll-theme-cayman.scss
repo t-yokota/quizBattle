@@ -423,15 +423,10 @@ table.contents img.thumbnail{
 }
 
 table.contents img.icon {
-  // display: flex;
-  // justify-content: center;
-  // align-items: center;
   border: 0px;
-  
+  width: 70%;
+
   position: absolute;
   top: 5%;
   left: 5%;
-  // top: 50%;
-  // left: 50%;
-  // transform: translate(-50%, -50%);
 }
