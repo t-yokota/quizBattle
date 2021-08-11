@@ -33,6 +33,7 @@ const myApp = {
         ansBtn     : document.createElement("button"),
         numOX      : document.createElement("text"),
         pushBtn    : document.createElement("img"),
+        imgBtn0    : document.createElement("img"),
         imgBtn1    : document.createElement("img"),
         imgBtn2    : document.createElement("img"),
         imgBtn3    : document.createElement("img"),
@@ -165,7 +166,7 @@ myApp.elem.ansBtn.disabled  = true;
 myApp.elem.numOX.innerHTML  = "⭕️："+myApp.val.cntO+"　❌："+myApp.val.cntX;
 //
 if(myApp.val.os != 'other'){
-    myApp.elem.text.innerHTML = "早押しボタンをタップして動画を再生する";
+    myApp.elem.text.innerHTML = "早押しボタンをタップして動画を開始する";
 }else{
     myApp.elem.text.innerHTML = "QuizBattle on YouTube";
     /* set tabindex for adding focus */
@@ -181,6 +182,8 @@ resizePlayer();
 /* set style sheets */
 document.styleSheets.item(0).insertRule('html { touch-action: manipulation; }'); //disable double tap gesture
 document.styleSheets.item(0).insertRule('body { text-align: center; margin: auto; background: #EFEFEF; }');
+document.styleSheets.item(0).insertRule('.blink { animation: blinkAnime 1s infinite alternate; }');
+document.styleSheets.item(0).insertRule('@keyframes blinkAnime{ 0% { opacity: 0; } 100% { opacity: 1; }}');
 //
 /* set elements */
 if(myApp.val.os != 'other'){
@@ -308,8 +311,9 @@ if(myApp.val.os != 'other'){
     myApp.val.viewFuncArray.shift()();
 }
 //
-const num_of_materials = 6;
+const num_of_materials = 7;
 myApp.elem.sounds.onloadedmetadata = function(){ myApp.val.loadCount += 1; };
+myApp.elem.imgBtn0.onload = function(){ myApp.val.loadCount += 1; };
 myApp.elem.imgBtn1.onload = function(){ myApp.val.loadCount += 1; };
 myApp.elem.imgBtn2.onload = function(){ myApp.val.loadCount += 1; };
 myApp.elem.imgBtn3.onload = function(){ myApp.val.loadCount += 1; };
@@ -317,6 +321,7 @@ myApp.elem.imgBtn4.onload = function(){ myApp.val.loadCount += 1; };
 myApp.val.ansFile.onload  = function(){ myApp.val.loadCount += 1; myApp.val.ansArray = CSVtoArray(myApp.val.ansFile.responseText); };
 //
 myApp.elem.sounds.onerror  = function(){ myApp.val.loadErrorBool = true; };
+myApp.elem.imgBtn0.onerror = function(){ myApp.val.loadErrorBool = true; };
 myApp.elem.imgBtn1.onerror = function(){ myApp.val.loadErrorBool = true; };
 myApp.elem.imgBtn2.onerror = function(){ myApp.val.loadErrorBool = true; };
 myApp.elem.imgBtn3.onerror = function(){ myApp.val.loadErrorBool = true; };
@@ -333,6 +338,7 @@ else if(myApp.elem.sounds.canPlayType('audio/wav') == 'maybe'   ){ myApp.val.aud
 myApp.elem.sounds.src = myApp.path.sound+myApp.val.audioExt;
 //
 /* load push button image */
+myApp.elem.imgBtn0.src = myApp.path.btn0;
 myApp.elem.imgBtn1.src = myApp.path.btn1;
 myApp.elem.imgBtn2.src = myApp.path.btn2;
 myApp.elem.imgBtn3.src = myApp.path.btn3;
@@ -388,7 +394,7 @@ function materialCheckFunction(){
             if(myApp.val.os != "other"){
                 if(Math.abs(window.orientation) != 90){
                     myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src;
-                    myApp.elem.text.innerHTML = "早押しボタンをタップして動画を再生する";
+                    myApp.elem.text.innerHTML = "早押しボタンをタップして動画を開始する";
                     myApp.val.initOrientation = 'portrait';
                 }else{
                     myApp.elem.pushBtn.src = myApp.elem.imgBtn4.src;
@@ -399,9 +405,9 @@ function materialCheckFunction(){
             }else{
                 myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src;
                 if(detectTouchPanel() == true){
-                    myApp.elem.subText.innerHTML = "早押しボタン(スペースキー)を押して動画を再生する";
+                    myApp.elem.subText.innerHTML = "早押しボタン(スペースキー)を押して動画を開始する<br><span class='blink'>― PRESS SPACE KEY ―</span>";
                 }else{
-                    myApp.elem.subText.innerHTML = "早押しボタン(スペースキー)を押して動画を再生する";
+                    myApp.elem.subText.innerHTML = "早押しボタン(スペースキー)を押して動画を開始する<br><span class='blink'>― PRESS SPACE KEY ―</span>";
                 }
             }
         }else if(myApp.val.initLoadBool == true && myApp.val.loadAlertBool == false){
@@ -441,7 +447,7 @@ function myOrientationChangeEvent(){
                 myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src;
             }
             if(myApp.val.status == myApp.state.ButtonCheck){
-                myApp.elem.text.innerHTML = "早押しボタンをタップして動画を再生する";
+                myApp.elem.text.innerHTML = "早押しボタンをタップして動画を開始する";
             }
         }else{
             myApp.elem.pushBtn.src = myApp.elem.imgBtn4.src;
@@ -623,11 +629,11 @@ function myIntervalEvent(){
             }
             if(myApp.val.os != 'other'){
                 myApp.val.btnBlinkInterval += interval;
-                if(myApp.val.btnBlinkInterval < 700){
-                    myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src;
+                if(myApp.val.btnBlinkInterval < 800){
+                    myApp.elem.pushBtn.src = myApp.elem.imgBtn0.src;
                 }else{
-                    myApp.elem.pushBtn.src = myApp.elem.imgBtn2.src;
-                    if(myApp.val.btnBlinkInterval > 1400){
+                    myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src;
+                    if(myApp.val.btnBlinkInterval > 1600){
                         myApp.val.btnBlinkInterval = 0;
                     }
                 }
