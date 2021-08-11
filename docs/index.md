@@ -46,7 +46,7 @@
 <table class="contents">
     <tr>
         <td>
-            <a href="https://srtjs.azurewebsites.net/?v=BHWd-HDorfY&surl=https://raw.githubusercontent.com/t-yokota/quizBattle/master/src/quizBattle.srt.js">
+            <a href="https://srtjs.azurewebsites.net/?v=ue9b06lFQG0&surl=https://raw.githubusercontent.com/t-yokota/quizBattle/master/contents/lamy_abc_12th/battle-1.srt.js">
                 <div class="sample-box">
                     <img class='thumbnail' src="https://i.ytimg.com/vi_webp/ue9b06lFQG0/sddefault.webp" alt="【問い読み】クイズの問題を読む 第1回【abc the 12th】">
                     <img class='icon' src="https://raw.githubusercontent.com/t-yokota/quizBattle/master/docs/images/video_icon.png">
@@ -55,7 +55,7 @@
             </a>
         </td>
         <td>
-            <a href="https://srtjs.azurewebsites.net/?v=BHWd-HDorfY&surl=https://raw.githubusercontent.com/t-yokota/quizBattle/master/src/quizBattle.srt.js">
+            <a href="https://srtjs.azurewebsites.net/?v=ue9b06lFQG0&surl=https://raw.githubusercontent.com/t-yokota/quizBattle/master/contents/lamy_abc_12th/battle-1.srt.js">
                 <div class="sample-box">
                     <img class='thumbnail' src="https://i.ytimg.com/vi_webp/Mlxs5v3bQK4/sddefault.webp" alt="【問い読み】クイズの問題を読む 第2回【abc the 12th】">
                     <img class='icon' src="https://raw.githubusercontent.com/t-yokota/quizBattle/master/docs/images/video_icon.png">
@@ -66,7 +66,7 @@
     </tr>
     <tr>
         <td>
-            <a href="https://srtjs.azurewebsites.net/?v=BHWd-HDorfY&surl=https://raw.githubusercontent.com/t-yokota/quizBattle/master/src/quizBattle.srt.js">
+            <a href="https://srtjs.azurewebsites.net/?v=ue9b06lFQG0&surl=https://raw.githubusercontent.com/t-yokota/quizBattle/master/contents/lamy_abc_12th/battle-1.srt.js">
                 <div class="sample-box">
                     <img class='thumbnail' src="https://i.ytimg.com/vi_webp/V6R8y2VRm0I/sddefault.webp" alt="【問い読み】クイズの問題を読む 第2回【abc the 12th】">
                     <img class='icon' src="https://raw.githubusercontent.com/t-yokota/quizBattle/master/docs/images/video_icon.png">
