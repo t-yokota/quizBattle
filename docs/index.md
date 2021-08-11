@@ -1,5 +1,5 @@
 <div style="text-align: center">
-    <img class="main" width="50%" src="https://raw.githubusercontent.com/t-yokota/quizBattle/master/docs/images/main-image.png">
+    <img class="main" width="50%" height="auto" src="https://raw.githubusercontent.com/t-yokota/quizBattle/master/docs/images/main-image.png">
 </div>
 
 # QuizBattle on YouTube
