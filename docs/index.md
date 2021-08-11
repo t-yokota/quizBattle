@@ -26,10 +26,8 @@
         <td>
             <a href="https://srtjs.azurewebsites.net/?v=BHWd-HDorfY&surl=https://raw.githubusercontent.com/t-yokota/quizBattle/master/src/quizBattle.srt.js">
                 <div class="sample-box">
-                    <img src="https://raw.githubusercontent.com/t-yokota/quizBattle/master/figures/button_portrait_1.png" alt="1行1列目">
-                    <div class="youtube">
-                        <img src="https://img.icons8.com/color/50/000000/youtube-play.png">
-                    </div>
+                    <img class='thumbnail' src="https://raw.githubusercontent.com/t-yokota/quizBattle/master/figures/button_portrait_1.png" alt="1行1列目">
+                    <img class='youtube' src="https://img.icons8.com/color/50/000000/youtube-play.png">
                 </div>
             </a><br>1行1列目
         </td>

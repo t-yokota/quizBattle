@@ -407,22 +407,24 @@ table.contents td {
   }
 }
 
-table.contents img {
+.sample-box {
+  position: relative;
+}
+
+table.contents img.thumbnail{
   width: 100%;
   object-fit: contain;
   border: 1px solid #ccc;
   border-radius: 8px;
 }
 
-.sample-box {
-  position: relative;
-}
-
-.youtube {
+table.contents img.youtube {
   // display: flex;
   // justify-content: center;
   // align-items: center;
-  border: 0;
+  width: 100%;
+  object-fit: contain;
+  border: 0px;
   
   position: absolute;
   top: 50%;
