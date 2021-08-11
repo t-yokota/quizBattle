@@ -29,7 +29,7 @@
             <a href="https://srtjs.azurewebsites.net/?v=BHWd-HDorfY&surl=https://raw.githubusercontent.com/t-yokota/quizBattle/master/src/quizBattle.srt.js">
                 <div class="sample-box">
                     <img class='thumbnail' src="https://i.ytimg.com/vi_webp/BHWd-HDorfY/sddefault.webp" alt="お試しクイズ">
-                    <img class='youtube' src="https://img.icons8.com/color/50/000000/youtube-play.png">
+                    <img class='icon' src="https://raw.githubusercontent.com/t-yokota/quizBattle/master/docs/images/video_icon.png">
                 </div>
                 お試しクイズ
             </a>
@@ -49,7 +49,7 @@
             <a href="https://srtjs.azurewebsites.net/?v=BHWd-HDorfY&surl=https://raw.githubusercontent.com/t-yokota/quizBattle/master/src/quizBattle.srt.js">
                 <div class="sample-box">
                     <img class='thumbnail' src="https://i.ytimg.com/vi_webp/ue9b06lFQG0/sddefault.webp" alt="【問い読み】クイズの問題を読む 第1回【abc the 12th】">
-                    <img class='youtube' src="https://img.icons8.com/color/50/000000/youtube-play.png">
+                    <img class='icon' src="https://raw.githubusercontent.com/t-yokota/quizBattle/master/docs/images/video_icon.png">
                 </div>
                 【問い読み】クイズの問題を読む 第1回【abc the 12th】
             </a>
@@ -58,7 +58,7 @@
             <a href="https://srtjs.azurewebsites.net/?v=BHWd-HDorfY&surl=https://raw.githubusercontent.com/t-yokota/quizBattle/master/src/quizBattle.srt.js">
                 <div class="sample-box">
                     <img class='thumbnail' src="https://i.ytimg.com/vi_webp/Mlxs5v3bQK4/sddefault.webp" alt="【問い読み】クイズの問題を読む 第2回【abc the 12th】">
-                    <img class='youtube' src="https://img.icons8.com/color/50/000000/youtube-play.png">
+                    <img class='icon' src="https://raw.githubusercontent.com/t-yokota/quizBattle/master/docs/images/video_icon.png">
                 </div>
                 【問い読み】クイズの問題を読む 第2回【abc the 12th】
             </a>
@@ -69,7 +69,7 @@
             <a href="https://srtjs.azurewebsites.net/?v=BHWd-HDorfY&surl=https://raw.githubusercontent.com/t-yokota/quizBattle/master/src/quizBattle.srt.js">
                 <div class="sample-box">
                     <img class='thumbnail' src="https://i.ytimg.com/vi_webp/V6R8y2VRm0I/sddefault.webp" alt="【問い読み】クイズの問題を読む 第2回【abc the 12th】">
-                    <img class='youtube' src="https://img.icons8.com/color/50/000000/youtube-play.png">
+                    <img class='icon' src="https://raw.githubusercontent.com/t-yokota/quizBattle/master/docs/images/video_icon.png">
                 </div>
                 【問い読み】クイズの問題を読む 第3回【abc the 12th】
             </a>
