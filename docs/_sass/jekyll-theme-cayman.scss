@@ -397,12 +397,6 @@ table.contents tr {
   @include small {
     display: inline;
   }
-
-  // img {
-  //   width: 100%,
-  //   height: 100px;
-  //   object-fit: cover;
-  // }
 }
 
 table.contents td {
@@ -415,6 +409,7 @@ table.contents td {
 
 table.contents img {
   width: 100%;
-  height: 56.25vw;
-  object-fit: cover;
+  object-fit: contain;
+  border: 1px solid #ccc;
+  border-radius: 8px;
 }
