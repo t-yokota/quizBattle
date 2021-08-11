@@ -9,10 +9,11 @@ const myApp = {
     path : {
         answer : "https://raw.githubusercontent.com/t-yokota/quizBattle/master/src/answer.csv",
         sound  : "https://raw.githubusercontent.com/t-yokota/quizBattle/master/sounds/sounds_3", //+ext;
-        btn1   : "https://github.com/t-yokota/quizBattle/raw/master/figures/button_portrait_72ppi_1.png",
-        btn2   : "https://github.com/t-yokota/quizBattle/raw/master/figures/button_portrait_72ppi_2.png",
-        btn3   : "https://github.com/t-yokota/quizBattle/raw/master/figures/button_portrait_72ppi_3.png",
-        btn4   : "https://github.com/t-yokota/quizBattle/raw/master/figures/button_portrait_72ppi_4.png",
+        btn0   : "https://github.com/t-yokota/quizBattle/raw/master/images/button_0.png",
+        btn1   : "https://github.com/t-yokota/quizBattle/raw/master/images/button_1.png",
+        btn2   : "https://github.com/t-yokota/quizBattle/raw/master/images/button_2.png",
+        btn3   : "https://github.com/t-yokota/quizBattle/raw/master/images/button_3.png",
+        btn4   : "https://github.com/t-yokota/quizBattle/raw/master/images/button_4.png",
     },
     state : {
         ButtonCheck : 0, //ボタンチェック待機
@@ -139,6 +140,8 @@ const myApp = {
         jumpToAnsBool: false,
         //
         firstQuesStartTime : 0,
+        //
+        btnBlinkInterval : 0,
     },
 };
 //
@@ -617,6 +620,17 @@ function myIntervalEvent(){
                 myApp.val.loadAlertBool = true;
                 player.pauseVideo();
                 alert('ページの読み込みに失敗しました。ページを再読み込みしてください。');
+            }
+            if(myApp.val.os != 'other'){
+                myApp.val.btnBlinkInterval += interval;
+                if(myApp.val.btnBlinkInterval < 700){
+                    myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src;
+                }else{
+                    myApp.elem.pushBtn.src = myApp.elem.imgBtn2.src;
+                    if(myApp.val.btnBlinkInterval > 1400){
+                        myApp.val.btnBlinkInterval = 0;
+                    }
+                }
             }
         }
         if(myApp.val.status == myApp.state.MyAnswer){
