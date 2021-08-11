@@ -4,13 +4,16 @@
 
 # QuizBattle on YouTube
 
-YouTube上のクイズ動画に早押しで解答することができるツールです。スマホやPCのブラウザから利用できます。
+YouTube上のクイズ動画を見ながら、動画内で出題されたクイズに早押しで解答できるツールです。スマホやPCのブラウザから利用できます。
 
 ## 注意事項
 
-本ツールを利用する際、ブラウザ上でJavaScriptのプログラムが実行されます。利用中に正常に動作しなくなった場合は、ブラウザのタブを閉じるか、再度読み込んでください。
+本ツールを利用する際にブラウザ上でJavaScriptのプログラムが実行されますので、ご了承ください。利用中に正常に動作しなくなった場合は、ブラウザのタブを閉じるか、再度読み込んでください。
 
 # How to use
+
+1. [Contents](#Contents)から動画のサムネイルを選択して視聴ページに移動する。
+1. ページ移動後に表示されるブラウザのポップアップを確認した後、動画プレイヤーの再生ボタンを選択する。
 
 # Contents
 
@@ -21,7 +24,7 @@ YouTube上のクイズ動画に早押しで解答することができるツー�
 <table class="contents">
     <tr>
         <td>
-            <a href="https://srtjs.azurewebsites.net/?v=BHWd-HDorfY&surl=https://raw.githubusercontent.com/t-yokota/quizBattle/master/src/quizBattle.srt.js"><img src="https://raw.githubusercontent.com/t-yokota/quizBattle/master/figures/button_portrait_1.png" class="contents" alt="1行1列目"></a><br>1行1列目
+            <a href="https://srtjs.azurewebsites.net/?v=BHWd-HDorfY&surl=https://raw.githubusercontent.com/t-yokota/quizBattle/master/src/quizBattle.srt.js"><img src="https://raw.githubusercontent.com/t-yokota/quizBattle/master/figures/button_portrait_1.png" alt="1行1列目"></a><br>1行1列目
         </td>
         <td>
         </td>
@@ -35,7 +38,7 @@ YouTube上のクイズ動画に早押しで解答することができるツー�
 <table class="contents">
     <tr>
         <td>
-            <img src="https://raw.githubusercontent.com/t-yokota/quizBattle/master/figures/button_portrait_1.png" class="contents" alt="1行1列目"><br>1行1列目
+            <img src="https://raw.githubusercontent.com/t-yokota/quizBattle/master/figures/button_portrait_1.png" alt="1行1列目"><br>1行1列目
         </td>
         <td>
             <img src="https://raw.githubusercontent.com/t-yokota/quizBattle/master/figures/button_portrait_1.png" width="200px" alt="1行2列目"><br>1行2列目

@@ -397,6 +397,12 @@ table.contents tr {
   @include small {
     display: inline;
   }
+
+  // img {
+  //   width: 100%,
+  //   height: 100px;
+  //   object-fit: cover;
+  // }
 }
 
 table.contents td {
@@ -407,15 +413,8 @@ table.contents td {
   }
 }
 
-img.contents {
-  // @include large {
-  //   width: 382px;
-  // }
-  
-  // @include medium {
-  //   width: 382px;
-  // }
-
-  // @include small {
-  // }
+table.contents img {
+  width: 100%;
+  height: 100px;
+  object-fit: cover;
 }
