@@ -29,8 +29,9 @@
             <a href="https://srtjs.azurewebsites.net/?v=BHWd-HDorfY&surl=https://raw.githubusercontent.com/t-yokota/quizBattle/master/src/quizBattle.srt.js">
                 <div class="sample-box">
                     <img class='thumbnail' src="https://i.ytimg.com/vi_webp/BHWd-HDorfY/sddefault.webp" alt="お試しクイズ">
-                    <!-- <img class='youtube' src="https://img.icons8.com/color/50/000000/youtube-play.png"> -->
-                </div><br>おためしクイズ
+                    <img class='youtube' src="https://img.icons8.com/color/50/000000/youtube-play.png">
+                </div>
+                お試しクイズ
             </a>
         </td>
         <td>
@@ -48,16 +49,18 @@
             <a href="https://srtjs.azurewebsites.net/?v=BHWd-HDorfY&surl=https://raw.githubusercontent.com/t-yokota/quizBattle/master/src/quizBattle.srt.js">
                 <div class="sample-box">
                     <img class='thumbnail' src="https://i.ytimg.com/vi_webp/ue9b06lFQG0/sddefault.webp" alt="【問い読み】クイズの問題を読む 第1回【abc the 12th】">
-                    <!-- <img class='youtube' src="https://img.icons8.com/color/50/000000/youtube-play.png"> -->
-                </div><br>【問い読み】クイズの問題を読む 第1回【abc the 12th】
+                    <img class='youtube' src="https://img.icons8.com/color/50/000000/youtube-play.png">
+                </div>
+                【問い読み】クイズの問題を読む 第1回【abc the 12th】
             </a>
         </td>
         <td>
             <a href="https://srtjs.azurewebsites.net/?v=BHWd-HDorfY&surl=https://raw.githubusercontent.com/t-yokota/quizBattle/master/src/quizBattle.srt.js">
                 <div class="sample-box">
                     <img class='thumbnail' src="https://i.ytimg.com/vi_webp/Mlxs5v3bQK4/sddefault.webp" alt="【問い読み】クイズの問題を読む 第2回【abc the 12th】">
-                    <!-- <img class='youtube' src="https://img.icons8.com/color/50/000000/youtube-play.png"> -->
-                </div><br>【問い読み】クイズの問題を読む 第2回【abc the 12th】
+                    <img class='youtube' src="https://img.icons8.com/color/50/000000/youtube-play.png">
+                </div>
+                【問い読み】クイズの問題を読む 第2回【abc the 12th】
             </a>
         </td>
     </tr>
