@@ -182,8 +182,10 @@ resizePlayer();
 /* set style sheets */
 document.styleSheets.item(0).insertRule('html { touch-action: manipulation; }'); //disable double tap gesture
 document.styleSheets.item(0).insertRule('body { text-align: center; margin: auto; background: #EFEFEF; }');
-document.styleSheets.item(0).insertRule('.blink { animation: blinkAnime 1s infinite alternate; }');
-document.styleSheets.item(0).insertRule('@keyframes blinkAnime{ 0% { opacity: 0; } 100% { opacity: 1; }}');
+document.styleSheets.item(0).insertRule('.blinkImg { animation: blinkImg 0.7s infinite alternate; }');
+document.styleSheets.item(0).insertRule('@keyframes blinkImg{ 0% { opacity: 0.4; } 100% { opacity: 1; }}');
+document.styleSheets.item(0).insertRule('.blinkText { animation: blinkText 0.7s infinite alternate; }');
+document.styleSheets.item(0).insertRule('@keyframes blinkText{ 0% { opacity: 0; } 100% { opacity: 1; }}');
 //
 /* set elements */
 if(myApp.val.os != 'other'){
@@ -343,6 +345,7 @@ myApp.elem.imgBtn1.src = myApp.path.btn1;
 myApp.elem.imgBtn2.src = myApp.path.btn2;
 myApp.elem.imgBtn3.src = myApp.path.btn3;
 myApp.elem.imgBtn4.src = myApp.path.btn4;
+myApp.elem.pushBtn.className = "blinkImg";
 //
 /* load answer file */
 myApp.val.ansFile.open("get", myApp.path.answer, true);
@@ -405,9 +408,9 @@ function materialCheckFunction(){
             }else{
                 myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src;
                 if(detectTouchPanel() == true){
-                    myApp.elem.subText.innerHTML = "早押しボタン(スペースキー)を押して動画を開始する<br><span class='blink'>― PRESS SPACE KEY ―</span>";
+                    myApp.elem.subText.innerHTML = "早押しボタン(スペースキー)を押して動画を開始する<br><span class='blinkText'>― PRESS SPACE KEY ―</span>";
                 }else{
-                    myApp.elem.subText.innerHTML = "早押しボタン(スペースキー)を押して動画を開始する<br><span class='blink'>― PRESS SPACE KEY ―</span>";
+                    myApp.elem.subText.innerHTML = "早押しボタン(スペースキー)を押して動画を開始する<br><span class='blinkText'>― PRESS SPACE KEY ―</span>";
                 }
             }
         }else if(myApp.val.initLoadBool == true && myApp.val.loadAlertBool == false){
@@ -514,6 +517,7 @@ function myTouchEvent(event){
 function myButtonAction(){
     if(myApp.val.status == myApp.state.ButtonCheck){
         myApp.val.status = myApp.state.Talk;
+        myApp.elem.pushBtn.className = "";
         buttonCheck(myApp.val.btnCheck.sndInterval);
         setTimeout(function(){
             player.playVideo();
@@ -626,17 +630,6 @@ function myIntervalEvent(){
                 myApp.val.loadAlertBool = true;
                 player.pauseVideo();
                 alert('ページの読み込みに失敗しました。ページを再読み込みしてください。');
-            }
-            if(myApp.val.os != 'other'){
-                myApp.val.btnBlinkInterval += interval;
-                if(myApp.val.btnBlinkInterval < 800){
-                    myApp.elem.pushBtn.src = myApp.elem.imgBtn0.src;
-                }else{
-                    myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src;
-                    if(myApp.val.btnBlinkInterval > 1600){
-                        myApp.val.btnBlinkInterval = 0;
-                    }
-                }
             }
         }
         if(myApp.val.status == myApp.state.MyAnswer){
