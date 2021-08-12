@@ -141,8 +141,6 @@ const myApp = {
         jumpToAnsBool: false,
         //
         firstQuesStartTime : 0,
-        //
-        btnBlinkInterval : 0,
     },
 };
 //
