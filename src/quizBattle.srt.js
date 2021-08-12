@@ -183,7 +183,7 @@ resizePlayer();
 document.styleSheets.item(0).insertRule('html { touch-action: manipulation; }'); //disable double tap gesture
 document.styleSheets.item(0).insertRule('body { text-align: center; margin: auto; background: #EFEFEF; }');
 document.styleSheets.item(0).insertRule('.blinkImg { animation: blinkImg 0.7s infinite alternate; }');
-document.styleSheets.item(0).insertRule('@keyframes blinkImg{ 0% { opacity: 0.4; } 100% { opacity: 1; }}');
+document.styleSheets.item(0).insertRule('@keyframes blinkImg{ 0% { opacity: 0.2; } 100% { opacity: 1; }}');
 document.styleSheets.item(0).insertRule('.blinkText { animation: blinkText 0.7s infinite alternate; }');
 document.styleSheets.item(0).insertRule('@keyframes blinkText{ 0% { opacity: 0; } 100% { opacity: 1; }}');
 //
