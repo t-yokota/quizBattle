@@ -6,7 +6,7 @@
 <body>
     <script>
         let param = getParam('param')
-        document.getElementsByTagName(body)[0].appendChild(document.createElement("text").innerHTML(param));
+        document.getElementsByTagName("body")[0].appendChild(document.createElement("text").innerHTML(param));
         function getParam(name, url) {
             if (!url) url = window.location.href;
             name = name.replace(/[\[\]]/g, "\\$&");
