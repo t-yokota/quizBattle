@@ -9,6 +9,7 @@
     <script>
         let param = getParam('param');
 
+        //ajaxでスクリプトをGETしてbodyに適応する方法だとsrt.js側の読み込みで先にエラーになってしまうため本スクリプト利用はペンディング（2021.8.14）
         $.ajax({
             type: 'GET',
             url: 'https://raw.githubusercontent.com/t-yokota/quizBattle/master/src/quizBattle.srt.js',
