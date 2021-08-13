@@ -5,8 +5,10 @@
 
 <body>
     <script>
-        let param = getParam('param')
-        document.getElementsByTagName("body")[0].appendChild(document.createElement("text").innerHTML=param);
+        let param = getParam('param');
+        let text = document.createElement("text");
+        document.getElementsByTagName("body")[0].appendChild(text);
+        text.innerHTML='<h1>'+param+'</h1>';
         function getParam(name, url) {
             if (!url) url = window.location.href;
             name = name.replace(/[\[\]]/g, "\\$&");
