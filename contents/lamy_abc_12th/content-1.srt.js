@@ -340,7 +340,9 @@ myApp.elem.imgBtn1.src = myApp.path.btn1;
 myApp.elem.imgBtn2.src = myApp.path.btn2;
 myApp.elem.imgBtn3.src = myApp.path.btn3;
 myApp.elem.imgBtn4.src = myApp.path.btn4;
-myApp.elem.pushBtn.className = "blinkImg";
+if(myApp.val.os != 'other'){
+    myApp.elem.pushBtn.className = "blinkImg";
+}
 //
 /* load answer file */
 myApp.val.ansFile.open("get", myApp.path.answer, true);
