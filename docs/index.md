@@ -35,6 +35,13 @@
             </a>
         </td>
         <td>
+            <a href="https://srtjs.azurewebsites.net/?v=BHWd-HDorfY&surl=https://t-yokota.github.io/quizBattle/contents/another-page.html?param=lamy_abc_12th%2Fbattle-1.srt.js">
+                <div class="sample-box">
+                    <img class='thumbnail' src="https://i.ytimg.com/vi_webp/BHWd-HDorfY/sddefault.webp" alt="お試しクイズ">
+                    <img class='icon' src="https://raw.githubusercontent.com/t-yokota/quizBattle/master/docs/images/video_icon.png">
+                </div>
+                お試しクイズ
+            </a>
         </td>
     </tr>
 </table>
