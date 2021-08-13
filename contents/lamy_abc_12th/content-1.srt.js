@@ -1,5 +1,5 @@
 0
-00:00:00,000 --> 00:00:04,010
+00:00:00,000 --> 00:00:37,340
 /* CAUTION : Each sections of subtitle has independent scope. */
 /* Ver1.0 */
 doOnce[index] = true;
@@ -9,10 +9,10 @@ const myApp = {
     path : {
         answer : "https://raw.githubusercontent.com/t-yokota/quizBattle/master/contents/lamy_abc_12th/answer-1.csv",
         sound  : "https://raw.githubusercontent.com/t-yokota/quizBattle/master/sounds/sounds_3", //+ext;
-        btn1   : "https://github.com/t-yokota/quizBattle/raw/master/figures/button_portrait_72ppi_1.png",
-        btn2   : "https://github.com/t-yokota/quizBattle/raw/master/figures/button_portrait_72ppi_2.png",
-        btn3   : "https://github.com/t-yokota/quizBattle/raw/master/figures/button_portrait_72ppi_3.png",
-        btn4   : "https://github.com/t-yokota/quizBattle/raw/master/figures/button_portrait_72ppi_4.png",
+        btn1   : "https://github.com/t-yokota/quizBattle/raw/master/images/button_1.png",
+        btn2   : "https://github.com/t-yokota/quizBattle/raw/master/images/button_2.png",
+        btn3   : "https://github.com/t-yokota/quizBattle/raw/master/images/button_3.png",
+        btn4   : "https://github.com/t-yokota/quizBattle/raw/master/images/button_4.png",
     },
     state : {
         ButtonCheck : 0, //ボタンチェック待機
@@ -68,6 +68,8 @@ const myApp = {
         processDelayAlertBool : false,
         //
         composingBool        : false,
+        //
+        disableSeekbarBool : false,
         //
         playerWidth   : 0,
         playerHeight  : 0,
@@ -162,7 +164,7 @@ myApp.elem.ansBtn.disabled  = true;
 myApp.elem.numOX.innerHTML  = "⭕️："+myApp.val.cntO+"　❌："+myApp.val.cntX;
 //
 if(myApp.val.os != 'other'){
-    myApp.elem.text.innerHTML = "早押しボタンをタップして動画を再生する";
+    myApp.elem.text.innerHTML = "早押しボタンをタップして動画を開始する";
 }else{
     myApp.elem.text.innerHTML = "QuizBattle on YouTube";
     /* set tabindex for adding focus */
@@ -178,6 +180,10 @@ resizePlayer();
 /* set style sheets */
 document.styleSheets.item(0).insertRule('html { touch-action: manipulation; }'); //disable double tap gesture
 document.styleSheets.item(0).insertRule('body { text-align: center; margin: auto; background: #EFEFEF; }');
+document.styleSheets.item(0).insertRule('.blinkImg { animation: blinkImg 0.7s infinite alternate; }');
+document.styleSheets.item(0).insertRule('@keyframes blinkImg{ 0% { opacity: 0.3; } 100% { opacity: 1; }}');
+document.styleSheets.item(0).insertRule('.blinkText { animation: blinkText 0.7s infinite alternate; }');
+document.styleSheets.item(0).insertRule('@keyframes blinkText{ 0% { opacity: 0; } 100% { opacity: 1; }}');
 //
 /* set elements */
 if(myApp.val.os != 'other'){
@@ -334,6 +340,7 @@ myApp.elem.imgBtn1.src = myApp.path.btn1;
 myApp.elem.imgBtn2.src = myApp.path.btn2;
 myApp.elem.imgBtn3.src = myApp.path.btn3;
 myApp.elem.imgBtn4.src = myApp.path.btn4;
+myApp.elem.pushBtn.className = "blinkImg";
 //
 /* load answer file */
 myApp.val.ansFile.open("get", myApp.path.answer, true);
@@ -385,7 +392,7 @@ function materialCheckFunction(){
             if(myApp.val.os != "other"){
                 if(Math.abs(window.orientation) != 90){
                     myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src;
-                    myApp.elem.text.innerHTML = "早押しボタンをタップして動画を再生する";
+                    myApp.elem.text.innerHTML = "早押しボタンをタップして動画を開始する";
                     myApp.val.initOrientation = 'portrait';
                 }else{
                     myApp.elem.pushBtn.src = myApp.elem.imgBtn4.src;
@@ -396,9 +403,9 @@ function materialCheckFunction(){
             }else{
                 myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src;
                 if(detectTouchPanel() == true){
-                    myApp.elem.subText.innerHTML = "早押しボタン(スペースキー)を押して動画を再生する";
+                    myApp.elem.subText.innerHTML = "早押しボタン(スペースキー)を押して動画を開始する<br><span class='blinkText'>― PRESS SPACE KEY ―</span>";
                 }else{
-                    myApp.elem.subText.innerHTML = "早押しボタン(スペースキー)を押して動画を再生する";
+                    myApp.elem.subText.innerHTML = "早押しボタン(スペースキー)を押して動画を開始する<br><span class='blinkText'>― PRESS SPACE KEY ―</span>";
                 }
             }
         }else if(myApp.val.initLoadBool == true && myApp.val.loadAlertBool == false){
@@ -438,7 +445,7 @@ function myOrientationChangeEvent(){
                 myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src;
             }
             if(myApp.val.status == myApp.state.ButtonCheck){
-                myApp.elem.text.innerHTML = "早押しボタンをタップして動画を再生する";
+                myApp.elem.text.innerHTML = "早押しボタンをタップして動画を開始する";
             }
         }else{
             myApp.elem.pushBtn.src = myApp.elem.imgBtn4.src;
@@ -505,6 +512,7 @@ function myTouchEvent(event){
 function myButtonAction(){
     if(myApp.val.status == myApp.state.ButtonCheck){
         myApp.val.status = myApp.state.Talk;
+        myApp.elem.pushBtn.className = "";
         buttonCheck(myApp.val.btnCheck.sndInterval);
         setTimeout(function(){
             player.playVideo();
@@ -544,38 +552,42 @@ function myPlayerStateChangeEvent(){
             }
             player.playVideo();
         }
-        /* prevent to jump playback position by seekbar */
-        if(myApp.val.status == myApp.state.Question){
-            myApp.val.diffTime = Math.abs(myApp.val.currTime.playing - myApp.val.watchedTime);
-            if(myApp.val.diffTime > 1.0){
-                player.seekTo(myApp.val.watchedTime);
-            }
-        }else{
-            myApp.val.diffTime = Math.abs(myApp.val.currTime.playing - myApp.val.watchedTime);
-            // myApp.val.diffTime = myApp.val.currTime.playing - myApp.val.watchedTime; /* allow to jump to previous positon on timeline */
-            if(myApp.val.diffTime > 1.0){
-                player.seekTo(myApp.val.watchedTime);
+        if(myApp.val.disableSeekbarBool == true){
+            /* prevent to jump playback position by seekbar */
+            if(myApp.val.status == myApp.state.Question){
+                myApp.val.diffTime = Math.abs(myApp.val.currTime.playing - myApp.val.watchedTime);
+                if(myApp.val.diffTime > 1.0){
+                    player.seekTo(myApp.val.watchedTime);
+                }
+            }else{
+                myApp.val.diffTime = Math.abs(myApp.val.currTime.playing - myApp.val.watchedTime);
+                // myApp.val.diffTime = myApp.val.currTime.playing - myApp.val.watchedTime; /* allow to jump to previous positon on timeline */
+                if(myApp.val.diffTime > 1.0){
+                    player.seekTo(myApp.val.watchedTime);
+                }
             }
         }
     }
     if(player.getPlayerState() == myApp.videoState.Stopped){
         myApp.val.currTime.stopped = player.getCurrentTime();
-        /* prevent to jump video playback position by seekbar */
-        /* and prevent to pause video during each question */
-        if(myApp.val.status == myApp.state.Question || myApp.val.status == myApp.state.OthAnswer){
-            myApp.val.diffTime = Math.abs(myApp.val.currTime.stopped - myApp.val.watchedTime);
-            if(myApp.val.diffTime > 1.0){
-                player.seekTo(myApp.val.watchedTime);
+        if(myApp.val.disableSeekbarBool == true){
+            /* prevent to jump video playback position by seekbar */
+            /* and prevent to pause video during each question */
+            if(myApp.val.status == myApp.state.Question || myApp.val.status == myApp.state.OthAnswer){
+                myApp.val.diffTime = Math.abs(myApp.val.currTime.stopped - myApp.val.watchedTime);
+                if(myApp.val.diffTime > 1.0){
+                    player.seekTo(myApp.val.watchedTime);
+                }
+                player.playVideo();
+            }else{
+                myApp.val.diffTime = Math.abs(myApp.val.currTime.stopped - myApp.val.watchedTime);
+                // myApp.val.diffTime = myApp.val.currTime.stopped - myApp.val.watchedTime; /* allow to jump to previous position on timeline */
+                if(myApp.val.diffTime > 1.0){
+                    player.seekTo(myApp.val.watchedTime);
+                    player.playVideo(); /* allow to pause video except during the question status */
+                }
+                // player.playVideo();
             }
-            player.playVideo();
-        }else{
-            myApp.val.diffTime = Math.abs(myApp.val.currTime.stopped - myApp.val.watchedTime);
-            // myApp.val.diffTime = myApp.val.currTime.stopped - myApp.val.watchedTime; /* allow to jump to previous position on timeline */
-            if(myApp.val.diffTime > 1.0){
-                player.seekTo(myApp.val.watchedTime);
-                player.playVideo(); /* allow to pause video except during the question status */
-            }
-            // player.playVideo();
         }
     }
 }
@@ -587,15 +599,17 @@ function myIntervalEvent(){
         if(player.getPlayerState() == myApp.videoState.Playing){
             myApp.val.currTime.playing = player.getCurrentTime();
             myApp.val.watchedTime = updateWatchedTime(myApp.val.currTime.playing, myApp.val.watchedTime);
-            /* check delay of processing */
-            if(myApp.val.playingCount < 0 ){ myApp.val.watchedTime = myApp.val.currTime.playing; } // fix delay of watchedTime caused by showing orientation alert.
-            if(myApp.val.playingCount < 10){ myApp.val.playingCount += 1; }　// allow initial delay of watchedTime just after playing video.
-            if(myApp.val.currTime.playing - myApp.val.watchedTime > 1.0 && myApp.val.playingCount >= 10){
-                if(myApp.val.processDelayAlertBool == false){
-                    myApp.val.processDelayAlertBool = true;
-                    alert('ページ内の処理が遅くなっています。早押しの判定に支障が出る可能性があるため、他のプロセスを終了してから改めてクイズをお楽しみください。このポップアップは一度のみ表示されます。');
+            if(myApp.val.disableSeekbarBool == true){
+                /* check delay of processing */
+                if(myApp.val.playingCount < 0 ){ myApp.val.watchedTime = myApp.val.currTime.playing; } // fix delay of watchedTime caused by showing orientation alert.
+                if(myApp.val.playingCount < 10){ myApp.val.playingCount += 1; }　// allow initial delay of watchedTime just after playing video.
+                if(myApp.val.currTime.playing - myApp.val.watchedTime > 1.0 && myApp.val.playingCount >= 10){
+                    if(myApp.val.processDelayAlertBool == false){
+                        myApp.val.processDelayAlertBool = true;
+                        alert('ページ内の処理が遅くなっています。早押しの判定に支障が出る可能性があるため、他のプロセスを終了してから改めてクイズをお楽しみください。このポップアップは一度のみ表示されます。');
+                    }
+                    myApp.val.watchedTime  = myApp.val.currTime.playing;
                 }
-                myApp.val.watchedTime  = myApp.val.currTime.playing;
             }
             /* prevent to play video before button check */
             if(myApp.val.status == myApp.state.ButtonCheck){
@@ -603,9 +617,19 @@ function myIntervalEvent(){
             }
             /* execute srt function in each sections of subtitle */
             if(myApp.val.status != myApp.state.MyAnswer){
-                if(index - myApp.val.cntIndex == 1){
-                    myApp.val.srtFuncArray.shift()();
-                    myApp.val.cntIndex += 1;
+                if(myApp.val.disableSeekbarBool == true){
+                    if(index - myApp.val.cntIndex == 1){
+                        myApp.val.srtFuncArray.shift()();
+                        myApp.val.cntIndex += 1;
+                    }
+                }else{
+                    if(index > myApp.val.cntIndex){
+                        for(let i = 0; i < index-myApp.val.cntIndex; i++){
+                            myApp.val.srtFuncArray.shift()();
+                        }
+                        myApp.val.cntIndex = index;
+                        // console.log(myApp.val.cntIndex);
+                    }
                 }
             }
         }else if(player.getPlayerState() == myApp.videoState.Stopped){
@@ -1022,9 +1046,10 @@ function printParams(){
 //
 //---------------------------------------------------------------------------------------------------------------
 /* set functions executed in each subtitle */
+myApp.val.jumpToAnsBool = true;
+myApp.val.disableSeekbarBool = false;
 myApp.val.hidePlayerBool.phone = true;
 myApp.val.hidePlayerBool.other = false;
-myApp.val.jumpToAnsBool = true;
 myApp.val.firstQuesStartTime = 36;
 myApp.val.srtFuncArray = [
     function(){

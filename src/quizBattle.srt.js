@@ -9,7 +9,6 @@ const myApp = {
     path : {
         answer : "https://raw.githubusercontent.com/t-yokota/quizBattle/master/src/answer.csv",
         sound  : "https://raw.githubusercontent.com/t-yokota/quizBattle/master/sounds/sounds_3", //+ext;
-        btn0   : "https://github.com/t-yokota/quizBattle/raw/master/images/button_0.png",
         btn1   : "https://github.com/t-yokota/quizBattle/raw/master/images/button_1.png",
         btn2   : "https://github.com/t-yokota/quizBattle/raw/master/images/button_2.png",
         btn3   : "https://github.com/t-yokota/quizBattle/raw/master/images/button_3.png",
@@ -33,7 +32,6 @@ const myApp = {
         ansBtn     : document.createElement("button"),
         numOX      : document.createElement("text"),
         pushBtn    : document.createElement("img"),
-        imgBtn0    : document.createElement("img"),
         imgBtn1    : document.createElement("img"),
         imgBtn2    : document.createElement("img"),
         imgBtn3    : document.createElement("img"),
@@ -313,9 +311,8 @@ if(myApp.val.os != 'other'){
     myApp.val.viewFuncArray.shift()();
 }
 //
-const num_of_materials = 7;
+const num_of_materials = 6;
 myApp.elem.sounds.onloadedmetadata = function(){ myApp.val.loadCount += 1; };
-myApp.elem.imgBtn0.onload = function(){ myApp.val.loadCount += 1; };
 myApp.elem.imgBtn1.onload = function(){ myApp.val.loadCount += 1; };
 myApp.elem.imgBtn2.onload = function(){ myApp.val.loadCount += 1; };
 myApp.elem.imgBtn3.onload = function(){ myApp.val.loadCount += 1; };
@@ -323,7 +320,6 @@ myApp.elem.imgBtn4.onload = function(){ myApp.val.loadCount += 1; };
 myApp.val.ansFile.onload  = function(){ myApp.val.loadCount += 1; myApp.val.ansArray = CSVtoArray(myApp.val.ansFile.responseText); };
 //
 myApp.elem.sounds.onerror  = function(){ myApp.val.loadErrorBool = true; };
-myApp.elem.imgBtn0.onerror = function(){ myApp.val.loadErrorBool = true; };
 myApp.elem.imgBtn1.onerror = function(){ myApp.val.loadErrorBool = true; };
 myApp.elem.imgBtn2.onerror = function(){ myApp.val.loadErrorBool = true; };
 myApp.elem.imgBtn3.onerror = function(){ myApp.val.loadErrorBool = true; };
@@ -340,7 +336,6 @@ else if(myApp.elem.sounds.canPlayType('audio/wav') == 'maybe'   ){ myApp.val.aud
 myApp.elem.sounds.src = myApp.path.sound+myApp.val.audioExt;
 //
 /* load push button image */
-myApp.elem.imgBtn0.src = myApp.path.btn0;
 myApp.elem.imgBtn1.src = myApp.path.btn1;
 myApp.elem.imgBtn2.src = myApp.path.btn2;
 myApp.elem.imgBtn3.src = myApp.path.btn3;
