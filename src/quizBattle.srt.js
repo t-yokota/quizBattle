@@ -71,6 +71,8 @@ const myApp = {
         //
         composingBool        : false,
         //
+        disableSeekbarBool : false,
+        //
         playerWidth   : 0,
         playerHeight  : 0,
         pushBtnWidth  : 0,
@@ -555,38 +557,42 @@ function myPlayerStateChangeEvent(){
             }
             player.playVideo();
         }
-        /* prevent to jump playback position by seekbar */
-        if(myApp.val.status == myApp.state.Question){
-            myApp.val.diffTime = Math.abs(myApp.val.currTime.playing - myApp.val.watchedTime);
-            if(myApp.val.diffTime > 1.0){
-                player.seekTo(myApp.val.watchedTime);
-            }
-        }else{
-            myApp.val.diffTime = Math.abs(myApp.val.currTime.playing - myApp.val.watchedTime);
-            // myApp.val.diffTime = myApp.val.currTime.playing - myApp.val.watchedTime; /* allow to jump to previous positon on timeline */
-            if(myApp.val.diffTime > 1.0){
-                player.seekTo(myApp.val.watchedTime);
+        if(myApp.val.disableSeekbarBool == true){
+            /* prevent to jump playback position by seekbar */
+            if(myApp.val.status == myApp.state.Question){
+                myApp.val.diffTime = Math.abs(myApp.val.currTime.playing - myApp.val.watchedTime);
+                if(myApp.val.diffTime > 1.0){
+                    player.seekTo(myApp.val.watchedTime);
+                }
+            }else{
+                myApp.val.diffTime = Math.abs(myApp.val.currTime.playing - myApp.val.watchedTime);
+                // myApp.val.diffTime = myApp.val.currTime.playing - myApp.val.watchedTime; /* allow to jump to previous positon on timeline */
+                if(myApp.val.diffTime > 1.0){
+                    player.seekTo(myApp.val.watchedTime);
+                }
             }
         }
     }
     if(player.getPlayerState() == myApp.videoState.Stopped){
         myApp.val.currTime.stopped = player.getCurrentTime();
-        /* prevent to jump video playback position by seekbar */
-        /* and prevent to pause video during each question */
-        if(myApp.val.status == myApp.state.Question || myApp.val.status == myApp.state.OthAnswer){
-            myApp.val.diffTime = Math.abs(myApp.val.currTime.stopped - myApp.val.watchedTime);
-            if(myApp.val.diffTime > 1.0){
-                player.seekTo(myApp.val.watchedTime);
+        if(myApp.val.disableSeekbarBool == true){
+            /* prevent to jump video playback position by seekbar */
+            /* and prevent to pause video during each question */
+            if(myApp.val.status == myApp.state.Question || myApp.val.status == myApp.state.OthAnswer){
+                myApp.val.diffTime = Math.abs(myApp.val.currTime.stopped - myApp.val.watchedTime);
+                if(myApp.val.diffTime > 1.0){
+                    player.seekTo(myApp.val.watchedTime);
+                }
+                player.playVideo();
+            }else{
+                myApp.val.diffTime = Math.abs(myApp.val.currTime.stopped - myApp.val.watchedTime);
+                // myApp.val.diffTime = myApp.val.currTime.stopped - myApp.val.watchedTime; /* allow to jump to previous position on timeline */
+                if(myApp.val.diffTime > 1.0){
+                    player.seekTo(myApp.val.watchedTime);
+                    player.playVideo(); /* allow to pause video except during the question status */
+                }
+                // player.playVideo();
             }
-            player.playVideo();
-        }else{
-            myApp.val.diffTime = Math.abs(myApp.val.currTime.stopped - myApp.val.watchedTime);
-            // myApp.val.diffTime = myApp.val.currTime.stopped - myApp.val.watchedTime; /* allow to jump to previous position on timeline */
-            if(myApp.val.diffTime > 1.0){
-                player.seekTo(myApp.val.watchedTime);
-                player.playVideo(); /* allow to pause video except during the question status */
-            }
-            // player.playVideo();
         }
     }
 }
@@ -598,15 +604,17 @@ function myIntervalEvent(){
         if(player.getPlayerState() == myApp.videoState.Playing){
             myApp.val.currTime.playing = player.getCurrentTime();
             myApp.val.watchedTime = updateWatchedTime(myApp.val.currTime.playing, myApp.val.watchedTime);
-            /* check delay of processing */
-            if(myApp.val.playingCount < 0 ){ myApp.val.watchedTime = myApp.val.currTime.playing; } // fix delay of watchedTime caused by showing orientation alert.
-            if(myApp.val.playingCount < 10){ myApp.val.playingCount += 1; }　// allow initial delay of watchedTime just after playing video.
-            if(myApp.val.currTime.playing - myApp.val.watchedTime > 1.0 && myApp.val.playingCount >= 10){
-                if(myApp.val.processDelayAlertBool == false){
-                    myApp.val.processDelayAlertBool = true;
-                    alert('ページ内の処理が遅くなっています。早押しの判定に支障が出る可能性があるため、他のプロセスを終了してから改めてクイズをお楽しみください。このポップアップは一度のみ表示されます。');
+            if(myApp.val.disableSeekbarBool == true){
+                /* check delay of processing */
+                if(myApp.val.playingCount < 0 ){ myApp.val.watchedTime = myApp.val.currTime.playing; } // fix delay of watchedTime caused by showing orientation alert.
+                if(myApp.val.playingCount < 10){ myApp.val.playingCount += 1; }　// allow initial delay of watchedTime just after playing video.
+                if(myApp.val.currTime.playing - myApp.val.watchedTime > 1.0 && myApp.val.playingCount >= 10){
+                    if(myApp.val.processDelayAlertBool == false){
+                        myApp.val.processDelayAlertBool = true;
+                        alert('ページ内の処理が遅くなっています。早押しの判定に支障が出る可能性があるため、他のプロセスを終了してから改めてクイズをお楽しみください。このポップアップは一度のみ表示されます。');
+                    }
+                    myApp.val.watchedTime  = myApp.val.currTime.playing;
                 }
-                myApp.val.watchedTime  = myApp.val.currTime.playing;
             }
             /* prevent to play video before button check */
             if(myApp.val.status == myApp.state.ButtonCheck){
@@ -614,9 +622,19 @@ function myIntervalEvent(){
             }
             /* execute srt function in each sections of subtitle */
             if(myApp.val.status != myApp.state.MyAnswer){
-                if(index - myApp.val.cntIndex == 1){
-                    myApp.val.srtFuncArray.shift()();
-                    myApp.val.cntIndex += 1;
+                if(myApp.val.disableSeekbarBool == true){
+                    if(index - myApp.val.cntIndex == 1){
+                        myApp.val.srtFuncArray.shift()();
+                        myApp.val.cntIndex += 1;
+                    }
+                }else{
+                    if(index > myApp.val.cntIndex){
+                        for(let i = 0; i < index-myApp.val.cntIndex; i++){
+                            myApp.val.srtFuncArray.shift()();
+                        }
+                        myApp.val.cntIndex = index;
+                        // console.log(myApp.val.cntIndex);
+                    }
                 }
             }
         }else if(player.getPlayerState() == myApp.videoState.Stopped){
@@ -1033,9 +1051,10 @@ function printParams(){
 //
 //---------------------------------------------------------------------------------------------------------------
 /* set functions executed in each subtitle */
+myApp.val.jumpToAnsBool = true;
+myApp.val.disableSeekbarBool = false;
 myApp.val.hidePlayerBool.phone = true;
 myApp.val.hidePlayerBool.other = false;
-myApp.val.jumpToAnsBool = true;
 myApp.val.firstQuesStartTime = 4.01;
 myApp.val.srtFuncArray = [
     function(){
