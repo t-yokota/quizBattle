@@ -7,6 +7,7 @@
         let text = document.createElement("text");
         document.getElementsByTagName("body")[0].appendChild(text);
         text.innerHTML='<h1>'+param+'</h1>';
+
         function getParam(name, url) {
             if (!url) url = window.location.href;
             name = name.replace(/[\[\]]/g, "\\$&");
@@ -16,6 +17,7 @@
             if (!results[2]) return '';
             return decodeURIComponent(results[2].replace(/\+/g, " "));
         }
+        
         $.ajax({
             type: 'GET',
             url: 'https://raw.githubusercontent.com/t-yokota/quizBattle/master/contents/'+param,
