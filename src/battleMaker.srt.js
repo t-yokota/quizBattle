@@ -13,6 +13,7 @@ const myElem = {
     setAnswer   : document.createElement('text'),
     regist      : document.createElement('text'),
     download    : document.createElement('text'),
+    setBool     : document.createElement('text'),
     output      : document.createElement('text'),
     script      : document.createElement('script'),
 };
@@ -94,6 +95,40 @@ myElem.download.innerHTML = `
     <p class='bottom'>
     <input type='button' value='describe script' onclick='describeScript()' style='width:150px'>
     <input type='button' value='download answer.csv' onclick='downloadAnswer()' style='width:150px'>
+    </p>`;
+myElem.setBool.innerHTML = `
+    <p class='top'>
+    <b>Set Boolean of functions :</b>
+    </p>
+    <p class='middle'>
+    <form id='radio-jumpToAnsBool'>
+    jump to answer bool:
+    <input type='radio' name='jumpToAnsBool' value='true' id='state1'>
+    <label for='state1'>true</label>
+    <input type='radio' name='jumpToAnsBool' value='false' id='state2' checked>
+    <label for='state2'>false</label>
+    </form>
+    <form id='radio-disableSeekbarBool'>
+    disable seekbar bool:
+    <input type='radio' name='disableSeekbarBool' value='true' id='state1'>
+    <label for='state1'>true</label>
+    <input type='radio' name='disableSeekbarBool' value='false' id='state2' checked>
+    <label for='state2'>false</label>
+    </form>
+    <form id='radio-hidePlayerBool-phone'>
+    hide player bool (phone):
+    <input type='radio' name='hidePlayerBool_phone' value='true' id='state1' checked>
+    <label for='state1'>true</label>
+    <input type='radio' name='hidePlayerBool_phone' value='false' id='state2'>
+    <label for='state2'>false</label>
+    </form>
+    <form id='radio-hidePlayerBool-other'>
+    hide player bool (other):
+    <input type='radio' name='hidePlayerBool_other' value='true' id='state1'>
+    <label for='state1'>true</label>
+    <input type='radio' name='hidePlayerBool_other' value='false' id='state2' checked>
+    <label for='state2'>false</label>
+    </form>
     </p>`;
 myElem.script.innerHTML = `
     const myApp = {
@@ -584,9 +619,10 @@ myElem.script.innerHTML = `
         let quesCount = 0;
         //
         let indent = '&nbsp;&nbsp;&nbsp;&nbsp;';
-        res.push('myApp.val.hidePlayerBool.phone = true;');
-        res.push('myApp.val.hidePlayerBool.other = false;');
-        res.push('myApp.val.jumpToAnsBool = false;');
+        res.push('myApp.val.jumpToAnsBool = '+document.getElementById('radio-jumpToAnsBool').jumpToAnsBool.value+';');
+        res.push('myApp.val.disableSeekbarBool = '+document.getElementById('radio-disableSeekbarBool').disableSeekbarBool.value+';');
+        res.push('myApp.val.hidePlayerBool.phone = '+document.getElementById('radio-hidePlayerBool-phone').hidePlayerBool_phone.value+';');
+        res.push('myApp.val.hidePlayerBool.other = '+document.getElementById('radio-hidePlayerBool-other').hidePlayerBool_other.value+';');
         res.push('myApp.val.firstQuesStartTime = '+array[0][2]+';');
         res.push('myApp.val.srtFuncArray = [');
         for(let i = 0; i < array.length; i++){
@@ -655,5 +691,6 @@ document.getElementsByTagName('body')[0].appendChild(myElem.setRangeUI);
 document.getElementsByTagName('body')[0].appendChild(myElem.setAnswer);
 document.getElementsByTagName('body')[0].appendChild(myElem.regist);
 document.getElementsByTagName('body')[0].appendChild(myElem.download);
+document.getElementsByTagName('body')[0].appendChild(myElem.setBool);
 document.getElementsByTagName('body')[0].appendChild(myElem.output);
 document.getElementsByTagName('body')[0].appendChild(myElem.script);
