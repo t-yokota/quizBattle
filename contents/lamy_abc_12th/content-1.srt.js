@@ -1054,7 +1054,7 @@ function printParams(){
 //---------------------------------------------------------------------------------------------------------------
 /* set functions executed in each subtitle */
 myApp.val.jumpToAnsBool = true;
-myApp.val.disableSeekbarBool = true;
+myApp.val.disableSeekbarBool = false;
 myApp.val.hidePlayerBool.phone = true;
 myApp.val.hidePlayerBool.other = false;
 myApp.val.firstQuesStartTime = 36;
