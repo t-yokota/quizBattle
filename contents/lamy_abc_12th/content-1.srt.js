@@ -630,7 +630,7 @@ function myIntervalEvent(){
                             myApp.val.srtFuncArray.shift()();
                         }
                         myApp.val.cntIndex = index;
-                        // console.log(myApp.val.cntIndex);
+                        console.log(myApp.val.cntIndex);
                     }
                 }
             }
