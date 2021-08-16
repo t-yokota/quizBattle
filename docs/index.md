@@ -15,18 +15,18 @@
 # 使い方
 
 1. コンテンツから動画を選択して視聴ページに移動する。
-1. ブラウザ上で表示されるポップアップを確認した後、動画プレイヤーの再生ボタンをタップ（またはクリック）する。
+1. 表示されるポップアップを確認した後、動画プレイヤーの再生ボタンをタップ（またはクリック）する。
 
 # コンテンツ
 
 ## ■ お試しクイズ
 
-本ツールのデモ用に作成した1分30秒の短いクイズ動画です（全5問）。
+本ツールのデモ用に作成した1分30秒の短いクイズ動画です（全5問、音声なし）。
 
 <table class="contents">
     <tr>
         <td>
-            <a href="https://srtjs.azurewebsites.net/?v=BHWd-HDorfY&surl=https://raw.githubusercontent.com/t-yokota/quizBattle/master/src/quizBattle.srt.js">
+            <a href="https://srtjs.azurewebsites.net/?v=BHWd-HDorfY&surl=https://raw.githubusercontent.com/t-yokota/quizBattle/master/src/quizBattle.srt.js" target="_blank" rel="noopener noreferrer">
                 <div class="sample-box">
                     <img class='thumbnail' src="https://i.ytimg.com/vi_webp/BHWd-HDorfY/sddefault.webp" alt="お試しクイズ">
                     <img class='icon' src="https://raw.githubusercontent.com/t-yokota/quizBattle/master/docs/images/video_icon.png">
@@ -46,7 +46,7 @@
 <table class="contents">
     <tr>
         <td>
-            <a href="https://srtjs.azurewebsites.net/?v=ue9b06lFQG0&surl=https://raw.githubusercontent.com/t-yokota/quizBattle/master/contents/lamy_abc_12th/content-1.srt.js">
+            <a href="https://srtjs.azurewebsites.net/?v=ue9b06lFQG0&surl=https://raw.githubusercontent.com/t-yokota/quizBattle/master/contents/lamy_abc_12th/content-1.srt.js" target="_blank" rel="noopener noreferrer">
                 <div class="sample-box">
                     <img class='thumbnail' src="https://i.ytimg.com/vi_webp/ue9b06lFQG0/sddefault.webp" alt="【問い読み】クイズの問題を読む 第1回【abc the 12th】">
                     <img class='icon' src="https://raw.githubusercontent.com/t-yokota/quizBattle/master/docs/images/video_icon.png">
@@ -55,7 +55,7 @@
             </a>
         </td>
         <td>
-            <a href="https://srtjs.azurewebsites.net/?v=ue9b06lFQG0&surl=https://raw.githubusercontent.com/t-yokota/quizBattle/master/contents/lamy_abc_12th/content-1.srt.js">
+            <a href="https://srtjs.azurewebsites.net/?v=ue9b06lFQG0&surl=https://raw.githubusercontent.com/t-yokota/quizBattle/master/contents/lamy_abc_12th/content-1.srt.js" target="_blank" rel="noopener noreferrer">
                 <div class="sample-box">
                     <img class='thumbnail' src="https://i.ytimg.com/vi_webp/Mlxs5v3bQK4/sddefault.webp" alt="【問い読み】クイズの問題を読む 第2回【abc the 12th】">
                     <img class='icon' src="https://raw.githubusercontent.com/t-yokota/quizBattle/master/docs/images/video_icon.png">
@@ -66,7 +66,7 @@
     </tr>
     <tr>
         <td>
-            <a href="https://srtjs.azurewebsites.net/?v=ue9b06lFQG0&surl=https://raw.githubusercontent.com/t-yokota/quizBattle/master/contents/lamy_abc_12th/content-1.srt.js">
+            <a href="https://srtjs.azurewebsites.net/?v=ue9b06lFQG0&surl=https://raw.githubusercontent.com/t-yokota/quizBattle/master/contents/lamy_abc_12th/content-1.srt.js" target="_blank" rel="noopener noreferrer">
                 <div class="sample-box">
                     <img class='thumbnail' src="https://i.ytimg.com/vi_webp/V6R8y2VRm0I/sddefault.webp" alt="【問い読み】クイズの問題を読む 第3回【abc the 12th】">
                     <img class='icon' src="https://raw.githubusercontent.com/t-yokota/quizBattle/master/docs/images/video_icon.png">
