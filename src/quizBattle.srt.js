@@ -625,7 +625,7 @@ function myIntervalEvent(){
                         myApp.val.cntIndex += 1;
                     }
                 }else{
-                    if(index > myApp.val.cntIndex){
+                    if(index - myApp.val.cntIndex >= 1){
                         for(let i = 0; i < index-myApp.val.cntIndex; i++){
                             myApp.val.srtFuncArray.shift()();
                         }
