@@ -623,6 +623,8 @@ function myIntervalEvent(){
                     if(index - myApp.val.cntIndex == 1){
                         myApp.val.srtFuncArray.shift()();
                         myApp.val.cntIndex += 1;
+                        console.log(index);
+                        console.log(myApp.val.cntIndex);
                     }
                 }else{
                     if(index > myApp.val.cntIndex){
@@ -1050,7 +1052,7 @@ function printParams(){
 //---------------------------------------------------------------------------------------------------------------
 /* set functions executed in each subtitle */
 myApp.val.jumpToAnsBool = true;
-myApp.val.disableSeekbarBool = false;
+myApp.val.disableSeekbarBool = true;
 myApp.val.hidePlayerBool.phone = true;
 myApp.val.hidePlayerBool.other = false;
 myApp.val.firstQuesStartTime = 36;
