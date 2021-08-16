@@ -405,9 +405,9 @@ function materialCheckFunction(){
             }else{
                 myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src;
                 if(detectTouchPanel() == true){
-                    myApp.elem.subText.innerHTML = "早押しボタン(スペースキー)を押して動画を開始する<br><span class='blinkText'>― PRESS SPACE KEY ―</span>";
+                    myApp.elem.subText.innerHTML = "<span class='blinkText'>スペースキーを押して動画を開始する</span>";
                 }else{
-                    myApp.elem.subText.innerHTML = "早押しボタン(スペースキー)を押して動画を開始する<br><span class='blinkText'>― PRESS SPACE KEY ―</span>";
+                    myApp.elem.subText.innerHTML = "<span class='blinkText'>スペースキーを押して動画を開始する</span>";
                 }
             }
         }else if(myApp.val.initLoadBool == true && myApp.val.loadAlertBool == false){
@@ -522,11 +522,11 @@ function myButtonAction(){
             if(myApp.val.os != 'other'){
                 myApp.val.viewFuncArray.shift()();
                 myApp.elem.text.innerHTML = "＜ 遊び方 ＞";
-                myApp.elem.subText.innerHTML = "早押しボタンをタップすることで<br>動画内のクイズに答えることができます";
+                myApp.elem.subText.innerHTML = "画面上の早押しボタンで<br>動画内のクイズに参加することができます";
             }else{
                 myApp.val.viewFuncArray.shift()();
                 myApp.elem.text.innerHTML = "＜ 遊び方 ＞"
-                myApp.elem.subText.innerHTML = "早押しボタン(スペースキー)を押すことで<br>動画内のクイズに答えることができます";
+                myApp.elem.subText.innerHTML = "スペースキーを早押しボタンにして<br>動画内のクイズに参加することができます";
             }
         }, myApp.val.btnCheck.playInterval);
     }
