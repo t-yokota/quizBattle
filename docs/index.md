@@ -55,7 +55,7 @@
             </a>
         </td>
         <td>
-            <a href="https://srtjs.azurewebsites.net/?v=ue9b06lFQG0&surl=https://raw.githubusercontent.com/t-yokota/quizBattle/master/contents/lamy_abc_12th/content-1.srt.js" target="_blank" rel="noopener noreferrer">
+            <a href="https://srtjs.azurewebsites.net/?v=Mlxs5v3bQK4&surl=https://raw.githubusercontent.com/t-yokota/quizBattle/master/contents/lamy_abc_12th/content-2.srt.js" target="_blank" rel="noopener noreferrer">
                 <div class="sample-box">
                     <img class='thumbnail' src="https://i.ytimg.com/vi_webp/Mlxs5v3bQK4/sddefault.webp" alt="【問い読み】クイズの問題を読む 第2回【abc the 12th】">
                     <img class='icon' src="https://raw.githubusercontent.com/t-yokota/quizBattle/master/docs/images/video_icon.png">
