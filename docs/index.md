@@ -74,8 +74,25 @@
                 【問い読み】クイズの問題を読む 第3回【abc the 12th】
             </a>
         </td>
+        <td>
+            <a href="https://srtjs.azurewebsites.net/?v=vJQIxN-H2Uw&surl=https://raw.githubusercontent.com/t-yokota/quizBattle/master/contents/lamy_abc_12th/content-3.srt.js" target="_blank" rel="noopener noreferrer">
+                <div class="sample-box">
+                    <img class='thumbnail' src="https://i.ytimg.com/vi_webp/vJQIxN-H2Uw/sddefault.webp" alt="【問い読み】クイズの問題を読む 第4回【abc the 12th】">
+                    <img class='icon' src="https://raw.githubusercontent.com/t-yokota/quizBattle/master/docs/images/video_icon.png">
+                </div>
+                【問い読み】クイズの問題を読む 第4回【abc the 12th】
+            </a>
+        </td>
     </tr>
 </table>
 
-# 連絡先
+# 問い合わせ
 
+本ツールに関する問い合わせは、Twitter（[@yktm_0529](https://twitter.com/yktm_0529)）のDMからお願いいたします。
+
+本ツールを使用したコンテンツの作成に関心があり、クイズ動画の使用許可をいただける動画製作者の方がいらっしゃいましたら、ぜひご連絡いただけると幸いです。
+
+# その他
+
+- クイズの解答は各コンテンツの動画ごとにcsvファイルで管理しています。複数の解答のパターン（漢字表記・ひらがな表記、あるいは別解等）を可能な範囲でカバーするようにしてはおりますが、網羅はできていません。確実に合っているのに誤答になってしまった、という場合はご一報ください。csvファイルの更新を検討させていただきます。
+- 本ツールは、津田塾大学の栗原一貴先生による[srt.js](https://www.unryu.org/home/srtjs)を利用して開発しています。
