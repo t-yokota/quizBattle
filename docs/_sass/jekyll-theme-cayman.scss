@@ -377,7 +377,7 @@ a {
   color: $blockquote-text-color;
 }
 
-//yokota added
+//added style by yokota
 img.main {
   width: 60%,
 }
@@ -430,11 +430,11 @@ table.contents img.icon {
   left: 5%;
 }
 
-//アコーディオン
+//accordion menu
 .qa-list dl {
   position: relative;
   margin: 0;
-  padding: 28px 80px 28px 30px;
+  padding: 18px 80px 18px 30px;
   cursor: pointer;
   border-bottom: 1px solid #000;
 }
@@ -443,7 +443,7 @@ table.contents img.icon {
 }
 .qa-list dl::before {
   position: absolute;
-  top: 35px;
+  top: 25px;
   right: 35px;
   display: block;
   width: 7px;
@@ -462,28 +462,28 @@ table.contents img.icon {
   margin: 0;
   padding: 0 0 0 50px;
   font-weight: bold;
-  font-size: 20px;
+  font-size: 1.1rem;
 }
 .qa-list dl dt::before {
-  font-size: 22px;
+  font-size: 1.2rem;
   line-height: 1;
   position: absolute;
-  top: 3px;
+  top: 0px;
   left: 0;
   display: block;
   content: 'Q.';
-  color: #3285bf;
+  color: #c4302b;
 }
 .qa-list dl dd::before {
-  font-size: 22px;
+  font-size: 1.1rem;
   line-height: 1;
   position: absolute;
-  top: 3px;
+  top: 0px;
   left: 2px;
   display: block;
   content: 'A.';
   font-weight: bold;
-  color: #3285bf;
+  color: #c4302b;
 }
 .qa-list dl dd {
   position: relative;
@@ -491,6 +491,7 @@ table.contents img.icon {
   height: auto;
   margin: 20px 0 0;
   padding: 0 0 0 50px;
+  font-size: 1rem;
 }
 .qa-list dl dd p {
   margin: 30px 0 0;
