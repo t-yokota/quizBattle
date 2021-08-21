@@ -1067,14 +1067,14 @@ myApp.val.srtFuncArray = [
         myApp.val.correctBool = false;
         myApp.elem.text.innerHTML = "第"+myApp.val.numQues+"問";
         myApp.elem.ansCol.value = "ここに解答を入力";
-        myApp.elem.ansCol.disabled  = true;
-        myApp.elem.ansBtn.disabled  = true;
+        myApp.elem.ansCol.disabled = true;
+        myApp.elem.ansBtn.disabled = true;
         if(Math.abs(window.orientation) != 90){ myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src; }
     },
     function(){
         myApp.val.status = myApp.state.Talk;
-        myApp.elem.ansCol.disabled  = true;
-        myApp.elem.ansBtn.disabled  = true;
+        myApp.elem.ansCol.disabled = true;
+        myApp.elem.ansBtn.disabled = true;
         myApp.elem.pushBtn.src = myApp.elem.imgBtn4.src;
     },
     function(){
@@ -1088,14 +1088,14 @@ myApp.val.srtFuncArray = [
         myApp.val.correctBool = false;
         myApp.elem.text.innerHTML = "第"+myApp.val.numQues+"問";
         myApp.elem.ansCol.value = "ここに解答を入力";
-        myApp.elem.ansCol.disabled  = true;
-        myApp.elem.ansBtn.disabled  = true;
+        myApp.elem.ansCol.disabled = true;
+        myApp.elem.ansBtn.disabled = true;
         if(Math.abs(window.orientation) != 90){ myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src; }
     },
     function(){
         myApp.val.status = myApp.state.Talk;
-        myApp.elem.ansCol.disabled  = true;
-        myApp.elem.ansBtn.disabled  = true;
+        myApp.elem.ansCol.disabled = true;
+        myApp.elem.ansBtn.disabled = true;
         myApp.elem.pushBtn.src = myApp.elem.imgBtn4.src;
     },
     function(){
@@ -1109,14 +1109,14 @@ myApp.val.srtFuncArray = [
         myApp.val.correctBool = false;
         myApp.elem.text.innerHTML = "第"+myApp.val.numQues+"問";
         myApp.elem.ansCol.value = "ここに解答を入力";
-        myApp.elem.ansCol.disabled  = true;
-        myApp.elem.ansBtn.disabled  = true;
+        myApp.elem.ansCol.disabled = true;
+        myApp.elem.ansBtn.disabled = true;
         if(Math.abs(window.orientation) != 90){ myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src; }
     },
     function(){
         myApp.val.status = myApp.state.Talk;
-        myApp.elem.ansCol.disabled  = true;
-        myApp.elem.ansBtn.disabled  = true;
+        myApp.elem.ansCol.disabled = true;
+        myApp.elem.ansBtn.disabled = true;
         myApp.elem.pushBtn.src = myApp.elem.imgBtn4.src;
     },
     function(){
@@ -1130,14 +1130,14 @@ myApp.val.srtFuncArray = [
         myApp.val.correctBool = false;
         myApp.elem.text.innerHTML = "第"+myApp.val.numQues+"問";
         myApp.elem.ansCol.value = "ここに解答を入力";
-        myApp.elem.ansCol.disabled  = true;
-        myApp.elem.ansBtn.disabled  = true;
+        myApp.elem.ansCol.disabled = true;
+        myApp.elem.ansBtn.disabled = true;
         if(Math.abs(window.orientation) != 90){ myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src; }
     },
     function(){
         myApp.val.status = myApp.state.Talk;
-        myApp.elem.ansCol.disabled  = true;
-        myApp.elem.ansBtn.disabled  = true;
+        myApp.elem.ansCol.disabled = true;
+        myApp.elem.ansBtn.disabled = true;
         myApp.elem.pushBtn.src = myApp.elem.imgBtn4.src;
     },
     function(){
@@ -1151,14 +1151,14 @@ myApp.val.srtFuncArray = [
         myApp.val.correctBool = false;
         myApp.elem.text.innerHTML = "第"+myApp.val.numQues+"問";
         myApp.elem.ansCol.value = "ここに解答を入力";
-        myApp.elem.ansCol.disabled  = true;
-        myApp.elem.ansBtn.disabled  = true;
+        myApp.elem.ansCol.disabled = true;
+        myApp.elem.ansBtn.disabled = true;
         if(Math.abs(window.orientation) != 90){ myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src; }
     },
     function(){
         myApp.val.status = myApp.state.Talk;
-        myApp.elem.ansCol.disabled  = true;
-        myApp.elem.ansBtn.disabled  = true;
+        myApp.elem.ansCol.disabled = true;
+        myApp.elem.ansBtn.disabled = true;
         myApp.elem.pushBtn.src = myApp.elem.imgBtn4.src;
     },
 ];

@@ -647,14 +647,25 @@ myElem.script.innerHTML = `
                     res.push(indent+indent+ 'myApp.val.correctBool = false;');
                     res.push(indent+indent+ 'myApp.elem.text.innerHTML = "第"+myApp.val.numQues+"問";');
                     res.push(indent+indent+ 'myApp.elem.ansCol.value = "ここに解答を入力";');
+                    res.push(indent+indent+ 'myApp.elem.ansCol.disabled = true;');
+                    res.push(indent+indent+ 'myApp.elem.ansBtn.disabled = true;');
                     res.push(indent+indent+ 'if(Math.abs(window.orientation) != 90){ myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src; }');
                 }else{
                     res.push(indent+indent+ 'myApp.val.status = myApp.state.Question;');
+                    res.push(indent+indent+ 'myApp.elem.ansCol.disabled = true;');
+                    res.push(indent+indent+ 'myApp.elem.ansBtn.disabled = true;');
+                    res.push(indent+indent+ 'if(Math.abs(window.orientation) != 90){ myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src; }');
                 }
             }else if(array[i][1] === 'Talk'){
                 res.push(indent+indent+ 'myApp.val.status = myApp.state.Talk;');
+                res.push(indent+indent+ 'myApp.elem.ansCol.disabled = true;');
+                res.push(indent+indent+ 'myApp.elem.ansBtn.disabled = true;');
+                res.push(indent+indent+ 'myApp.elem.pushBtn.src = myApp.elem.imgBtn4.src;');
             }else if(array[i][1] === 'OthAnswer'){
                 res.push(indent+indent+ 'myApp.val.status = myApp.state.OthAnswer;');
+                res.push(indent+indent+ 'myApp.elem.ansCol.disabled = true;');
+                res.push(indent+indent+ 'myApp.elem.ansBtn.disabled = true;');
+                res.push(indent+indent+ 'myApp.elem.pushBtn.src = myApp.elem.imgBtn4.src;');
             }
             res.push( indent + '},');
         }
