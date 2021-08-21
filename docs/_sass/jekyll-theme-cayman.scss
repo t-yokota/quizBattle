@@ -532,42 +532,42 @@ table.contents img.icon {
   margin-top: 0;
 }
 
-// @media screen and (max-width: 767px) {
-// .qa-list dl {
-//   position: relative;
-//   padding: 15px 40px 15px 10px;
-// }
-// .qa-list dl::before {
-//   top: 20px;
-//   right: 20px;
-//   width: 7px;
-//   height: 7px;
-// }
-// .qa-list dl dt {
-//   padding: 0 0 0 30px;
-//   font-size: 14px;
-// }
-// .qa-list dl dt::before {
-//   font-size: 14px;
-//   top: 3px;
-//   left: 5px;
-//   content: 'Q.';
-// }
-// .qa-list dl dd::before {
-//   font-size: 14px;
-//   top: 5px;
-//   left: 5px;
-//   content: 'A.';
-// }
-// .qa-list dl dd {
-//   margin: 10px 0 0;
-//   padding: 0 0 0 30px;
-//   font-size: 14px;
-// }
-// .qa-list dl dd p {
-//   margin: 30px 0 0;
-// }
-// .qa-list dl dd p:first-child{
-//   margin-top: 0;
-// }
-// }
+@include small() {
+  .qa-list dl {
+    position: relative;
+    padding: 5px 40px 5px 10px;
+  }
+  .qa-list dl::before {
+    top: 20px;
+    right: 20px;
+    width: 7px;
+    height: 7px;
+  }
+  .qa-list dl dt {
+    padding: 0 0 0 30px;
+    // font-size: 14px;
+  }
+  .qa-list dl dt::before {
+    // font-size: 14px;
+    top: 3px;
+    left: 5px;
+    content: 'Q.';
+  }
+  .qa-list dl dd::before {
+    // font-size: 14px;
+    top: 5px;
+    left: 5px;
+    content: 'A.';
+  }
+  .qa-list dl dd {
+    margin: 10px 0 0;
+    padding: 0 0 0 30px;
+    // font-size: 14px;
+  }
+  .qa-list dl dd p {
+    margin: 30px 0 0;
+  }
+  .qa-list dl dd p:first-child{
+    margin-top: 0;
+  }
+}
