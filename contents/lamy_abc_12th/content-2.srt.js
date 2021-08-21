@@ -1067,10 +1067,15 @@ myApp.val.srtFuncArray = [
         myApp.val.correctBool = false;
         myApp.elem.text.innerHTML = "第"+myApp.val.numQues+"問";
         myApp.elem.ansCol.value = "ここに解答を入力";
+        myApp.elem.ansCol.disabled = true;
+        myApp.elem.ansBtn.disabled = true;
         if(Math.abs(window.orientation) != 90){ myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src; }
     },
     function(){
         myApp.val.status = myApp.state.Talk;
+        myApp.elem.ansCol.disabled = true;
+        myApp.elem.ansBtn.disabled = true;
+        myApp.elem.pushBtn.src = myApp.elem.imgBtn4.src;
     },
     function(){
         /* 第2問 */
@@ -1083,10 +1088,15 @@ myApp.val.srtFuncArray = [
         myApp.val.correctBool = false;
         myApp.elem.text.innerHTML = "第"+myApp.val.numQues+"問";
         myApp.elem.ansCol.value = "ここに解答を入力";
+        myApp.elem.ansCol.disabled = true;
+        myApp.elem.ansBtn.disabled = true;
         if(Math.abs(window.orientation) != 90){ myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src; }
     },
     function(){
         myApp.val.status = myApp.state.Talk;
+        myApp.elem.ansCol.disabled = true;
+        myApp.elem.ansBtn.disabled = true;
+        myApp.elem.pushBtn.src = myApp.elem.imgBtn4.src;
     },
     function(){
         /* 第3問 */
@@ -1099,10 +1109,15 @@ myApp.val.srtFuncArray = [
         myApp.val.correctBool = false;
         myApp.elem.text.innerHTML = "第"+myApp.val.numQues+"問";
         myApp.elem.ansCol.value = "ここに解答を入力";
+        myApp.elem.ansCol.disabled = true;
+        myApp.elem.ansBtn.disabled = true;
         if(Math.abs(window.orientation) != 90){ myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src; }
     },
     function(){
         myApp.val.status = myApp.state.Talk;
+        myApp.elem.ansCol.disabled = true;
+        myApp.elem.ansBtn.disabled = true;
+        myApp.elem.pushBtn.src = myApp.elem.imgBtn4.src;
     },
     function(){
         /* 第4問 */
@@ -1115,10 +1130,15 @@ myApp.val.srtFuncArray = [
         myApp.val.correctBool = false;
         myApp.elem.text.innerHTML = "第"+myApp.val.numQues+"問";
         myApp.elem.ansCol.value = "ここに解答を入力";
+        myApp.elem.ansCol.disabled = true;
+        myApp.elem.ansBtn.disabled = true;
         if(Math.abs(window.orientation) != 90){ myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src; }
     },
     function(){
         myApp.val.status = myApp.state.Talk;
+        myApp.elem.ansCol.disabled = true;
+        myApp.elem.ansBtn.disabled = true;
+        myApp.elem.pushBtn.src = myApp.elem.imgBtn4.src;
     },
     function(){
         /* 第5問 */
@@ -1131,10 +1151,15 @@ myApp.val.srtFuncArray = [
         myApp.val.correctBool = false;
         myApp.elem.text.innerHTML = "第"+myApp.val.numQues+"問";
         myApp.elem.ansCol.value = "ここに解答を入力";
+        myApp.elem.ansCol.disabled = true;
+        myApp.elem.ansBtn.disabled = true;
         if(Math.abs(window.orientation) != 90){ myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src; }
     },
     function(){
         myApp.val.status = myApp.state.Talk;
+        myApp.elem.ansCol.disabled = true;
+        myApp.elem.ansBtn.disabled = true;
+        myApp.elem.pushBtn.src = myApp.elem.imgBtn4.src;
     },
     function(){
         /* 第6問 */
@@ -1147,10 +1172,15 @@ myApp.val.srtFuncArray = [
         myApp.val.correctBool = false;
         myApp.elem.text.innerHTML = "第"+myApp.val.numQues+"問";
         myApp.elem.ansCol.value = "ここに解答を入力";
+        myApp.elem.ansCol.disabled = true;
+        myApp.elem.ansBtn.disabled = true;
         if(Math.abs(window.orientation) != 90){ myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src; }
     },
     function(){
         myApp.val.status = myApp.state.Talk;
+        myApp.elem.ansCol.disabled = true;
+        myApp.elem.ansBtn.disabled = true;
+        myApp.elem.pushBtn.src = myApp.elem.imgBtn4.src;
     },
     function(){
         /* 第7問 */
@@ -1163,10 +1193,15 @@ myApp.val.srtFuncArray = [
         myApp.val.correctBool = false;
         myApp.elem.text.innerHTML = "第"+myApp.val.numQues+"問";
         myApp.elem.ansCol.value = "ここに解答を入力";
+        myApp.elem.ansCol.disabled = true;
+        myApp.elem.ansBtn.disabled = true;
         if(Math.abs(window.orientation) != 90){ myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src; }
     },
     function(){
         myApp.val.status = myApp.state.Talk;
+        myApp.elem.ansCol.disabled = true;
+        myApp.elem.ansBtn.disabled = true;
+        myApp.elem.pushBtn.src = myApp.elem.imgBtn4.src;
     },
     function(){
         /* 第8問 */
@@ -1179,10 +1214,15 @@ myApp.val.srtFuncArray = [
         myApp.val.correctBool = false;
         myApp.elem.text.innerHTML = "第"+myApp.val.numQues+"問";
         myApp.elem.ansCol.value = "ここに解答を入力";
+        myApp.elem.ansCol.disabled = true;
+        myApp.elem.ansBtn.disabled = true;
         if(Math.abs(window.orientation) != 90){ myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src; }
     },
     function(){
         myApp.val.status = myApp.state.Talk;
+        myApp.elem.ansCol.disabled = true;
+        myApp.elem.ansBtn.disabled = true;
+        myApp.elem.pushBtn.src = myApp.elem.imgBtn4.src;
     },
     function(){
         /* 第9問 */
@@ -1195,10 +1235,15 @@ myApp.val.srtFuncArray = [
         myApp.val.correctBool = false;
         myApp.elem.text.innerHTML = "第"+myApp.val.numQues+"問";
         myApp.elem.ansCol.value = "ここに解答を入力";
+        myApp.elem.ansCol.disabled = true;
+        myApp.elem.ansBtn.disabled = true;
         if(Math.abs(window.orientation) != 90){ myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src; }
     },
     function(){
         myApp.val.status = myApp.state.Talk;
+        myApp.elem.ansCol.disabled = true;
+        myApp.elem.ansBtn.disabled = true;
+        myApp.elem.pushBtn.src = myApp.elem.imgBtn4.src;
     },
     function(){
         /* 第10問 */
@@ -1211,10 +1256,15 @@ myApp.val.srtFuncArray = [
         myApp.val.correctBool = false;
         myApp.elem.text.innerHTML = "第"+myApp.val.numQues+"問";
         myApp.elem.ansCol.value = "ここに解答を入力";
+        myApp.elem.ansCol.disabled = true;
+        myApp.elem.ansBtn.disabled = true;
         if(Math.abs(window.orientation) != 90){ myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src; }
     },
     function(){
         myApp.val.status = myApp.state.Talk;
+        myApp.elem.ansCol.disabled = true;
+        myApp.elem.ansBtn.disabled = true;
+        myApp.elem.pushBtn.src = myApp.elem.imgBtn4.src;
     },
     function(){
         /* 第11問 */
@@ -1227,10 +1277,15 @@ myApp.val.srtFuncArray = [
         myApp.val.correctBool = false;
         myApp.elem.text.innerHTML = "第"+myApp.val.numQues+"問";
         myApp.elem.ansCol.value = "ここに解答を入力";
+        myApp.elem.ansCol.disabled = true;
+        myApp.elem.ansBtn.disabled = true;
         if(Math.abs(window.orientation) != 90){ myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src; }
     },
     function(){
         myApp.val.status = myApp.state.Talk;
+        myApp.elem.ansCol.disabled = true;
+        myApp.elem.ansBtn.disabled = true;
+        myApp.elem.pushBtn.src = myApp.elem.imgBtn4.src;
     },
     function(){
         /* 第12問 */
@@ -1243,10 +1298,15 @@ myApp.val.srtFuncArray = [
         myApp.val.correctBool = false;
         myApp.elem.text.innerHTML = "第"+myApp.val.numQues+"問";
         myApp.elem.ansCol.value = "ここに解答を入力";
+        myApp.elem.ansCol.disabled = true;
+        myApp.elem.ansBtn.disabled = true;
         if(Math.abs(window.orientation) != 90){ myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src; }
     },
     function(){
         myApp.val.status = myApp.state.Talk;
+        myApp.elem.ansCol.disabled = true;
+        myApp.elem.ansBtn.disabled = true;
+        myApp.elem.pushBtn.src = myApp.elem.imgBtn4.src;
     },
     function(){
         /* 第13問 */
@@ -1259,10 +1319,15 @@ myApp.val.srtFuncArray = [
         myApp.val.correctBool = false;
         myApp.elem.text.innerHTML = "第"+myApp.val.numQues+"問";
         myApp.elem.ansCol.value = "ここに解答を入力";
+        myApp.elem.ansCol.disabled = true;
+        myApp.elem.ansBtn.disabled = true;
         if(Math.abs(window.orientation) != 90){ myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src; }
     },
     function(){
         myApp.val.status = myApp.state.Talk;
+        myApp.elem.ansCol.disabled = true;
+        myApp.elem.ansBtn.disabled = true;
+        myApp.elem.pushBtn.src = myApp.elem.imgBtn4.src;
     },
     function(){
         /* 第14問 */
@@ -1275,10 +1340,15 @@ myApp.val.srtFuncArray = [
         myApp.val.correctBool = false;
         myApp.elem.text.innerHTML = "第"+myApp.val.numQues+"問";
         myApp.elem.ansCol.value = "ここに解答を入力";
+        myApp.elem.ansCol.disabled = true;
+        myApp.elem.ansBtn.disabled = true;
         if(Math.abs(window.orientation) != 90){ myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src; }
     },
     function(){
         myApp.val.status = myApp.state.Talk;
+        myApp.elem.ansCol.disabled = true;
+        myApp.elem.ansBtn.disabled = true;
+        myApp.elem.pushBtn.src = myApp.elem.imgBtn4.src;
     },
     function(){
         /* 第15問 */
@@ -1291,10 +1361,15 @@ myApp.val.srtFuncArray = [
         myApp.val.correctBool = false;
         myApp.elem.text.innerHTML = "第"+myApp.val.numQues+"問";
         myApp.elem.ansCol.value = "ここに解答を入力";
+        myApp.elem.ansCol.disabled = true;
+        myApp.elem.ansBtn.disabled = true;
         if(Math.abs(window.orientation) != 90){ myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src; }
     },
     function(){
         myApp.val.status = myApp.state.Talk;
+        myApp.elem.ansCol.disabled = true;
+        myApp.elem.ansBtn.disabled = true;
+        myApp.elem.pushBtn.src = myApp.elem.imgBtn4.src;
     },
     function(){
         /* 第16問 */
@@ -1307,10 +1382,15 @@ myApp.val.srtFuncArray = [
         myApp.val.correctBool = false;
         myApp.elem.text.innerHTML = "第"+myApp.val.numQues+"問";
         myApp.elem.ansCol.value = "ここに解答を入力";
+        myApp.elem.ansCol.disabled = true;
+        myApp.elem.ansBtn.disabled = true;
         if(Math.abs(window.orientation) != 90){ myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src; }
     },
     function(){
         myApp.val.status = myApp.state.Talk;
+        myApp.elem.ansCol.disabled = true;
+        myApp.elem.ansBtn.disabled = true;
+        myApp.elem.pushBtn.src = myApp.elem.imgBtn4.src;
     },
     function(){
         /* 第17問 */
@@ -1323,10 +1403,15 @@ myApp.val.srtFuncArray = [
         myApp.val.correctBool = false;
         myApp.elem.text.innerHTML = "第"+myApp.val.numQues+"問";
         myApp.elem.ansCol.value = "ここに解答を入力";
+        myApp.elem.ansCol.disabled = true;
+        myApp.elem.ansBtn.disabled = true;
         if(Math.abs(window.orientation) != 90){ myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src; }
     },
     function(){
         myApp.val.status = myApp.state.Talk;
+        myApp.elem.ansCol.disabled = true;
+        myApp.elem.ansBtn.disabled = true;
+        myApp.elem.pushBtn.src = myApp.elem.imgBtn4.src;
     },
     function(){
         /* 第18問 */
@@ -1339,10 +1424,15 @@ myApp.val.srtFuncArray = [
         myApp.val.correctBool = false;
         myApp.elem.text.innerHTML = "第"+myApp.val.numQues+"問";
         myApp.elem.ansCol.value = "ここに解答を入力";
+        myApp.elem.ansCol.disabled = true;
+        myApp.elem.ansBtn.disabled = true;
         if(Math.abs(window.orientation) != 90){ myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src; }
     },
     function(){
         myApp.val.status = myApp.state.Talk;
+        myApp.elem.ansCol.disabled = true;
+        myApp.elem.ansBtn.disabled = true;
+        myApp.elem.pushBtn.src = myApp.elem.imgBtn4.src;
     },
     function(){
         /* 第19問 */
@@ -1355,10 +1445,15 @@ myApp.val.srtFuncArray = [
         myApp.val.correctBool = false;
         myApp.elem.text.innerHTML = "第"+myApp.val.numQues+"問";
         myApp.elem.ansCol.value = "ここに解答を入力";
+        myApp.elem.ansCol.disabled = true;
+        myApp.elem.ansBtn.disabled = true;
         if(Math.abs(window.orientation) != 90){ myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src; }
     },
     function(){
         myApp.val.status = myApp.state.Talk;
+        myApp.elem.ansCol.disabled = true;
+        myApp.elem.ansBtn.disabled = true;
+        myApp.elem.pushBtn.src = myApp.elem.imgBtn4.src;
     },
     function(){
         /* 第20問 */
@@ -1371,10 +1466,15 @@ myApp.val.srtFuncArray = [
         myApp.val.correctBool = false;
         myApp.elem.text.innerHTML = "第"+myApp.val.numQues+"問";
         myApp.elem.ansCol.value = "ここに解答を入力";
+        myApp.elem.ansCol.disabled = true;
+        myApp.elem.ansBtn.disabled = true;
         if(Math.abs(window.orientation) != 90){ myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src; }
     },
     function(){
         myApp.val.status = myApp.state.Talk;
+        myApp.elem.ansCol.disabled = true;
+        myApp.elem.ansBtn.disabled = true;
+        myApp.elem.pushBtn.src = myApp.elem.imgBtn4.src;
     },
     function(){
         /* 第21問 */
@@ -1387,10 +1487,15 @@ myApp.val.srtFuncArray = [
         myApp.val.correctBool = false;
         myApp.elem.text.innerHTML = "第"+myApp.val.numQues+"問";
         myApp.elem.ansCol.value = "ここに解答を入力";
+        myApp.elem.ansCol.disabled = true;
+        myApp.elem.ansBtn.disabled = true;
         if(Math.abs(window.orientation) != 90){ myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src; }
     },
     function(){
         myApp.val.status = myApp.state.Talk;
+        myApp.elem.ansCol.disabled = true;
+        myApp.elem.ansBtn.disabled = true;
+        myApp.elem.pushBtn.src = myApp.elem.imgBtn4.src;
     },
     function(){
         /* 第22問 */
@@ -1403,10 +1508,15 @@ myApp.val.srtFuncArray = [
         myApp.val.correctBool = false;
         myApp.elem.text.innerHTML = "第"+myApp.val.numQues+"問";
         myApp.elem.ansCol.value = "ここに解答を入力";
+        myApp.elem.ansCol.disabled = true;
+        myApp.elem.ansBtn.disabled = true;
         if(Math.abs(window.orientation) != 90){ myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src; }
     },
     function(){
         myApp.val.status = myApp.state.Talk;
+        myApp.elem.ansCol.disabled = true;
+        myApp.elem.ansBtn.disabled = true;
+        myApp.elem.pushBtn.src = myApp.elem.imgBtn4.src;
     },
     function(){
         /* 第23問 */
@@ -1419,10 +1529,15 @@ myApp.val.srtFuncArray = [
         myApp.val.correctBool = false;
         myApp.elem.text.innerHTML = "第"+myApp.val.numQues+"問";
         myApp.elem.ansCol.value = "ここに解答を入力";
+        myApp.elem.ansCol.disabled = true;
+        myApp.elem.ansBtn.disabled = true;
         if(Math.abs(window.orientation) != 90){ myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src; }
     },
     function(){
         myApp.val.status = myApp.state.Talk;
+        myApp.elem.ansCol.disabled = true;
+        myApp.elem.ansBtn.disabled = true;
+        myApp.elem.pushBtn.src = myApp.elem.imgBtn4.src;
     },
     function(){
         /* 第24問 */
@@ -1435,10 +1550,15 @@ myApp.val.srtFuncArray = [
         myApp.val.correctBool = false;
         myApp.elem.text.innerHTML = "第"+myApp.val.numQues+"問";
         myApp.elem.ansCol.value = "ここに解答を入力";
+        myApp.elem.ansCol.disabled = true;
+        myApp.elem.ansBtn.disabled = true;
         if(Math.abs(window.orientation) != 90){ myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src; }
     },
     function(){
         myApp.val.status = myApp.state.Talk;
+        myApp.elem.ansCol.disabled = true;
+        myApp.elem.ansBtn.disabled = true;
+        myApp.elem.pushBtn.src = myApp.elem.imgBtn4.src;
     },
     function(){
         /* 第25問 */
@@ -1451,10 +1571,15 @@ myApp.val.srtFuncArray = [
         myApp.val.correctBool = false;
         myApp.elem.text.innerHTML = "第"+myApp.val.numQues+"問";
         myApp.elem.ansCol.value = "ここに解答を入力";
+        myApp.elem.ansCol.disabled = true;
+        myApp.elem.ansBtn.disabled = true;
         if(Math.abs(window.orientation) != 90){ myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src; }
     },
     function(){
         myApp.val.status = myApp.state.Talk;
+        myApp.elem.ansCol.disabled = true;
+        myApp.elem.ansBtn.disabled = true;
+        myApp.elem.pushBtn.src = myApp.elem.imgBtn4.src;
     },
     function(){
         /* 第26問 */
@@ -1467,10 +1592,15 @@ myApp.val.srtFuncArray = [
         myApp.val.correctBool = false;
         myApp.elem.text.innerHTML = "第"+myApp.val.numQues+"問";
         myApp.elem.ansCol.value = "ここに解答を入力";
+        myApp.elem.ansCol.disabled = true;
+        myApp.elem.ansBtn.disabled = true;
         if(Math.abs(window.orientation) != 90){ myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src; }
     },
     function(){
         myApp.val.status = myApp.state.Talk;
+        myApp.elem.ansCol.disabled = true;
+        myApp.elem.ansBtn.disabled = true;
+        myApp.elem.pushBtn.src = myApp.elem.imgBtn4.src;
     },
     function(){
         /* 第27問 */
@@ -1483,10 +1613,15 @@ myApp.val.srtFuncArray = [
         myApp.val.correctBool = false;
         myApp.elem.text.innerHTML = "第"+myApp.val.numQues+"問";
         myApp.elem.ansCol.value = "ここに解答を入力";
+        myApp.elem.ansCol.disabled = true;
+        myApp.elem.ansBtn.disabled = true;
         if(Math.abs(window.orientation) != 90){ myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src; }
     },
     function(){
         myApp.val.status = myApp.state.Talk;
+        myApp.elem.ansCol.disabled = true;
+        myApp.elem.ansBtn.disabled = true;
+        myApp.elem.pushBtn.src = myApp.elem.imgBtn4.src;
     },
     function(){
         /* 第28問 */
@@ -1499,10 +1634,15 @@ myApp.val.srtFuncArray = [
         myApp.val.correctBool = false;
         myApp.elem.text.innerHTML = "第"+myApp.val.numQues+"問";
         myApp.elem.ansCol.value = "ここに解答を入力";
+        myApp.elem.ansCol.disabled = true;
+        myApp.elem.ansBtn.disabled = true;
         if(Math.abs(window.orientation) != 90){ myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src; }
     },
     function(){
         myApp.val.status = myApp.state.Talk;
+        myApp.elem.ansCol.disabled = true;
+        myApp.elem.ansBtn.disabled = true;
+        myApp.elem.pushBtn.src = myApp.elem.imgBtn4.src;
     },
     function(){
         /* 第29問 */
@@ -1515,10 +1655,15 @@ myApp.val.srtFuncArray = [
         myApp.val.correctBool = false;
         myApp.elem.text.innerHTML = "第"+myApp.val.numQues+"問";
         myApp.elem.ansCol.value = "ここに解答を入力";
+        myApp.elem.ansCol.disabled = true;
+        myApp.elem.ansBtn.disabled = true;
         if(Math.abs(window.orientation) != 90){ myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src; }
     },
     function(){
         myApp.val.status = myApp.state.Talk;
+        myApp.elem.ansCol.disabled = true;
+        myApp.elem.ansBtn.disabled = true;
+        myApp.elem.pushBtn.src = myApp.elem.imgBtn4.src;
     },
     function(){
         /* 第30問 */
@@ -1531,10 +1676,15 @@ myApp.val.srtFuncArray = [
         myApp.val.correctBool = false;
         myApp.elem.text.innerHTML = "第"+myApp.val.numQues+"問";
         myApp.elem.ansCol.value = "ここに解答を入力";
+        myApp.elem.ansCol.disabled = true;
+        myApp.elem.ansBtn.disabled = true;
         if(Math.abs(window.orientation) != 90){ myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src; }
     },
     function(){
         myApp.val.status = myApp.state.Talk;
+        myApp.elem.ansCol.disabled = true;
+        myApp.elem.ansBtn.disabled = true;
+        myApp.elem.pushBtn.src = myApp.elem.imgBtn4.src;
     },
 ];
 
