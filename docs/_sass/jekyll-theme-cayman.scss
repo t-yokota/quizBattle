@@ -443,7 +443,7 @@ table.contents img.icon {
 }
 .qa-list dl::before {
   position: absolute;
-  top: 25px;
+  top: 23px;
   right: 35px;
   display: block;
   width: 7px;
@@ -535,10 +535,10 @@ table.contents img.icon {
 @include small() {
   .qa-list dl {
     position: relative;
-    padding: 5px 40px 5px 10px;
+    padding: 10px 40px 10px 10px;
   }
   .qa-list dl::before {
-    top: 20px;
+    top: 15px;
     right: 20px;
     width: 7px;
     height: 7px;
@@ -556,7 +556,7 @@ table.contents img.icon {
   .qa-list dl dd::before {
     // font-size: 14px;
     top: 5px;
-    left: 5px;
+    left: 6px;
     content: 'A.';
   }
   .qa-list dl dd {
