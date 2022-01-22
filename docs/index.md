@@ -27,7 +27,7 @@
 <table class="contents">
     <tr>
         <td>
-            <a href="https://srtjs.azurewebsites.net/?v=BHWd-HDorfY&surl=https://raw.githubusercontent.com/t-yokota/quizBattle/master/src/quizBattle.srt.js" target="_blank" rel="noopener noreferrer">
+            <a href="https://t-yokota.github.io/srt.js/?v=BHWd-HDorfY&surl=https://raw.githubusercontent.com/t-yokota/quizBattle/master/src/quizBattle.srt.js" target="_blank" rel="noopener noreferrer">
                 <div class="sample-box">
                     <img class='thumbnail' src="https://i.ytimg.com/vi_webp/BHWd-HDorfY/sddefault.webp" alt="お試しクイズ">
                     <img class='icon' src="https://raw.githubusercontent.com/t-yokota/quizBattle/master/docs/images/video_icon.png">
@@ -47,7 +47,7 @@
 <table class="contents">
     <tr>
         <td>
-            <a href="https://srtjs.azurewebsites.net/?v=ue9b06lFQG0&surl=https://raw.githubusercontent.com/t-yokota/quizBattle/master/contents/lamy_abc_12th/content-1.srt.js" target="_blank" rel="noopener noreferrer">
+            <a href="https://t-yokota.github.io/srt.js/?v=ue9b06lFQG0&surl=https://raw.githubusercontent.com/t-yokota/quizBattle/master/contents/lamy_abc_12th/content-1.srt.js" target="_blank" rel="noopener noreferrer">
                 <div class="sample-box">
                     <img class='thumbnail' src="https://i.ytimg.com/vi_webp/ue9b06lFQG0/sddefault.webp" alt="【問い読み】クイズの問題を読む 第1回【abc the 12th】">
                     <img class='icon' src="https://raw.githubusercontent.com/t-yokota/quizBattle/master/docs/images/video_icon.png">
@@ -56,7 +56,7 @@
             </a>
         </td>
         <td>
-            <a href="https://srtjs.azurewebsites.net/?v=Mlxs5v3bQK4&surl=https://raw.githubusercontent.com/t-yokota/quizBattle/master/contents/lamy_abc_12th/content-2.srt.js" target="_blank" rel="noopener noreferrer">
+            <a href="https://t-yokota.github.io/srt.js/?v=Mlxs5v3bQK4&surl=https://raw.githubusercontent.com/t-yokota/quizBattle/master/contents/lamy_abc_12th/content-2.srt.js" target="_blank" rel="noopener noreferrer">
                 <div class="sample-box">
                     <img class='thumbnail' src="https://i.ytimg.com/vi_webp/Mlxs5v3bQK4/sddefault.webp" alt="【問い読み】クイズの問題を読む 第2回【abc the 12th】">
                     <img class='icon' src="https://raw.githubusercontent.com/t-yokota/quizBattle/master/docs/images/video_icon.png">
@@ -67,7 +67,7 @@
     </tr>
     <tr>
         <td>
-            <a href="https://srtjs.azurewebsites.net/?v=V6R8y2VRm0I&surl=https://raw.githubusercontent.com/t-yokota/quizBattle/master/contents/lamy_abc_12th/content-3.srt.js" target="_blank" rel="noopener noreferrer">
+            <a href="https://t-yokota.github.io/srt.js/?v=V6R8y2VRm0I&surl=https://raw.githubusercontent.com/t-yokota/quizBattle/master/contents/lamy_abc_12th/content-3.srt.js" target="_blank" rel="noopener noreferrer">
                 <div class="sample-box">
                     <img class='thumbnail' src="https://i.ytimg.com/vi_webp/V6R8y2VRm0I/sddefault.webp" alt="【問い読み】クイズの問題を読む 第3回【abc the 12th】">
                     <img class='icon' src="https://raw.githubusercontent.com/t-yokota/quizBattle/master/docs/images/video_icon.png">
@@ -76,7 +76,7 @@
             </a>
         </td>
         <td>
-            <a href="https://srtjs.azurewebsites.net/?v=vJQIxN-H2Uw&surl=https://raw.githubusercontent.com/t-yokota/quizBattle/master/contents/lamy_abc_12th/content-3.srt.js" target="_blank" rel="noopener noreferrer">
+            <a href="https://t-yokota.github.io/srt.js/?v=vJQIxN-H2Uw&surl=https://raw.githubusercontent.com/t-yokota/quizBattle/master/contents/lamy_abc_12th/content-3.srt.js" target="_blank" rel="noopener noreferrer">
                 <div class="sample-box">
                     <img class='thumbnail' src="https://i.ytimg.com/vi_webp/vJQIxN-H2Uw/sddefault.webp" alt="【問い読み】クイズの問題を読む 第4回【abc the 12th】">
                     <img class='icon' src="https://raw.githubusercontent.com/t-yokota/quizBattle/master/docs/images/video_icon.png">
