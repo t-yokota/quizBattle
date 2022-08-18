@@ -1,13 +1,13 @@
-<div style="text-align: center">
+<!-- <div style="text-align: center">
     <img class="main" src="https://raw.githubusercontent.com/t-yokota/quizBattle/master/docs/images/main-image.png">
-</div>
+</div> -->
 
 # YouTube動画で早押しクイズをする
 
-スマホやPCでYouTube上のクイズ動画を見ながら、動画内で出題されたクイズに早押しで解答できるツールです。
+<!-- スマホやPCでYouTube上のクイズ動画を見ながら、動画内で出題されたクイズに早押しで解答できるツールです。
 
 各端末のブラウザから（大体）利用できると思います。<br>
-※主な動作確認はChromeとSafariを用いて実施しています。
+※主な動作確認はChromeとSafariを用いて実施しています。 -->
 
 ## 注意事項
 
