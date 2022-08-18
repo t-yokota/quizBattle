@@ -22,9 +22,10 @@
 
 ## **＜お試しクイズ＞**
 
-本ツールのデモ用に作成した1分30秒の短いクイズ動画です（全5問、音声なし）
+本ツールのデモ用に作成した1分30秒の短いクイズ動画です（全5問、音声なし）👉
+<a href="https://t-yokota.github.io/srt.js/?v=BHWd-HDorfY&surl=https://raw.githubusercontent.com/t-yokota/quizBattle/master/src/quizBattle.srt.js" target="_blank" rel="noopener noreferrer">試してみる</a>
 
-<table class="contents">
+<!-- <table class="contents">
     <tr>
         <td>
             <a href="https://t-yokota.github.io/srt.js/?v=BHWd-HDorfY&surl=https://raw.githubusercontent.com/t-yokota/quizBattle/master/src/quizBattle.srt.js" target="_blank" rel="noopener noreferrer">
@@ -38,7 +39,7 @@
         <td>
         </td>
     </tr>
-</table>
+</table> -->
 
 ## **＜abc the 12th＞**
 
@@ -87,13 +88,13 @@
     </tr>
 </table>
 
-# 問い合わせ
+# **問い合わせ**
 
 本ツールに関する問い合わせは、Twitter（[@yktm_0529](https://twitter.com/yktm_0529)）のDMからお願いいたします。
 
 <!-- 本ツールを使用したコンテンツの作成に関心があり、クイズ動画の使用許可をいただける動画製作者の方がいらっしゃいましたら、ご連絡いただけるとうれしいです。 -->
 
-# Q＆A
+# **Q＆A**
 
 <div class="qa-list mts">
 <dl class="qa">
