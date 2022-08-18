@@ -288,24 +288,24 @@ if(myApp.val.os != 'other'){
         function(){
             myApp.elem.text.style.margin  = '0px auto';
             myApp.elem.text.style.padding = '0px 40px';
-            document.getElementsByTagName("div")[4].appendChild(myApp.elem.text);
-            document.getElementsByTagName("div")[4].appendChild(myApp.elem.paramText);
+            document.getElementById("divelem").appendChild(myApp.elem.text);
+            document.getElementById("divelem").appendChild(myApp.elem.paramText);
         },
         function(){
             myApp.elem.text.style.margin  = '0px auto 30px';
             myApp.elem.subText.style.margin  = '0px auto 50px';
             myApp.elem.subText.style.padding = '0px 40px';
-            document.getElementsByTagName("div")[4].insertBefore(myApp.elem.subText, myApp.elem.text.nextSibling);
-            document.getElementsByTagName("div")[5].appendChild(myApp.elem.pushBtn);
+            document.getElementById("divelem").insertBefore(myApp.elem.subText, myApp.elem.text.nextSibling);
+            document.getElementById("divbtn").appendChild(myApp.elem.pushBtn);
         },
         function(){
-            document.getElementsByTagName("div")[4].insertBefore(myApp.elem.ansBtn, myApp.elem.subText.nextSibling);
+            document.getElementById("divelem").insertBefore(myApp.elem.ansBtn, myApp.elem.subText.nextSibling);
         },
         function(){
             myApp.elem.text.style.margin = '0px auto 15px';
             myApp.elem.text.parentNode.removeChild(myApp.elem.subText);
-            document.getElementsByTagName("div")[4].insertBefore(myApp.elem.ansCol, myApp.elem.text.nextSibling);
-            document.getElementsByTagName("div")[4].appendChild(myApp.elem.numOX);
+            document.getElementById("divelem").insertBefore(myApp.elem.ansCol, myApp.elem.text.nextSibling);
+            document.getElementById("divelem").appendChild(myApp.elem.numOX);
         },
     ];
     myApp.val.viewFuncArray.shift()();
