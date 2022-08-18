@@ -42,7 +42,7 @@
 
 ## **＜abc the 12th＞**
 
-ラミィ([@quiz_reader](https://twitter.com/quiz_reader?s=20))さんによる、学生クイズ大会『abc the 12th』の過去問の問読み動画をお借りしたコンテンツです。
+ラミィ([@quiz_reader](https://twitter.com/quiz_reader?s=20))さんによる、**学生クイズ大会『abc the 12th』**の過去問の問読み動画をお借りしたコンテンツです。
 
 <table class="contents">
     <tr>
