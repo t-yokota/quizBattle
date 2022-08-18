@@ -18,9 +18,9 @@
 1. コンテンツ一覧から動画を選択して視聴ページに移動する<br>（初めにプログラムの実行に関する<a style="color:#c4302b">**注意ポップアップ**</a>が表示されます）
 1. 動画の再生ボタンを押してクイズをはじめる
 
-# **コンテンツ**
+<!-- # **コンテンツ** -->
 
-## **＜お試しクイズ＞**
+# **＜お試しクイズ＞**
 
 デモ用に作成した**1分30秒、全5問**の短いクイズ動画で遊べます（音声なし）☞ <a href="https://t-yokota.github.io/srt.js/?v=BHWd-HDorfY&surl=https://raw.githubusercontent.com/t-yokota/quizBattle/master/src/quizBattle.srt.js" target="_blank" rel="noopener noreferrer">**試してみる**</a>
 
@@ -40,7 +40,7 @@
     </tr>
 </table> -->
 
-## **＜abc the 12th＞**
+# **＜abc the 12th＞**
 
 **学生クイズ大会『abc the 12th』** の過去問に挑戦できます。<br>
 動画は、ラミィ([@quiz_reader](https://twitter.com/quiz_reader?s=20))さんがYouTubeに投稿されている問い読みの動画をお借りしています。
