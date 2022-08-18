@@ -2,14 +2,14 @@
     <img class="main" src="https://raw.githubusercontent.com/t-yokota/quizBattle/master/docs/images/main-image.png">
 </div> -->
 
-# YouTube動画で早押しクイズをする
+<!-- # YouTube動画で早押しクイズをする -->
 
 <!-- スマホやPCでYouTube上のクイズ動画を見ながら、動画内で出題されたクイズに早押しで解答できるツールです。
 
 各端末のブラウザから（大体）利用できると思います。<br>
 ※主な動作確認はChromeとSafariを用いて実施しています。 -->
 
-## 注意事項
+# 注意事項
 
 本ツールではブラウザ上でJavaScriptのプログラムが実行されます。あらかじめご了承ください。利用中に正常に動作しなくなった場合は、ブラウザのタブを閉じるか、再度読み込んでください。
 
