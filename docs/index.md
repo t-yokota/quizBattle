@@ -1,5 +1,5 @@
 <div style="text-align: center">
-    <img class="main" src="https://raw.githubusercontent.com/t-yokota/quizBattle/master/docs/images/short-quiz-demo.gif">
+    <img class="" src="https://raw.githubusercontent.com/t-yokota/quizBattle/master/docs/images/short-quiz-demo.gif" style="border-radius:16px">
 </div>
 
 <!-- # YouTube動画で早押しクイズをする -->
