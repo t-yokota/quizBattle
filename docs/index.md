@@ -22,14 +22,14 @@
 
 # **＜お試しクイズ＞**
 
-デモ用に作成した**1分30秒、全5問**の短いクイズ動画で遊べます（音声なし）☞ <a href="https://t-yokota.github.io/srt.js/?v=BHWd-HDorfY&surl=https://raw.githubusercontent.com/t-yokota/quizBattle/master/src/quizBattle.srt.js" target="_blank" rel="noopener noreferrer">**試してみる**</a>
+デモ用に作成した**1分30秒、全5問**の短いクイズ動画で遊べます（音声なし）☞ <a href="https://t-yokota.github.io/srt.js/?v=E5200yjbvj8&surl=https://raw.githubusercontent.com/t-yokota/quizBattle/master/src/quizBattle.srt.js" target="_blank" rel="noopener noreferrer">**試してみる**</a>
 
 <!-- <table class="contents">
     <tr>
         <td>
-            <a href="https://t-yokota.github.io/srt.js/?v=BHWd-HDorfY&surl=https://raw.githubusercontent.com/t-yokota/quizBattle/master/src/quizBattle.srt.js" target="_blank" rel="noopener noreferrer">
+            <a href="https://t-yokota.github.io/srt.js/?v=E5200yjbvj8&surl=https://raw.githubusercontent.com/t-yokota/quizBattle/master/src/quizBattle.srt.js" target="_blank" rel="noopener noreferrer">
                 <div class="sample-box">
-                    <img class='thumbnail' src="https://i.ytimg.com/vi_webp/BHWd-HDorfY/sddefault.webp" alt="お試しクイズ">
+                    <img class='thumbnail' src="https://i.ytimg.com/vi_webp/E5200yjbvj8/sddefault.webp" alt="お試しクイズ">
                     <img class='icon' src="https://raw.githubusercontent.com/t-yokota/quizBattle/master/docs/images/video_icon.png">
                 </div>
                 お試しクイズ
