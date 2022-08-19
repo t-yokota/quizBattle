@@ -1,6 +1,6 @@
-<!-- <div style="text-align: center">
-    <img class="main" src="https://raw.githubusercontent.com/t-yokota/quizBattle/master/docs/images/main-image.png">
-</div> -->
+<div style="text-align: center">
+    <img class="main" src="https://raw.githubusercontent.com/t-yokota/quizBattle/master/docs/images/short-quiz-demo.gif">
+</div>
 
 <!-- # YouTube動画で早押しクイズをする -->
 
