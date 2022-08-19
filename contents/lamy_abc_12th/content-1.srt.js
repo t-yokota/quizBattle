@@ -262,8 +262,8 @@ if(myApp.val.os != 'other'){
     document.styleSheets.item(0).insertRule('div#divelem { width:'+myApp.val.divElemWidth+'px; height:'+myApp.val.divUIHeight+'px; float: left; display: flex; align-items: center; justify-content: center; flex-direction: column; }');
     document.styleSheets.item(0).insertRule('div#divbtn  { width:'+myApp.val.divBtnWidth +'px; height:'+myApp.val.divUIHeight+'px; float: left; display: flex; align-items: center; justify-content: center; }');
     document.getElementsByTagName("body")[0].appendChild(myApp.elem.divUI);
-    myApp.elem.divUI.appendChild(myApp.elem.divElem); //divElem is assigned to ('div')[4]
-    myApp.elem.divUI.appendChild(myApp.elem.divBtn);  //divBtn  is assigned to ('div')[5]
+    myApp.elem.divUI.appendChild(myApp.elem.divElem);
+    myApp.elem.divUI.appendChild(myApp.elem.divBtn);
     //
     myApp.elem.text.style.fontSize      = '25px';
     myApp.elem.text.style.lineHeight    = '45px';
