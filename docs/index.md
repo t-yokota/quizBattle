@@ -77,13 +77,13 @@
             </a>
         </td>
         <td>
-            <a href="https://t-yokota.github.io/srt.js/?v=vJQIxN-H2Uw&surl=https://raw.githubusercontent.com/t-yokota/quizBattle/master/contents/lamy_abc_12th/content-3.srt.js" target="_blank" rel="noopener noreferrer">
+            <!-- <a href="https://t-yokota.github.io/srt.js/?v=vJQIxN-H2Uw&surl=https://raw.githubusercontent.com/t-yokota/quizBattle/master/contents/lamy_abc_12th/content-3.srt.js" target="_blank" rel="noopener noreferrer">
                 <div class="sample-box">
                     <img class='thumbnail' src="https://i.ytimg.com/vi_webp/vJQIxN-H2Uw/sddefault.webp" alt="【問い読み】クイズの問題を読む 第4回【abc the 12th】">
                     <img class='icon' src="https://raw.githubusercontent.com/t-yokota/quizBattle/master/docs/images/video_icon.png">
                 </div>
                 【問い読み】クイズの問題を読む 第4回【abc the 12th】
-            </a>
+            </a> -->
         </td>
     </tr>
 </table>
