@@ -681,7 +681,7 @@ function myIntervalEvent(){
 }
 //
 /* onclick event function of send answer button */
-myApp.elem.ansBtn.onclick = myOnClickEvent;
+myApp.elem.ansBtn.onclick = playSndO;
 function myOnClickEvent(){
     /* jump to init question */
     if(index == 0){
