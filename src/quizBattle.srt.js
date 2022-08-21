@@ -702,8 +702,8 @@ function myOnClickEvent(){
         }else{
             myApp.val.status = myApp.state.Question;
         }
-        // player.playVideo();
-        playSndO(); /* test */
+        player.playVideo();
+        playSndO(); /* test 動画再生を同時にすると音がならない*/
     }
 }
 //
