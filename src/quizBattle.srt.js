@@ -162,7 +162,6 @@ myApp.elem.ansBtn.innerHTML = "１問目まで移動";
 myApp.elem.ansCol.disabled  = true;
 myApp.elem.ansBtn.disabled  = true;
 myApp.elem.numOX.innerHTML  = "⭕️："+myApp.val.cntO+"　❌："+myApp.val.cntX;
-//
 if(myApp.val.os != 'other'){
     myApp.elem.text.innerHTML = "早押しボタンをタップして動画を開始する";
 }else{
@@ -334,6 +333,22 @@ else if(myApp.elem.sounds.canPlayType('audio/mp3') == 'maybe'   ){ myApp.val.aud
 else if(myApp.elem.sounds.canPlayType('audio/aac') == 'maybe'   ){ myApp.val.audioExt = '.aac'; }
 else if(myApp.elem.sounds.canPlayType('audio/wav') == 'maybe'   ){ myApp.val.audioExt = '.wav'; }
 myApp.elem.sounds.src = myApp.path.sound+myApp.val.audioExt;
+//
+const audio_context = new AudioContext();
+let audio_buffer = null;
+let audio_buffer_node = null;
+(async () => {
+    const response = await fetch(myApp.path.sound+myApp.val.audioExt);
+    const response_buffer = await response.arrayBuffer();
+    audio_buffer = await audio_context.decodeAudioData(response_buffer);
+    prepareAudioBufferNode();
+})();
+//
+function prepareAudioBufferNode() {
+    audio_buffer_node = audio_context.createBufferSource();
+    audio_buffer_node.buffer = audio_buffer;
+    audio_buffer_node.connect(audio_context.destination);
+}
 //
 /* load push button image */
 myApp.elem.imgBtn1.src = myApp.path.btn1;
@@ -886,17 +901,23 @@ function playSndPushBtn(){
     if(myApp.elem.sounds.currentTime != myApp.val.audioSpriteData.pushBtn.start){
         myApp.elem.sounds.currentTime = myApp.val.audioSpriteData.pushBtn.start;
     }
-    myApp.elem.sounds.play();
+    // myApp.elem.sounds.play();
+    audio_buffer_node.start(0,0,2);
+    prepareAudioBufferNode();
 }
 //
 function playSndO(){
     myApp.elem.sounds.currentTime = myApp.val.audioSpriteData.sndO.start;
-    myApp.elem.sounds.play();
+    // myApp.elem.sounds.play();
+    audio_buffer_node.start(0,3,2);
+    prepareAudioBufferNode();
 }
 //
 function playSndX(){
     myApp.elem.sounds.currentTime = myApp.val.audioSpriteData.sndX.start;
-    myApp.elem.sounds.play();
+    // myApp.elem.sounds.play();
+    audio_buffer_node.start(0,6,2);
+    prepareAudioBufferNode();
 }
 //
 function hidePlayer(){
@@ -968,12 +989,12 @@ function checkAnswer(){
         }
     }
     if(myApp.val.correctBool == true){
-        // playSndO();
+        playSndO();
         myApp.val.cntO += 1;
         myApp.elem.text.innerHTML = "正解！";
         if(myApp.val.jumpToAnsBool){ jumpToAnswerIndex(myApp.val.ansIndex, myApp.val.ansIndexStartTime); }
     }else{
-        // playSndX();
+        playSndX();
         myApp.val.cntX += 1;
         myApp.elem.text.innerHTML = "不正解！"; //あと"+(myApp.val.limPush-myApp.val.cntPush)+"回解答できます。";
         if(myApp.val.jumpToAnsBool){ jumpToAnswerIndex(myApp.val.ansIndex, myApp.val.ansIndexStartTime); }
