@@ -681,7 +681,7 @@ function myIntervalEvent(){
 }
 //
 /* onclick event function of send answer button */
-// myApp.elem.ansBtn.onclick = playSndO: 音が鳴る
+// myApp.elem.ansBtn.onclick = playSndO: /* test 音が鳴る */
 myApp.elem.ansBtn.onclick = myOnClickEvent;
 function myOnClickEvent(){
     /* jump to init question */
@@ -695,7 +695,7 @@ function myOnClickEvent(){
     }
     /* send answer */
     if(myApp.val.status == myApp.state.MyAnswer){
-        playSndO();
+        // playSndO(); /* test 音が鳴らない */
         checkAnswer();
         if(myApp.val.correctBool == true || myApp.val.limPush - myApp.val.cntPush == 0){
             myApp.val.status = myApp.state.Talk;
@@ -703,6 +703,7 @@ function myOnClickEvent(){
             myApp.val.status = myApp.state.Question;
         }
         player.playVideo();
+        playSndO(); /* test */
     }
 }
 //
