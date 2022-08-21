@@ -702,7 +702,7 @@ function myOnClickEvent(){
         }else{
             myApp.val.status = myApp.state.Question;
         }
-        player.playVideo();
+        // player.playVideo();
         playSndO(); /* test */
     }
 }
