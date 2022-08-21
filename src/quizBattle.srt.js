@@ -681,6 +681,7 @@ function myIntervalEvent(){
 }
 //
 /* onclick event function of send answer button */
+// myApp.elem.ansBtn.onclick = playSndO: 音が鳴る
 myApp.elem.ansBtn.onclick = myOnClickEvent;
 function myOnClickEvent(){
     /* jump to init question */
@@ -966,12 +967,12 @@ function checkAnswer(){
         }
     }
     if(myApp.val.correctBool == true){
-        playSndO();
+        // playSndO();
         myApp.val.cntO += 1;
         myApp.elem.text.innerHTML = "正解！";
         if(myApp.val.jumpToAnsBool){ jumpToAnswerIndex(myApp.val.ansIndex, myApp.val.ansIndexStartTime); }
     }else{
-        playSndX();
+        // playSndX();
         myApp.val.cntX += 1;
         myApp.elem.text.innerHTML = "不正解！"; //あと"+(myApp.val.limPush-myApp.val.cntPush)+"回解答できます。";
         if(myApp.val.jumpToAnsBool){ jumpToAnswerIndex(myApp.val.ansIndex, myApp.val.ansIndexStartTime); }
