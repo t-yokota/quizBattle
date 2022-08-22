@@ -8,7 +8,7 @@ player.pauseVideo();
 const myApp = {
     path : {
         answer : "https://raw.githubusercontent.com/t-yokota/quizBattle/master/src/answer.csv",
-        sound  : "https://raw.githubusercontent.com/t-yokota/quizBattle/master/sounds/sounds_3", //+ext;
+        sound  : "https://raw.githubusercontent.com/t-yokota/quizBattle/master/sounds/sounds_3.mp3", //+ext;
         btn1   : "https://github.com/t-yokota/quizBattle/raw/master/images/button_1.png",
         btn2   : "https://github.com/t-yokota/quizBattle/raw/master/images/button_2.png",
         btn3   : "https://github.com/t-yokota/quizBattle/raw/master/images/button_3.png",
@@ -36,7 +36,6 @@ const myApp = {
         imgBtn2    : document.createElement("img"),
         imgBtn3    : document.createElement("img"),
         imgBtn4    : document.createElement("img"),
-        sounds     : document.createElement("audio"),
         paramText  : document.createElement("text"),
         //
         divUI      : document.createElement('div'),
@@ -310,15 +309,13 @@ if(myApp.val.os != 'other'){
     myApp.val.viewFuncArray.shift()();
 }
 //
-const num_of_materials = 6;
-myApp.elem.sounds.onloadedmetadata = function(){ myApp.val.loadCount += 1; };
+const num_of_materials = 5;
 myApp.elem.imgBtn1.onload = function(){ myApp.val.loadCount += 1; };
 myApp.elem.imgBtn2.onload = function(){ myApp.val.loadCount += 1; };
 myApp.elem.imgBtn3.onload = function(){ myApp.val.loadCount += 1; };
 myApp.elem.imgBtn4.onload = function(){ myApp.val.loadCount += 1; };
 myApp.val.ansFile.onload  = function(){ myApp.val.loadCount += 1; myApp.val.ansArray = CSVtoArray(myApp.val.ansFile.responseText); };
 //
-myApp.elem.sounds.onerror  = function(){ myApp.val.loadErrorBool = true; };
 myApp.elem.imgBtn1.onerror = function(){ myApp.val.loadErrorBool = true; };
 myApp.elem.imgBtn2.onerror = function(){ myApp.val.loadErrorBool = true; };
 myApp.elem.imgBtn3.onerror = function(){ myApp.val.loadErrorBool = true; };
@@ -326,19 +323,11 @@ myApp.elem.imgBtn4.onerror = function(){ myApp.val.loadErrorBool = true; };
 myApp.val.ansFile.onerror  = function(){ myApp.val.loadErrorBool = true; };
 //
 /* load audio data */
-if     (myApp.elem.sounds.canPlayType('audio/mp3') == 'probably'){ myApp.val.audioExt = '.mp3'; }
-else if(myApp.elem.sounds.canPlayType('audio/aac') == 'probably'){ myApp.val.audioExt = '.aac'; }
-else if(myApp.elem.sounds.canPlayType('audio/wav') == 'probably'){ myApp.val.audioExt = '.wav'; }
-else if(myApp.elem.sounds.canPlayType('audio/mp3') == 'maybe'   ){ myApp.val.audioExt = '.mp3'; }
-else if(myApp.elem.sounds.canPlayType('audio/aac') == 'maybe'   ){ myApp.val.audioExt = '.aac'; }
-else if(myApp.elem.sounds.canPlayType('audio/wav') == 'maybe'   ){ myApp.val.audioExt = '.wav'; }
-myApp.elem.sounds.src = myApp.path.sound+myApp.val.audioExt;
-//
 const audio_context = new AudioContext();
 let audio_buffer = null;
 let audio_buffer_node = null;
 (async () => {
-    const response = await fetch(myApp.path.sound+myApp.val.audioExt);
+    const response = await fetch(myApp.path.sound);
     const response_buffer = await response.arrayBuffer();
     audio_buffer = await audio_context.decodeAudioData(response_buffer);
     prepareAudioBufferNode();
@@ -362,28 +351,6 @@ if(myApp.val.os != 'other'){
 /* load answer file */
 myApp.val.ansFile.open("get", myApp.path.answer, true);
 myApp.val.ansFile.send(null);
-//
-/* set audio sprite */
-myApp.val.audioSpriteData = {
-    pushBtn : { start : 0.0, end : 2.0 }, //[sec]
-    sndO    : { start : 3.0, end : 5.0 }, 
-    sndX    : { start : 6.0, end : 8.0 },
-};
-myApp.elem.sounds.addEventListener('timeupdate', spriteHandler, false);
-function spriteHandler(){
-    if(Math.abs(myApp.val.audioSpriteData.pushBtn.end - this.currentTime) < 0.25){
-        this.pause();
-        myApp.elem.sounds.currentTime = myApp.val.audioSpriteData.pushBtn.start;
-    }
-    if(Math.abs(myApp.val.audioSpriteData.sndO.end - this.currentTime) < 0.25){
-        this.pause();
-        myApp.elem.sounds.currentTime = myApp.val.audioSpriteData.pushBtn.start;
-    }
-    if(Math.abs(myApp.val.audioSpriteData.sndX.end - this.currentTime) < 0.25){
-        this.pause();
-        myApp.elem.sounds.currentTime = myApp.val.audioSpriteData.pushBtn.start;
-    }
-};
 //
 /* set function executed after initial loading */
 myApp.elem.pushBtn.onerror = function(){
@@ -898,24 +865,16 @@ function updateWatchedTime(currentPlayingTime, watchedTime){
 }
 //
 function playSndPushBtn(){
-    if(myApp.elem.sounds.currentTime != myApp.val.audioSpriteData.pushBtn.start){
-        myApp.elem.sounds.currentTime = myApp.val.audioSpriteData.pushBtn.start;
-    }
-    // myApp.elem.sounds.play();
     audio_buffer_node.start(0,0,2);
     prepareAudioBufferNode();
 }
 //
 function playSndO(){
-    myApp.elem.sounds.currentTime = myApp.val.audioSpriteData.sndO.start;
-    // myApp.elem.sounds.play();
     audio_buffer_node.start(0,3,2);
     prepareAudioBufferNode();
 }
 //
 function playSndX(){
-    myApp.elem.sounds.currentTime = myApp.val.audioSpriteData.sndX.start;
-    // myApp.elem.sounds.play();
     audio_buffer_node.start(0,6,2);
     prepareAudioBufferNode();
 }
