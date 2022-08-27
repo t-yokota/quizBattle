@@ -309,41 +309,39 @@ if(myApp.val.os != 'other'){
     myApp.val.viewFuncArray.shift()();
 }
 //
-const num_of_materials = 5;
-myApp.elem.imgBtn1.onload = function(){ myApp.val.loadCount += 1; };
-myApp.elem.imgBtn2.onload = function(){ myApp.val.loadCount += 1; };
-myApp.elem.imgBtn3.onload = function(){ myApp.val.loadCount += 1; };
-myApp.elem.imgBtn4.onload = function(){ myApp.val.loadCount += 1; };
 myApp.val.ansFile.onload  = function(){ myApp.val.loadCount += 1; myApp.val.ansArray = CSVtoArray(myApp.val.ansFile.responseText); };
-//
-myApp.elem.imgBtn1.onerror = function(){ myApp.val.loadErrorBool = true; };
-myApp.elem.imgBtn2.onerror = function(){ myApp.val.loadErrorBool = true; };
-myApp.elem.imgBtn3.onerror = function(){ myApp.val.loadErrorBool = true; };
-myApp.elem.imgBtn4.onerror = function(){ myApp.val.loadErrorBool = true; };
 myApp.val.ansFile.onerror  = function(){ myApp.val.loadErrorBool = true; };
 //
 /* load audio data */
-const audio_context = new AudioContext();
-let audio_buffer = null;
-let audio_buffer_node = null;
+const audioContext = new AudioContext();
+let audioBuffer = null;
+let audioBufferNode = null;
+let buttonImages = null;
 (async () => {
     const response = await fetch(myApp.path.sound);
-    const response_buffer = await response.arrayBuffer();
-    audio_buffer = await audio_context.decodeAudioData(response_buffer);
+    const responseBuffer = await response.arrayBuffer();
+    audioBuffer = await audioContext.decodeAudioData(responseBuffer);
     prepareAudioBufferNode();
+    //
+    /* load push button image */
+    buttonImages = await loadImages([myApp.path.btn1, myApp.path.btn2, myApp.path.btn3, myApp.path.btn4]);
 })();
 //
+function loadImages(list){
+    async function load(src){
+        const img = new Image();
+        img.src = src;
+        await img.decode();
+        return img;
+    }
+    return Promise.all(list.map(src => load(src)));
+}
 function prepareAudioBufferNode() {
-    audio_buffer_node = audio_context.createBufferSource();
-    audio_buffer_node.buffer = audio_buffer;
-    audio_buffer_node.connect(audio_context.destination);
+    audioBufferNode = audioContext.createBufferSource();
+    audioBufferNode.buffer = audioBuffer;
+    audioBufferNode.connect(audioContext.destination);
 }
 //
-/* load push button image */
-myApp.elem.imgBtn1.src = myApp.path.btn1;
-myApp.elem.imgBtn2.src = myApp.path.btn2;
-myApp.elem.imgBtn3.src = myApp.path.btn3;
-myApp.elem.imgBtn4.src = myApp.path.btn4;
 if(myApp.val.os != 'other'){
     myApp.elem.pushBtn.className = "blinkImg";
 }
@@ -369,23 +367,23 @@ myApp.elem.pushBtn.onload = function(){
 };
 function materialCheckFunction(){
     if(myApp.val.loadErrorBool == false){
-        if(myApp.val.initLoadBool == false && myApp.val.loadCount == num_of_materials){
+        if(myApp.val.initLoadBool == false){
             myApp.val.loadCount = 0;
             /* assign push button image and main text */
             myApp.elem.pushBtn.width = document.documentElement.clientWidth/5; /* init size before loading */
             if(myApp.val.os != "other"){
                 if(Math.abs(window.orientation) != 90){
-                    myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src;
+                    myApp.elem.pushBtn.src = buttonImages[0].src;
                     myApp.elem.text.innerHTML = "早押しボタンをタップして動画を開始する";
                     myApp.val.initOrientation = 'portrait';
                 }else{
-                    myApp.elem.pushBtn.src = myApp.elem.imgBtn4.src;
+                    myApp.elem.pushBtn.src = buttonImages[3].src;
                     myApp.elem.text.innerHTML = "端末を縦向きにしてクイズをはじめる";
                     myApp.val.initOrientation = 'landscape';
                     alert("このサイトはスマートフォン/タブレットを縦向きにしてお楽しみください。");
                 }
             }else{
-                myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src;
+                myApp.elem.pushBtn.src = buttonImages[0].src;
                 if(detectTouchPanel() == true){
                     myApp.elem.subText.innerHTML = "<span class='blinkText'>スペースキーを押して動画を開始する</span>";
                 }else{
@@ -424,15 +422,15 @@ function myOrientationChangeEvent(){
         }
         if(Math.abs(window.orientation) != 90){
             if(myApp.val.status == myApp.state.MyAnswer){
-                myApp.elem.pushBtn.src = myApp.elem.imgBtn3.src;
+                myApp.elem.pushBtn.src = buttonImages[2].src;
             }else{
-                myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src;
+                myApp.elem.pushBtn.src = buttonImages[0].src;
             }
             if(myApp.val.status == myApp.state.ButtonCheck){
                 myApp.elem.text.innerHTML = "早押しボタンをタップして動画を開始する";
             }
         }else{
-            myApp.elem.pushBtn.src = myApp.elem.imgBtn4.src;
+            myApp.elem.pushBtn.src = buttonImages[3].src;
             if(myApp.val.status == myApp.state.ButtonCheck){
                 myApp.elem.text.innerHTML = "端末を縦向きにしてクイズをはじめる";
             }
@@ -865,17 +863,17 @@ function updateWatchedTime(currentPlayingTime, watchedTime){
 }
 //
 function playSndPushBtn(){
-    audio_buffer_node.start(0,0,2);
+    audioBufferNode.start(0,0,2);
     prepareAudioBufferNode();
 }
 //
 function playSndO(){
-    audio_buffer_node.start(0,3,2);
+    audioBufferNode.start(0,3,2);
     prepareAudioBufferNode();
 }
 //
 function playSndX(){
-    audio_buffer_node.start(0,6,2);
+    audioBufferNode.start(0,6,2);
     prepareAudioBufferNode();
 }
 //
@@ -890,14 +888,14 @@ function opposePlayer(){
 function buttonCheck(responseInterval){
     playSndPushBtn();
     if(myApp.val.os == 'iOS'){
-        myApp.elem.pushBtn.src = myApp.elem.imgBtn3.src;
+        myApp.elem.pushBtn.src = buttonImages[2].src;
     }else{
-        myApp.elem.pushBtn.src = myApp.elem.imgBtn2.src;
-        setTimeout(function(){ myApp.elem.pushBtn.src = myApp.elem.imgBtn3.src; }, 100);
+        myApp.elem.pushBtn.src = buttonImages[1].src;
+        setTimeout(function(){ myApp.elem.pushBtn.src = buttonImages[2].src; }, 100);
     }
     setTimeout(function(){
         playSndO();
-        myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src;
+        myApp.elem.pushBtn.src = buttonImages[0].src;
     }, responseInterval);
 }
 //
@@ -914,15 +912,15 @@ function pushButton(){
     }
     playSndPushBtn();
     if(myApp.val.os == 'iOS'){
-        myApp.elem.pushBtn.src = myApp.elem.imgBtn3.src;
+        myApp.elem.pushBtn.src = buttonImages[2].src;
         if(myApp.val.browser == 'Chrome' || myApp.val.browser == 'Edge' || myApp.val.browser == 'Smooz'){
                 setTimeout(function(){ focusToAnsCol(); }, 500); // In above browsers, focus() doesn't work by the script below.
         }else{
             focusToAnsCol(); // In iOS, focus() doesn't work properly in setTimeout (keyboard doesn't appear).
         }
     }else{
-        myApp.elem.pushBtn.src = myApp.elem.imgBtn2.src;
-        setTimeout(function(){ myApp.elem.pushBtn.src = myApp.elem.imgBtn3.src; }, 100);    
+        myApp.elem.pushBtn.src = buttonImages[1].src;
+        setTimeout(function(){ myApp.elem.pushBtn.src = buttonImages[2].src; }, 100);    
         setTimeout(function(){ focusToAnsCol(); }, 500);
     }
     myApp.val.cntPush = myApp.val.cntPush+1;
@@ -961,12 +959,12 @@ function checkAnswer(){
     myApp.elem.numOX.innerHTML  = "⭕️："+myApp.val.cntO+"　❌："+myApp.val.cntX;
     if(window.orientation != 90){
         if(myApp.val.correctBool == false && myApp.val.limPush - myApp.val.cntPush == 0){
-            myApp.elem.pushBtn.src = myApp.elem.imgBtn4.src;
+            myApp.elem.pushBtn.src = buttonImages[3].src;
         }else{
-            myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src;
+            myApp.elem.pushBtn.src = buttonImages[0].src;
         }
     }else{
-        myApp.elem.pushBtn.src = myApp.elem.imgBtn4.src;
+        myApp.elem.pushBtn.src = buttonImages[3].src;
     }
     // oppose player after answer.
     if(myApp.val.os != 'other'){
@@ -1051,13 +1049,13 @@ myApp.val.srtFuncArray = [
         myApp.elem.ansCol.value = "ここに解答を入力";
         myApp.elem.ansCol.disabled = true;
         myApp.elem.ansBtn.disabled = true;
-        if(Math.abs(window.orientation) != 90){ myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src; }
+        if(Math.abs(window.orientation) != 90){ myApp.elem.pushBtn.src = buttonImages[0].src; }
     },
     function(){
         myApp.val.status = myApp.state.Talk;
         myApp.elem.ansCol.disabled = true;
         myApp.elem.ansBtn.disabled = true;
-        myApp.elem.pushBtn.src = myApp.elem.imgBtn4.src;
+        myApp.elem.pushBtn.src = buttonImages[3].src;
     },
     function(){
         /* 第2問 */
@@ -1072,13 +1070,13 @@ myApp.val.srtFuncArray = [
         myApp.elem.ansCol.value = "ここに解答を入力";
         myApp.elem.ansCol.disabled = true;
         myApp.elem.ansBtn.disabled = true;
-        if(Math.abs(window.orientation) != 90){ myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src; }
+        if(Math.abs(window.orientation) != 90){ myApp.elem.pushBtn.src = buttonImages[0].src; }
     },
     function(){
         myApp.val.status = myApp.state.Talk;
         myApp.elem.ansCol.disabled = true;
         myApp.elem.ansBtn.disabled = true;
-        myApp.elem.pushBtn.src = myApp.elem.imgBtn4.src;
+        myApp.elem.pushBtn.src = buttonImages[3].src;
     },
     function(){
         /* 第3問 */
@@ -1093,13 +1091,13 @@ myApp.val.srtFuncArray = [
         myApp.elem.ansCol.value = "ここに解答を入力";
         myApp.elem.ansCol.disabled = true;
         myApp.elem.ansBtn.disabled = true;
-        if(Math.abs(window.orientation) != 90){ myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src; }
+        if(Math.abs(window.orientation) != 90){ myApp.elem.pushBtn.src = buttonImages[0].src; }
     },
     function(){
         myApp.val.status = myApp.state.Talk;
         myApp.elem.ansCol.disabled = true;
         myApp.elem.ansBtn.disabled = true;
-        myApp.elem.pushBtn.src = myApp.elem.imgBtn4.src;
+        myApp.elem.pushBtn.src = buttonImages[3].src;
     },
     function(){
         /* 第4問 */
@@ -1114,13 +1112,13 @@ myApp.val.srtFuncArray = [
         myApp.elem.ansCol.value = "ここに解答を入力";
         myApp.elem.ansCol.disabled = true;
         myApp.elem.ansBtn.disabled = true;
-        if(Math.abs(window.orientation) != 90){ myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src; }
+        if(Math.abs(window.orientation) != 90){ myApp.elem.pushBtn.src = buttonImages[0].src; }
     },
     function(){
         myApp.val.status = myApp.state.Talk;
         myApp.elem.ansCol.disabled = true;
         myApp.elem.ansBtn.disabled = true;
-        myApp.elem.pushBtn.src = myApp.elem.imgBtn4.src;
+        myApp.elem.pushBtn.src = buttonImages[3].src;
     },
     function(){
         /* 第5問 */
@@ -1135,13 +1133,13 @@ myApp.val.srtFuncArray = [
         myApp.elem.ansCol.value = "ここに解答を入力";
         myApp.elem.ansCol.disabled = true;
         myApp.elem.ansBtn.disabled = true;
-        if(Math.abs(window.orientation) != 90){ myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src; }
+        if(Math.abs(window.orientation) != 90){ myApp.elem.pushBtn.src = buttonImages[0].src; }
     },
     function(){
         myApp.val.status = myApp.state.Talk;
         myApp.elem.ansCol.disabled = true;
         myApp.elem.ansBtn.disabled = true;
-        myApp.elem.pushBtn.src = myApp.elem.imgBtn4.src;
+        myApp.elem.pushBtn.src = buttonImages[3].src;
     },
 ];
 
