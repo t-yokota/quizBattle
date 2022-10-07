@@ -32,10 +32,6 @@ const myApp = {
         ansBtn     : document.createElement("button"),
         numOX      : document.createElement("text"),
         pushBtn    : document.createElement("img"),
-        imgBtn1    : document.createElement("img"),
-        imgBtn2    : document.createElement("img"),
-        imgBtn3    : document.createElement("img"),
-        imgBtn4    : document.createElement("img"),
         paramText  : document.createElement("text"),
         //
         divUI      : document.createElement('div'),
@@ -50,9 +46,6 @@ const myApp = {
         browser : null,
         //
         touchObject : null,
-        //
-        audioExt : null,
-        audioSpriteData : null,
         //
         loadCount     : 0,
         initLoadBool  : false,
@@ -312,26 +305,27 @@ if(myApp.val.os != 'other'){
 myApp.val.ansFile.onload  = function(){ myApp.val.loadCount += 1; myApp.val.ansArray = CSVtoArray(myApp.val.ansFile.responseText); };
 myApp.val.ansFile.onerror  = function(){ myApp.val.loadErrorBool = true; };
 //
-/* load audio data */
-const audioContext = new AudioContext();
+let buttonImages = null;
 let audioBuffer = null;
 let audioBufferNode = null;
-let buttonImages = null;
+const audioContext = new AudioContext();
 (async () => {
-    const response = await fetch(myApp.path.sound);
-    const responseBuffer = await response.arrayBuffer();
-    audioBuffer = await audioContext.decodeAudioData(responseBuffer);
-    prepareAudioBufferNode();
-    //
     /* load push button image */
     buttonImages = await loadImages([myApp.path.btn1, myApp.path.btn2, myApp.path.btn3, myApp.path.btn4]);
+    /* load audio data */
+    const response = await fetch(myApp.path.sound);
+    const responseBuffer = await response.arrayBuffer();
+    audioBuffer = await audioContext.decodeAudioData(responseBuffer).catch(() => alert("サウンドの読み込みに失敗しました。ページを再読み込みしてください。"));
+    prepareAudioBufferNode();
+    //
+    await initDisplay();
 })();
 //
 function loadImages(list){
     async function load(src){
         const img = new Image();
         img.src = src;
-        await img.decode();
+        await img.decode().catch(() => alert("画像の読み込みに失敗しました。ページを再読み込みしてください。"));
         return img;
     }
     return Promise.all(list.map(src => load(src)));
@@ -351,11 +345,11 @@ myApp.val.ansFile.open("get", myApp.path.answer, true);
 myApp.val.ansFile.send(null);
 //
 /* set function executed after initial loading */
-myApp.elem.pushBtn.onerror = function(){
-    myApp.val.loadErrorBool = true;
-    myApp.val.loadAlertBool = true;
-    alert("画像の読み込みに失敗しました。ページを再読み込みしてください。" );
-};
+// myApp.elem.pushBtn.onerror = function(){
+//     myApp.val.loadErrorBool = true;
+//     myApp.val.loadAlertBool = true;
+//     alert("画像の読み込みに失敗しました。ページを再読み込みしてください。" );
+// };
 myApp.elem.pushBtn.onload = function(){
     if(myApp.val.initLoadBool == false){
         /* change player and push button size after loading image */
@@ -365,47 +359,72 @@ myApp.elem.pushBtn.onload = function(){
         if(myApp.val.os == 'other'){ myApp.val.viewFuncArray.shift()(); }
     }
 };
+async function initDisplay(){
+    /* assign push button image and main text */
+    myApp.elem.pushBtn.width = document.documentElement.clientWidth/5; /* init size before loading */
+    if(myApp.val.os != "other"){
+        if(Math.abs(window.orientation) != 90){
+            myApp.elem.pushBtn.src = buttonImages[0].src;
+            myApp.elem.text.innerHTML = "早押しボタンをタップして動画を開始する";
+            myApp.val.initOrientation = 'portrait';
+        }else{
+            myApp.elem.pushBtn.src = buttonImages[3].src;
+            myApp.elem.text.innerHTML = "端末を縦向きにしてクイズをはじめる";
+            myApp.val.initOrientation = 'landscape';
+            alert("このサイトはスマートフォン/タブレットを縦向きにしてお楽しみください。");
+        }
+    }else{
+        myApp.elem.pushBtn.src = buttonImages[0].src;
+        if(detectTouchPanel() == true){
+            myApp.elem.subText.innerHTML = "<span class='blinkText'>スペースキーを押して動画を開始する</span>";
+        }else{
+            myApp.elem.subText.innerHTML = "<span class='blinkText'>スペースキーを押して動画を開始する</span>";
+        }
+    }
+}
+//
 function materialCheckFunction(){
-    if(myApp.val.loadErrorBool == false){
-        if(myApp.val.initLoadBool == false){
-            myApp.val.loadCount = 0;
-            /* assign push button image and main text */
-            myApp.elem.pushBtn.width = document.documentElement.clientWidth/5; /* init size before loading */
-            if(myApp.val.os != "other"){
-                if(Math.abs(window.orientation) != 90){
-                    myApp.elem.pushBtn.src = buttonImages[0].src;
-                    myApp.elem.text.innerHTML = "早押しボタンをタップして動画を開始する";
-                    myApp.val.initOrientation = 'portrait';
-                }else{
-                    myApp.elem.pushBtn.src = buttonImages[3].src;
-                    myApp.elem.text.innerHTML = "端末を縦向きにしてクイズをはじめる";
-                    myApp.val.initOrientation = 'landscape';
-                    alert("このサイトはスマートフォン/タブレットを縦向きにしてお楽しみください。");
-                }
-            }else{
-                myApp.elem.pushBtn.src = buttonImages[0].src;
-                if(detectTouchPanel() == true){
-                    myApp.elem.subText.innerHTML = "<span class='blinkText'>スペースキーを押して動画を開始する</span>";
-                }else{
-                    myApp.elem.subText.innerHTML = "<span class='blinkText'>スペースキーを押して動画を開始する</span>";
-                }
-            }
-        }else if(myApp.val.initLoadBool == true && myApp.val.loadAlertBool == false){
+    // if(myApp.val.loadErrorBool == false){
+        // if(myApp.val.initLoadBool == false){
+        //     // myApp.val.loadCount = 0;
+        //     /* assign push button image and main text */
+        //     myApp.elem.pushBtn.width = document.documentElement.clientWidth/5; /* init size before loading */
+        //     if(myApp.val.os != "other"){
+        //         if(Math.abs(window.orientation) != 90){
+        //             myApp.elem.pushBtn.src = buttonImages[0].src;
+        //             myApp.elem.text.innerHTML = "早押しボタンをタップして動画を開始する";
+        //             myApp.val.initOrientation = 'portrait';
+        //         }else{
+        //             myApp.elem.pushBtn.src = buttonImages[3].src;
+        //             myApp.elem.text.innerHTML = "端末を縦向きにしてクイズをはじめる";
+        //             myApp.val.initOrientation = 'landscape';
+        //             alert("このサイトはスマートフォン/タブレットを縦向きにしてお楽しみください。");
+        //         }
+        //     }else{
+        //         myApp.elem.pushBtn.src = buttonImages[0].src;
+        //         if(detectTouchPanel() == true){
+        //             myApp.elem.subText.innerHTML = "<span class='blinkText'>スペースキーを押して動画を開始する</span>";
+        //         }else{
+        //             myApp.elem.subText.innerHTML = "<span class='blinkText'>スペースキーを押して動画を開始する</span>";
+        //         }
+        //     }
+        // }else 
+        if(myApp.val.initLoadBool == true/* && myApp.val.loadAlertBool == false*/){
             if(myApp.val.os != 'other'){
                 if(Math.abs(myApp.elem.numOX.getBoundingClientRect().top - myApp.elem.ansBtn.getBoundingClientRect().bottom) < 50){
                     myApp.val.loadErrorBool = true;
-                    myApp.val.loadAlertBool = true;
+                    //myApp.val.loadAlertBool = true;
                     player.pauseVideo();
                     alert("画像の表示に失敗しました。ページを再読み込みしてください。");
                 }
             }
         }
-    }else{
-        if(myApp.val.loadAlertBool == false){
-            myApp.val.loadAlertBool = true;
-            alert("ページの読み込みに失敗しました。ページを再読み込みしてください。");
-        }
-    }
+    // }else{
+    //     if(myApp.val.loadAlertBool == false){
+    //         myApp.val.loadAlertBool = true;
+    //         alert("ページの読み込みに失敗しました。ページを再読み込みしてください。");
+    //     }
+    // }
 }
 //
 /* EVENT */
@@ -618,9 +637,9 @@ function myIntervalEvent(){
             myApp.val.playingCount = 0;
         }
         if(myApp.val.status == myApp.state.ButtonCheck){
-            if(myApp.val.cntIndex > 0 && myApp.val.loadAlertBool == false){
+            if(myApp.val.cntIndex > 0 /* && myApp.val.loadAlertBool == false */){
                 myApp.val.loadErrorBool = true;
-                myApp.val.loadAlertBool = true;
+                //myApp.val.loadAlertBool = true;
                 player.pauseVideo();
                 alert('ページの読み込みに失敗しました。ページを再読み込みしてください。');
             }
