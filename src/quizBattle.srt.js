@@ -318,7 +318,7 @@ const focusToAnsCol = () => {
 }
 //
 const jumpToAnswerIndex = (index, time) => {
-    quizManager.currIndex = index-1;
+    quizManager.currIndex = Number(index)-1;
     quizManager.watchedTime = time-0.1;
     player.seekTo(time-0.1);
 }
@@ -531,16 +531,16 @@ const myIntervalEvent = () => {
             }
             if(quizManager.state !== QUIZ_STATE.MyAnswer){ // execute srt function in each sections of subtitle.
                 if(quizManager.disableSeekbarBool === true){
-                    if(index - quizManager.currIndex === 1){
+                    if(Number(index) - quizManager.currIndex === 1){
                         quizManager.srtFuncArray.shift()();
                         quizManager.currIndex += 1;
                     }
                 }else{
-                    if(index - quizManager.currIndex >= 1){
-                        for(let i = 0; i < index-quizManager.currIndex; i++){
+                    if(Number(index) - quizManager.currIndex >= 1){
+                        for(let i = 0; i < Number(index)-quizManager.currIndex; i++){
                             quizManager.srtFuncArray.shift()();
                         }
-                        quizManager.currIndex = index;
+                        quizManager.currIndex = Number(index);
                     }
                 }
             }
@@ -575,7 +575,8 @@ const myIntervalEvent = () => {
 }
 //
 const myOnClickEvent = () => {
-    if(index === 0){ // jump to init question.
+    if(Number(index) === 0){ // jump to init question.
+        console.log('here')
         let tmpTime = quizManager.firstQuesStartTime-0.1;
         if(quizManager.currTime.playing < tmpTime){
             MY_ELEM.ansBtn.disabled = true;
