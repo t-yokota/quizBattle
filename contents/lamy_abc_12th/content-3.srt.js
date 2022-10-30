@@ -5,714 +5,102 @@
 doOnce[index] = true;
 player.pauseVideo();
 //
-const myApp = {
-    path : {
-        answer : "https://raw.githubusercontent.com/t-yokota/quizBattle/master/contents/lamy_abc_12th/answer-3.csv",
-        sound  : "https://raw.githubusercontent.com/t-yokota/quizBattle/master/sounds/sounds_3", //+ext;
-        btn1   : "https://github.com/t-yokota/quizBattle/raw/master/images/button_1.png",
-        btn2   : "https://github.com/t-yokota/quizBattle/raw/master/images/button_2.png",
-        btn3   : "https://github.com/t-yokota/quizBattle/raw/master/images/button_3.png",
-        btn4   : "https://github.com/t-yokota/quizBattle/raw/master/images/button_4.png",
-    },
-    state : {
-        ButtonCheck : 0, //ボタンチェック待機
-        Question    : 1, //問い読み中（早押し可能）
-        MyAnswer    : 2, //自分が解答権を所持（解答入力・送信可能）
-        OthAnswer   : 3, //他者が解答権を所持（早押し不可能）
-        Talk        : 4, //その他
-    },
-    videoState : {
-        Playing : 1,
-        Stopped : 2,
-    },
-    elem : {
-        text       : document.createElement("text"),
-        subText    : document.createElement("text"),
-        ansCol     : document.createElement("textarea"),
-        ansBtn     : document.createElement("button"),
-        numOX      : document.createElement("text"),
-        pushBtn    : document.createElement("img"),
-        imgBtn1    : document.createElement("img"),
-        imgBtn2    : document.createElement("img"),
-        imgBtn3    : document.createElement("img"),
-        imgBtn4    : document.createElement("img"),
-        sounds     : document.createElement("audio"),
-        paramText  : document.createElement("text"),
-        //
-        divUI      : document.createElement('div'),
-        divElem    : document.createElement('div'),
-        divBtn     : document.createElement('div'),
-    },
-    val : {
-        srtFuncArray  : null, //array of functions that are executed in each subtitle
-        viewFuncArray : null, //array of functions for setting view elements
-        //
-        os : null,
-        browser : null,
-        //
-        touchObject : null,
-        //
-        audioExt : null,
-        audioSpriteData : null,
-        //
-        loadCount     : 0,
-        initLoadBool  : false,
-        loadErrorBool : false,
-        loadAlertBool : false,
-        //
-        initOrientation      : null,
-        orientationAlertBool : false,
-        //
-        playingCount : 0,
-        pageHiddenBool : false,
-        processDelayAlertBool : false,
-        //
-        composingBool        : false,
-        //
-        disableSeekbarBool : false,
-        //
-        playerWidth   : 0,
-        playerHeight  : 0,
-        pushBtnWidth  : 0,
-        pushBtnHeight : 0,
-        //
-        prevPlayerWidth  : 0,
-        prevPlayerHeight : 0,
-        prevClientWidth  : 0,
-        prevClientHeight : 0,
-        //
-        elemHeight : 0,
-        //
-        pushBtnArea : {
-            left   : 0,
-            right  : 0,
-            top    : 0,
-            bottom : 0,
-        },
-        //
-        divUIHeight  : 0,
-        divUIWidth   : 0,
-        divElemWidth : 0,
-        divBtnWidth  : 0,
-        //
-        hidePlayerBool : {
-            phone : false,
-            other : false,
-        },
-        //
-        /* keycode (for keyboard) */
-        space : 32, //push buttion
-        enter : 13,
-        //
-        /* button check param */
-        btnCheck : {
-            sndInterval  : 1500, //[ms]
-            playInterval : 3000, //[ms]
-        },
-        //
-        /* for question manegament */
-        numQues     : 1,     //問題番号
-        ansArray    : [],    //正答リスト
-        cntO        : 0,     //正答数
-        cntX        : 0,     //誤答数
-        cntPush     : 0,     //1問あたりの解答回数
-        limPush     : 1,     //1問あたりの上限解答回数
-        correctBool : false, //答え合わせ結果(結果に応じて状態遷移)
-        ansFile     : new XMLHttpRequest(), //正答ファイル.csv
-        //
-        /* for status management */
-        status   : null,
-        cntIndex : 0, //(index value has current section of subtitle)
-        //
-        /* for time management */
-        ansTime : {
-            limit   : 20000, //解答制限時間[ms]
-            elapsed : 0,     //解答経過時間[ms]
-        },
-        currTime : {
-            playing : 0, //be updated during the video is playing
-            stopped : 0, //be updated when the video is stopped
-        },
-        watchedTime : 0, //
-        diffTime    : 0, //difference between watchedTime and currentTime (for preventing to jump playback position by seekbar)
-        //
-        ansIndex: 0,
-        ansIndexStartTime : 0,
-        jumpToAnsBool: false,
-        //
-        firstQuesStartTime : 0,
-    },
+const PATH = {
+    answer : "https://raw.githubusercontent.com/t-yokota/quizBattle/master/contents/lamy_abc_12th/answer-3.csv",
+    sound  : "https://raw.githubusercontent.com/t-yokota/quizBattle/master/sounds/sounds_3.mp3",
+    btn1   : "https://github.com/t-yokota/quizBattle/raw/master/images/button_1.png",
+    btn2   : "https://github.com/t-yokota/quizBattle/raw/master/images/button_2.png",
+    btn3   : "https://github.com/t-yokota/quizBattle/raw/master/images/button_3.png",
+    btn4   : "https://github.com/t-yokota/quizBattle/raw/master/images/button_4.png",
 };
-//
-/* get os type */
-myApp.val.os = fetchOSType();
-myApp.val.browser = fetchBrowserType();
-//
-/* set id to the elements */
-myApp.elem.ansCol.id  = 'anscol';
-myApp.elem.ansBtn.id  = 'ansbtn';
-myApp.elem.pushBtn.id = 'pushbtn';
-myApp.elem.divUI.id   = 'divui';
-myApp.elem.divElem.id = 'divelem';
-myApp.elem.divBtn.id  = 'divbtn';
-//
-/* set init value to the elements */
-myApp.elem.ansCol.value     = "ここに解答を入力";
-myApp.elem.ansBtn.innerHTML = "１問目まで移動";
-myApp.elem.ansCol.disabled  = true;
-myApp.elem.ansBtn.disabled  = true;
-myApp.elem.numOX.innerHTML  = "⭕️："+myApp.val.cntO+"　❌："+myApp.val.cntX;
-//
-if(myApp.val.os != 'other'){
-    myApp.elem.text.innerHTML = "早押しボタンをタップして動画を開始する";
-}else{
-    myApp.elem.text.innerHTML = "QuizBattle on YouTube";
-    /* set tabindex for adding focus */
-    myApp.elem.pushBtn.tabIndex = 0;
-}
-//
-/* set initial state (button check) */
-myApp.val.status = myApp.state.ButtonCheck;
-//
-/* VIEW */
-resizePlayer();
-//
-/* set style sheets */
-document.styleSheets.item(0).insertRule('html { touch-action: manipulation; }'); //disable double tap gesture
-document.styleSheets.item(0).insertRule('body { text-align: center; margin: auto; background: #EFEFEF; }');
-document.styleSheets.item(0).insertRule('.blinkImg { animation: blinkImg 0.7s infinite alternate; }');
-document.styleSheets.item(0).insertRule('@keyframes blinkImg{ 0% { opacity: 0.3; } 100% { opacity: 1; }}');
-document.styleSheets.item(0).insertRule('.blinkText { animation: blinkText 0.7s infinite alternate; }');
-document.styleSheets.item(0).insertRule('@keyframes blinkText{ 0% { opacity: 0; } 100% { opacity: 1; }}');
-//
-/* set elements */
-if(myApp.val.os != 'other'){
-    myApp.elem.text.style.fontSize       = '42px';
-    myApp.elem.text.style.lineHeight     = '60px';
-    myApp.elem.text.style.fontWeight     = 'bold';
-    myApp.elem.text.style.display        = 'block';
-    myApp.elem.text.style.marginTop      = '32px';
-    myApp.elem.text.style.marginBottom   = '32px';
-    myApp.elem.text.style.padding        = '0px 10px';
-    myApp.elem.subText.style.fontSize    = '42px';
-    myApp.elem.subText.style.lineHeight  = '60px';
-    myApp.elem.subText.style.display     = 'block';
-    myApp.elem.ansCol.style.fontSize     = '50px';
-    myApp.elem.ansCol.style.height       = '100px';
-    myApp.elem.ansCol.style.textAlign    = 'center';
-    myApp.elem.ansCol.style.marginBottom = '10px';
-    myApp.elem.ansCol.style.marginLeft   = 'auto';
-    myApp.elem.ansCol.style.marginRight  = 'auto';
-    myApp.elem.ansCol.style.display      = 'block'
-    myApp.elem.ansBtn.style.fontSize     = '42px';
-    myApp.elem.ansBtn.style.width        = parseInt(myApp.elem.ansBtn.style.fontSize, 10)*10+'px';
-    myApp.elem.ansBtn.style.height       = parseInt(myApp.elem.ansBtn.style.fontSize, 10)*2+'px';
-    myApp.elem.ansBtn.style.marginBottom = '20px';
-    myApp.elem.ansBtn.style.marginLeft   = 'auto';
-    myApp.elem.ansBtn.style.marginRight  = 'auto';
-    myApp.elem.ansBtn.style.display      = 'block';
-    myApp.elem.numOX.style.fontSize      = '42px';
-    myApp.elem.numOX.style.lineHeight    = '80px';
-    myApp.elem.numOX.style.fontWeight    = 'bold';
-    myApp.elem.numOX.style.display       = 'block';
+const QUIZ_STATE = {
+    Initializing : 0, // 初期化中
+    ButtonCheck  : 1, // ボタンチェック待機
+    Question     : 2, // 問い読み中（早押し可能）
+    MyAnswer     : 3, // 自分が解答権を所持（解答入力・送信可能）
+    OthAnswer    : 4, // 他者が解答権を所持（早押し不可能）
+    Talk         : 5, // その他
+};
+const VIDEO_STATE = {
+    Playing : 1,
+    Stopped : 2,
+};
+const KEY_CODE = {
+    space : 32,
+    enter : 13,
+};
+const MY_ELEM = {
+    text      : document.createElement("text"),
+    subText   : document.createElement("text"),
+    ansCol    : document.createElement("textarea"),
+    ansBtn    : document.createElement("button"),
+    numOX     : document.createElement("text"),
+    pushBtn   : document.createElement("img"),
+    paramText : document.createElement("text"),
     //
-    myApp.val.elemHeight = (function(e){
-        let res = 0;
-        res += parseInt(e.text.style.lineHeight, 10);
-        res += parseInt(e.text.style.marginTop, 10);
-        res += parseInt(e.text.style.marginBottom, 10);
-        res += parseInt(e.ansCol.style.height, 10);
-        res += parseInt(e.ansCol.style.marginBottom, 10);
-        res += parseInt(e.ansBtn.style.height, 10);
-        res += parseInt(e.ansBtn.style.marginBottom, 10);
-        res += parseInt(e.numOX.style.lineHeight, 10);
-        return res
-    })(myApp.elem);
+    divUI     : document.createElement('div'),
+    divElem   : document.createElement('div'),
+    divBtn    : document.createElement('div'),
+};
+Object.freeze(PATH);
+Object.freeze(QUIZ_STATE);
+Object.freeze(VIDEO_STATE);
+Object.freeze(KEY_CODE);
+Object.freeze(MY_ELEM);
+//
+const quizManager = {
+    currIndex     : 0,
+    srtFuncArray  : null,
+    viewFuncArray : null,
     //
-    myApp.val.viewFuncArray = [
-        function(){
-            document.getElementsByTagName("body")[0].appendChild(myApp.elem.text);
-            document.getElementsByTagName("body")[0].appendChild(myApp.elem.ansBtn);
-            document.getElementsByTagName("body")[0].appendChild(myApp.elem.pushBtn);
-            document.getElementsByTagName("body")[0].appendChild(myApp.elem.numOX);
-            document.getElementsByTagName("body")[0].appendChild(myApp.elem.paramText);
-        },
-        function(){
-            myApp.elem.text.style.marginTop = '40px';
-            myApp.elem.text.style.marginBottom = '20px';
-            myApp.elem.subText.style.marginBottom = '40px';
-            myApp.elem.subText.style.padding = '0px 10px';
-            document.getElementsByTagName("body")[0].insertBefore(myApp.elem.subText, myApp.elem.text.nextSibling);
-        },
-        function(){
-            myApp.elem.text.style.marginTop    = '32px';
-            myApp.elem.text.style.marginBottom = '32px';
-            myApp.elem.text.parentNode.removeChild(myApp.elem.subText);
-            document.getElementsByTagName("body")[0].insertBefore(myApp.elem.ansCol, myApp.elem.text.nextSibling);
-        },
-    ];
-    myApp.val.viewFuncArray.shift()();
-}else{
-    myApp.val.divUIHeight  = myApp.val.playerHeight*0.9;
-    myApp.val.divUIWidth   = myApp.val.playerWidth;
-    myApp.val.divElemWidth = myApp.val.playerWidth*2/3;
-    myApp.val.divBtnWidth  = myApp.val.playerWidth*1/3;
-    document.styleSheets.item(0).insertRule('body { width:'+myApp.val.playerWidth+'px; }');
-    document.styleSheets.item(0).insertRule('div#divui   { width:'+myApp.val.divUIWidth  +'px; height:'+myApp.val.divUIHeight+'px; }');
-    document.styleSheets.item(0).insertRule('div#divelem { width:'+myApp.val.divElemWidth+'px; height:'+myApp.val.divUIHeight+'px; float: left; display: flex; align-items: center; justify-content: center; flex-direction: column; }');
-    document.styleSheets.item(0).insertRule('div#divbtn  { width:'+myApp.val.divBtnWidth +'px; height:'+myApp.val.divUIHeight+'px; float: left; display: flex; align-items: center; justify-content: center; }');
-    document.getElementsByTagName("body")[0].appendChild(myApp.elem.divUI);
-    myApp.elem.divUI.appendChild(myApp.elem.divElem);
-    myApp.elem.divUI.appendChild(myApp.elem.divBtn);
+    /* For exteranl source */
+    buttonImages    : null,
+    audioBuffer     : null,
+    audioBufferNode : null,
     //
-    myApp.elem.text.style.fontSize      = '25px';
-    myApp.elem.text.style.lineHeight    = '45px';
-    myApp.elem.text.style.fontWeight    = 'bold';
-    myApp.elem.text.style.display       = 'block';
-    myApp.elem.subText.style.fontSize   = '20px';
-    myApp.elem.subText.style.lineHeight = '30px';
-    myApp.elem.subText.style.display    = 'block';
-    myApp.elem.ansCol.style.fontSize    = '23px';
-    myApp.elem.ansCol.style.textAlign   = 'center';
-    myApp.elem.ansCol.style.width       = myApp.val.divElemWidth*0.75+'px';
-    myApp.elem.ansCol.style.margin      = '0px ' +(myApp.val.divElemWidth-parseInt(myApp.elem.ansCol.style.width, 10))/2+'px 15px';
-    myApp.elem.ansBtn.style.fontSize    = '23px';
-    myApp.elem.ansBtn.style.width       = parseInt(myApp.elem.ansBtn.style.fontSize, 10)*8+'px';
-    myApp.elem.ansBtn.style.margin      = '0px '+(myApp.val.divElemWidth-parseInt(myApp.elem.ansBtn.style.width, 10))/2+'px 20px';
-    myApp.elem.numOX.style.fontSize     = '25px';
-    myApp.elem.numOX.style.lineHeight   = '45px';
-    myApp.elem.numOX.style.fontWeight   = 'bold';
-    myApp.elem.numOX.style.display      = 'block';
+    /* For quiz management */
+    state       : QUIZ_STATE.Initializing,
+    quesNum     : 1,     // Questoin number
+    ansArray    : [],    // List of answers
+    cntO        : 0,     // Number of player's correct answers
+    cntX        : 0,     // Number of player's wrong answers
+    cntPush     : 0,     // Number of button pushed
+    limPush     : 1,     // Maximum number of answers
+    correctBool : false, // Result of answer
+    ansIndex    : 0,
     //
-    myApp.val.viewFuncArray = [
-        function(){
-            myApp.elem.text.style.margin  = '0px auto';
-            myApp.elem.text.style.padding = '0px 40px';
-            document.getElementById("divelem").appendChild(myApp.elem.text);
-            document.getElementById("divelem").appendChild(myApp.elem.paramText);
-        },
-        function(){
-            myApp.elem.text.style.margin  = '0px auto 30px';
-            myApp.elem.subText.style.margin  = '0px auto 50px';
-            myApp.elem.subText.style.padding = '0px 40px';
-            document.getElementById("divelem").insertBefore(myApp.elem.subText, myApp.elem.text.nextSibling);
-            document.getElementById("divbtn").appendChild(myApp.elem.pushBtn);
-        },
-        function(){
-            document.getElementById("divelem").insertBefore(myApp.elem.ansBtn, myApp.elem.subText.nextSibling);
-        },
-        function(){
-            myApp.elem.text.style.margin = '0px auto 15px';
-            myApp.elem.text.parentNode.removeChild(myApp.elem.subText);
-            document.getElementById("divelem").insertBefore(myApp.elem.ansCol, myApp.elem.text.nextSibling);
-            document.getElementById("divelem").appendChild(myApp.elem.numOX);
-        },
-    ];
-    myApp.val.viewFuncArray.shift()();
-}
-//
-const num_of_materials = 6;
-myApp.elem.sounds.onloadedmetadata = function(){ myApp.val.loadCount += 1; };
-myApp.elem.imgBtn1.onload = function(){ myApp.val.loadCount += 1; };
-myApp.elem.imgBtn2.onload = function(){ myApp.val.loadCount += 1; };
-myApp.elem.imgBtn3.onload = function(){ myApp.val.loadCount += 1; };
-myApp.elem.imgBtn4.onload = function(){ myApp.val.loadCount += 1; };
-myApp.val.ansFile.onload  = function(){ myApp.val.loadCount += 1; myApp.val.ansArray = CSVtoArray(myApp.val.ansFile.responseText); };
-//
-myApp.elem.sounds.onerror  = function(){ myApp.val.loadErrorBool = true; };
-myApp.elem.imgBtn1.onerror = function(){ myApp.val.loadErrorBool = true; };
-myApp.elem.imgBtn2.onerror = function(){ myApp.val.loadErrorBool = true; };
-myApp.elem.imgBtn3.onerror = function(){ myApp.val.loadErrorBool = true; };
-myApp.elem.imgBtn4.onerror = function(){ myApp.val.loadErrorBool = true; };
-myApp.val.ansFile.onerror  = function(){ myApp.val.loadErrorBool = true; };
-//
-/* load audio data */
-if     (myApp.elem.sounds.canPlayType('audio/mp3') == 'probably'){ myApp.val.audioExt = '.mp3'; }
-else if(myApp.elem.sounds.canPlayType('audio/aac') == 'probably'){ myApp.val.audioExt = '.aac'; }
-else if(myApp.elem.sounds.canPlayType('audio/wav') == 'probably'){ myApp.val.audioExt = '.wav'; }
-else if(myApp.elem.sounds.canPlayType('audio/mp3') == 'maybe'   ){ myApp.val.audioExt = '.mp3'; }
-else if(myApp.elem.sounds.canPlayType('audio/aac') == 'maybe'   ){ myApp.val.audioExt = '.aac'; }
-else if(myApp.elem.sounds.canPlayType('audio/wav') == 'maybe'   ){ myApp.val.audioExt = '.wav'; }
-myApp.elem.sounds.src = myApp.path.sound+myApp.val.audioExt;
-//
-/* load push button image */
-myApp.elem.imgBtn1.src = myApp.path.btn1;
-myApp.elem.imgBtn2.src = myApp.path.btn2;
-myApp.elem.imgBtn3.src = myApp.path.btn3;
-myApp.elem.imgBtn4.src = myApp.path.btn4;
-if(myApp.val.os != 'other'){
-    myApp.elem.pushBtn.className = "blinkImg";
-}
-//
-/* load answer file */
-myApp.val.ansFile.open("get", myApp.path.answer, true);
-myApp.val.ansFile.send(null);
-//
-/* set audio sprite */
-myApp.val.audioSpriteData = {
-    pushBtn : { start : 0.0, end : 2.0 }, //[sec]
-    sndO    : { start : 3.0, end : 5.0 }, 
-    sndX    : { start : 6.0, end : 8.0 },
+    /* For time management */
+    btnCheckInterval : {
+        playSound : 1500, // [ms]
+        playVideo : 3000, // [ms]
+    },
+    ansTime : {
+        limit   : 20000, // [ms]
+        elapsed : 0,     // [ms]
+    },
+    currTime : {
+        playing : 0, // be updated during the video is playing
+        stopped : 0, // be updated when the video is stopped
+    },
+    watchedTime        : 0,
+    diffTime           : 0, // difference between watchedTime and currentTime
+    ansIndexStartTime  : 0,
+    firstQuesStartTime : 0,
+    //
+    pageHiddenBool     : false,
+    composingBool      : false,
+    jumpToAnsBool      : false,
+    hidePlayerBool     : false,
+    disableSeekbarBool : false,
 };
-myApp.elem.sounds.addEventListener('timeupdate', spriteHandler, false);
-function spriteHandler(){
-    if(Math.abs(myApp.val.audioSpriteData.pushBtn.end - this.currentTime) < 0.25){
-        this.pause();
-        myApp.elem.sounds.currentTime = myApp.val.audioSpriteData.pushBtn.start;
-    }
-    if(Math.abs(myApp.val.audioSpriteData.sndO.end - this.currentTime) < 0.25){
-        this.pause();
-        myApp.elem.sounds.currentTime = myApp.val.audioSpriteData.pushBtn.start;
-    }
-    if(Math.abs(myApp.val.audioSpriteData.sndX.end - this.currentTime) < 0.25){
-        this.pause();
-        myApp.elem.sounds.currentTime = myApp.val.audioSpriteData.pushBtn.start;
-    }
-};
-//
-/* set function executed after initial loading */
-myApp.elem.pushBtn.onerror = function(){
-    myApp.val.loadErrorBool = true;
-    myApp.val.loadAlertBool = true;
-    alert("画像の読み込みに失敗しました。ページを再読み込みしてください。" );
-};
-myApp.elem.pushBtn.onload = function(){
-    if(myApp.val.initLoadBool == false){
-        /* change player and push button size after loading image */
-        resizePlayer();
-        resizePushButton();
-        myApp.val.initLoadBool = true;
-        if(myApp.val.os == 'other'){ myApp.val.viewFuncArray.shift()(); }
-    }
-};
-function materialCheckFunction(){
-    if(myApp.val.loadErrorBool == false){
-        if(myApp.val.initLoadBool == false && myApp.val.loadCount == num_of_materials){
-            myApp.val.loadCount = 0;
-            /* assign push button image and main text */
-            myApp.elem.pushBtn.width = document.documentElement.clientWidth/5; /* init size before loading */
-            if(myApp.val.os != "other"){
-                if(Math.abs(window.orientation) != 90){
-                    myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src;
-                    myApp.elem.text.innerHTML = "早押しボタンをタップして動画を開始する";
-                    myApp.val.initOrientation = 'portrait';
-                }else{
-                    myApp.elem.pushBtn.src = myApp.elem.imgBtn4.src;
-                    myApp.elem.text.innerHTML = "端末を縦向きにしてクイズをはじめる";
-                    myApp.val.initOrientation = 'landscape';
-                    alert("このサイトはスマートフォン/タブレットを縦向きにしてお楽しみください。");
-                }
-            }else{
-                myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src;
-                if(detectTouchPanel() == true){
-                    myApp.elem.subText.innerHTML = "<span class='blinkText'>スペースキーを押して動画を開始する</span>";
-                }else{
-                    myApp.elem.subText.innerHTML = "<span class='blinkText'>スペースキーを押して動画を開始する</span>";
-                }
-            }
-        }else if(myApp.val.initLoadBool == true && myApp.val.loadAlertBool == false){
-            if(myApp.val.os != 'other'){
-                if(Math.abs(myApp.elem.numOX.getBoundingClientRect().top - myApp.elem.ansBtn.getBoundingClientRect().bottom) < 50){
-                    myApp.val.loadErrorBool = true;
-                    myApp.val.loadAlertBool = true;
-                    player.pauseVideo();
-                    alert("画像の表示に失敗しました。ページを再読み込みしてください。");
-                }
-            }
-        }
-    }else{
-        if(myApp.val.loadAlertBool == false){
-            myApp.val.loadAlertBool = true;
-            alert("ページの読み込みに失敗しました。ページを再読み込みしてください。");
-        }
-    }
-}
-//
-/* EVENT */
-/* orientation change event function */
-window.addEventListener('orientationchange', myOrientationChangeEvent);
-function myOrientationChangeEvent(){
-    setTimeout(function(){
-        resizePlayer();
-        resizePushButton();
-        if(myApp.val.status == myApp.state.MyAnswer){
-            if(myApp.val.hidePlayerBool.phone == true){
-                hidePlayer();
-            }
-        }
-        if(Math.abs(window.orientation) != 90){
-            if(myApp.val.status == myApp.state.MyAnswer){
-                myApp.elem.pushBtn.src = myApp.elem.imgBtn3.src;
-            }else{
-                myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src;
-            }
-            if(myApp.val.status == myApp.state.ButtonCheck){
-                myApp.elem.text.innerHTML = "早押しボタンをタップして動画を開始する";
-            }
-        }else{
-            myApp.elem.pushBtn.src = myApp.elem.imgBtn4.src;
-            if(myApp.val.status == myApp.state.ButtonCheck){
-                myApp.elem.text.innerHTML = "端末を縦向きにしてクイズをはじめる";
-            }
-            if(myApp.val.orientationAlertBool == false && myApp.val.initOrientation == 'portrait'){
-                myApp.val.playingCount = -10;
-                myApp.val.orientationAlertBool = true;
-                alert("このサイトはスマートフォン/タブレットを縦向きにしてお楽しみください。");
-            }
-        }
-    }, 800);
-}
-//
-/* page hidden check event function */
-document.addEventListener('webkitvisibilitychange', myPageHiddenCheckEvent, false);
-function myPageHiddenCheckEvent(){
-    if(document.webkitHidden){
-        myApp.val.pageHiddenBool = true;
-        // console.log('Hidden.');
-    }else{
-        myApp.val.pageHiddenBool = false;
-        myApp.val.currTime.playing = player.getCurrentTime();
-        myApp.val.watchedTime  = myApp.val.currTime.playing;
-        myApp.val.playingCount = 0;
-        // console.log('Opened.');
-    }
-}
-//
-/* keydown event function */
-document.onkeydown = myKeyDownEvent;
-//
-document.addEventListener("compositionstart", function(){ myApp.val.composingBool = true; });
-document.addEventListener('compositionend',   function(){ myApp.val.composingBool = false; });
-function myKeyDownEvent(){
-    if(myApp.val.loadErrorBool == false && myApp.val.initLoadBool == true && Math.abs(window.orientation) != 90){
-        if(event.keyCode == myApp.val.space){
-            myButtonAction();
-        }
-        /* prevent to start new line in text area */
-        if(event.keyCode == myApp.val.enter){
-            if(myApp.val.composingBool == false){
-                return false;
-            }
-        }
-    }
-}
-//
-/* touchstart event function (for smartphonea and tablet) */
-document.addEventListener("touchstart", myTouchEvent);
-function myTouchEvent(event){
-    if(myApp.val.loadErrorBool == false && myApp.val.initLoadBool == true && Math.abs(window.orientation) != 90){
-        myApp.val.touchObject = event.changedTouches[0];
-        if(myApp.val.pushBtnArea.left < myApp.val.touchObject.pageX && myApp.val.touchObject.pageX < myApp.val.pushBtnArea.right){
-            if(myApp.val.pushBtnArea.top < myApp.val.touchObject.pageY && myApp.val.touchObject.pageY < myApp.val.pushBtnArea.bottom){
-                myButtonAction();
-            }
-        }
-    }
-}
-//
-/* common button action */
-function myButtonAction(){
-    if(myApp.val.status == myApp.state.ButtonCheck){
-        myApp.val.status = myApp.state.Talk;
-        myApp.elem.pushBtn.className = "";
-        buttonCheck(myApp.val.btnCheck.sndInterval);
-        setTimeout(function(){
-            player.playVideo();
-            myApp.elem.ansBtn.disabled = false;
-            if(myApp.val.os != 'other'){
-                myApp.val.viewFuncArray.shift()();
-                myApp.elem.text.innerHTML = "＜ 遊び方 ＞";
-                myApp.elem.subText.innerHTML = "画面上の早押しボタンで<br>動画内のクイズに参加することができます";
-            }else{
-                myApp.val.viewFuncArray.shift()();
-                myApp.elem.text.innerHTML = "＜ 遊び方 ＞"
-                myApp.elem.subText.innerHTML = "スペースキーを早押しボタンにして<br>動画内のクイズに参加することができます";
-            }
-        }, myApp.val.btnCheck.playInterval);
-    }
-    if(myApp.val.status == myApp.state.Question){
-        myApp.val.status = myApp.state.MyAnswer;
-        player.pauseVideo();
-        pushButton();
-    }
-}
-//
-/* player's state change event function */
-player.addEventListener('onStateChange', myPlayerStateChangeEvent);
-function myPlayerStateChangeEvent(){
-    if(player.getPlayerState() == myApp.videoState.Playing){
-        myApp.val.currTime.playing = player.getCurrentTime();
-        myApp.val.watchedTime = updateWatchedTime(myApp.val.currTime.playing, myApp.val.watchedTime);
-        /* check answer if the video is restarted manually without sending answer */
-        if(myApp.val.status == myApp.state.MyAnswer){
-            player.pauseVideo();
-            checkAnswer();
-            if(myApp.val.correctBool == true || myApp.val.limPush - myApp.val.cntPush == 0){
-                myApp.val.status = myApp.state.Talk;
-            }else{
-                myApp.val.status = myApp.state.Question;
-            }
-            player.playVideo();
-        }
-        if(myApp.val.disableSeekbarBool == true){
-            /* prevent to jump playback position by seekbar */
-            if(myApp.val.status == myApp.state.Question){
-                myApp.val.diffTime = Math.abs(myApp.val.currTime.playing - myApp.val.watchedTime);
-                if(myApp.val.diffTime > 1.0){
-                    player.seekTo(myApp.val.watchedTime);
-                }
-            }else{
-                myApp.val.diffTime = Math.abs(myApp.val.currTime.playing - myApp.val.watchedTime);
-                // myApp.val.diffTime = myApp.val.currTime.playing - myApp.val.watchedTime; /* allow to jump to previous positon on timeline */
-                if(myApp.val.diffTime > 1.0){
-                    player.seekTo(myApp.val.watchedTime);
-                }
-            }
-        }
-    }
-    if(player.getPlayerState() == myApp.videoState.Stopped){
-        myApp.val.currTime.stopped = player.getCurrentTime();
-        if(myApp.val.disableSeekbarBool == true){
-            /* prevent to jump video playback position by seekbar */
-            /* and prevent to pause video during each question */
-            if(myApp.val.status == myApp.state.Question || myApp.val.status == myApp.state.OthAnswer){
-                myApp.val.diffTime = Math.abs(myApp.val.currTime.stopped - myApp.val.watchedTime);
-                if(myApp.val.diffTime > 1.0){
-                    player.seekTo(myApp.val.watchedTime);
-                }
-                player.playVideo();
-            }else{
-                myApp.val.diffTime = Math.abs(myApp.val.currTime.stopped - myApp.val.watchedTime);
-                // myApp.val.diffTime = myApp.val.currTime.stopped - myApp.val.watchedTime; /* allow to jump to previous position on timeline */
-                if(myApp.val.diffTime > 1.0){
-                    player.seekTo(myApp.val.watchedTime);
-                    player.playVideo(); /* allow to pause video except during the question status */
-                }
-                // player.playVideo();
-            }
-        }
-    }
-}
-//
-/* interval event function that are executed at a certain interval */
-setInterval(myIntervalEvent, interval = 10);
-function myIntervalEvent(){
-    if(myApp.val.pageHiddenBool == false){
-        if(player.getPlayerState() == myApp.videoState.Playing){
-            myApp.val.currTime.playing = player.getCurrentTime();
-            myApp.val.watchedTime = updateWatchedTime(myApp.val.currTime.playing, myApp.val.watchedTime);
-            if(myApp.val.disableSeekbarBool == true){
-                /* check delay of processing */
-                if(myApp.val.playingCount < 0 ){ myApp.val.watchedTime = myApp.val.currTime.playing; } // fix delay of watchedTime caused by showing orientation alert.
-                if(myApp.val.playingCount < 10){ myApp.val.playingCount += 1; }　// allow initial delay of watchedTime just after playing video.
-                if(myApp.val.currTime.playing - myApp.val.watchedTime > 1.0 && myApp.val.playingCount >= 10){
-                    if(myApp.val.processDelayAlertBool == false){
-                        myApp.val.processDelayAlertBool = true;
-                        alert('ページ内の処理が遅くなっています。早押しの判定に支障が出る可能性があるため、他のプロセスを終了してから改めてクイズをお楽しみください。このポップアップは一度のみ表示されます。');
-                    }
-                    myApp.val.watchedTime  = myApp.val.currTime.playing;
-                }
-            }
-            /* prevent to play video before button check */
-            if(myApp.val.status == myApp.state.ButtonCheck){
-                player.pauseVideo();
-            }
-            /* execute srt function in each sections of subtitle */
-            if(myApp.val.status != myApp.state.MyAnswer){
-                if(myApp.val.disableSeekbarBool == true){
-                    if(index - myApp.val.cntIndex == 1){
-                        myApp.val.srtFuncArray.shift()();
-                        myApp.val.cntIndex += 1;
-                    }
-                }else{
-                    if(index - myApp.val.cntIndex >= 1){
-                        for(let i = 0; i < index-myApp.val.cntIndex; i++){
-                            myApp.val.srtFuncArray.shift()();
-                        }
-                        myApp.val.cntIndex = index;
-                        // console.log(myApp.val.cntIndex);
-                    }
-                }
-            }
-        }else if(player.getPlayerState() == myApp.videoState.Stopped){
-            myApp.val.playingCount = 0;
-        }
-        if(myApp.val.status == myApp.state.ButtonCheck){
-            if(myApp.val.cntIndex > 0 && myApp.val.loadAlertBool == false){
-                myApp.val.loadErrorBool = true;
-                myApp.val.loadAlertBool = true;
-                player.pauseVideo();
-                alert('ページの読み込みに失敗しました。ページを再読み込みしてください。');
-            }
-        }
-        if(myApp.val.status == myApp.state.MyAnswer){
-            /* reforcus when anscol is blank */
-            // if(document.activeElement.id != "anscol" && myApp.elem.ansCol.value.valueOf() === ""){
-            //     myApp.elem.ansCol.focus();
-            // }
-            /* answer time managemant */
-            if(document.activeElement.id == "anscol" || myApp.val.ansTime.elapsed != 0){
-                myApp.val.ansTime.elapsed += interval;
-                myApp.elem.text.innerHTML = "のこり"+Math.floor((myApp.val.ansTime.limit-myApp.val.ansTime.elapsed)/1000+1)+"秒";
-                if(myApp.val.ansTime.elapsed >= myApp.val.ansTime.limit){
-                    checkAnswer();
-                    if(myApp.val.correctBool == true || myApp.val.limPush - myApp.val.cntPush == 0){
-                        myApp.val.status = myApp.state.Talk;
-                    }else{
-                        myApp.val.status = myApp.state.Question;
-                    }
-                    player.playVideo();
-                }
-            }
-        }else{
-            if(myApp.val.os == 'other' && document.activeElement.id == "player"){
-                /* preparation of js keydown event */
-                instantFocusToElement(myApp.elem.pushBtn);
-            }
-            myApp.val.ansTime.elapsed = 0;
-        }
-        /* check results of importing material */
-        materialCheckFunction();
-        /* update push button area (mainly for when the window is zoomed in iOS)*/
-        updatePushButtonArea();
-        /* print parameters for debug */
-        printParams();
-    }
-}
-//
-/* onclick event function of send answer button */
-myApp.elem.ansBtn.onclick = myOnClickEvent;
-function myOnClickEvent(){
-    /* jump to init question */
-    if(index == 0){
-        let tmpTime = myApp.val.firstQuesStartTime-0.1;
-        if(myApp.val.currTime.playing < tmpTime){
-            myApp.elem.ansBtn.disabled = true;
-            myApp.val.watchedTime = tmpTime;
-            player.seekTo(tmpTime);
-        }
-    }
-    /* send answer */
-    if(myApp.val.status == myApp.state.MyAnswer){
-        checkAnswer();
-        if(myApp.val.correctBool == true || myApp.val.limPush - myApp.val.cntPush == 0){
-            myApp.val.status = myApp.state.Talk;
-        }else{
-            myApp.val.status = myApp.state.Question;
-        }
-        player.playVideo();
-    }
-}
-//
-/* onfocus event function of answer column */
-myApp.elem.ansCol.onfocus = function(){ myApp.elem.ansCol.val = ""; }
 //
 /* FUNCTION */
-function detectTouchPanel(){
+/* Get information of user environment */
+const detectTouchPanel = () => {
     return window.ontouchstart === null;
 }
 //
-function fetchOSType(){
+const fetchOSType = () => {
     let osType = null;
     const ua = navigator.userAgent;
     if(ua.match(/Android/)){
@@ -724,7 +112,7 @@ function fetchOSType(){
     }else if(ua.match(/iPad/)) {
         osType = "iOS"; // iPad OS
         return osType;
-    }else if(ua.match(/Macintosh/) && detectTouchPanel() == true){
+    }else if(ua.match(/Macintosh/) && detectTouchPanel() === true){
         osType = 'iOS'; // iPad OS with Safari
         return osType;
     }else{
@@ -733,42 +121,45 @@ function fetchOSType(){
     }
 }
 //
-function fetchBrowserType(){
-    let bwType = null;
+const fetchBrowserType = () => {
+    let brType = null;
     const ua = navigator.userAgent;
     if(ua.match(/Firefox/)){
-        bwType = "Firefox";
-        return bwType;
+        brType = "Firefox";
+        return brType;
     }else if(ua.match(/EdgiOS/) || ua.match(/EdgA/)){
-        bwType = "Edge";
-        return bwType;
+        brType = "Edge";
+        return brType;
     }else if(ua.match(/OPR/)){
-        bwType = "Opera";
-        return bwType;
+        brType = "Opera";
+        return brType;
     }else if(ua.match(/OPT/)){
-        bwType = "OperaTouch";
-        return bwType;
+        brType = "OperaTouch";
+        return brType;
     }else if(ua.match(/YJApp/)){
-        bwType = "Yahoo";
-        return bwType;
+        brType = "Yahoo";
+        return brType;
     }else if(ua.match(/Smooz/)){
-        bwType = "Smooz";
-        return bwType;
-    }else if(ua.match(/CriOS/) || ua.match(/Chrome/)){
-        //Chrome or Others ...
-        bwType = "Chrome";
-        return bwType;
-    }else{
-        //Safari, Firefox(iOS), Brave or Others ...
-        bwType = "Other";
-        return bwType;
+        brType = "Smooz";
+        return brType;
+    }else if(ua.match(/CriOS/) || ua.match(/Chrome/)){ //Chrome or Others ...
+        brType = "Chrome";
+        return brType;
+    }else{ //Safari, Firefox(iOS), Brave or Others ...
+        brType = "Other";
+        return brType;
     }
 }
-/**
- * @param {string} str
- * @returns {array} (rows: num of question, columns: num of patterns of answer）
- */
-function CSVtoArray(str){
+//
+/* Get contents */
+const loadImage = async (path) => {
+    const img = new Image();
+    img.src = path;
+    await img.decode().catch(() => alert("画像の読み込みに失敗しました。ページを再読み込みしてください。"));
+    return img
+}
+//
+const csvToArray = (str) => {
     const array = new Array();
     const tmp = str.split("\r\n");
     for(let i = 0; i < tmp.length; i++){
@@ -777,914 +168,1278 @@ function CSVtoArray(str){
     return array;
 }
 //
-function resizePlayer(){
-    if(myApp.val.os != 'other'){
-        if(Math.abs(window.orientation) != 90){
-            // myApp.val.playerWidth  = document.documentElement.clientWidth;
-            if(myApp.val.os == 'Android'){ myApp.val.playerWidth = window.innerWidth; } // In Android, clientWidth doesn't include scrollbar.
-            if(myApp.val.os == 'iOS'){ myApp.val.playerWidth = document.documentElement.clientWidth; } // In iOS, innerWidth isn't static (it changes with device orientation).
-            myApp.val.playerHeight = myApp.val.playerWidth/16*9;
+/* Sound player */
+const prepareAudioBufferNode = () => {
+    const audioContext = new AudioContext();
+    quizManager.audioBufferNode = audioContext.createBufferSource();
+    quizManager.audioBufferNode.buffer = quizManager.audioBuffer;
+    quizManager.audioBufferNode.connect(audioContext.destination);
+}
+//
+const playSndPushBtn = () => {
+    quizManager.audioBufferNode.start(0,0,2);
+    prepareAudioBufferNode();
+}
+//
+const playSndO = () => {
+    quizManager.audioBufferNode.start(0,3,2);
+    prepareAudioBufferNode();
+}
+//
+const playSndX = () => {
+    quizManager.audioBufferNode.start(0,6,2);
+    prepareAudioBufferNode();
+}
+//
+/* Set appearances */
+const getElemHeight = () => {
+    let response = 0;
+    if(USER_OS !== 'other'){
+        response += parseInt(MY_ELEM.text.style.lineHeight, 10);
+        response += parseInt(MY_ELEM.text.style.marginTop, 10);
+        response += parseInt(MY_ELEM.text.style.marginBottom, 10);
+        response += parseInt(MY_ELEM.ansCol.style.height, 10);
+        response += parseInt(MY_ELEM.ansCol.style.marginBottom, 10);
+        response += parseInt(MY_ELEM.ansBtn.style.height, 10);
+        response += parseInt(MY_ELEM.ansBtn.style.marginBottom, 10);
+        response += parseInt(MY_ELEM.numOX.style.lineHeight, 10);
+    }
+    return response
+}
+//
+const resizePlayer = () => {
+    let playerWidth, playerHeight;
+    if(USER_OS !== 'other'){
+        if(Math.abs(window.orientation) !== 90){
+            if(USER_OS === 'Android'){ playerWidth = window.innerWidth; } // In Android, clientWidth doesn't include scrollbar.
+            if(USER_OS === 'iOS'){ playerWidth = document.documentElement.clientWidth; } // In iOS, innerWidth isn't static (it changes with device orientation).
+            playerHeight = playerWidth/16*9;
         }else{
-            myApp.val.playerWidth  = document.documentElement.clientWidth*2/3;
-            myApp.val.playerHeight = myApp.val.playerWidth/16*9;
+            playerWidth  = document.documentElement.clientWidth*2/3;
+            playerHeight = playerWidth/16*9;
         }
-        /* set special width of anscol to prevent the window is zoomed when the focus moveds to anscol */
-        if(myApp.val.os == 'Android' && myApp.val.browser == "Firefox"){
-            myApp.elem.ansCol.style.width = myApp.val.playerWidth*0.98+'px';
+        if(USER_OS === 'Android' && USER_BROWSER === "Firefox"){ // set special width of anscol to prevent the window is zoomed when the focus moveds to anscol.
+            MY_ELEM.ansCol.style.width = playerWidth*0.98+'px';
         }else{
-            myApp.elem.ansCol.style.width = myApp.val.playerWidth*0.9+'px';
+            MY_ELEM.ansCol.style.width = playerWidth*0.9+'px';
         }
     }else{
         const tmpPlayerHeight = document.documentElement.clientHeight/2;
         const tmpPlayerWidth  = tmpPlayerHeight/9*16;
         if(tmpPlayerWidth < document.documentElement.clientWidth){
-            myApp.val.playerHeight = tmpPlayerHeight;
-            myApp.val.playerWidth  = tmpPlayerWidth;
+            playerHeight = tmpPlayerHeight;
+            playerWidth  = tmpPlayerWidth;
         }else{
-            myApp.val.playerWidth  = document.documentElement.clientWidth;
-            myApp.val.playerHeight = myApp.val.playerWidth/16*9;
+            playerWidth  = document.documentElement.clientWidth;
+            playerHeight = playerWidth/16*9;
         }
     }
-    if(myApp.val.initLoadBool == false || myApp.val.prevPlayerWidth != myApp.val.playerWidth){
-        player.setSize(myApp.val.playerWidth, myApp.val.playerHeight);
-        //
-        myApp.val.prevPlayerWidth  = myApp.val.playerWidth;
-        myApp.val.prevPlayerHeight = myApp.val.playerHeight;
-    }
+    player.setSize(playerWidth, playerHeight);
 }
 //
-function resizePushButton(){
-    if(myApp.val.os != "other"){
-        if(Math.abs(window.orientation) != 90){
-            const tmpImgHeight = document.documentElement.clientHeight-myApp.val.playerHeight-myApp.val.elemHeight-20;
-            const tmpImgWidth  = myApp.elem.pushBtn.naturalWidth*tmpImgHeight/myApp.elem.pushBtn.naturalHeight;
+const resizePushButton = (playerHeight, elemHeight) => {
+    let pushBtnWidth, pushBtnHeight;
+    if(USER_OS !== "other"){
+        if(Math.abs(window.orientation) !== 90){
+            const tmpImgHeight = document.documentElement.clientHeight-playerHeight-elemHeight-20;
+            const tmpImgWidth  = MY_ELEM.pushBtn.naturalWidth*tmpImgHeight/MY_ELEM.pushBtn.naturalHeight;
             if(tmpImgWidth < document.documentElement.clientWidth){
-                if(tmpImgHeight <= myApp.val.playerHeight){
-                    myApp.val.pushBtnWidth  = tmpImgWidth;
-                    myApp.val.pushBtnHeight = tmpImgHeight;
+                if(tmpImgHeight <= playerHeight){
+                    pushBtnWidth  = tmpImgWidth;
+                    pushBtnHeight = tmpImgHeight;
                 }else{
-                    myApp.val.pushBtnWidth  = myApp.elem.pushBtn.naturalWidth*myApp.val.playerHeight*1.25/myApp.elem.pushBtn.naturalHeight;
-                    myApp.val.pushBtnHeight = myApp.val.playerHeight*1.25;
+                    pushBtnWidth  = MY_ELEM.pushBtn.naturalWidth*playerHeight*1.25/MY_ELEM.pushBtn.naturalHeight;
+                    pushBtnHeight = playerHeight*1.25;
                 }
             }else{
-                myApp.val.pushBtnWidth  = document.documentElement.clientWidth/5;
-                myApp.val.pushBtnHeight = myApp.elem.pushBtn.naturalHeight*myApp.val.pushBtnWidth/myApp.elem.pushBtn.naturalWidth;
+                pushBtnWidth  = document.documentElement.clientWidth/5;
+                pushBtnHeight = MY_ELEM.pushBtn.naturalHeight*pushBtnWidth/MY_ELEM.pushBtn.naturalWidth;
             }
         }else{
-            myApp.val.pushBtnWidth  = document.documentElement.clientWidth/5;
-            myApp.val.pushBtnHeight = myApp.elem.pushBtn.naturalHeight*myApp.val.pushBtnWidth/myApp.elem.pushBtn.naturalWidth;
+            pushBtnWidth  = document.documentElement.clientWidth/5;
+            pushBtnHeight = MY_ELEM.pushBtn.naturalHeight*pushBtnWidth/MY_ELEM.pushBtn.naturalWidth;
         }
-        myApp.elem.pushBtn.style.margin = 'auto '+(document.documentElement.clientWidth-myApp.val.pushBtnWidth)/2+'px';
+        MY_ELEM.pushBtn.style.margin = 'auto '+(document.documentElement.clientWidth-pushBtnWidth)/2+'px';
     }else{
-        myApp.val.pushBtnWidth  = myApp.val.divBtnWidth;
-        myApp.val.pushBtnHeight = myApp.elem.pushBtn.naturalHeight*myApp.val.pushBtnWidth/myApp.elem.pushBtn.naturalWidth;
+        pushBtnWidth  = document.getElementById("divbtn").clientWidth;
+        pushBtnHeight = MY_ELEM.pushBtn.naturalHeight*pushBtnWidth/MY_ELEM.pushBtn.naturalWidth;
     } 
-    if(myApp.val.initLoadBool == false || myApp.val.prevClientHeight != document.documentElement.clientHeight){
-        myApp.elem.pushBtn.width  = myApp.val.pushBtnWidth;
-        myApp.elem.pushBtn.height = myApp.val.pushBtnHeight;
-        updatePushButtonArea();
-        //
-        myApp.val.prevClientWidth  = document.documentElement.clientWidth;
-        myApp.val.prevClientHeight = document.documentElement.clientHeight;
+    MY_ELEM.pushBtn.width  = pushBtnWidth;
+    MY_ELEM.pushBtn.height = pushBtnHeight;
+}
+//
+const getPushButtonArea = () => {
+    let left   = MY_ELEM.pushBtn.getBoundingClientRect().left;
+    let right  = MY_ELEM.pushBtn.getBoundingClientRect().right;
+    let top    = MY_ELEM.pushBtn.getBoundingClientRect().top;
+    let bottom = MY_ELEM.pushBtn.getBoundingClientRect().bottom;
+    if(USER_OS === 'iOS'){ // In iOS, value of getBoundingClientRect is changed when the window is zoomed.
+        left   += window.pageXOffset;
+        right  += window.pageXOffset;
+        top    += window.pageYOffset;
+        bottom += window.pageYOffset;
+    }
+    return {
+        left,
+        right,
+        top,
+        bottom,
     }
 }
 //
-function updatePushButtonArea(){
-    myApp.val.pushBtnArea.left   = myApp.elem.pushBtn.getBoundingClientRect().left;
-    myApp.val.pushBtnArea.right  = myApp.elem.pushBtn.getBoundingClientRect().right;
-    myApp.val.pushBtnArea.top    = myApp.elem.pushBtn.getBoundingClientRect().top;
-    myApp.val.pushBtnArea.bottom = myApp.elem.pushBtn.getBoundingClientRect().bottom;
-    //
-    /* In iOS, value of getBoundingClientRect is changed when the window is zoomed */
-    if(myApp.val.os == 'iOS'){
-        myApp.val.pushBtnArea.left   += window.pageXOffset;
-        myApp.val.pushBtnArea.right  += window.pageXOffset;
-        myApp.val.pushBtnArea.top    += window.pageYOffset;
-        myApp.val.pushBtnArea.bottom += window.pageYOffset;
-    }
+const hidePlayer = () => {
+    player.setSize(0, 0);
 }
 //
-function instantFocusToElement(focusUsableElement){
-    /* keydown event is ready during the focus is in a js element */
-    focusUsableElement.disabled = false;
-    focusUsableElement.focus();
-    focusUsableElement.blur();
-    focusUsableElement.disabled = true;
+const opposePlayer = () => {
+    resizePlayer();
 }
 //
-function updateWatchedTime(currentPlayingTime, watchedTime){
+/* Event functions */
+const updateWatchedTime = (currentPlayingTime, watchedTime) => {
     if(0.0 < currentPlayingTime - watchedTime && currentPlayingTime - watchedTime < 1.0){
         watchedTime = currentPlayingTime;
     }
     return watchedTime;
 }
 //
-function playSndPushBtn(){
-    if(myApp.elem.sounds.currentTime != myApp.val.audioSpriteData.pushBtn.start){
-        myApp.elem.sounds.currentTime = myApp.val.audioSpriteData.pushBtn.start;
-    }
-    myApp.elem.sounds.play();
+const instantFocusToElement = (focusUsableElement) => {
+    focusUsableElement.disabled = false;  // set focus is in a js element for preparing keydown event.
+    focusUsableElement.focus();
+    focusUsableElement.blur();
+    focusUsableElement.disabled = true;
 }
 //
-function playSndO(){
-    myApp.elem.sounds.currentTime = myApp.val.audioSpriteData.sndO.start;
-    myApp.elem.sounds.play();
+const focusToAnsCol = () => {
+    MY_ELEM.ansBtn.disabled = false;
+    MY_ELEM.ansCol.disabled = false;
+    MY_ELEM.ansCol.value = "";
+    MY_ELEM.ansCol.focus();
 }
 //
-function playSndX(){
-    myApp.elem.sounds.currentTime = myApp.val.audioSpriteData.sndX.start;
-    myApp.elem.sounds.play();
+const jumpToAnswerIndex = (index, time) => {
+    quizManager.currIndex = Number(index)-1;
+    quizManager.watchedTime = time-0.1;
+    player.seekTo(time-0.1);
 }
 //
-function hidePlayer(){
-    player.setSize(myApp.val.playerWidth, 0);
-}
-//
-function opposePlayer(){
-    player.setSize(myApp.val.playerWidth, myApp.val.playerHeight);
-}
-//
-function buttonCheck(responseInterval){
+const buttonCheck = (responseInterval) => {
     playSndPushBtn();
-    if(myApp.val.os == 'iOS'){
-        myApp.elem.pushBtn.src = myApp.elem.imgBtn3.src;
+    if(USER_OS === 'iOS'){
+        MY_ELEM.pushBtn.src = quizManager.buttonImages[2].src;
     }else{
-        myApp.elem.pushBtn.src = myApp.elem.imgBtn2.src;
-        setTimeout(function(){ myApp.elem.pushBtn.src = myApp.elem.imgBtn3.src; }, 100);
+        MY_ELEM.pushBtn.src = quizManager.buttonImages[1].src;
+        setTimeout(() => { 
+            MY_ELEM.pushBtn.src = quizManager.buttonImages[2].src; 
+        }, 100);
     }
-    setTimeout(function(){
+    setTimeout(() => {
         playSndO();
-        myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src;
+        MY_ELEM.pushBtn.src = quizManager.buttonImages[0].src;
     }, responseInterval);
 }
 //
-function pushButton(){
-    // hide player during answer.
-    if(myApp.val.os != 'other'){
-        if(myApp.val.hidePlayerBool.phone == true){
-            hidePlayer();
-        }
-    }else{
-        if(myApp.val.hidePlayerBool.other == true){
-            hidePlayer();
-        }
+const pushButton = () => {
+    if(USER_OS !== 'other' && quizManager.hidePlayerBool === true){
+        hidePlayer();
     }
     playSndPushBtn();
-    if(myApp.val.os == 'iOS'){
-        myApp.elem.pushBtn.src = myApp.elem.imgBtn3.src;
-        if(myApp.val.browser == 'Chrome' || myApp.val.browser == 'Edge' || myApp.val.browser == 'Smooz'){
-                setTimeout(function(){ focusToAnsCol(); }, 500); // In above browsers, focus() doesn't work by the script below.
+    if(USER_OS === 'iOS'){
+        MY_ELEM.pushBtn.src = quizManager.buttonImages[2].src;
+        if(USER_BROWSER === 'Chrome' || USER_BROWSER === 'Edge' || USER_BROWSER === 'Smooz'){
+                setTimeout(() => { focusToAnsCol(); }, 500); // In above browsers, focus() doesn't work by the script below.
         }else{
             focusToAnsCol(); // In iOS, focus() doesn't work properly in setTimeout (keyboard doesn't appear).
         }
     }else{
-        myApp.elem.pushBtn.src = myApp.elem.imgBtn2.src;
-        setTimeout(function(){ myApp.elem.pushBtn.src = myApp.elem.imgBtn3.src; }, 100);    
-        setTimeout(function(){ focusToAnsCol(); }, 500);
+        MY_ELEM.pushBtn.src = quizManager.buttonImages[1].src;
+        setTimeout(() => { MY_ELEM.pushBtn.src = quizManager.buttonImages[2].src; }, 100);    
+        setTimeout(() => { focusToAnsCol(); }, 500);
     }
-    myApp.val.cntPush = myApp.val.cntPush+1;
+    quizManager.cntPush = quizManager.cntPush+1;
 }
 //
-function focusToAnsCol(){
-    myApp.elem.ansBtn.disabled = false;
-    myApp.elem.ansCol.disabled = false;
-    myApp.elem.ansCol.value = "";
-    myApp.elem.ansCol.focus();
+const myButtonAction = () => {
+    if(quizManager.state === QUIZ_STATE.ButtonCheck){
+        quizManager.state = QUIZ_STATE.Talk;
+        MY_ELEM.pushBtn.className = "";
+        buttonCheck(quizManager.btnCheckInterval.playSound);
+        setTimeout(() => {
+            player.playVideo();
+            MY_ELEM.ansBtn.disabled = false;
+            if(USER_OS !== 'other'){
+                quizManager.viewFuncArray.shift()();
+                MY_ELEM.text.innerHTML = "＜ 遊び方 ＞";
+                MY_ELEM.subText.innerHTML = "画面上の早押しボタンで<br>動画内のクイズに参加することができます";
+            }else{
+                quizManager.viewFuncArray.shift()();
+                MY_ELEM.text.innerHTML = "＜ 遊び方 ＞"
+                MY_ELEM.subText.innerHTML = "スペースキーを早押しボタンにして<br>動画内のクイズに参加することができます";
+            }
+        }, quizManager.btnCheckInterval.playVideo);
+    }
+    if(quizManager.state === QUIZ_STATE.Question){
+        quizManager.state = QUIZ_STATE.MyAnswer;
+        player.pauseVideo();
+        pushButton();
+    }
 }
 //
-function checkAnswer(){
-    myApp.val.correctBool = false;
-    myApp.elem.ansCol.blur();
-    myApp.elem.ansCol.disabled  = true;
-    myApp.elem.ansBtn.disabled  = true;
-    const answer = myApp.elem.ansCol.value;
-    const length = myApp.val.ansArray[myApp.val.numQues-1].length;
+const checkAnswer = () => {
+    quizManager.correctBool = false;
+    MY_ELEM.ansCol.blur();
+    MY_ELEM.ansCol.disabled = true;
+    MY_ELEM.ansBtn.disabled = true;
+    const answer = MY_ELEM.ansCol.value;
+    const length = quizManager.ansArray[quizManager.quesNum-1].length;
     for(let i = 0; i < length; i++){
-        if(answer.valueOf() === myApp.val.ansArray[myApp.val.numQues-1][i].valueOf()){
-            myApp.val.correctBool = true;
+        if(answer.valueOf() === quizManager.ansArray[quizManager.quesNum-1][i].valueOf()){
+            quizManager.correctBool = true;
         }
     }
-    if(myApp.val.correctBool == true){
+    if(quizManager.correctBool === true){
         playSndO();
-        myApp.val.cntO += 1;
-        myApp.elem.text.innerHTML = "正解！";
-        if(myApp.val.jumpToAnsBool){ jumpToAnswerIndex(myApp.val.ansIndex, myApp.val.ansIndexStartTime); }
+        quizManager.cntO += 1;
+        MY_ELEM.text.innerHTML = "正解！";
+        if(quizManager.jumpToAnsBool){ jumpToAnswerIndex(quizManager.ansIndex, quizManager.ansIndexStartTime); }
     }else{
         playSndX();
-        myApp.val.cntX += 1;
-        myApp.elem.text.innerHTML = "不正解！"; //あと"+(myApp.val.limPush-myApp.val.cntPush)+"回解答できます。";
-        if(myApp.val.jumpToAnsBool){ jumpToAnswerIndex(myApp.val.ansIndex, myApp.val.ansIndexStartTime); }
+        quizManager.cntX += 1;
+        MY_ELEM.text.innerHTML = "不正解！"; //あと"+(quizManager.limPush-quizManager.cntPush)+"回解答できます。";
+        if(quizManager.jumpToAnsBool){ jumpToAnswerIndex(quizManager.ansIndex, quizManager.ansIndexStartTime); }
     }
-    myApp.elem.numOX.innerHTML  = "⭕️："+myApp.val.cntO+"　❌："+myApp.val.cntX;
-    if(window.orientation != 90){
-        if(myApp.val.correctBool == false && myApp.val.limPush - myApp.val.cntPush == 0){
-            myApp.elem.pushBtn.src = myApp.elem.imgBtn4.src;
+    MY_ELEM.numOX.innerHTML  = "⭕️："+quizManager.cntO+"　❌："+quizManager.cntX;
+    if(window.orientation !== 90){
+        if(quizManager.correctBool === false && quizManager.limPush - quizManager.cntPush === 0){
+            MY_ELEM.pushBtn.src = quizManager.buttonImages[3].src;
         }else{
-            myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src;
+            MY_ELEM.pushBtn.src = quizManager.buttonImages[0].src;
         }
     }else{
-        myApp.elem.pushBtn.src = myApp.elem.imgBtn4.src;
+        MY_ELEM.pushBtn.src = quizManager.buttonImages[3].src;
     }
-    // oppose player after answer.
-    if(myApp.val.os != 'other'){
-        if(myApp.val.hidePlayerBool.phone == true){
-            opposePlayer();
+    if(USER_OS !== 'other' && quizManager.hidePlayerBool === true){
+        opposePlayer();
+    }
+}
+//
+const myOrientationChangeEvent = () => {
+    setTimeout(() => {
+        resizePlayer();
+        resizePushButton(document.getElementById('player').clientHeight, getElemHeight());
+        if(quizManager.state === QUIZ_STATE.MyAnswer){
+            if(USER_OS !== 'other' && quizManager.hidePlayerBool === true){
+                hidePlayer();
+            }
         }
+        if(Math.abs(window.orientation) !== 90){
+            if(quizManager.state === QUIZ_STATE.MyAnswer){
+                MY_ELEM.pushBtn.src = quizManager.buttonImages[2].src;
+            }else{
+                MY_ELEM.pushBtn.src = quizManager.buttonImages[0].src;
+            }
+            if(quizManager.state === QUIZ_STATE.ButtonCheck){
+                MY_ELEM.text.innerHTML = "早押しボタンをタップして動画を開始する";
+            }
+        }else{
+            MY_ELEM.pushBtn.src = quizManager.buttonImages[3].src;
+            if(quizManager.state === QUIZ_STATE.ButtonCheck){
+                MY_ELEM.text.innerHTML = "端末を縦向きにしてクイズをはじめる";
+            }
+            alert("このサイトはスマートフォン/タブレットを縦向きにしてお楽しみください。");
+        }
+    }, 800);
+}
+//
+const myPageHiddenCheckEvent = () => {
+    if(document.webkitHidden){
+        quizManager.pageHiddenBool = true;
     }else{
-        if(myApp.val.hidePlayerBool.other == true){
-            opposePlayer();
+        quizManager.pageHiddenBool = false;
+        quizManager.currTime.playing = player.getCurrentTime();
+        quizManager.watchedTime  = quizManager.currTime.playing;
+    }
+}
+//
+const myKeyDownEvent = (event) => {
+    if(Math.abs(window.orientation) !== 90){
+        if(event.keyCode === KEY_CODE.space){
+            myButtonAction();
+        }
+        if(event.keyCode === KEY_CODE.enter){ // for preventing new line in text area.
+            if(quizManager.composingBool === false){
+                return false;
+            }
         }
     }
 }
 //
-function jumpToAnswerIndex(index, time){
-    myApp.val.cntIndex = index-1;
-    myApp.val.watchedTime = time-0.1;
-    player.seekTo(time-0.1);
+const myTouchEvent = (event) => {
+    if(Math.abs(window.orientation) !== 90){
+        const touchObject = event.changedTouches[0];
+        const { left, right, top, bottom } = getPushButtonArea()
+        if(left < touchObject.pageX && touchObject.pageX < right){
+            if(top < touchObject.pageY && touchObject.pageY < bottom){
+                myButtonAction();
+            }
+        }
+    }
 }
 //
-function printParams(){
-    // myApp.elem.paramText.innerHTML = "timePlay: "    + myApp.val.currTime.playing.toFixed(3)+"<br>"+
-    //                                  "timeStop: "    +myApp.val.currTime.stopped.toFixed(3)+"<br>"+
-    //                                  "WatchedTime: " + myApp.val.watchedTime.toFixed(3)+"<br>"+
-    //                                  "diffTime: "    + myApp.val.diffTime.toFixed(3);
-    // myApp.elem.paramText.innerHTML = myApp.val.browser;
-    // myApp.elem.paramText.innerHTML = myApp.val.os + ', ' + navigator.userAgent;
-    // myApp.elem.paramText.innerHTML = document.styleSheets.item(0).cssRules;
-    // myApp.elem.subText.innerHTML = "sounds.currentTime: " + Math.abs(Math.floor(myApp.elem.sounds.currentTime*1000)/1000);
-    // myApp.elem.subText.innerHTML = Math.floor(myApp.val.touchObject.pageX)      +', '+ Math.floor(myApp.val.touchObject.pageY) +' '+
-    //                             '[' + Math.floor(myApp.val.pushBtnArea.left) +', '+ Math.floor(myApp.val.pushBtnArea.right) +'] '+
-    //                             '[' + Math.floor(myApp.val.pushBtnArea.top)  +', '+ Math.floor(myApp.val.pushBtnArea.bottom)+'] '+
-    //                             '| '+ window.pageXOffset +', '+ window.pageYOffset;
-    // myApp.elem.subText.innerHTML = myApp.elem.numOX.getBoundingClientRect().top - myApp.elem.ansBtn.getBoundingClientRect().bottom;
-    // myApp.elem.subText.innerHTML = 'loadErrorBool: ' + myApp.val.loadErrorBool + ', initLoadBool: ' + myApp.val.initLoadBool + ', loadCount: ' + myApp.val.loadCount;
-    // myApp.elem.subText.innerHTML = 'playerWidth: ' + myApp.val.playerWidth + ', innerWidth: ' + window.innerWidth;
-    // myApp.elem.paramText.innerHTML = "<br>"+ 
-    //     "device: "           + myApp.val.os+"<br>"+
-    //     "browser: "          + myApp.val.browser+"<br>"+
-    //     "activeElem: "       + document.activeElement.id+"<br>"+   
-    //     "status: "           + myApp.val.status+"<br>"+
-    //     "timePlay: "         + myApp.val.currTime.playing.toFixed(3)+"<br>"+
-    //     "timeStop: "         + myApp.val.currTime.stopped.toFixed(3)+"<br>"+
-    //     "WatchedTime: "      + myApp.val.watchedTime.toFixed(3)+"<br>"+
-    //     "diffTime: "         + myApp.val.diffTime.toFixed(3)+"<br>"+
-    //     "limPush: "          + myApp.val.limPush+"<br>"+ 
-    //     "cntPush: "          + myApp.val.cntPush+"<br>"+
-    //     "remainingAnsTime: " + Math.floor((myApp.val.ansTime.limit-myApp.val.ansTime.elapsed)/1000)+"<br>"+
-    //     "answer: "           + myApp.val.ansArray[myApp.val.numQues-1][0].valueOf()+", "+
-    //                            myApp.val.ansArray[myApp.val.numQues-1][1].valueOf()+", "+
-    //                            myApp.val.ansArray[myApp.val.numQues-1][2].valueOf()+", "+
-    //                            myApp.val.ansArray[myApp.val.numQues-1][3].valueOf()+", "+
-    //                            myApp.val.ansArray[myApp.val.numQues-1][4].valueOf()+", "+
-    //                            myApp.val.ansArray[myApp.val.numQues-1][5].valueOf()+"<br>"+
-    //     "numAnswer: "        + myApp.val.ansArray.length+"<br>"+
-    //     "answerLength: "     + myApp.val.ansArray[myApp.val.numQues-1].length+"<br>"+
-    //     "correctBool: "      + myApp.val.correctBool+"<br>"+
-    //     "composing: "        + myApp.val.composingBool+"<br>"+
-    //     "index: "            + index+"<br>"+
-    //     "cntIndex: "         + myApp.val.cntIndex+"<br>"+
-    //     "cssRules: "         + document.styleSheets.item(0).cssRules.item(0).selectorText;
+const myPlayerStateChangeEvent = () => {
+    if(player.getPlayerState() === VIDEO_STATE.Playing){
+        quizManager.currTime.playing = player.getCurrentTime();
+        quizManager.watchedTime = updateWatchedTime(quizManager.currTime.playing, quizManager.watchedTime);
+        if(quizManager.state === QUIZ_STATE.MyAnswer){ // check answer if the video is restarted manually without sending answer.
+            player.pauseVideo();
+            checkAnswer();
+            if(quizManager.correctBool === true || quizManager.limPush - quizManager.cntPush === 0){
+                quizManager.state = QUIZ_STATE.Talk;
+            }else{
+                quizManager.state = QUIZ_STATE.Question;
+            }
+            player.playVideo();
+        }
+        if(quizManager.disableSeekbarBool === true){ // prevent to jump playback position by seekbar.
+            quizManager.diffTime = Math.abs(quizManager.currTime.playing - quizManager.watchedTime);
+            if(quizManager.diffTime > 1.0){
+                player.seekTo(quizManager.watchedTime);
+            }
+        }
+    }
+    if(player.getPlayerState() === VIDEO_STATE.Stopped){
+        quizManager.currTime.stopped = player.getCurrentTime();
+        if(quizManager.disableSeekbarBool === true){ // prevent to jump video playback position by seekbar and prevent to pause video during each question.
+            quizManager.diffTime = Math.abs(quizManager.currTime.stopped - quizManager.watchedTime);
+            if(quizManager.diffTime > 1.0){
+                player.seekTo(quizManager.watchedTime);
+            }
+            if(quizManager.state !== QUIZ_STATE.MyAnswer){
+                player.playVideo();
+            }
+        }
+    }
 }
+//
+const myIntervalEvent = () => {
+    if(quizManager.pageHiddenBool === false){
+        if(player.getPlayerState() === VIDEO_STATE.Playing){
+            quizManager.currTime.playing = player.getCurrentTime();
+            quizManager.watchedTime = updateWatchedTime(quizManager.currTime.playing, quizManager.watchedTime);
+            if(quizManager.state === QUIZ_STATE.ButtonCheck){ // prevent to play video before button check.
+                player.pauseVideo();
+            }
+            if(quizManager.state !== QUIZ_STATE.MyAnswer){ // execute srt function in each sections of subtitle.
+                if(quizManager.disableSeekbarBool === true){
+                    if(Number(index) - quizManager.currIndex === 1){
+                        quizManager.srtFuncArray.shift()();
+                        quizManager.currIndex += 1;
+                    }
+                }else{
+                    if(Number(index) - quizManager.currIndex >= 1){
+                        for(let i = 0; i < Number(index)-quizManager.currIndex; i++){
+                            quizManager.srtFuncArray.shift()();
+                        }
+                        quizManager.currIndex = Number(index);
+                    }
+                }
+            }
+        }
+        if(quizManager.state === QUIZ_STATE.ButtonCheck){
+            if(quizManager.currIndex > 0){
+                player.pauseVideo();
+                alert('ページの読み込みに失敗しました。ページを再読み込みしてください。');
+            }
+        }
+        if(quizManager.state === QUIZ_STATE.MyAnswer){ // answer time managemant
+            if(document.activeElement.id === "anscol" || quizManager.ansTime.elapsed !== 0){
+                quizManager.ansTime.elapsed += interval;
+                MY_ELEM.text.innerHTML = "のこり"+Math.floor((quizManager.ansTime.limit-quizManager.ansTime.elapsed)/1000+1)+"秒";
+                if(quizManager.ansTime.elapsed >= quizManager.ansTime.limit){
+                    checkAnswer();
+                    if(quizManager.correctBool === true || quizManager.limPush - quizManager.cntPush === 0){
+                        quizManager.state = QUIZ_STATE.Talk;
+                    }else{
+                        quizManager.state = QUIZ_STATE.Question;
+                    }
+                    player.playVideo();
+                }
+            }
+        }else{
+            if(USER_OS === 'other' && document.activeElement.id === "player"){
+                instantFocusToElement(MY_ELEM.pushBtn); // preparation of js keydown event
+            }
+            quizManager.ansTime.elapsed = 0;
+        }
+    }
+}
+//
+const myOnClickEvent = () => {
+    if(Number(index) === 0){ // jump to init question.
+        let tmpTime = quizManager.firstQuesStartTime-0.1;
+        if(quizManager.currTime.playing < tmpTime){
+            MY_ELEM.ansBtn.disabled = true;
+            quizManager.watchedTime = tmpTime;
+            player.seekTo(tmpTime);
+        }
+    }
+    if(quizManager.state === QUIZ_STATE.MyAnswer){ // send answer.
+        checkAnswer();
+        if(quizManager.correctBool === true || quizManager.limPush - quizManager.cntPush === 0){
+            quizManager.state = QUIZ_STATE.Talk;
+        }else{
+            quizManager.state = QUIZ_STATE.Question;
+        }
+        player.playVideo();
+    }
+}
+//
+/* INITIALIZE */
+const USER_OS = fetchOSType();
+const USER_BROWSER = fetchBrowserType();
+resizePlayer();
+//
+MY_ELEM.ansCol.id  = 'anscol';
+MY_ELEM.ansBtn.id  = 'ansbtn';
+MY_ELEM.pushBtn.id = 'pushbtn';
+MY_ELEM.divUI.id   = 'divui';
+MY_ELEM.divElem.id = 'divelem';
+MY_ELEM.divBtn.id  = 'divbtn';
+//
+MY_ELEM.ansCol.value     = "ここに解答を入力";
+MY_ELEM.ansBtn.innerHTML = "１問目まで移動";
+MY_ELEM.ansCol.disabled  = true;
+MY_ELEM.ansBtn.disabled  = true;
+MY_ELEM.numOX.innerHTML  = "⭕️："+quizManager.cntO+"　❌："+quizManager.cntX;
+if(USER_OS !== 'other'){
+    MY_ELEM.text.innerHTML = "早押しボタンをタップして動画を開始する";
+}else{
+    MY_ELEM.text.innerHTML = "QuizBattle on YouTube";
+    MY_ELEM.pushBtn.tabIndex = 0; // set tabindex for adding focus
+}
+//
+document.styleSheets.item(0).insertRule('html { touch-action: manipulation; }'); //disable double tap gesture
+document.styleSheets.item(0).insertRule('body { text-align: center; margin: auto; background: #EFEFEF; }');
+document.styleSheets.item(0).insertRule('.blinkImg { animation: blinkImg 0.7s infinite alternate; }');
+document.styleSheets.item(0).insertRule('@keyframes blinkImg{ 0% { opacity: 0.3; } 100% { opacity: 1; }}');
+document.styleSheets.item(0).insertRule('.blinkText { animation: blinkText 0.7s infinite alternate; }');
+document.styleSheets.item(0).insertRule('@keyframes blinkText{ 0% { opacity: 0; } 100% { opacity: 1; }}');
+//
+if(USER_OS !== 'other'){
+    MY_ELEM.text.style.fontSize       = '42px';
+    MY_ELEM.text.style.lineHeight     = '60px';
+    MY_ELEM.text.style.fontWeight     = 'bold';
+    MY_ELEM.text.style.display        = 'block';
+    MY_ELEM.text.style.marginTop      = '32px';
+    MY_ELEM.text.style.marginBottom   = '32px';
+    MY_ELEM.text.style.padding        = '0px 10px';
+    MY_ELEM.subText.style.fontSize    = '42px';
+    MY_ELEM.subText.style.lineHeight  = '60px';
+    MY_ELEM.subText.style.display     = 'block';
+    MY_ELEM.ansCol.style.fontSize     = '50px';
+    MY_ELEM.ansCol.style.height       = '100px';
+    MY_ELEM.ansCol.style.textAlign    = 'center';
+    MY_ELEM.ansCol.style.marginBottom = '10px';
+    MY_ELEM.ansCol.style.marginLeft   = 'auto';
+    MY_ELEM.ansCol.style.marginRight  = 'auto';
+    MY_ELEM.ansCol.style.display      = 'block'
+    MY_ELEM.ansBtn.style.fontSize     = '42px';
+    MY_ELEM.ansBtn.style.width        = parseInt(MY_ELEM.ansBtn.style.fontSize, 10)*10+'px';
+    MY_ELEM.ansBtn.style.height       = parseInt(MY_ELEM.ansBtn.style.fontSize, 10)*2+'px';
+    MY_ELEM.ansBtn.style.marginBottom = '20px';
+    MY_ELEM.ansBtn.style.marginLeft   = 'auto';
+    MY_ELEM.ansBtn.style.marginRight  = 'auto';
+    MY_ELEM.ansBtn.style.display      = 'block';
+    MY_ELEM.numOX.style.fontSize      = '42px';
+    MY_ELEM.numOX.style.lineHeight    = '80px';
+    MY_ELEM.numOX.style.fontWeight    = 'bold';
+    MY_ELEM.numOX.style.display       = 'block';
+    //
+    quizManager.viewFuncArray = [
+        () => {
+            document.getElementsByTagName("body")[0].appendChild(MY_ELEM.text);
+            document.getElementsByTagName("body")[0].appendChild(MY_ELEM.ansBtn);
+            // document.getElementsByTagName("body")[0].appendChild(MY_ELEM.pushBtn);
+            document.getElementsByTagName("body")[0].appendChild(MY_ELEM.numOX);
+            document.getElementsByTagName("body")[0].appendChild(MY_ELEM.paramText);
+        },
+        () => {
+            MY_ELEM.text.style.marginTop = '40px';
+            MY_ELEM.text.style.marginBottom = '20px';
+            MY_ELEM.subText.style.marginBottom = '40px';
+            MY_ELEM.subText.style.padding = '0px 10px';
+            document.getElementsByTagName("body")[0].insertBefore(MY_ELEM.subText, MY_ELEM.text.nextSibling);
+        },
+        () => {
+            MY_ELEM.text.style.marginTop    = '32px';
+            MY_ELEM.text.style.marginBottom = '32px';
+            MY_ELEM.text.parentNode.removeChild(MY_ELEM.subText);
+            document.getElementsByTagName("body")[0].insertBefore(MY_ELEM.ansCol, MY_ELEM.text.nextSibling);
+        },
+    ];
+    quizManager.viewFuncArray.shift()();
+}else{
+    const playerHeight = document.getElementById('player').clientHeight;
+    const playerWidth  = document.getElementById('player').clientWidth;
+    const divUIHeight  = playerHeight*0.9;
+    const divUIWidth   = playerWidth;
+    const divElemWidth = playerWidth*2/3;
+    const divBtnWidth  = playerWidth*1/3;
+    document.styleSheets.item(0).insertRule('body { width:'+playerWidth+'px; }');
+    document.styleSheets.item(0).insertRule('div#divui   { width:'+divUIWidth  +'px; height:'+divUIHeight+'px; }');
+    document.styleSheets.item(0).insertRule('div#divelem { width:'+divElemWidth+'px; height:'+divUIHeight+'px; float: left; display: flex; align-items: center; justify-content: center; flex-direction: column; }');
+    document.styleSheets.item(0).insertRule('div#divbtn  { width:'+divBtnWidth +'px; height:'+divUIHeight+'px; float: left; display: flex; align-items: center; justify-content: center; }');
+    document.getElementsByTagName("body")[0].appendChild(MY_ELEM.divUI);
+    MY_ELEM.divUI.appendChild(MY_ELEM.divElem);
+    MY_ELEM.divUI.appendChild(MY_ELEM.divBtn);
+    //
+    MY_ELEM.text.style.fontSize      = '25px';
+    MY_ELEM.text.style.lineHeight    = '45px';
+    MY_ELEM.text.style.fontWeight    = 'bold';
+    MY_ELEM.text.style.display       = 'block';
+    MY_ELEM.subText.style.fontSize   = '20px';
+    MY_ELEM.subText.style.lineHeight = '30px';
+    MY_ELEM.subText.style.display    = 'block';
+    MY_ELEM.ansCol.style.fontSize    = '23px';
+    MY_ELEM.ansCol.style.textAlign   = 'center';
+    MY_ELEM.ansCol.style.width       = divElemWidth*0.75+'px';
+    MY_ELEM.ansCol.style.margin      = '0px ' +(divElemWidth-parseInt(MY_ELEM.ansCol.style.width, 10))/2+'px 15px';
+    MY_ELEM.ansBtn.style.fontSize    = '23px';
+    MY_ELEM.ansBtn.style.width       = parseInt(MY_ELEM.ansBtn.style.fontSize, 10)*8+'px';
+    MY_ELEM.ansBtn.style.margin      = '0px '+(divElemWidth-parseInt(MY_ELEM.ansBtn.style.width, 10))/2+'px 20px';
+    MY_ELEM.numOX.style.fontSize     = '25px';
+    MY_ELEM.numOX.style.lineHeight   = '45px';
+    MY_ELEM.numOX.style.fontWeight   = 'bold';
+    MY_ELEM.numOX.style.display      = 'block';
+    //
+    quizManager.viewFuncArray = [
+        () => {
+            MY_ELEM.text.style.margin  = '0px auto';
+            MY_ELEM.text.style.padding = '0px 40px';
+            document.getElementById("divelem").appendChild(MY_ELEM.text);
+            document.getElementById("divelem").appendChild(MY_ELEM.paramText);
+        },
+        () => {
+            MY_ELEM.text.style.margin  = '0px auto 30px';
+            MY_ELEM.subText.style.margin  = '0px auto 50px';
+            MY_ELEM.subText.style.padding = '0px 40px';
+            document.getElementById("divelem").insertBefore(MY_ELEM.subText, MY_ELEM.text.nextSibling);
+            // document.getElementById("divbtn").appendChild(MY_ELEM.pushBtn);
+        },
+        () => {
+            document.getElementById("divelem").insertBefore(MY_ELEM.ansBtn, MY_ELEM.subText.nextSibling);
+        },
+        () => {
+            MY_ELEM.text.style.margin = '0px auto 15px';
+            MY_ELEM.text.parentNode.removeChild(MY_ELEM.subText);
+            document.getElementById("divelem").insertBefore(MY_ELEM.ansCol, MY_ELEM.text.nextSibling);
+            document.getElementById("divelem").appendChild(MY_ELEM.numOX);
+        },
+    ];
+    quizManager.viewFuncArray.shift()();
+}
+//
+const initAppearance = async () => {
+    if(USER_OS !== "other"){
+        if(Math.abs(window.orientation) !== 90){
+            MY_ELEM.pushBtn.src = quizManager.buttonImages[0].src;
+            MY_ELEM.text.innerHTML = "早押しボタンをタップして動画を開始する";
+        }else{
+            MY_ELEM.pushBtn.src = quizManager.buttonImages[3].src;
+            MY_ELEM.text.innerHTML = "端末を縦向きにしてクイズをはじめる";
+            alert("このサイトはスマートフォン/タブレットを縦向きにしてお楽しみください。");
+        }
+    }else{
+        MY_ELEM.pushBtn.src = quizManager.buttonImages[0].src;
+        if(detectTouchPanel() === true){
+            MY_ELEM.subText.innerHTML = "<span class='blinkText'>スペースキーを押して動画を開始する</span>";
+        }else{
+            MY_ELEM.subText.innerHTML = "<span class='blinkText'>スペースキーを押して動画を開始する</span>";
+        }
+    }
+    await MY_ELEM.pushBtn.decode().catch(() => alert("画像の読み込みに失敗しました。ページを再読み込みしてください。"));
+    resizePlayer();
+    resizePushButton(document.getElementById('player').clientHeight, getElemHeight());
+    if( USER_OS !== 'other' ){ 
+        MY_ELEM.pushBtn.className = "blinkImg";
+        document.getElementsByTagName("body")[0].appendChild(MY_ELEM.pushBtn);
+        // document.getElementsByTagName("body")[0].insertBefore(MY_ELEM.pushBtn, MY_ELEM.numOX);
+    } else {
+        document.getElementById("divbtn").appendChild(MY_ELEM.pushBtn); 
+        quizManager.viewFuncArray.shift()(); 
+    }
+}
+//
+(async () => {
+    /* load push button image */
+    const list = [PATH.btn1, PATH.btn2, PATH.btn3, PATH.btn4];
+    quizManager.buttonImages = await Promise.all(list.map(path => loadImage(path)));
+    //
+    /* load audio data */
+    const audioContext = new AudioContext();
+    const response1 = await fetch(PATH.sound).catch(() => alert("サウンドの読み込みに失敗しました。ページを再読み込みしてください。"));
+    const responseBuffer = await response1.arrayBuffer();
+    quizManager.audioBuffer = await audioContext.decodeAudioData(responseBuffer);
+    prepareAudioBufferNode();
+    //
+    /* load answer file */
+    const response2 = await fetch(PATH.answer).catch(() => alert("外部ファイルの読み込みに失敗しました。ページを再読み込みしてください。"));
+    const responseText = await response2.text();
+    quizManager.ansArray = csvToArray(responseText);
+    //
+    await initAppearance();
+    quizManager.state = QUIZ_STATE.ButtonCheck;
+    //
+    window.addEventListener('orientationchange', myOrientationChangeEvent);
+    document.addEventListener('webkitvisibilitychange', myPageHiddenCheckEvent, false);
+    document.addEventListener("touchstart", myTouchEvent);
+    document.addEventListener("compositionstart", () => { quizManager.composingBool = true; });
+    document.addEventListener('compositionend',   () => { quizManager.composingBool = false; });
+    player.addEventListener('onStateChange', myPlayerStateChangeEvent);
+    document.onkeydown = myKeyDownEvent;
+    MY_ELEM.ansBtn.onclick = myOnClickEvent;
+    MY_ELEM.ansCol.onfocus = () => { MY_ELEM.ansCol.val = ""; }
+    setInterval(myIntervalEvent, interval = 10);
+})();
 //
 //---------------------------------------------------------------------------------------------------------------
 /* set functions executed in each subtitle */
-myApp.val.jumpToAnsBool = true;
-myApp.val.disableSeekbarBool = false;
-myApp.val.hidePlayerBool.phone = true;
-myApp.val.hidePlayerBool.other = false;
-myApp.val.firstQuesStartTime = 16.24;
-myApp.val.srtFuncArray = [
-    function(){
-        myApp.val.viewFuncArray.shift()();
-        myApp.elem.ansBtn.innerHTML = "解答を送信";
+quizManager.jumpToAnsBool = true;
+quizManager.hidePlayerBool = true;
+quizManager.disableSeekbarBool = false;
+quizManager.firstQuesStartTime = 16.24;
+quizManager.srtFuncArray = [
+    () => {
+        quizManager.viewFuncArray.shift()();
+        MY_ELEM.ansBtn.innerHTML = "解答を送信";
         /* 第1問 */
-        myApp.val.ansIndex = 2;
-        myApp.val.ansIndexStartTime = 26.78;
+        quizManager.ansIndex = 2;
+        quizManager.ansIndexStartTime = 26.78;
         //
-        myApp.val.status = myApp.state.Question;
-        myApp.val.numQues = 1;
-        myApp.val.cntPush = 0;
-        myApp.val.correctBool = false;
-        myApp.elem.text.innerHTML = "第"+myApp.val.numQues+"問";
-        myApp.elem.ansCol.value = "ここに解答を入力";
-        myApp.elem.ansCol.disabled = true;
-        myApp.elem.ansBtn.disabled = true;
-        if(Math.abs(window.orientation) != 90){ myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src; }
+        quizManager.state = QUIZ_STATE.Question;
+        quizManager.quesNum = 1;
+        quizManager.cntPush = 0;
+        quizManager.correctBool = false;
+        MY_ELEM.text.innerHTML = "第"+quizManager.quesNum+"問";
+        MY_ELEM.ansCol.value = "ここに解答を入力";
+        MY_ELEM.ansCol.disabled = true;
+        MY_ELEM.ansBtn.disabled = true;
+        if(Math.abs(window.orientation) != 90){ MY_ELEM.pushBtn.src = quizManager.buttonImages[0].src; }
     },
-    function(){
-        myApp.val.status = myApp.state.Talk;
-        myApp.elem.ansCol.disabled = true;
-        myApp.elem.ansBtn.disabled = true;
-        myApp.elem.pushBtn.src = myApp.elem.imgBtn4.src;
+    () => {
+        quizManager.state = QUIZ_STATE.Talk;
+        MY_ELEM.ansCol.disabled = true;
+        MY_ELEM.ansBtn.disabled = true;
+        MY_ELEM.pushBtn.src = quizManager.buttonImages[3].src;
     },
-    function(){
+    () => {
         /* 第2問 */
-        myApp.val.ansIndex = 4;
-        myApp.val.ansIndexStartTime = 40.56;
+        quizManager.ansIndex = 4;
+        quizManager.ansIndexStartTime = 40.56;
         //
-        myApp.val.status = myApp.state.Question;
-        myApp.val.numQues = 2;
-        myApp.val.cntPush = 0;
-        myApp.val.correctBool = false;
-        myApp.elem.text.innerHTML = "第"+myApp.val.numQues+"問";
-        myApp.elem.ansCol.value = "ここに解答を入力";
-        myApp.elem.ansCol.disabled = true;
-        myApp.elem.ansBtn.disabled = true;
-        if(Math.abs(window.orientation) != 90){ myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src; }
+        quizManager.state = QUIZ_STATE.Question;
+        quizManager.quesNum = 2;
+        quizManager.cntPush = 0;
+        quizManager.correctBool = false;
+        MY_ELEM.text.innerHTML = "第"+quizManager.quesNum+"問";
+        MY_ELEM.ansCol.value = "ここに解答を入力";
+        MY_ELEM.ansCol.disabled = true;
+        MY_ELEM.ansBtn.disabled = true;
+        if(Math.abs(window.orientation) != 90){ MY_ELEM.pushBtn.src = quizManager.buttonImages[0].src; }
     },
-    function(){
-        myApp.val.status = myApp.state.Talk;
-        myApp.elem.ansCol.disabled = true;
-        myApp.elem.ansBtn.disabled = true;
-        myApp.elem.pushBtn.src = myApp.elem.imgBtn4.src;
+    () => {
+        quizManager.state = QUIZ_STATE.Talk;
+        MY_ELEM.ansCol.disabled = true;
+        MY_ELEM.ansBtn.disabled = true;
+        MY_ELEM.pushBtn.src = quizManager.buttonImages[3].src;
     },
-    function(){
+    () => {
         /* 第3問 */
-        myApp.val.ansIndex = 6;
-        myApp.val.ansIndexStartTime = 52.79;
+        quizManager.ansIndex = 6;
+        quizManager.ansIndexStartTime = 52.79;
         //
-        myApp.val.status = myApp.state.Question;
-        myApp.val.numQues = 3;
-        myApp.val.cntPush = 0;
-        myApp.val.correctBool = false;
-        myApp.elem.text.innerHTML = "第"+myApp.val.numQues+"問";
-        myApp.elem.ansCol.value = "ここに解答を入力";
-        myApp.elem.ansCol.disabled = true;
-        myApp.elem.ansBtn.disabled = true;
-        if(Math.abs(window.orientation) != 90){ myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src; }
+        quizManager.state = QUIZ_STATE.Question;
+        quizManager.quesNum = 3;
+        quizManager.cntPush = 0;
+        quizManager.correctBool = false;
+        MY_ELEM.text.innerHTML = "第"+quizManager.quesNum+"問";
+        MY_ELEM.ansCol.value = "ここに解答を入力";
+        MY_ELEM.ansCol.disabled = true;
+        MY_ELEM.ansBtn.disabled = true;
+        if(Math.abs(window.orientation) != 90){ MY_ELEM.pushBtn.src = quizManager.buttonImages[0].src; }
     },
-    function(){
-        myApp.val.status = myApp.state.Talk;
-        myApp.elem.ansCol.disabled = true;
-        myApp.elem.ansBtn.disabled = true;
-        myApp.elem.pushBtn.src = myApp.elem.imgBtn4.src;
+    () => {
+        quizManager.state = QUIZ_STATE.Talk;
+        MY_ELEM.ansCol.disabled = true;
+        MY_ELEM.ansBtn.disabled = true;
+        MY_ELEM.pushBtn.src = quizManager.buttonImages[3].src;
     },
-    function(){
+    () => {
         /* 第4問 */
-        myApp.val.ansIndex = 8;
-        myApp.val.ansIndexStartTime = 67.43;
+        quizManager.ansIndex = 8;
+        quizManager.ansIndexStartTime = 67.43;
         //
-        myApp.val.status = myApp.state.Question;
-        myApp.val.numQues = 4;
-        myApp.val.cntPush = 0;
-        myApp.val.correctBool = false;
-        myApp.elem.text.innerHTML = "第"+myApp.val.numQues+"問";
-        myApp.elem.ansCol.value = "ここに解答を入力";
-        myApp.elem.ansCol.disabled = true;
-        myApp.elem.ansBtn.disabled = true;
-        if(Math.abs(window.orientation) != 90){ myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src; }
+        quizManager.state = QUIZ_STATE.Question;
+        quizManager.quesNum = 4;
+        quizManager.cntPush = 0;
+        quizManager.correctBool = false;
+        MY_ELEM.text.innerHTML = "第"+quizManager.quesNum+"問";
+        MY_ELEM.ansCol.value = "ここに解答を入力";
+        MY_ELEM.ansCol.disabled = true;
+        MY_ELEM.ansBtn.disabled = true;
+        if(Math.abs(window.orientation) != 90){ MY_ELEM.pushBtn.src = quizManager.buttonImages[0].src; }
     },
-    function(){
-        myApp.val.status = myApp.state.Talk;
-        myApp.elem.ansCol.disabled = true;
-        myApp.elem.ansBtn.disabled = true;
-        myApp.elem.pushBtn.src = myApp.elem.imgBtn4.src;
+    () => {
+        quizManager.state = QUIZ_STATE.Talk;
+        MY_ELEM.ansCol.disabled = true;
+        MY_ELEM.ansBtn.disabled = true;
+        MY_ELEM.pushBtn.src = quizManager.buttonImages[3].src;
     },
-    function(){
+    () => {
         /* 第5問 */
-        myApp.val.ansIndex = 10;
-        myApp.val.ansIndexStartTime = 81.34;
+        quizManager.ansIndex = 10;
+        quizManager.ansIndexStartTime = 81.34;
         //
-        myApp.val.status = myApp.state.Question;
-        myApp.val.numQues = 5;
-        myApp.val.cntPush = 0;
-        myApp.val.correctBool = false;
-        myApp.elem.text.innerHTML = "第"+myApp.val.numQues+"問";
-        myApp.elem.ansCol.value = "ここに解答を入力";
-        myApp.elem.ansCol.disabled = true;
-        myApp.elem.ansBtn.disabled = true;
-        if(Math.abs(window.orientation) != 90){ myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src; }
+        quizManager.state = QUIZ_STATE.Question;
+        quizManager.quesNum = 5;
+        quizManager.cntPush = 0;
+        quizManager.correctBool = false;
+        MY_ELEM.text.innerHTML = "第"+quizManager.quesNum+"問";
+        MY_ELEM.ansCol.value = "ここに解答を入力";
+        MY_ELEM.ansCol.disabled = true;
+        MY_ELEM.ansBtn.disabled = true;
+        if(Math.abs(window.orientation) != 90){ MY_ELEM.pushBtn.src = quizManager.buttonImages[0].src; }
     },
-    function(){
-        myApp.val.status = myApp.state.Talk;
-        myApp.elem.ansCol.disabled = true;
-        myApp.elem.ansBtn.disabled = true;
-        myApp.elem.pushBtn.src = myApp.elem.imgBtn4.src;
+    () => {
+        quizManager.state = QUIZ_STATE.Talk;
+        MY_ELEM.ansCol.disabled = true;
+        MY_ELEM.ansBtn.disabled = true;
+        MY_ELEM.pushBtn.src = quizManager.buttonImages[3].src;
     },
-    function(){
+    () => {
         /* 第6問 */
-        myApp.val.ansIndex = 12;
-        myApp.val.ansIndexStartTime = 95.69;
+        quizManager.ansIndex = 12;
+        quizManager.ansIndexStartTime = 95.69;
         //
-        myApp.val.status = myApp.state.Question;
-        myApp.val.numQues = 6;
-        myApp.val.cntPush = 0;
-        myApp.val.correctBool = false;
-        myApp.elem.text.innerHTML = "第"+myApp.val.numQues+"問";
-        myApp.elem.ansCol.value = "ここに解答を入力";
-        myApp.elem.ansCol.disabled = true;
-        myApp.elem.ansBtn.disabled = true;
-        if(Math.abs(window.orientation) != 90){ myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src; }
+        quizManager.state = QUIZ_STATE.Question;
+        quizManager.quesNum = 6;
+        quizManager.cntPush = 0;
+        quizManager.correctBool = false;
+        MY_ELEM.text.innerHTML = "第"+quizManager.quesNum+"問";
+        MY_ELEM.ansCol.value = "ここに解答を入力";
+        MY_ELEM.ansCol.disabled = true;
+        MY_ELEM.ansBtn.disabled = true;
+        if(Math.abs(window.orientation) != 90){ MY_ELEM.pushBtn.src = quizManager.buttonImages[0].src; }
     },
-    function(){
-        myApp.val.status = myApp.state.Talk;
-        myApp.elem.ansCol.disabled = true;
-        myApp.elem.ansBtn.disabled = true;
-        myApp.elem.pushBtn.src = myApp.elem.imgBtn4.src;
+    () => {
+        quizManager.state = QUIZ_STATE.Talk;
+        MY_ELEM.ansCol.disabled = true;
+        MY_ELEM.ansBtn.disabled = true;
+        MY_ELEM.pushBtn.src = quizManager.buttonImages[3].src;
     },
-    function(){
+    () => {
         /* 第7問 */
-        myApp.val.ansIndex = 14;
-        myApp.val.ansIndexStartTime = 109.59;
+        quizManager.ansIndex = 14;
+        quizManager.ansIndexStartTime = 109.59;
         //
-        myApp.val.status = myApp.state.Question;
-        myApp.val.numQues = 7;
-        myApp.val.cntPush = 0;
-        myApp.val.correctBool = false;
-        myApp.elem.text.innerHTML = "第"+myApp.val.numQues+"問";
-        myApp.elem.ansCol.value = "ここに解答を入力";
-        myApp.elem.ansCol.disabled = true;
-        myApp.elem.ansBtn.disabled = true;
-        if(Math.abs(window.orientation) != 90){ myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src; }
+        quizManager.state = QUIZ_STATE.Question;
+        quizManager.quesNum = 7;
+        quizManager.cntPush = 0;
+        quizManager.correctBool = false;
+        MY_ELEM.text.innerHTML = "第"+quizManager.quesNum+"問";
+        MY_ELEM.ansCol.value = "ここに解答を入力";
+        MY_ELEM.ansCol.disabled = true;
+        MY_ELEM.ansBtn.disabled = true;
+        if(Math.abs(window.orientation) != 90){ MY_ELEM.pushBtn.src = quizManager.buttonImages[0].src; }
     },
-    function(){
-        myApp.val.status = myApp.state.Talk;
-        myApp.elem.ansCol.disabled = true;
-        myApp.elem.ansBtn.disabled = true;
-        myApp.elem.pushBtn.src = myApp.elem.imgBtn4.src;
+    () => {
+        quizManager.state = QUIZ_STATE.Talk;
+        MY_ELEM.ansCol.disabled = true;
+        MY_ELEM.ansBtn.disabled = true;
+        MY_ELEM.pushBtn.src = quizManager.buttonImages[3].src;
     },
-    function(){
+    () => {
         /* 第8問 */
-        myApp.val.ansIndex = 16;
-        myApp.val.ansIndexStartTime = 124.87;
+        quizManager.ansIndex = 16;
+        quizManager.ansIndexStartTime = 124.87;
         //
-        myApp.val.status = myApp.state.Question;
-        myApp.val.numQues = 8;
-        myApp.val.cntPush = 0;
-        myApp.val.correctBool = false;
-        myApp.elem.text.innerHTML = "第"+myApp.val.numQues+"問";
-        myApp.elem.ansCol.value = "ここに解答を入力";
-        myApp.elem.ansCol.disabled = true;
-        myApp.elem.ansBtn.disabled = true;
-        if(Math.abs(window.orientation) != 90){ myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src; }
+        quizManager.state = QUIZ_STATE.Question;
+        quizManager.quesNum = 8;
+        quizManager.cntPush = 0;
+        quizManager.correctBool = false;
+        MY_ELEM.text.innerHTML = "第"+quizManager.quesNum+"問";
+        MY_ELEM.ansCol.value = "ここに解答を入力";
+        MY_ELEM.ansCol.disabled = true;
+        MY_ELEM.ansBtn.disabled = true;
+        if(Math.abs(window.orientation) != 90){ MY_ELEM.pushBtn.src = quizManager.buttonImages[0].src; }
     },
-    function(){
-        myApp.val.status = myApp.state.Talk;
-        myApp.elem.ansCol.disabled = true;
-        myApp.elem.ansBtn.disabled = true;
-        myApp.elem.pushBtn.src = myApp.elem.imgBtn4.src;
+    () => {
+        quizManager.state = QUIZ_STATE.Talk;
+        MY_ELEM.ansCol.disabled = true;
+        MY_ELEM.ansBtn.disabled = true;
+        MY_ELEM.pushBtn.src = quizManager.buttonImages[3].src;
     },
-    function(){
+    () => {
         /* 第9問 */
-        myApp.val.ansIndex = 18;
-        myApp.val.ansIndexStartTime = 140.3;
+        quizManager.ansIndex = 18;
+        quizManager.ansIndexStartTime = 140.3;
         //
-        myApp.val.status = myApp.state.Question;
-        myApp.val.numQues = 9;
-        myApp.val.cntPush = 0;
-        myApp.val.correctBool = false;
-        myApp.elem.text.innerHTML = "第"+myApp.val.numQues+"問";
-        myApp.elem.ansCol.value = "ここに解答を入力";
-        myApp.elem.ansCol.disabled = true;
-        myApp.elem.ansBtn.disabled = true;
-        if(Math.abs(window.orientation) != 90){ myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src; }
+        quizManager.state = QUIZ_STATE.Question;
+        quizManager.quesNum = 9;
+        quizManager.cntPush = 0;
+        quizManager.correctBool = false;
+        MY_ELEM.text.innerHTML = "第"+quizManager.quesNum+"問";
+        MY_ELEM.ansCol.value = "ここに解答を入力";
+        MY_ELEM.ansCol.disabled = true;
+        MY_ELEM.ansBtn.disabled = true;
+        if(Math.abs(window.orientation) != 90){ MY_ELEM.pushBtn.src = quizManager.buttonImages[0].src; }
     },
-    function(){
-        myApp.val.status = myApp.state.Talk;
-        myApp.elem.ansCol.disabled = true;
-        myApp.elem.ansBtn.disabled = true;
-        myApp.elem.pushBtn.src = myApp.elem.imgBtn4.src;
+    () => {
+        quizManager.state = QUIZ_STATE.Talk;
+        MY_ELEM.ansCol.disabled = true;
+        MY_ELEM.ansBtn.disabled = true;
+        MY_ELEM.pushBtn.src = quizManager.buttonImages[3].src;
     },
-    function(){
+    () => {
         /* 第10問 */
-        myApp.val.ansIndex = 20;
-        myApp.val.ansIndexStartTime = 154.49;
+        quizManager.ansIndex = 20;
+        quizManager.ansIndexStartTime = 154.49;
         //
-        myApp.val.status = myApp.state.Question;
-        myApp.val.numQues = 10;
-        myApp.val.cntPush = 0;
-        myApp.val.correctBool = false;
-        myApp.elem.text.innerHTML = "第"+myApp.val.numQues+"問";
-        myApp.elem.ansCol.value = "ここに解答を入力";
-        myApp.elem.ansCol.disabled = true;
-        myApp.elem.ansBtn.disabled = true;
-        if(Math.abs(window.orientation) != 90){ myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src; }
+        quizManager.state = QUIZ_STATE.Question;
+        quizManager.quesNum = 10;
+        quizManager.cntPush = 0;
+        quizManager.correctBool = false;
+        MY_ELEM.text.innerHTML = "第"+quizManager.quesNum+"問";
+        MY_ELEM.ansCol.value = "ここに解答を入力";
+        MY_ELEM.ansCol.disabled = true;
+        MY_ELEM.ansBtn.disabled = true;
+        if(Math.abs(window.orientation) != 90){ MY_ELEM.pushBtn.src = quizManager.buttonImages[0].src; }
     },
-    function(){
-        myApp.val.status = myApp.state.Talk;
-        myApp.elem.ansCol.disabled = true;
-        myApp.elem.ansBtn.disabled = true;
-        myApp.elem.pushBtn.src = myApp.elem.imgBtn4.src;
+    () => {
+        quizManager.state = QUIZ_STATE.Talk;
+        MY_ELEM.ansCol.disabled = true;
+        MY_ELEM.ansBtn.disabled = true;
+        MY_ELEM.pushBtn.src = quizManager.buttonImages[3].src;
     },
-    function(){
+    () => {
         /* 第11問 */
-        myApp.val.ansIndex = 22;
-        myApp.val.ansIndexStartTime = 170.45;
+        quizManager.ansIndex = 22;
+        quizManager.ansIndexStartTime = 170.45;
         //
-        myApp.val.status = myApp.state.Question;
-        myApp.val.numQues = 11;
-        myApp.val.cntPush = 0;
-        myApp.val.correctBool = false;
-        myApp.elem.text.innerHTML = "第"+myApp.val.numQues+"問";
-        myApp.elem.ansCol.value = "ここに解答を入力";
-        myApp.elem.ansCol.disabled = true;
-        myApp.elem.ansBtn.disabled = true;
-        if(Math.abs(window.orientation) != 90){ myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src; }
+        quizManager.state = QUIZ_STATE.Question;
+        quizManager.quesNum = 11;
+        quizManager.cntPush = 0;
+        quizManager.correctBool = false;
+        MY_ELEM.text.innerHTML = "第"+quizManager.quesNum+"問";
+        MY_ELEM.ansCol.value = "ここに解答を入力";
+        MY_ELEM.ansCol.disabled = true;
+        MY_ELEM.ansBtn.disabled = true;
+        if(Math.abs(window.orientation) != 90){ MY_ELEM.pushBtn.src = quizManager.buttonImages[0].src; }
     },
-    function(){
-        myApp.val.status = myApp.state.Talk;
-        myApp.elem.ansCol.disabled = true;
-        myApp.elem.ansBtn.disabled = true;
-        myApp.elem.pushBtn.src = myApp.elem.imgBtn4.src;
+    () => {
+        quizManager.state = QUIZ_STATE.Talk;
+        MY_ELEM.ansCol.disabled = true;
+        MY_ELEM.ansBtn.disabled = true;
+        MY_ELEM.pushBtn.src = quizManager.buttonImages[3].src;
     },
-    function(){
+    () => {
         /* 第12問 */
-        myApp.val.ansIndex = 24;
-        myApp.val.ansIndexStartTime = 182.92;
+        quizManager.ansIndex = 24;
+        quizManager.ansIndexStartTime = 182.92;
         //
-        myApp.val.status = myApp.state.Question;
-        myApp.val.numQues = 12;
-        myApp.val.cntPush = 0;
-        myApp.val.correctBool = false;
-        myApp.elem.text.innerHTML = "第"+myApp.val.numQues+"問";
-        myApp.elem.ansCol.value = "ここに解答を入力";
-        myApp.elem.ansCol.disabled = true;
-        myApp.elem.ansBtn.disabled = true;
-        if(Math.abs(window.orientation) != 90){ myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src; }
+        quizManager.state = QUIZ_STATE.Question;
+        quizManager.quesNum = 12;
+        quizManager.cntPush = 0;
+        quizManager.correctBool = false;
+        MY_ELEM.text.innerHTML = "第"+quizManager.quesNum+"問";
+        MY_ELEM.ansCol.value = "ここに解答を入力";
+        MY_ELEM.ansCol.disabled = true;
+        MY_ELEM.ansBtn.disabled = true;
+        if(Math.abs(window.orientation) != 90){ MY_ELEM.pushBtn.src = quizManager.buttonImages[0].src; }
     },
-    function(){
-        myApp.val.status = myApp.state.Talk;
-        myApp.elem.ansCol.disabled = true;
-        myApp.elem.ansBtn.disabled = true;
-        myApp.elem.pushBtn.src = myApp.elem.imgBtn4.src;
+    () => {
+        quizManager.state = QUIZ_STATE.Talk;
+        MY_ELEM.ansCol.disabled = true;
+        MY_ELEM.ansBtn.disabled = true;
+        MY_ELEM.pushBtn.src = quizManager.buttonImages[3].src;
     },
-    function(){
+    () => {
         /* 第13問 */
-        myApp.val.ansIndex = 26;
-        myApp.val.ansIndexStartTime = 196.26;
+        quizManager.ansIndex = 26;
+        quizManager.ansIndexStartTime = 196.26;
         //
-        myApp.val.status = myApp.state.Question;
-        myApp.val.numQues = 13;
-        myApp.val.cntPush = 0;
-        myApp.val.correctBool = false;
-        myApp.elem.text.innerHTML = "第"+myApp.val.numQues+"問";
-        myApp.elem.ansCol.value = "ここに解答を入力";
-        myApp.elem.ansCol.disabled = true;
-        myApp.elem.ansBtn.disabled = true;
-        if(Math.abs(window.orientation) != 90){ myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src; }
+        quizManager.state = QUIZ_STATE.Question;
+        quizManager.quesNum = 13;
+        quizManager.cntPush = 0;
+        quizManager.correctBool = false;
+        MY_ELEM.text.innerHTML = "第"+quizManager.quesNum+"問";
+        MY_ELEM.ansCol.value = "ここに解答を入力";
+        MY_ELEM.ansCol.disabled = true;
+        MY_ELEM.ansBtn.disabled = true;
+        if(Math.abs(window.orientation) != 90){ MY_ELEM.pushBtn.src = quizManager.buttonImages[0].src; }
     },
-    function(){
-        myApp.val.status = myApp.state.Talk;
-        myApp.elem.ansCol.disabled = true;
-        myApp.elem.ansBtn.disabled = true;
-        myApp.elem.pushBtn.src = myApp.elem.imgBtn4.src;
+    () => {
+        quizManager.state = QUIZ_STATE.Talk;
+        MY_ELEM.ansCol.disabled = true;
+        MY_ELEM.ansBtn.disabled = true;
+        MY_ELEM.pushBtn.src = quizManager.buttonImages[3].src;
     },
-    function(){
+    () => {
         /* 第14問 */
-        myApp.val.ansIndex = 28;
-        myApp.val.ansIndexStartTime = 211.85;
+        quizManager.ansIndex = 28;
+        quizManager.ansIndexStartTime = 211.85;
         //
-        myApp.val.status = myApp.state.Question;
-        myApp.val.numQues = 14;
-        myApp.val.cntPush = 0;
-        myApp.val.correctBool = false;
-        myApp.elem.text.innerHTML = "第"+myApp.val.numQues+"問";
-        myApp.elem.ansCol.value = "ここに解答を入力";
-        myApp.elem.ansCol.disabled = true;
-        myApp.elem.ansBtn.disabled = true;
-        if(Math.abs(window.orientation) != 90){ myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src; }
+        quizManager.state = QUIZ_STATE.Question;
+        quizManager.quesNum = 14;
+        quizManager.cntPush = 0;
+        quizManager.correctBool = false;
+        MY_ELEM.text.innerHTML = "第"+quizManager.quesNum+"問";
+        MY_ELEM.ansCol.value = "ここに解答を入力";
+        MY_ELEM.ansCol.disabled = true;
+        MY_ELEM.ansBtn.disabled = true;
+        if(Math.abs(window.orientation) != 90){ MY_ELEM.pushBtn.src = quizManager.buttonImages[0].src; }
     },
-    function(){
-        myApp.val.status = myApp.state.Talk;
-        myApp.elem.ansCol.disabled = true;
-        myApp.elem.ansBtn.disabled = true;
-        myApp.elem.pushBtn.src = myApp.elem.imgBtn4.src;
+    () => {
+        quizManager.state = QUIZ_STATE.Talk;
+        MY_ELEM.ansCol.disabled = true;
+        MY_ELEM.ansBtn.disabled = true;
+        MY_ELEM.pushBtn.src = quizManager.buttonImages[3].src;
     },
-    function(){
+    () => {
         /* 第15問 */
-        myApp.val.ansIndex = 30;
-        myApp.val.ansIndexStartTime = 227.15;
+        quizManager.ansIndex = 30;
+        quizManager.ansIndexStartTime = 227.15;
         //
-        myApp.val.status = myApp.state.Question;
-        myApp.val.numQues = 15;
-        myApp.val.cntPush = 0;
-        myApp.val.correctBool = false;
-        myApp.elem.text.innerHTML = "第"+myApp.val.numQues+"問";
-        myApp.elem.ansCol.value = "ここに解答を入力";
-        myApp.elem.ansCol.disabled = true;
-        myApp.elem.ansBtn.disabled = true;
-        if(Math.abs(window.orientation) != 90){ myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src; }
+        quizManager.state = QUIZ_STATE.Question;
+        quizManager.quesNum = 15;
+        quizManager.cntPush = 0;
+        quizManager.correctBool = false;
+        MY_ELEM.text.innerHTML = "第"+quizManager.quesNum+"問";
+        MY_ELEM.ansCol.value = "ここに解答を入力";
+        MY_ELEM.ansCol.disabled = true;
+        MY_ELEM.ansBtn.disabled = true;
+        if(Math.abs(window.orientation) != 90){ MY_ELEM.pushBtn.src = quizManager.buttonImages[0].src; }
     },
-    function(){
-        myApp.val.status = myApp.state.Talk;
-        myApp.elem.ansCol.disabled = true;
-        myApp.elem.ansBtn.disabled = true;
-        myApp.elem.pushBtn.src = myApp.elem.imgBtn4.src;
+    () => {
+        quizManager.state = QUIZ_STATE.Talk;
+        MY_ELEM.ansCol.disabled = true;
+        MY_ELEM.ansBtn.disabled = true;
+        MY_ELEM.pushBtn.src = quizManager.buttonImages[3].src;
     },
-    function(){
+    () => {
         /* 第16問 */
-        myApp.val.ansIndex = 32;
-        myApp.val.ansIndexStartTime = 241.59;
+        quizManager.ansIndex = 32;
+        quizManager.ansIndexStartTime = 241.59;
         //
-        myApp.val.status = myApp.state.Question;
-        myApp.val.numQues = 16;
-        myApp.val.cntPush = 0;
-        myApp.val.correctBool = false;
-        myApp.elem.text.innerHTML = "第"+myApp.val.numQues+"問";
-        myApp.elem.ansCol.value = "ここに解答を入力";
-        myApp.elem.ansCol.disabled = true;
-        myApp.elem.ansBtn.disabled = true;
-        if(Math.abs(window.orientation) != 90){ myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src; }
+        quizManager.state = QUIZ_STATE.Question;
+        quizManager.quesNum = 16;
+        quizManager.cntPush = 0;
+        quizManager.correctBool = false;
+        MY_ELEM.text.innerHTML = "第"+quizManager.quesNum+"問";
+        MY_ELEM.ansCol.value = "ここに解答を入力";
+        MY_ELEM.ansCol.disabled = true;
+        MY_ELEM.ansBtn.disabled = true;
+        if(Math.abs(window.orientation) != 90){ MY_ELEM.pushBtn.src = quizManager.buttonImages[0].src; }
     },
-    function(){
-        myApp.val.status = myApp.state.Talk;
-        myApp.elem.ansCol.disabled = true;
-        myApp.elem.ansBtn.disabled = true;
-        myApp.elem.pushBtn.src = myApp.elem.imgBtn4.src;
+    () => {
+        quizManager.state = QUIZ_STATE.Talk;
+        MY_ELEM.ansCol.disabled = true;
+        MY_ELEM.ansBtn.disabled = true;
+        MY_ELEM.pushBtn.src = quizManager.buttonImages[3].src;
     },
-    function(){
+    () => {
         /* 第17問 */
-        myApp.val.ansIndex = 34;
-        myApp.val.ansIndexStartTime = 253.65;
+        quizManager.ansIndex = 34;
+        quizManager.ansIndexStartTime = 253.65;
         //
-        myApp.val.status = myApp.state.Question;
-        myApp.val.numQues = 17;
-        myApp.val.cntPush = 0;
-        myApp.val.correctBool = false;
-        myApp.elem.text.innerHTML = "第"+myApp.val.numQues+"問";
-        myApp.elem.ansCol.value = "ここに解答を入力";
-        myApp.elem.ansCol.disabled = true;
-        myApp.elem.ansBtn.disabled = true;
-        if(Math.abs(window.orientation) != 90){ myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src; }
+        quizManager.state = QUIZ_STATE.Question;
+        quizManager.quesNum = 17;
+        quizManager.cntPush = 0;
+        quizManager.correctBool = false;
+        MY_ELEM.text.innerHTML = "第"+quizManager.quesNum+"問";
+        MY_ELEM.ansCol.value = "ここに解答を入力";
+        MY_ELEM.ansCol.disabled = true;
+        MY_ELEM.ansBtn.disabled = true;
+        if(Math.abs(window.orientation) != 90){ MY_ELEM.pushBtn.src = quizManager.buttonImages[0].src; }
     },
-    function(){
-        myApp.val.status = myApp.state.Talk;
-        myApp.elem.ansCol.disabled = true;
-        myApp.elem.ansBtn.disabled = true;
-        myApp.elem.pushBtn.src = myApp.elem.imgBtn4.src;
+    () => {
+        quizManager.state = QUIZ_STATE.Talk;
+        MY_ELEM.ansCol.disabled = true;
+        MY_ELEM.ansBtn.disabled = true;
+        MY_ELEM.pushBtn.src = quizManager.buttonImages[3].src;
     },
-    function(){
+    () => {
         /* 第18問 */
-        myApp.val.ansIndex = 36;
-        myApp.val.ansIndexStartTime = 271.24;
+        quizManager.ansIndex = 36;
+        quizManager.ansIndexStartTime = 271.24;
         //
-        myApp.val.status = myApp.state.Question;
-        myApp.val.numQues = 18;
-        myApp.val.cntPush = 0;
-        myApp.val.correctBool = false;
-        myApp.elem.text.innerHTML = "第"+myApp.val.numQues+"問";
-        myApp.elem.ansCol.value = "ここに解答を入力";
-        myApp.elem.ansCol.disabled = true;
-        myApp.elem.ansBtn.disabled = true;
-        if(Math.abs(window.orientation) != 90){ myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src; }
+        quizManager.state = QUIZ_STATE.Question;
+        quizManager.quesNum = 18;
+        quizManager.cntPush = 0;
+        quizManager.correctBool = false;
+        MY_ELEM.text.innerHTML = "第"+quizManager.quesNum+"問";
+        MY_ELEM.ansCol.value = "ここに解答を入力";
+        MY_ELEM.ansCol.disabled = true;
+        MY_ELEM.ansBtn.disabled = true;
+        if(Math.abs(window.orientation) != 90){ MY_ELEM.pushBtn.src = quizManager.buttonImages[0].src; }
     },
-    function(){
-        myApp.val.status = myApp.state.Talk;
-        myApp.elem.ansCol.disabled = true;
-        myApp.elem.ansBtn.disabled = true;
-        myApp.elem.pushBtn.src = myApp.elem.imgBtn4.src;
+    () => {
+        quizManager.state = QUIZ_STATE.Talk;
+        MY_ELEM.ansCol.disabled = true;
+        MY_ELEM.ansBtn.disabled = true;
+        MY_ELEM.pushBtn.src = quizManager.buttonImages[3].src;
     },
-    function(){
+    () => {
         /* 第19問 */
-        myApp.val.ansIndex = 38;
-        myApp.val.ansIndexStartTime = 287.54;
+        quizManager.ansIndex = 38;
+        quizManager.ansIndexStartTime = 287.54;
         //
-        myApp.val.status = myApp.state.Question;
-        myApp.val.numQues = 19;
-        myApp.val.cntPush = 0;
-        myApp.val.correctBool = false;
-        myApp.elem.text.innerHTML = "第"+myApp.val.numQues+"問";
-        myApp.elem.ansCol.value = "ここに解答を入力";
-        myApp.elem.ansCol.disabled = true;
-        myApp.elem.ansBtn.disabled = true;
-        if(Math.abs(window.orientation) != 90){ myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src; }
+        quizManager.state = QUIZ_STATE.Question;
+        quizManager.quesNum = 19;
+        quizManager.cntPush = 0;
+        quizManager.correctBool = false;
+        MY_ELEM.text.innerHTML = "第"+quizManager.quesNum+"問";
+        MY_ELEM.ansCol.value = "ここに解答を入力";
+        MY_ELEM.ansCol.disabled = true;
+        MY_ELEM.ansBtn.disabled = true;
+        if(Math.abs(window.orientation) != 90){ MY_ELEM.pushBtn.src = quizManager.buttonImages[0].src; }
     },
-    function(){
-        myApp.val.status = myApp.state.Talk;
-        myApp.elem.ansCol.disabled = true;
-        myApp.elem.ansBtn.disabled = true;
-        myApp.elem.pushBtn.src = myApp.elem.imgBtn4.src;
+    () => {
+        quizManager.state = QUIZ_STATE.Talk;
+        MY_ELEM.ansCol.disabled = true;
+        MY_ELEM.ansBtn.disabled = true;
+        MY_ELEM.pushBtn.src = quizManager.buttonImages[3].src;
     },
-    function(){
+    () => {
         /* 第20問 */
-        myApp.val.ansIndex = 40;
-        myApp.val.ansIndexStartTime = 304.24;
+        quizManager.ansIndex = 40;
+        quizManager.ansIndexStartTime = 304.24;
         //
-        myApp.val.status = myApp.state.Question;
-        myApp.val.numQues = 20;
-        myApp.val.cntPush = 0;
-        myApp.val.correctBool = false;
-        myApp.elem.text.innerHTML = "第"+myApp.val.numQues+"問";
-        myApp.elem.ansCol.value = "ここに解答を入力";
-        myApp.elem.ansCol.disabled = true;
-        myApp.elem.ansBtn.disabled = true;
-        if(Math.abs(window.orientation) != 90){ myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src; }
+        quizManager.state = QUIZ_STATE.Question;
+        quizManager.quesNum = 20;
+        quizManager.cntPush = 0;
+        quizManager.correctBool = false;
+        MY_ELEM.text.innerHTML = "第"+quizManager.quesNum+"問";
+        MY_ELEM.ansCol.value = "ここに解答を入力";
+        MY_ELEM.ansCol.disabled = true;
+        MY_ELEM.ansBtn.disabled = true;
+        if(Math.abs(window.orientation) != 90){ MY_ELEM.pushBtn.src = quizManager.buttonImages[0].src; }
     },
-    function(){
-        myApp.val.status = myApp.state.Talk;
-        myApp.elem.ansCol.disabled = true;
-        myApp.elem.ansBtn.disabled = true;
-        myApp.elem.pushBtn.src = myApp.elem.imgBtn4.src;
+    () => {
+        quizManager.state = QUIZ_STATE.Talk;
+        MY_ELEM.ansCol.disabled = true;
+        MY_ELEM.ansBtn.disabled = true;
+        MY_ELEM.pushBtn.src = quizManager.buttonImages[3].src;
     },
-    function(){
+    () => {
         /* 第21問 */
-        myApp.val.ansIndex = 42;
-        myApp.val.ansIndexStartTime = 319.91;
+        quizManager.ansIndex = 42;
+        quizManager.ansIndexStartTime = 319.91;
         //
-        myApp.val.status = myApp.state.Question;
-        myApp.val.numQues = 21;
-        myApp.val.cntPush = 0;
-        myApp.val.correctBool = false;
-        myApp.elem.text.innerHTML = "第"+myApp.val.numQues+"問";
-        myApp.elem.ansCol.value = "ここに解答を入力";
-        myApp.elem.ansCol.disabled = true;
-        myApp.elem.ansBtn.disabled = true;
-        if(Math.abs(window.orientation) != 90){ myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src; }
+        quizManager.state = QUIZ_STATE.Question;
+        quizManager.quesNum = 21;
+        quizManager.cntPush = 0;
+        quizManager.correctBool = false;
+        MY_ELEM.text.innerHTML = "第"+quizManager.quesNum+"問";
+        MY_ELEM.ansCol.value = "ここに解答を入力";
+        MY_ELEM.ansCol.disabled = true;
+        MY_ELEM.ansBtn.disabled = true;
+        if(Math.abs(window.orientation) != 90){ MY_ELEM.pushBtn.src = quizManager.buttonImages[0].src; }
     },
-    function(){
-        myApp.val.status = myApp.state.Talk;
-        myApp.elem.ansCol.disabled = true;
-        myApp.elem.ansBtn.disabled = true;
-        myApp.elem.pushBtn.src = myApp.elem.imgBtn4.src;
+    () => {
+        quizManager.state = QUIZ_STATE.Talk;
+        MY_ELEM.ansCol.disabled = true;
+        MY_ELEM.ansBtn.disabled = true;
+        MY_ELEM.pushBtn.src = quizManager.buttonImages[3].src;
     },
-    function(){
+    () => {
         /* 第22問 */
-        myApp.val.ansIndex = 44;
-        myApp.val.ansIndexStartTime = 332.52;
+        quizManager.ansIndex = 44;
+        quizManager.ansIndexStartTime = 332.52;
         //
-        myApp.val.status = myApp.state.Question;
-        myApp.val.numQues = 22;
-        myApp.val.cntPush = 0;
-        myApp.val.correctBool = false;
-        myApp.elem.text.innerHTML = "第"+myApp.val.numQues+"問";
-        myApp.elem.ansCol.value = "ここに解答を入力";
-        myApp.elem.ansCol.disabled = true;
-        myApp.elem.ansBtn.disabled = true;
-        if(Math.abs(window.orientation) != 90){ myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src; }
+        quizManager.state = QUIZ_STATE.Question;
+        quizManager.quesNum = 22;
+        quizManager.cntPush = 0;
+        quizManager.correctBool = false;
+        MY_ELEM.text.innerHTML = "第"+quizManager.quesNum+"問";
+        MY_ELEM.ansCol.value = "ここに解答を入力";
+        MY_ELEM.ansCol.disabled = true;
+        MY_ELEM.ansBtn.disabled = true;
+        if(Math.abs(window.orientation) != 90){ MY_ELEM.pushBtn.src = quizManager.buttonImages[0].src; }
     },
-    function(){
-        myApp.val.status = myApp.state.Talk;
-        myApp.elem.ansCol.disabled = true;
-        myApp.elem.ansBtn.disabled = true;
-        myApp.elem.pushBtn.src = myApp.elem.imgBtn4.src;
+    () => {
+        quizManager.state = QUIZ_STATE.Talk;
+        MY_ELEM.ansCol.disabled = true;
+        MY_ELEM.ansBtn.disabled = true;
+        MY_ELEM.pushBtn.src = quizManager.buttonImages[3].src;
     },
-    function(){
+    () => {
         /* 第23問 */
-        myApp.val.ansIndex = 46;
-        myApp.val.ansIndexStartTime = 346.66;
+        quizManager.ansIndex = 46;
+        quizManager.ansIndexStartTime = 346.66;
         //
-        myApp.val.status = myApp.state.Question;
-        myApp.val.numQues = 23;
-        myApp.val.cntPush = 0;
-        myApp.val.correctBool = false;
-        myApp.elem.text.innerHTML = "第"+myApp.val.numQues+"問";
-        myApp.elem.ansCol.value = "ここに解答を入力";
-        myApp.elem.ansCol.disabled = true;
-        myApp.elem.ansBtn.disabled = true;
-        if(Math.abs(window.orientation) != 90){ myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src; }
+        quizManager.state = QUIZ_STATE.Question;
+        quizManager.quesNum = 23;
+        quizManager.cntPush = 0;
+        quizManager.correctBool = false;
+        MY_ELEM.text.innerHTML = "第"+quizManager.quesNum+"問";
+        MY_ELEM.ansCol.value = "ここに解答を入力";
+        MY_ELEM.ansCol.disabled = true;
+        MY_ELEM.ansBtn.disabled = true;
+        if(Math.abs(window.orientation) != 90){ MY_ELEM.pushBtn.src = quizManager.buttonImages[0].src; }
     },
-    function(){
-        myApp.val.status = myApp.state.Talk;
-        myApp.elem.ansCol.disabled = true;
-        myApp.elem.ansBtn.disabled = true;
-        myApp.elem.pushBtn.src = myApp.elem.imgBtn4.src;
+    () => {
+        quizManager.state = QUIZ_STATE.Talk;
+        MY_ELEM.ansCol.disabled = true;
+        MY_ELEM.ansBtn.disabled = true;
+        MY_ELEM.pushBtn.src = quizManager.buttonImages[3].src;
     },
-    function(){
+    () => {
         /* 第24問 */
-        myApp.val.ansIndex = 48;
-        myApp.val.ansIndexStartTime = 359.28;
+        quizManager.ansIndex = 48;
+        quizManager.ansIndexStartTime = 359.28;
         //
-        myApp.val.status = myApp.state.Question;
-        myApp.val.numQues = 24;
-        myApp.val.cntPush = 0;
-        myApp.val.correctBool = false;
-        myApp.elem.text.innerHTML = "第"+myApp.val.numQues+"問";
-        myApp.elem.ansCol.value = "ここに解答を入力";
-        myApp.elem.ansCol.disabled = true;
-        myApp.elem.ansBtn.disabled = true;
-        if(Math.abs(window.orientation) != 90){ myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src; }
+        quizManager.state = QUIZ_STATE.Question;
+        quizManager.quesNum = 24;
+        quizManager.cntPush = 0;
+        quizManager.correctBool = false;
+        MY_ELEM.text.innerHTML = "第"+quizManager.quesNum+"問";
+        MY_ELEM.ansCol.value = "ここに解答を入力";
+        MY_ELEM.ansCol.disabled = true;
+        MY_ELEM.ansBtn.disabled = true;
+        if(Math.abs(window.orientation) != 90){ MY_ELEM.pushBtn.src = quizManager.buttonImages[0].src; }
     },
-    function(){
-        myApp.val.status = myApp.state.Talk;
-        myApp.elem.ansCol.disabled = true;
-        myApp.elem.ansBtn.disabled = true;
-        myApp.elem.pushBtn.src = myApp.elem.imgBtn4.src;
+    () => {
+        quizManager.state = QUIZ_STATE.Talk;
+        MY_ELEM.ansCol.disabled = true;
+        MY_ELEM.ansBtn.disabled = true;
+        MY_ELEM.pushBtn.src = quizManager.buttonImages[3].src;
     },
-    function(){
+    () => {
         /* 第25問 */
-        myApp.val.ansIndex = 50;
-        myApp.val.ansIndexStartTime = 374.81;
+        quizManager.ansIndex = 50;
+        quizManager.ansIndexStartTime = 374.81;
         //
-        myApp.val.status = myApp.state.Question;
-        myApp.val.numQues = 25;
-        myApp.val.cntPush = 0;
-        myApp.val.correctBool = false;
-        myApp.elem.text.innerHTML = "第"+myApp.val.numQues+"問";
-        myApp.elem.ansCol.value = "ここに解答を入力";
-        myApp.elem.ansCol.disabled = true;
-        myApp.elem.ansBtn.disabled = true;
-        if(Math.abs(window.orientation) != 90){ myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src; }
+        quizManager.state = QUIZ_STATE.Question;
+        quizManager.quesNum = 25;
+        quizManager.cntPush = 0;
+        quizManager.correctBool = false;
+        MY_ELEM.text.innerHTML = "第"+quizManager.quesNum+"問";
+        MY_ELEM.ansCol.value = "ここに解答を入力";
+        MY_ELEM.ansCol.disabled = true;
+        MY_ELEM.ansBtn.disabled = true;
+        if(Math.abs(window.orientation) != 90){ MY_ELEM.pushBtn.src = quizManager.buttonImages[0].src; }
     },
-    function(){
-        myApp.val.status = myApp.state.Talk;
-        myApp.elem.ansCol.disabled = true;
-        myApp.elem.ansBtn.disabled = true;
-        myApp.elem.pushBtn.src = myApp.elem.imgBtn4.src;
+    () => {
+        quizManager.state = QUIZ_STATE.Talk;
+        MY_ELEM.ansCol.disabled = true;
+        MY_ELEM.ansBtn.disabled = true;
+        MY_ELEM.pushBtn.src = quizManager.buttonImages[3].src;
     },
-    function(){
+    () => {
         /* 第26問 */
-        myApp.val.ansIndex = 52;
-        myApp.val.ansIndexStartTime = 392.68;
+        quizManager.ansIndex = 52;
+        quizManager.ansIndexStartTime = 392.68;
         //
-        myApp.val.status = myApp.state.Question;
-        myApp.val.numQues = 26;
-        myApp.val.cntPush = 0;
-        myApp.val.correctBool = false;
-        myApp.elem.text.innerHTML = "第"+myApp.val.numQues+"問";
-        myApp.elem.ansCol.value = "ここに解答を入力";
-        myApp.elem.ansCol.disabled = true;
-        myApp.elem.ansBtn.disabled = true;
-        if(Math.abs(window.orientation) != 90){ myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src; }
+        quizManager.state = QUIZ_STATE.Question;
+        quizManager.quesNum = 26;
+        quizManager.cntPush = 0;
+        quizManager.correctBool = false;
+        MY_ELEM.text.innerHTML = "第"+quizManager.quesNum+"問";
+        MY_ELEM.ansCol.value = "ここに解答を入力";
+        MY_ELEM.ansCol.disabled = true;
+        MY_ELEM.ansBtn.disabled = true;
+        if(Math.abs(window.orientation) != 90){ MY_ELEM.pushBtn.src = quizManager.buttonImages[0].src; }
     },
-    function(){
-        myApp.val.status = myApp.state.Talk;
-        myApp.elem.ansCol.disabled = true;
-        myApp.elem.ansBtn.disabled = true;
-        myApp.elem.pushBtn.src = myApp.elem.imgBtn4.src;
+    () => {
+        quizManager.state = QUIZ_STATE.Talk;
+        MY_ELEM.ansCol.disabled = true;
+        MY_ELEM.ansBtn.disabled = true;
+        MY_ELEM.pushBtn.src = quizManager.buttonImages[3].src;
     },
-    function(){
+    () => {
         /* 第27問 */
-        myApp.val.ansIndex = 54;
-        myApp.val.ansIndexStartTime = 407.35;
+        quizManager.ansIndex = 54;
+        quizManager.ansIndexStartTime = 407.35;
         //
-        myApp.val.status = myApp.state.Question;
-        myApp.val.numQues = 27;
-        myApp.val.cntPush = 0;
-        myApp.val.correctBool = false;
-        myApp.elem.text.innerHTML = "第"+myApp.val.numQues+"問";
-        myApp.elem.ansCol.value = "ここに解答を入力";
-        myApp.elem.ansCol.disabled = true;
-        myApp.elem.ansBtn.disabled = true;
-        if(Math.abs(window.orientation) != 90){ myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src; }
+        quizManager.state = QUIZ_STATE.Question;
+        quizManager.quesNum = 27;
+        quizManager.cntPush = 0;
+        quizManager.correctBool = false;
+        MY_ELEM.text.innerHTML = "第"+quizManager.quesNum+"問";
+        MY_ELEM.ansCol.value = "ここに解答を入力";
+        MY_ELEM.ansCol.disabled = true;
+        MY_ELEM.ansBtn.disabled = true;
+        if(Math.abs(window.orientation) != 90){ MY_ELEM.pushBtn.src = quizManager.buttonImages[0].src; }
     },
-    function(){
-        myApp.val.status = myApp.state.Talk;
-        myApp.elem.ansCol.disabled = true;
-        myApp.elem.ansBtn.disabled = true;
-        myApp.elem.pushBtn.src = myApp.elem.imgBtn4.src;
+    () => {
+        quizManager.state = QUIZ_STATE.Talk;
+        MY_ELEM.ansCol.disabled = true;
+        MY_ELEM.ansBtn.disabled = true;
+        MY_ELEM.pushBtn.src = quizManager.buttonImages[3].src;
     },
-    function(){
+    () => {
         /* 第28問 */
-        myApp.val.ansIndex = 56;
-        myApp.val.ansIndexStartTime = 420.25;
+        quizManager.ansIndex = 56;
+        quizManager.ansIndexStartTime = 420.25;
         //
-        myApp.val.status = myApp.state.Question;
-        myApp.val.numQues = 28;
-        myApp.val.cntPush = 0;
-        myApp.val.correctBool = false;
-        myApp.elem.text.innerHTML = "第"+myApp.val.numQues+"問";
-        myApp.elem.ansCol.value = "ここに解答を入力";
-        myApp.elem.ansCol.disabled = true;
-        myApp.elem.ansBtn.disabled = true;
-        if(Math.abs(window.orientation) != 90){ myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src; }
+        quizManager.state = QUIZ_STATE.Question;
+        quizManager.quesNum = 28;
+        quizManager.cntPush = 0;
+        quizManager.correctBool = false;
+        MY_ELEM.text.innerHTML = "第"+quizManager.quesNum+"問";
+        MY_ELEM.ansCol.value = "ここに解答を入力";
+        MY_ELEM.ansCol.disabled = true;
+        MY_ELEM.ansBtn.disabled = true;
+        if(Math.abs(window.orientation) != 90){ MY_ELEM.pushBtn.src = quizManager.buttonImages[0].src; }
     },
-    function(){
-        myApp.val.status = myApp.state.Talk;
-        myApp.elem.ansCol.disabled = true;
-        myApp.elem.ansBtn.disabled = true;
-        myApp.elem.pushBtn.src = myApp.elem.imgBtn4.src;
+    () => {
+        quizManager.state = QUIZ_STATE.Talk;
+        MY_ELEM.ansCol.disabled = true;
+        MY_ELEM.ansBtn.disabled = true;
+        MY_ELEM.pushBtn.src = quizManager.buttonImages[3].src;
     },
-    function(){
+    () => {
         /* 第29問 */
-        myApp.val.ansIndex = 58;
-        myApp.val.ansIndexStartTime = 437.49;
+        quizManager.ansIndex = 58;
+        quizManager.ansIndexStartTime = 437.49;
         //
-        myApp.val.status = myApp.state.Question;
-        myApp.val.numQues = 29;
-        myApp.val.cntPush = 0;
-        myApp.val.correctBool = false;
-        myApp.elem.text.innerHTML = "第"+myApp.val.numQues+"問";
-        myApp.elem.ansCol.value = "ここに解答を入力";
-        myApp.elem.ansCol.disabled = true;
-        myApp.elem.ansBtn.disabled = true;
-        if(Math.abs(window.orientation) != 90){ myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src; }
+        quizManager.state = QUIZ_STATE.Question;
+        quizManager.quesNum = 29;
+        quizManager.cntPush = 0;
+        quizManager.correctBool = false;
+        MY_ELEM.text.innerHTML = "第"+quizManager.quesNum+"問";
+        MY_ELEM.ansCol.value = "ここに解答を入力";
+        MY_ELEM.ansCol.disabled = true;
+        MY_ELEM.ansBtn.disabled = true;
+        if(Math.abs(window.orientation) != 90){ MY_ELEM.pushBtn.src = quizManager.buttonImages[0].src; }
     },
-    function(){
-        myApp.val.status = myApp.state.Talk;
-        myApp.elem.ansCol.disabled = true;
-        myApp.elem.ansBtn.disabled = true;
-        myApp.elem.pushBtn.src = myApp.elem.imgBtn4.src;
+    () => {
+        quizManager.state = QUIZ_STATE.Talk;
+        MY_ELEM.ansCol.disabled = true;
+        MY_ELEM.ansBtn.disabled = true;
+        MY_ELEM.pushBtn.src = quizManager.buttonImages[3].src;
     },
-    function(){
+    () => {
         /* 第30問 */
-        myApp.val.ansIndex = 60;
-        myApp.val.ansIndexStartTime = 454.63;
+        quizManager.ansIndex = 60;
+        quizManager.ansIndexStartTime = 454.63;
         //
-        myApp.val.status = myApp.state.Question;
-        myApp.val.numQues = 30;
-        myApp.val.cntPush = 0;
-        myApp.val.correctBool = false;
-        myApp.elem.text.innerHTML = "第"+myApp.val.numQues+"問";
-        myApp.elem.ansCol.value = "ここに解答を入力";
-        myApp.elem.ansCol.disabled = true;
-        myApp.elem.ansBtn.disabled = true;
-        if(Math.abs(window.orientation) != 90){ myApp.elem.pushBtn.src = myApp.elem.imgBtn1.src; }
+        quizManager.state = QUIZ_STATE.Question;
+        quizManager.quesNum = 30;
+        quizManager.cntPush = 0;
+        quizManager.correctBool = false;
+        MY_ELEM.text.innerHTML = "第"+quizManager.quesNum+"問";
+        MY_ELEM.ansCol.value = "ここに解答を入力";
+        MY_ELEM.ansCol.disabled = true;
+        MY_ELEM.ansBtn.disabled = true;
+        if(Math.abs(window.orientation) != 90){ MY_ELEM.pushBtn.src = quizManager.buttonImages[0].src; }
     },
-    function(){
-        myApp.val.status = myApp.state.Talk;
-        myApp.elem.ansCol.disabled = true;
-        myApp.elem.ansBtn.disabled = true;
-        myApp.elem.pushBtn.src = myApp.elem.imgBtn4.src;
+    () => {
+        quizManager.state = QUIZ_STATE.Talk;
+        MY_ELEM.ansCol.disabled = true;
+        MY_ELEM.ansBtn.disabled = true;
+        MY_ELEM.pushBtn.src = quizManager.buttonImages[3].src;
     },
 ];
 

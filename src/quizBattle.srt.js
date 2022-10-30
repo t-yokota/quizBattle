@@ -576,7 +576,6 @@ const myIntervalEvent = () => {
 //
 const myOnClickEvent = () => {
     if(Number(index) === 0){ // jump to init question.
-        console.log('here')
         let tmpTime = quizManager.firstQuesStartTime-0.1;
         if(quizManager.currTime.playing < tmpTime){
             MY_ELEM.ansBtn.disabled = true;
