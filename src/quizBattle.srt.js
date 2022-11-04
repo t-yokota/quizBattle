@@ -806,7 +806,7 @@ const initAppearance = async () => {
 /* set functions executed in each subtitle */
 quizManager.jumpToAnsBool = true;
 quizManager.hidePlayerBool = true;
-quizManager.disableSeekbarBool = true;
+quizManager.disableSeekbarBool = false;
 quizManager.firstQuesStartTime = 4.01;
 quizManager.srtFuncArray = [
     () => {
