@@ -346,11 +346,11 @@ const pushButton = () => {
     playSndPushBtn();
     if(USER_OS === 'iOS'){
         MY_ELEM.pushBtn.src = quizManager.buttonImages[2].src;
-        // if(USER_BROWSER === 'Chrome' || USER_BROWSER === 'Edge' || USER_BROWSER === 'Smooz'){
-        //         setTimeout(() => { focusToAnsCol(); }, 500); // In above browsers, focus() doesn't work by the script below.
-        // }else{
+        if(USER_BROWSER === 'Chrome' || USER_BROWSER === 'Edge' || USER_BROWSER === 'Smooz'){
+                setTimeout(() => { focusToAnsCol(); }, 500); // In above browsers, focus() doesn't work by the script below.
+        }else{
             focusToAnsCol(); // In iOS, focus() doesn't work properly in setTimeout (keyboard doesn't appear).
-        // }
+        }
     }else{
         MY_ELEM.pushBtn.src = quizManager.buttonImages[1].src;
         setTimeout(() => { MY_ELEM.pushBtn.src = quizManager.buttonImages[2].src; }, 100);    
