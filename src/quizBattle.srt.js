@@ -344,6 +344,7 @@ const pushButton = () => {
         hidePlayer();
     }
     playSndPushBtn();
+    focusToAnsCol();
     // if(USER_OS === 'iOS'){
     //     MY_ELEM.pushBtn.src = quizManager.buttonImages[2].src;
     //     // if(USER_BROWSER === 'Chrome' || USER_BROWSER === 'Edge' || USER_BROWSER === 'Smooz'){
@@ -353,8 +354,8 @@ const pushButton = () => {
     //     // }
     // }else{
         MY_ELEM.pushBtn.src = quizManager.buttonImages[1].src;
-        setTimeout(() => { MY_ELEM.pushBtn.src = quizManager.buttonImages[2].src; }, 100);    
-        setTimeout(() => { focusToAnsCol(); }, 500);
+        setTimeout(() => { MY_ELEM.pushBtn.src = quizManager.buttonImages[2].src; }, 100);
+        // setTimeout(() => { focusToAnsCol(); }, 500);
     // }
     quizManager.cntPush = quizManager.cntPush+1;
 }
