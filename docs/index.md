@@ -22,9 +22,10 @@
 
 # **＜お試しクイズ＞**
 
-デモ用に作成した**1分30秒、全5問**の短いクイズ動画で遊べます（音声なし）☞ <a href="https://t-yokota.github.io/srt.js/?v=E5200yjbvj8&surl=https://raw.githubusercontent.com/t-yokota/quizBattle/master/src/quizBattle.srt.js" target="_blank" rel="noopener noreferrer">**試してみる**</a>
+デモ用に作成した**1分30秒、全5問**の短いクイズ動画で遊べます（音声なし）
+<!-- ☞ <a href="https://t-yokota.github.io/srt.js/?v=E5200yjbvj8&surl=https://raw.githubusercontent.com/t-yokota/quizBattle/master/src/quizBattle.srt.js" target="_blank" rel="noopener noreferrer">**試してみる**</a> -->
 
-<!-- <table class="contents">
+<table class="contents">
     <tr>
         <td>
             <a href="https://t-yokota.github.io/srt.js/?v=E5200yjbvj8&surl=https://raw.githubusercontent.com/t-yokota/quizBattle/master/src/quizBattle.srt.js" target="_blank" rel="noopener noreferrer">
@@ -38,7 +39,7 @@
         <td>
         </td>
     </tr>
-</table> -->
+</table>
 
 # **＜abc the 12th＞**
 
