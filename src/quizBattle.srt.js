@@ -8,10 +8,10 @@ player.pauseVideo();
 const PATH = {
     answer : "https://raw.githubusercontent.com/t-yokota/quizBattle/master/src/answer.csv",
     sound  : "https://raw.githubusercontent.com/t-yokota/quizBattle/master/sounds/sounds_3.mp3",
-    btn1   : "https://github.com/t-yokota/quizBattle/raw/master/images/button_1.png",
-    btn2   : "https://github.com/t-yokota/quizBattle/raw/master/images/button_2.png",
-    btn3   : "https://github.com/t-yokota/quizBattle/raw/master/images/button_3.png",
-    btn4   : "https://github.com/t-yokota/quizBattle/raw/master/images/button_4.png",
+    btn1   : "https://github.com/t-yokota/quizBattle/raw/master/images/button_1.webp",
+    btn2   : "https://github.com/t-yokota/quizBattle/raw/master/images/button_2.webp",
+    btn3   : "https://github.com/t-yokota/quizBattle/raw/master/images/button_3.webp",
+    btn4   : "https://github.com/t-yokota/quizBattle/raw/master/images/button_4.webp",
 };
 const QUIZ_STATE = {
     Initializing : 0, // 初期化中
