@@ -11,7 +11,7 @@ const PATH = {
     btn1   : "https://github.com/t-yokota/quizBattle/raw/master/images/button_1.webp",
     btn2   : "https://github.com/t-yokota/quizBattle/raw/master/images/button_2.webp",
     btn3   : "https://github.com/t-yokota/quizBattle/raw/master/images/button_3.webp",
-    btn4   : "https://github.com/t-yokota/quizBattle/raw/master/images/button_4.webp,
+    btn4   : "https://github.com/t-yokota/quizBattle/raw/master/images/button_4.webp",
 };
 const QUIZ_STATE = {
     Initializing : 0, // 初期化中
