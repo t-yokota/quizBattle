@@ -656,21 +656,21 @@ if(USER_OS !== 'other'){
     MY_ELEM.numOX.style.display       = 'block';
     //
     quizManager.viewFuncArray = [
-        function(){
+        () => {
             document.getElementsByTagName("body")[0].appendChild(MY_ELEM.text);
             document.getElementsByTagName("body")[0].appendChild(MY_ELEM.ansBtn);
             // document.getElementsByTagName("body")[0].appendChild(MY_ELEM.pushBtn);
             document.getElementsByTagName("body")[0].appendChild(MY_ELEM.numOX);
             document.getElementsByTagName("body")[0].appendChild(MY_ELEM.paramText);
         },
-        function(){
+        () => {
             MY_ELEM.text.style.marginTop = '40px';
             MY_ELEM.text.style.marginBottom = '20px';
             MY_ELEM.subText.style.marginBottom = '40px';
             MY_ELEM.subText.style.padding = '0px 10px';
             document.getElementsByTagName("body")[0].insertBefore(MY_ELEM.subText, MY_ELEM.text.nextSibling);
         },
-        function(){
+        () => {
             MY_ELEM.text.style.marginTop    = '32px';
             MY_ELEM.text.style.marginBottom = '32px';
             MY_ELEM.text.parentNode.removeChild(MY_ELEM.subText);
