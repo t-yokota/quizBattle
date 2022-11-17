@@ -8,10 +8,7 @@ player.pauseVideo();
 const PATH = {
     answer : "https://raw.githubusercontent.com/t-yokota/quizBattle/master/src/answer.csv",
     sound  : "https://raw.githubusercontent.com/t-yokota/quizBattle/master/sounds/sounds_3.mp3",
-    btn1   : "https://github.com/t-yokota/quizBattle/raw/master/images/button_1.webp",
-    btn2   : "https://github.com/t-yokota/quizBattle/raw/master/images/button_2.webp",
-    btn3   : "https://github.com/t-yokota/quizBattle/raw/master/images/button_3.webp",
-    btn4   : "https://github.com/t-yokota/quizBattle/raw/master/images/button_4.webp",
+    button : "https://github.com/t-yokota/quizBattle/raw/master/images/button.webp",
 };
 const QUIZ_STATE = {
     Initializing : 0, // 初期化中
@@ -29,25 +26,23 @@ const KEY_CODE = {
     space : 32,
     enter : 13,
 };
+Object.freeze(PATH);
+Object.freeze(QUIZ_STATE);
+Object.freeze(VIDEO_STATE);
+Object.freeze(KEY_CODE);
+//
 const MY_ELEM = {
     text      : document.createElement("text"),
     subText   : document.createElement("text"),
     ansCol    : document.createElement("textarea"),
     ansBtn    : document.createElement("button"),
     numOX     : document.createElement("text"),
-    pushBtn   : document.createElement("img"),
-    paramText : document.createElement("text"),
+    pushBtn   : null,
     //
     divUI     : document.createElement('div'),
     divElem   : document.createElement('div'),
     divBtn    : document.createElement('div'),
 };
-Object.freeze(PATH);
-Object.freeze(QUIZ_STATE);
-Object.freeze(VIDEO_STATE);
-Object.freeze(KEY_CODE);
-Object.freeze(MY_ELEM);
-//
 const quizManager = {
     currIndex     : 0,
     srtFuncArray  : null,
@@ -68,6 +63,9 @@ const quizManager = {
     limPush     : 1,     // Maximum number of answers
     correctBool : false, // Result of answer
     ansIndex    : 0,
+    //
+    divBtnWidth : 0,
+    divBtnHeight : 0,
     //
     /* For time management */
     btnCheckInterval : {
@@ -238,41 +236,43 @@ const resizePlayer = () => {
 }
 //
 const resizePushButton = (playerHeight, elemHeight) => {
-    let pushBtnWidth, pushBtnHeight;
     if(USER_OS !== "other"){
         if(Math.abs(window.orientation) !== 90){
-            const tmpImgHeight = document.documentElement.clientHeight-playerHeight-elemHeight-20;
-            const tmpImgWidth  = MY_ELEM.pushBtn.naturalWidth*tmpImgHeight/MY_ELEM.pushBtn.naturalHeight;
-            if(tmpImgWidth < document.documentElement.clientWidth){
-                if(tmpImgHeight <= playerHeight){
-                    pushBtnWidth  = tmpImgWidth;
-                    pushBtnHeight = tmpImgHeight;
+            const tmpDivBtnHeight = document.documentElement.clientHeight-playerHeight-elemHeight-20;
+            const tmpDivBtnWidth  = MY_ELEM.pushBtn.naturalWidth*tmpDivBtnHeight/MY_ELEM.pushBtn.naturalHeight;
+            if(tmpDivBtnWidth < document.documentElement.clientWidth){
+                if(tmpDivBtnHeight <= playerHeight){
+                    quizManager.divBtnWidth  = tmpDivBtnWidth;
+                    quizManager.divBtnHeight = tmpDivBtnHeight;
                 }else{
-                    pushBtnWidth  = MY_ELEM.pushBtn.naturalWidth*playerHeight*1.25/MY_ELEM.pushBtn.naturalHeight;
-                    pushBtnHeight = playerHeight*1.25;
+                    quizManager.divBtnWidth  = MY_ELEM.pushBtn.naturalWidth*playerHeight*1.25/MY_ELEM.pushBtn.naturalHeight;
+                    quizManager.divBtnHeight = playerHeight*1.25;
                 }
             }else{
-                pushBtnWidth  = document.documentElement.clientWidth/5;
-                pushBtnHeight = MY_ELEM.pushBtn.naturalHeight*pushBtnWidth/MY_ELEM.pushBtn.naturalWidth;
+                quizManager.divBtnWidth  = document.documentElement.clientWidth/5;
+                quizManager.divBtnHeight = MY_ELEM.pushBtn.naturalHeight*quizManager.divBtnWidth/MY_ELEM.pushBtn.naturalWidth;
             }
         }else{
-            pushBtnWidth  = document.documentElement.clientWidth/5;
-            pushBtnHeight = MY_ELEM.pushBtn.naturalHeight*pushBtnWidth/MY_ELEM.pushBtn.naturalWidth;
+            quizManager.divBtnWidth  = 0;
+            quizManager.divBtnHeight = 0;
         }
-        MY_ELEM.pushBtn.style.margin = 'auto '+(document.documentElement.clientWidth-pushBtnWidth)/2+'px';
+        MY_ELEM.divBtn.style.margin = 'auto';
     }else{
-        pushBtnWidth  = document.getElementById("divbtn").clientWidth;
-        pushBtnHeight = MY_ELEM.pushBtn.naturalHeight*pushBtnWidth/MY_ELEM.pushBtn.naturalWidth;
-    } 
-    MY_ELEM.pushBtn.width  = pushBtnWidth;
-    MY_ELEM.pushBtn.height = pushBtnHeight;
+        quizManager.divBtnWidth  = document.getElementById('player').clientWidth*1/3;
+        quizManager.divBtnHeight = quizManager.divBtnWidth/MY_ELEM.pushBtn.naturalWidth*MY_ELEM.pushBtn.naturalHeight;
+        MY_ELEM.divBtn.style.top = (parseInt(MY_ELEM.divUI.style.height, 10)-quizManager.divBtnHeight)/2+'px';
+    }
+    MY_ELEM.divBtn.style.width = quizManager.divBtnWidth+'px';
+    MY_ELEM.divBtn.style.height = quizManager.divBtnHeight+'px';
+    MY_ELEM.pushBtn.width  = quizManager.divBtnWidth*2;
+    MY_ELEM.pushBtn.height = quizManager.divBtnHeight*2;
 }
 //
 const getPushButtonArea = () => {
-    let left   = MY_ELEM.pushBtn.getBoundingClientRect().left;
-    let right  = MY_ELEM.pushBtn.getBoundingClientRect().right;
-    let top    = MY_ELEM.pushBtn.getBoundingClientRect().top;
-    let bottom = MY_ELEM.pushBtn.getBoundingClientRect().bottom;
+    let left   = MY_ELEM.divBtn.getBoundingClientRect().left;
+    let right  = MY_ELEM.divBtn.getBoundingClientRect().right;
+    let top    = MY_ELEM.divBtn.getBoundingClientRect().top;
+    let bottom = MY_ELEM.divBtn.getBoundingClientRect().bottom;
     if(USER_OS === 'iOS'){ // In iOS, value of getBoundingClientRect is changed when the window is zoomed.
         left   += window.pageXOffset;
         right  += window.pageXOffset;
@@ -284,6 +284,22 @@ const getPushButtonArea = () => {
         right,
         top,
         bottom,
+    }
+}
+//
+const switchPushButton = (number) => {
+    if(number === 1){
+        MY_ELEM.pushBtn.style.left = '0px';
+        MY_ELEM.pushBtn.style.top  = '0px';
+    }else if(number === 2){
+        MY_ELEM.pushBtn.style.left = -quizManager.divBtnWidth +'px';
+        MY_ELEM.pushBtn.style.top  = '0px';
+    }else if(number === 3){
+        MY_ELEM.pushBtn.style.left = '0px';
+        MY_ELEM.pushBtn.style.top  = -quizManager.divBtnHeight+'px';
+    }else if(number === 4){
+        MY_ELEM.pushBtn.style.left = -quizManager.divBtnWidth +'px';
+        MY_ELEM.pushBtn.style.top  = -quizManager.divBtnHeight+'px';
     }
 }
 //
@@ -326,16 +342,16 @@ const jumpToAnswerIndex = (index, time) => {
 const buttonCheck = (responseInterval) => {
     playSndPushBtn();
     if(USER_OS === 'iOS'){
-        MY_ELEM.pushBtn.src = quizManager.buttonImages[2].src;
+        switchPushButton(3);
     }else{
-        MY_ELEM.pushBtn.src = quizManager.buttonImages[1].src;
+        switchPushButton(2);
         setTimeout(() => { 
-            MY_ELEM.pushBtn.src = quizManager.buttonImages[2].src; 
+            switchPushButton(3);
         }, 100);
     }
     setTimeout(() => {
         playSndO();
-        MY_ELEM.pushBtn.src = quizManager.buttonImages[0].src;
+        switchPushButton(1);
     }, responseInterval);
 }
 //
@@ -345,15 +361,15 @@ const pushButton = () => {
     }
     playSndPushBtn();
     if(USER_OS === 'iOS'){
-        MY_ELEM.pushBtn.src = quizManager.buttonImages[2].src;
+        switchPushButton(3);
         if(USER_BROWSER === 'Chrome' || USER_BROWSER === 'Edge' || USER_BROWSER === 'Smooz'){
                 setTimeout(() => { focusToAnsCol(); }, 500); // In above browsers, focus() doesn't work by the script below.
         }else{
             focusToAnsCol(); // In iOS, focus() doesn't work properly in setTimeout (keyboard doesn't appear).
         }
     }else{
-        MY_ELEM.pushBtn.src = quizManager.buttonImages[1].src;
-        setTimeout(() => { MY_ELEM.pushBtn.src = quizManager.buttonImages[2].src; }, 100);    
+        switchPushButton(2);
+        setTimeout(() => { switchPushButton(3); }, 100);
         setTimeout(() => { focusToAnsCol(); }, 500);
     }
     quizManager.cntPush = quizManager.cntPush+1;
@@ -411,12 +427,12 @@ const checkAnswer = () => {
     MY_ELEM.numOX.innerHTML  = "⭕️："+quizManager.cntO+"　❌："+quizManager.cntX;
     if(window.orientation !== 90){
         if(quizManager.correctBool === false && quizManager.limPush - quizManager.cntPush === 0){
-            MY_ELEM.pushBtn.src = quizManager.buttonImages[3].src;
+            switchPushButton(4);
         }else{
-            MY_ELEM.pushBtn.src = quizManager.buttonImages[0].src;
+            switchPushButton(1);
         }
     }else{
-        MY_ELEM.pushBtn.src = quizManager.buttonImages[3].src;
+        switchPushButton(4);
     }
     if(USER_OS !== 'other' && quizManager.hidePlayerBool === true){
         opposePlayer();
@@ -434,15 +450,15 @@ const myOrientationChangeEvent = () => {
         }
         if(Math.abs(window.orientation) !== 90){
             if(quizManager.state === QUIZ_STATE.MyAnswer){
-                MY_ELEM.pushBtn.src = quizManager.buttonImages[2].src;
+                switchPushButton(3);
             }else{
-                MY_ELEM.pushBtn.src = quizManager.buttonImages[0].src;
+                switchPushButton(1);
             }
             if(quizManager.state === QUIZ_STATE.ButtonCheck){
                 MY_ELEM.text.innerHTML = "早押しボタンをタップして動画を開始する";
             }
         }else{
-            MY_ELEM.pushBtn.src = quizManager.buttonImages[3].src;
+            switchPushButton(4);
             if(quizManager.state === QUIZ_STATE.ButtonCheck){
                 MY_ELEM.text.innerHTML = "端末を縦向きにしてクイズをはじめる";
             }
@@ -601,7 +617,6 @@ resizePlayer();
 //
 MY_ELEM.ansCol.id  = 'anscol';
 MY_ELEM.ansBtn.id  = 'ansbtn';
-MY_ELEM.pushBtn.id = 'pushbtn';
 MY_ELEM.divUI.id   = 'divui';
 MY_ELEM.divElem.id = 'divelem';
 MY_ELEM.divBtn.id  = 'divbtn';
@@ -615,15 +630,17 @@ if(USER_OS !== 'other'){
     MY_ELEM.text.innerHTML = "早押しボタンをタップして動画を開始する";
 }else{
     MY_ELEM.text.innerHTML = "QuizBattle on YouTube";
-    MY_ELEM.pushBtn.tabIndex = 0; // set tabindex for adding focus
 }
 //
 document.styleSheets.item(0).insertRule('html { touch-action: manipulation; }'); //disable double tap gesture
 document.styleSheets.item(0).insertRule('body { text-align: center; margin: auto; background: #EFEFEF; }');
-document.styleSheets.item(0).insertRule('.blinkImg { animation: blinkImg 0.7s infinite alternate; }');
-document.styleSheets.item(0).insertRule('@keyframes blinkImg{ 0% { opacity: 0.3; } 100% { opacity: 1; }}');
-document.styleSheets.item(0).insertRule('.blinkText { animation: blinkText 0.7s infinite alternate; }');
-document.styleSheets.item(0).insertRule('@keyframes blinkText{ 0% { opacity: 0; } 100% { opacity: 1; }}');
+document.styleSheets.item(0).insertRule('.blinkImg   { animation: blinkImg 0.7s infinite alternate; }');
+document.styleSheets.item(0).insertRule('@keyframes blinkImg { 0% { opacity: 0.3; } 100% { opacity: 1; }}');
+document.styleSheets.item(0).insertRule('.blinkText  { animation: blinkText 0.7s infinite alternate; }');
+document.styleSheets.item(0).insertRule('@keyframes blinkText{ 0% { opacity: 0;   } 100% { opacity: 1; }}');
+document.styleSheets.item(0).insertRule('div#divelem { float: left; display: flex; align-items: center; justify-content: center; flex-direction: column; }');
+document.styleSheets.item(0).insertRule('div#divbtn  { overflow: hidden; position: relative; transform-origin: left top; }');
+document.styleSheets.item(0).insertRule('img#pushbtn { position: absolute; left: 0px; top: 0px; }');
 //
 if(USER_OS !== 'other'){
     MY_ELEM.text.style.fontSize       = '42px';
@@ -657,24 +674,23 @@ if(USER_OS !== 'other'){
     //
     quizManager.viewFuncArray = [
         () => {
-            document.getElementsByTagName("body")[0].appendChild(MY_ELEM.text);
-            document.getElementsByTagName("body")[0].appendChild(MY_ELEM.ansBtn);
-            // document.getElementsByTagName("body")[0].appendChild(MY_ELEM.pushBtn);
-            document.getElementsByTagName("body")[0].appendChild(MY_ELEM.numOX);
-            document.getElementsByTagName("body")[0].appendChild(MY_ELEM.paramText);
+            document.querySelector('body').appendChild(MY_ELEM.text);
+            document.querySelector('body').appendChild(MY_ELEM.ansBtn);
+            // document.querySelector('body').appendChild(MY_ELEM.pushBtn);
+            document.querySelector('body').appendChild(MY_ELEM.numOX);
         },
         () => {
             MY_ELEM.text.style.marginTop = '40px';
             MY_ELEM.text.style.marginBottom = '20px';
             MY_ELEM.subText.style.marginBottom = '40px';
             MY_ELEM.subText.style.padding = '0px 10px';
-            document.getElementsByTagName("body")[0].insertBefore(MY_ELEM.subText, MY_ELEM.text.nextSibling);
+            document.querySelector('body').insertBefore(MY_ELEM.subText, MY_ELEM.text.nextSibling);
         },
         () => {
             MY_ELEM.text.style.marginTop    = '32px';
             MY_ELEM.text.style.marginBottom = '32px';
             MY_ELEM.text.parentNode.removeChild(MY_ELEM.subText);
-            document.getElementsByTagName("body")[0].insertBefore(MY_ELEM.ansCol, MY_ELEM.text.nextSibling);
+            document.querySelector('body').insertBefore(MY_ELEM.ansCol, MY_ELEM.text.nextSibling);
         },
     ];
     quizManager.viewFuncArray.shift()();
@@ -684,14 +700,11 @@ if(USER_OS !== 'other'){
     const divUIHeight  = playerHeight*0.9;
     const divUIWidth   = playerWidth;
     const divElemWidth = playerWidth*2/3;
-    const divBtnWidth  = playerWidth*1/3;
-    document.styleSheets.item(0).insertRule('body { width:'+playerWidth+'px; }');
-    document.styleSheets.item(0).insertRule('div#divui   { width:'+divUIWidth  +'px; height:'+divUIHeight+'px; }');
-    document.styleSheets.item(0).insertRule('div#divelem { width:'+divElemWidth+'px; height:'+divUIHeight+'px; float: left; display: flex; align-items: center; justify-content: center; flex-direction: column; }');
-    document.styleSheets.item(0).insertRule('div#divbtn  { width:'+divBtnWidth +'px; height:'+divUIHeight+'px; float: left; display: flex; align-items: center; justify-content: center; }');
-    document.getElementsByTagName("body")[0].appendChild(MY_ELEM.divUI);
-    MY_ELEM.divUI.appendChild(MY_ELEM.divElem);
-    MY_ELEM.divUI.appendChild(MY_ELEM.divBtn);
+    document.querySelector('body').style.width = playerWidth+'px';
+    MY_ELEM.divUI.style.width = divUIWidth+'px'; // set with an assignment to reference the value from elsewhere.
+    MY_ELEM.divUI.style.height = divUIHeight+'px';
+    MY_ELEM.divElem.style.width = divElemWidth+'px';
+    MY_ELEM.divElem.style.height = divUIHeight+'px';
     //
     MY_ELEM.text.style.fontSize      = '25px';
     MY_ELEM.text.style.lineHeight    = '45px';
@@ -712,12 +725,14 @@ if(USER_OS !== 'other'){
     MY_ELEM.numOX.style.fontWeight   = 'bold';
     MY_ELEM.numOX.style.display      = 'block';
     //
+    document.querySelector('body').appendChild(MY_ELEM.divUI);
+    MY_ELEM.divUI.appendChild(MY_ELEM.divElem);
+    //
     quizManager.viewFuncArray = [
         () => {
             MY_ELEM.text.style.margin  = '0px auto';
             MY_ELEM.text.style.padding = '0px 40px';
             document.getElementById("divelem").appendChild(MY_ELEM.text);
-            document.getElementById("divelem").appendChild(MY_ELEM.paramText);
         },
         () => {
             MY_ELEM.text.style.margin  = '0px auto 30px';
@@ -739,41 +754,44 @@ if(USER_OS !== 'other'){
     quizManager.viewFuncArray.shift()();
 }
 //
-const initAppearance = async () => {
+const initPageAppearance = () => {
+    /* append push button element */
+    if(USER_OS !== "other"){
+        document.querySelector('body').appendChild(MY_ELEM.divBtn);
+    }else{
+        MY_ELEM.divUI.appendChild(MY_ELEM.divBtn);
+    }
+    document.getElementById("divbtn").appendChild(MY_ELEM.pushBtn);
+    //
+    resizePlayer();
+    resizePushButton(document.getElementById('player').clientHeight, getElemHeight());
+    //
     if(USER_OS !== "other"){
         if(Math.abs(window.orientation) !== 90){
-            MY_ELEM.pushBtn.src = quizManager.buttonImages[0].src;
+            switchPushButton(1);
             MY_ELEM.text.innerHTML = "早押しボタンをタップして動画を開始する";
         }else{
-            MY_ELEM.pushBtn.src = quizManager.buttonImages[3].src;
+            switchPushButton(4);
             MY_ELEM.text.innerHTML = "端末を縦向きにしてクイズをはじめる";
             alert("このサイトはスマートフォン/タブレットを縦向きにしてお楽しみください。");
         }
+        MY_ELEM.pushBtn.className = "blinkImg";
     }else{
-        MY_ELEM.pushBtn.src = quizManager.buttonImages[0].src;
+        switchPushButton(1);
         if(detectTouchPanel() === true){
             MY_ELEM.subText.innerHTML = "<span class='blinkText'>スペースキーを押して動画を開始する</span>";
         }else{
             MY_ELEM.subText.innerHTML = "<span class='blinkText'>スペースキーを押して動画を開始する</span>";
         }
-    }
-    await MY_ELEM.pushBtn.decode().catch(() => alert("画像の読み込みに失敗しました。ページを再読み込みしてください。"));
-    resizePlayer();
-    resizePushButton(document.getElementById('player').clientHeight, getElemHeight());
-    if( USER_OS !== 'other' ){ 
-        MY_ELEM.pushBtn.className = "blinkImg";
-        document.getElementsByTagName("body")[0].appendChild(MY_ELEM.pushBtn);
-        // document.getElementsByTagName("body")[0].insertBefore(MY_ELEM.pushBtn, MY_ELEM.numOX);
-    } else {
-        document.getElementById("divbtn").appendChild(MY_ELEM.pushBtn); 
         quizManager.viewFuncArray.shift()(); 
     }
 }
 //
 (async () => {
     /* load push button image */
-    const list = [PATH.btn1, PATH.btn2, PATH.btn3, PATH.btn4];
-    quizManager.buttonImages = await Promise.all(list.map(path => loadImage(path)));
+    MY_ELEM.pushBtn = await loadImage(PATH.button);
+    MY_ELEM.pushBtn.id = 'pushbtn';
+    MY_ELEM.pushBtn.tabIndex = 0; // set tabindex for adding focus
     //
     /* load audio data */
     const audioContext = new AudioContext();
@@ -787,7 +805,7 @@ const initAppearance = async () => {
     const responseText = await response2.text();
     quizManager.ansArray = csvToArray(responseText);
     //
-    await initAppearance();
+    initPageAppearance();
     quizManager.state = QUIZ_STATE.ButtonCheck;
     //
     window.addEventListener('orientationchange', myOrientationChangeEvent);
@@ -824,13 +842,13 @@ quizManager.srtFuncArray = [
         MY_ELEM.ansCol.value = "ここに解答を入力";
         MY_ELEM.ansCol.disabled = true;
         MY_ELEM.ansBtn.disabled = true;
-        if(Math.abs(window.orientation) !== 90){ MY_ELEM.pushBtn.src = quizManager.buttonImages[0].src; }
+        if(Math.abs(window.orientation) !== 90){ switchPushButton(1); }
     },
     () => {
         quizManager.state = QUIZ_STATE.Talk;
         MY_ELEM.ansCol.disabled = true;
         MY_ELEM.ansBtn.disabled = true;
-        MY_ELEM.pushBtn.src = quizManager.buttonImages[3].src;
+        switchPushButton(4);
     },
     () => {
         /* 第2問 */
@@ -845,13 +863,13 @@ quizManager.srtFuncArray = [
         MY_ELEM.ansCol.value = "ここに解答を入力";
         MY_ELEM.ansCol.disabled = true;
         MY_ELEM.ansBtn.disabled = true;
-        if(Math.abs(window.orientation) !== 90){ MY_ELEM.pushBtn.src = quizManager.buttonImages[0].src; }
+        if(Math.abs(window.orientation) !== 90){ switchPushButton(1); }
     },
     () => {
         quizManager.state = QUIZ_STATE.Talk;
         MY_ELEM.ansCol.disabled = true;
         MY_ELEM.ansBtn.disabled = true;
-        MY_ELEM.pushBtn.src = quizManager.buttonImages[3].src;
+        switchPushButton(4);
     },
     () => {
         /* 第3問 */
@@ -866,13 +884,13 @@ quizManager.srtFuncArray = [
         MY_ELEM.ansCol.value = "ここに解答を入力";
         MY_ELEM.ansCol.disabled = true;
         MY_ELEM.ansBtn.disabled = true;
-        if(Math.abs(window.orientation) !== 90){ MY_ELEM.pushBtn.src = quizManager.buttonImages[0].src; }
+        if(Math.abs(window.orientation) !== 90){ switchPushButton(1); }
     },
     () => {
         quizManager.state = QUIZ_STATE.Talk;
         MY_ELEM.ansCol.disabled = true;
         MY_ELEM.ansBtn.disabled = true;
-        MY_ELEM.pushBtn.src = quizManager.buttonImages[3].src;
+        switchPushButton(4);
     },
     () => {
         /* 第4問 */
@@ -887,13 +905,13 @@ quizManager.srtFuncArray = [
         MY_ELEM.ansCol.value = "ここに解答を入力";
         MY_ELEM.ansCol.disabled = true;
         MY_ELEM.ansBtn.disabled = true;
-        if(Math.abs(window.orientation) !== 90){ MY_ELEM.pushBtn.src = quizManager.buttonImages[0].src; }
+        if(Math.abs(window.orientation) !== 90){ switchPushButton(1); }
     },
     () => {
         quizManager.state = QUIZ_STATE.Talk;
         MY_ELEM.ansCol.disabled = true;
         MY_ELEM.ansBtn.disabled = true;
-        MY_ELEM.pushBtn.src = quizManager.buttonImages[3].src;
+        switchPushButton(4);
     },
     () => {
         /* 第5問 */
@@ -908,13 +926,13 @@ quizManager.srtFuncArray = [
         MY_ELEM.ansCol.value = "ここに解答を入力";
         MY_ELEM.ansCol.disabled = true;
         MY_ELEM.ansBtn.disabled = true;
-        if(Math.abs(window.orientation) !== 90){ MY_ELEM.pushBtn.src = quizManager.buttonImages[0].src; }
+        if(Math.abs(window.orientation) !== 90){ switchPushButton(1); }
     },
     () => {
         quizManager.state = QUIZ_STATE.Talk;
         MY_ELEM.ansCol.disabled = true;
         MY_ELEM.ansBtn.disabled = true;
-        MY_ELEM.pushBtn.src = quizManager.buttonImages[3].src;
+        switchPushButton(4);
     },
 ];
 
