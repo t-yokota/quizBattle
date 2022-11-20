@@ -18,6 +18,12 @@ const QUIZ_STATE = {
     OthAnswer    : 4, // 他者が解答権を所持（早押し不可能）
     Talk         : 5, // その他
 };
+const BUTTON_STATE = {
+    standby  : 0,
+    pushed   : 1,
+    released : 2,
+    disabled : 3,
+}
 const VIDEO_STATE = {
     Playing : 1,
     Stopped : 2,
@@ -28,6 +34,7 @@ const KEY_CODE = {
 };
 Object.freeze(PATH);
 Object.freeze(QUIZ_STATE);
+Object.freeze(BUTTON_STATE);
 Object.freeze(VIDEO_STATE);
 Object.freeze(KEY_CODE);
 //
@@ -287,17 +294,17 @@ const getPushButtonArea = () => {
     }
 }
 //
-const switchPushButton = (number) => {
-    if(number === 1){
+const switchPushButton = (button_state) => {
+    if(button_state === BUTTON_STATE.standby){
         MY_ELEM.pushBtn.style.left = '0px';
         MY_ELEM.pushBtn.style.top  = '0px';
-    }else if(number === 2){
+    }else if(button_state === BUTTON_STATE.pushed){
         MY_ELEM.pushBtn.style.left = -quizManager.divBtnWidth +'px';
         MY_ELEM.pushBtn.style.top  = '0px';
-    }else if(number === 3){
+    }else if(button_state === BUTTON_STATE.released){
         MY_ELEM.pushBtn.style.left = '0px';
         MY_ELEM.pushBtn.style.top  = -quizManager.divBtnHeight+'px';
-    }else if(number === 4){
+    }else if(button_state === BUTTON_STATE.disabled){
         MY_ELEM.pushBtn.style.left = -quizManager.divBtnWidth +'px';
         MY_ELEM.pushBtn.style.top  = -quizManager.divBtnHeight+'px';
     }
@@ -342,16 +349,16 @@ const jumpToAnswerIndex = (index, time) => {
 const buttonCheck = (responseInterval) => {
     playSndPushBtn();
     if(USER_OS === 'iOS'){
-        switchPushButton(3);
+        switchPushButton(BUTTON_STATE.released);
     }else{
-        switchPushButton(2);
+        switchPushButton(BUTTON_STATE.pushed);
         setTimeout(() => { 
-            switchPushButton(3);
+            switchPushButton(BUTTON_STATE.released);
         }, 100);
     }
     setTimeout(() => {
         playSndO();
-        switchPushButton(1);
+        switchPushButton(BUTTON_STATE.standby);
     }, responseInterval);
 }
 //
@@ -361,15 +368,15 @@ const pushButton = () => {
     }
     playSndPushBtn();
     if(USER_OS === 'iOS'){
-        switchPushButton(3);
+        switchPushButton(BUTTON_STATE.released);
         if(USER_BROWSER === 'Chrome' || USER_BROWSER === 'Edge' || USER_BROWSER === 'Smooz'){
                 setTimeout(() => { focusToAnsCol(); }, 500); // In above browsers, focus() doesn't work by the script below.
         }else{
             focusToAnsCol(); // In iOS, focus() doesn't work properly in setTimeout (keyboard doesn't appear).
         }
     }else{
-        switchPushButton(2);
-        setTimeout(() => { switchPushButton(3); }, 100);
+        switchPushButton(BUTTON_STATE.pushed);
+        setTimeout(() => { switchPushButton(BUTTON_STATE.released); }, 100);
         setTimeout(() => { focusToAnsCol(); }, 500);
     }
     quizManager.cntPush = quizManager.cntPush+1;
@@ -426,13 +433,13 @@ const checkAnswer = () => {
     }
     MY_ELEM.numOX.innerHTML  = "⭕️："+quizManager.cntO+"　❌："+quizManager.cntX;
     if(window.orientation !== 90){
-        if(quizManager.correctBool === false && quizManager.limPush - quizManager.cntPush === 0){
-            switchPushButton(4);
+        if(quizManager.correctBool === true || quizManager.limPush - quizManager.cntPush === 0){
+            switchPushButton(BUTTON_STATE.disabled);
         }else{
-            switchPushButton(1);
+            switchPushButton(BUTTON_STATE.standby);
         }
     }else{
-        switchPushButton(4);
+        switchPushButton(BUTTON_STATE.disabled);
     }
     if(USER_OS !== 'other' && quizManager.hidePlayerBool === true){
         opposePlayer();
@@ -450,15 +457,15 @@ const myOrientationChangeEvent = () => {
         }
         if(Math.abs(window.orientation) !== 90){
             if(quizManager.state === QUIZ_STATE.MyAnswer){
-                switchPushButton(3);
+                switchPushButton(BUTTON_STATE.released);
             }else{
-                switchPushButton(1);
+                switchPushButton(BUTTON_STATE.standby);
             }
             if(quizManager.state === QUIZ_STATE.ButtonCheck){
                 MY_ELEM.text.innerHTML = "早押しボタンをタップして動画を開始する";
             }
         }else{
-            switchPushButton(4);
+            switchPushButton(BUTTON_STATE.disabled);
             if(quizManager.state === QUIZ_STATE.ButtonCheck){
                 MY_ELEM.text.innerHTML = "端末を縦向きにしてクイズをはじめる";
             }
@@ -768,16 +775,16 @@ const initPageAppearance = () => {
     //
     if(USER_OS !== "other"){
         if(Math.abs(window.orientation) !== 90){
-            switchPushButton(1);
+            switchPushButton(BUTTON_STATE.standby);
             MY_ELEM.text.innerHTML = "早押しボタンをタップして動画を開始する";
         }else{
-            switchPushButton(4);
+            switchPushButton(BUTTON_STATE.disabled);
             MY_ELEM.text.innerHTML = "端末を縦向きにしてクイズをはじめる";
             alert("このサイトはスマートフォン/タブレットを縦向きにしてお楽しみください。");
         }
         MY_ELEM.pushBtn.className = "blinkImg";
     }else{
-        switchPushButton(1);
+        switchPushButton(BUTTON_STATE.standby);
         if(detectTouchPanel() === true){
             MY_ELEM.subText.innerHTML = "<span class='blinkText'>スペースキーを押して動画を開始する</span>";
         }else{
@@ -842,13 +849,13 @@ quizManager.srtFuncArray = [
         MY_ELEM.ansCol.value = "ここに解答を入力";
         MY_ELEM.ansCol.disabled = true;
         MY_ELEM.ansBtn.disabled = true;
-        if(Math.abs(window.orientation) !== 90){ switchPushButton(1); }
+        if(Math.abs(window.orientation) !== 90){ switchPushButton(BUTTON_STATE.standby); }
     },
     () => {
         quizManager.state = QUIZ_STATE.Talk;
         MY_ELEM.ansCol.disabled = true;
         MY_ELEM.ansBtn.disabled = true;
-        switchPushButton(4);
+        switchPushButton(BUTTON_STATE.disabled);
     },
     () => {
         /* 第2問 */
@@ -863,13 +870,13 @@ quizManager.srtFuncArray = [
         MY_ELEM.ansCol.value = "ここに解答を入力";
         MY_ELEM.ansCol.disabled = true;
         MY_ELEM.ansBtn.disabled = true;
-        if(Math.abs(window.orientation) !== 90){ switchPushButton(1); }
+        if(Math.abs(window.orientation) !== 90){ switchPushButton(BUTTON_STATE.standby); }
     },
     () => {
         quizManager.state = QUIZ_STATE.Talk;
         MY_ELEM.ansCol.disabled = true;
         MY_ELEM.ansBtn.disabled = true;
-        switchPushButton(4);
+        switchPushButton(BUTTON_STATE.disabled);
     },
     () => {
         /* 第3問 */
@@ -884,13 +891,13 @@ quizManager.srtFuncArray = [
         MY_ELEM.ansCol.value = "ここに解答を入力";
         MY_ELEM.ansCol.disabled = true;
         MY_ELEM.ansBtn.disabled = true;
-        if(Math.abs(window.orientation) !== 90){ switchPushButton(1); }
+        if(Math.abs(window.orientation) !== 90){ switchPushButton(BUTTON_STATE.standby); }
     },
     () => {
         quizManager.state = QUIZ_STATE.Talk;
         MY_ELEM.ansCol.disabled = true;
         MY_ELEM.ansBtn.disabled = true;
-        switchPushButton(4);
+        switchPushButton(BUTTON_STATE.disabled);
     },
     () => {
         /* 第4問 */
@@ -905,17 +912,17 @@ quizManager.srtFuncArray = [
         MY_ELEM.ansCol.value = "ここに解答を入力";
         MY_ELEM.ansCol.disabled = true;
         MY_ELEM.ansBtn.disabled = true;
-        if(Math.abs(window.orientation) !== 90){ switchPushButton(1); }
+        if(Math.abs(window.orientation) !== 90){ switchPushButton(BUTTON_STATE.standby); }
     },
     () => {
         quizManager.state = QUIZ_STATE.Talk;
         MY_ELEM.ansCol.disabled = true;
         MY_ELEM.ansBtn.disabled = true;
-        switchPushButton(4);
+        switchPushButton(BUTTON_STATE.disabled);
     },
     () => {
         /* 第5問 */
-        quizManager.ansIndex = 10;
+        quizManager.ansIndex = 10;BUTTON_STATE
         quizManager.ansIndexStartTime = 84.39;
         //
         quizManager.state = QUIZ_STATE.Question;
@@ -926,13 +933,13 @@ quizManager.srtFuncArray = [
         MY_ELEM.ansCol.value = "ここに解答を入力";
         MY_ELEM.ansCol.disabled = true;
         MY_ELEM.ansBtn.disabled = true;
-        if(Math.abs(window.orientation) !== 90){ switchPushButton(1); }
+        if(Math.abs(window.orientation) !== 90){ switchPushButton(BUTTON_STATE.standby); }
     },
     () => {
         quizManager.state = QUIZ_STATE.Talk;
         MY_ELEM.ansCol.disabled = true;
         MY_ELEM.ansBtn.disabled = true;
-        switchPushButton(4);
+        switchPushButton(BUTTON_STATE.disabled);
     },
 ];
 
