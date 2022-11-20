@@ -636,7 +636,7 @@ myElem.numOX.innerHTML  = "⭕️："+quizManager.cntO+"　❌："+quizManager.c
 if(USER_OS !== 'other'){
     myElem.text.innerHTML = "早押しボタンをタップして動画を開始する";
 }else{
-    myElem.text.innerHTML = "QuizBattle on YouTube";
+    myElem.text.innerHTML = "QuizBattle with YouTube";
 }
 //
 document.styleSheets.item(0).insertRule('html { touch-action: manipulation; }'); //disable double tap gesture

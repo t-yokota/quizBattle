@@ -22,7 +22,8 @@
 
 # **＜お試しクイズ＞**
 
-デモ用に作成した**1分30秒、全5問**の短いクイズ動画で遊べます（音声なし）
+デモ用に作成した**1分30秒、全5問**の短いクイズ動画で遊べます<br>
+（動画は音声なし、早押しボタンの音が出ます）
 <!-- ☞ <a href="https://t-yokota.github.io/srt.js/?v=E5200yjbvj8&surl=https://raw.githubusercontent.com/t-yokota/quizBattle/master/src/quizBattle.srt.js" target="_blank" rel="noopener noreferrer">**試してみる**</a> -->
 
 <table class="contents">
