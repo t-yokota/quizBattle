@@ -8,10 +8,7 @@ player.pauseVideo();
 const PATH = {
     answer : "https://raw.githubusercontent.com/t-yokota/quizBattle/master/contents/lamy_abc_12th/answer-3.csv",
     sound  : "https://raw.githubusercontent.com/t-yokota/quizBattle/master/sounds/sounds_3.mp3",
-    btn1   : "https://github.com/t-yokota/quizBattle/raw/master/images/button_1.webp",
-    btn2   : "https://github.com/t-yokota/quizBattle/raw/master/images/button_2.webp",
-    btn3   : "https://github.com/t-yokota/quizBattle/raw/master/images/button_3.webp",
-    btn4   : "https://github.com/t-yokota/quizBattle/raw/master/images/button_4.webp",
+    button : "https://github.com/t-yokota/quizBattle/raw/master/images/button.webp",
 };
 const QUIZ_STATE = {
     Initializing : 0, // 初期化中
@@ -21,6 +18,12 @@ const QUIZ_STATE = {
     OthAnswer    : 4, // 他者が解答権を所持（早押し不可能）
     Talk         : 5, // その他
 };
+const BUTTON_STATE = {
+    standby  : 0,
+    pushed   : 1,
+    released : 2,
+    disabled : 3,
+}
 const VIDEO_STATE = {
     Playing : 1,
     Stopped : 2,
@@ -29,25 +32,24 @@ const KEY_CODE = {
     space : 32,
     enter : 13,
 };
-const MY_ELEM = {
+Object.freeze(PATH);
+Object.freeze(QUIZ_STATE);
+Object.freeze(BUTTON_STATE);
+Object.freeze(VIDEO_STATE);
+Object.freeze(KEY_CODE);
+//
+const myElem = {
     text      : document.createElement("text"),
     subText   : document.createElement("text"),
     ansCol    : document.createElement("textarea"),
     ansBtn    : document.createElement("button"),
     numOX     : document.createElement("text"),
-    pushBtn   : document.createElement("img"),
-    paramText : document.createElement("text"),
+    pushBtn   : null,
     //
     divUI     : document.createElement('div'),
     divElem   : document.createElement('div'),
     divBtn    : document.createElement('div'),
 };
-Object.freeze(PATH);
-Object.freeze(QUIZ_STATE);
-Object.freeze(VIDEO_STATE);
-Object.freeze(KEY_CODE);
-Object.freeze(MY_ELEM);
-//
 const quizManager = {
     currIndex     : 0,
     srtFuncArray  : null,
@@ -68,6 +70,9 @@ const quizManager = {
     limPush     : 1,     // Maximum number of answers
     correctBool : false, // Result of answer
     ansIndex    : 0,
+    //
+    divBtnWidth : 0,
+    divBtnHeight : 0,
     //
     /* For time management */
     btnCheckInterval : {
@@ -195,14 +200,14 @@ const playSndX = () => {
 const getElemHeight = () => {
     let response = 0;
     if(USER_OS !== 'other'){
-        response += parseInt(MY_ELEM.text.style.lineHeight, 10);
-        response += parseInt(MY_ELEM.text.style.marginTop, 10);
-        response += parseInt(MY_ELEM.text.style.marginBottom, 10);
-        response += parseInt(MY_ELEM.ansCol.style.height, 10);
-        response += parseInt(MY_ELEM.ansCol.style.marginBottom, 10);
-        response += parseInt(MY_ELEM.ansBtn.style.height, 10);
-        response += parseInt(MY_ELEM.ansBtn.style.marginBottom, 10);
-        response += parseInt(MY_ELEM.numOX.style.lineHeight, 10);
+        response += parseInt(myElem.text.style.lineHeight, 10);
+        response += parseInt(myElem.text.style.marginTop, 10);
+        response += parseInt(myElem.text.style.marginBottom, 10);
+        response += parseInt(myElem.ansCol.style.height, 10);
+        response += parseInt(myElem.ansCol.style.marginBottom, 10);
+        response += parseInt(myElem.ansBtn.style.height, 10);
+        response += parseInt(myElem.ansBtn.style.marginBottom, 10);
+        response += parseInt(myElem.numOX.style.lineHeight, 10);
     }
     return response
 }
@@ -219,9 +224,9 @@ const resizePlayer = () => {
             playerHeight = playerWidth/16*9;
         }
         if(USER_OS === 'Android' && USER_BROWSER === "Firefox"){ // set special width of anscol to prevent the window is zoomed when the focus moveds to anscol.
-            MY_ELEM.ansCol.style.width = playerWidth*0.98+'px';
+            myElem.ansCol.style.width = playerWidth*0.98+'px';
         }else{
-            MY_ELEM.ansCol.style.width = playerWidth*0.9+'px';
+            myElem.ansCol.style.width = playerWidth*0.9+'px';
         }
     }else{
         const tmpPlayerHeight = document.documentElement.clientHeight/2;
@@ -238,41 +243,43 @@ const resizePlayer = () => {
 }
 //
 const resizePushButton = (playerHeight, elemHeight) => {
-    let pushBtnWidth, pushBtnHeight;
     if(USER_OS !== "other"){
         if(Math.abs(window.orientation) !== 90){
-            const tmpImgHeight = document.documentElement.clientHeight-playerHeight-elemHeight-20;
-            const tmpImgWidth  = MY_ELEM.pushBtn.naturalWidth*tmpImgHeight/MY_ELEM.pushBtn.naturalHeight;
-            if(tmpImgWidth < document.documentElement.clientWidth){
-                if(tmpImgHeight <= playerHeight){
-                    pushBtnWidth  = tmpImgWidth;
-                    pushBtnHeight = tmpImgHeight;
+            const tmpDivBtnHeight = document.documentElement.clientHeight-playerHeight-elemHeight-20;
+            const tmpDivBtnWidth  = myElem.pushBtn.naturalWidth*tmpDivBtnHeight/myElem.pushBtn.naturalHeight;
+            if(tmpDivBtnWidth < document.documentElement.clientWidth){
+                if(tmpDivBtnHeight <= playerHeight){
+                    quizManager.divBtnWidth  = tmpDivBtnWidth;
+                    quizManager.divBtnHeight = tmpDivBtnHeight;
                 }else{
-                    pushBtnWidth  = MY_ELEM.pushBtn.naturalWidth*playerHeight*1.25/MY_ELEM.pushBtn.naturalHeight;
-                    pushBtnHeight = playerHeight*1.25;
+                    quizManager.divBtnWidth  = myElem.pushBtn.naturalWidth*playerHeight*1.25/myElem.pushBtn.naturalHeight;
+                    quizManager.divBtnHeight = playerHeight*1.25;
                 }
             }else{
-                pushBtnWidth  = document.documentElement.clientWidth/5;
-                pushBtnHeight = MY_ELEM.pushBtn.naturalHeight*pushBtnWidth/MY_ELEM.pushBtn.naturalWidth;
+                quizManager.divBtnWidth  = document.documentElement.clientWidth/5;
+                quizManager.divBtnHeight = myElem.pushBtn.naturalHeight*quizManager.divBtnWidth/myElem.pushBtn.naturalWidth;
             }
         }else{
-            pushBtnWidth  = document.documentElement.clientWidth/5;
-            pushBtnHeight = MY_ELEM.pushBtn.naturalHeight*pushBtnWidth/MY_ELEM.pushBtn.naturalWidth;
+            quizManager.divBtnWidth  = 0;
+            quizManager.divBtnHeight = 0;
         }
-        MY_ELEM.pushBtn.style.margin = 'auto '+(document.documentElement.clientWidth-pushBtnWidth)/2+'px';
+        myElem.divBtn.style.margin = 'auto';
     }else{
-        pushBtnWidth  = document.getElementById("divbtn").clientWidth;
-        pushBtnHeight = MY_ELEM.pushBtn.naturalHeight*pushBtnWidth/MY_ELEM.pushBtn.naturalWidth;
-    } 
-    MY_ELEM.pushBtn.width  = pushBtnWidth;
-    MY_ELEM.pushBtn.height = pushBtnHeight;
+        quizManager.divBtnWidth  = document.getElementById('player').clientWidth*1/3;
+        quizManager.divBtnHeight = quizManager.divBtnWidth/myElem.pushBtn.naturalWidth*myElem.pushBtn.naturalHeight;
+        myElem.divBtn.style.top = (parseInt(myElem.divUI.style.height, 10)-quizManager.divBtnHeight)/2+'px';
+    }
+    myElem.divBtn.style.width = quizManager.divBtnWidth+'px';
+    myElem.divBtn.style.height = quizManager.divBtnHeight+'px';
+    myElem.pushBtn.width  = quizManager.divBtnWidth*2;
+    myElem.pushBtn.height = quizManager.divBtnHeight*2;
 }
 //
 const getPushButtonArea = () => {
-    let left   = MY_ELEM.pushBtn.getBoundingClientRect().left;
-    let right  = MY_ELEM.pushBtn.getBoundingClientRect().right;
-    let top    = MY_ELEM.pushBtn.getBoundingClientRect().top;
-    let bottom = MY_ELEM.pushBtn.getBoundingClientRect().bottom;
+    let left   = myElem.divBtn.getBoundingClientRect().left;
+    let right  = myElem.divBtn.getBoundingClientRect().right;
+    let top    = myElem.divBtn.getBoundingClientRect().top;
+    let bottom = myElem.divBtn.getBoundingClientRect().bottom;
     if(USER_OS === 'iOS'){ // In iOS, value of getBoundingClientRect is changed when the window is zoomed.
         left   += window.pageXOffset;
         right  += window.pageXOffset;
@@ -284,6 +291,22 @@ const getPushButtonArea = () => {
         right,
         top,
         bottom,
+    }
+}
+//
+const switchPushButton = (button_state) => {
+    if(button_state === BUTTON_STATE.standby){
+        myElem.pushBtn.style.left = '0px';
+        myElem.pushBtn.style.top  = '0px';
+    }else if(button_state === BUTTON_STATE.pushed){
+        myElem.pushBtn.style.left = -quizManager.divBtnWidth +'px';
+        myElem.pushBtn.style.top  = '0px';
+    }else if(button_state === BUTTON_STATE.released){
+        myElem.pushBtn.style.left = '0px';
+        myElem.pushBtn.style.top  = -quizManager.divBtnHeight+'px';
+    }else if(button_state === BUTTON_STATE.disabled){
+        myElem.pushBtn.style.left = -quizManager.divBtnWidth +'px';
+        myElem.pushBtn.style.top  = -quizManager.divBtnHeight+'px';
     }
 }
 //
@@ -311,10 +334,10 @@ const instantFocusToElement = (focusUsableElement) => {
 }
 //
 const focusToAnsCol = () => {
-    MY_ELEM.ansBtn.disabled = false;
-    MY_ELEM.ansCol.disabled = false;
-    MY_ELEM.ansCol.value = "";
-    MY_ELEM.ansCol.focus();
+    myElem.ansBtn.disabled = false;
+    myElem.ansCol.disabled = false;
+    myElem.ansCol.value = "";
+    myElem.ansCol.focus();
 }
 //
 const jumpToAnswerIndex = (index, time) => {
@@ -326,16 +349,16 @@ const jumpToAnswerIndex = (index, time) => {
 const buttonCheck = (responseInterval) => {
     playSndPushBtn();
     if(USER_OS === 'iOS'){
-        MY_ELEM.pushBtn.src = quizManager.buttonImages[2].src;
+        switchPushButton(BUTTON_STATE.released);
     }else{
-        MY_ELEM.pushBtn.src = quizManager.buttonImages[1].src;
+        switchPushButton(BUTTON_STATE.pushed);
         setTimeout(() => { 
-            MY_ELEM.pushBtn.src = quizManager.buttonImages[2].src; 
+            switchPushButton(BUTTON_STATE.released);
         }, 100);
     }
     setTimeout(() => {
         playSndO();
-        MY_ELEM.pushBtn.src = quizManager.buttonImages[0].src;
+        switchPushButton(BUTTON_STATE.standby);
     }, responseInterval);
 }
 //
@@ -345,15 +368,15 @@ const pushButton = () => {
     }
     playSndPushBtn();
     if(USER_OS === 'iOS'){
-        MY_ELEM.pushBtn.src = quizManager.buttonImages[2].src;
+        switchPushButton(BUTTON_STATE.released);
         if(USER_BROWSER === 'Chrome' || USER_BROWSER === 'Edge' || USER_BROWSER === 'Smooz'){
                 setTimeout(() => { focusToAnsCol(); }, 500); // In above browsers, focus() doesn't work by the script below.
         }else{
             focusToAnsCol(); // In iOS, focus() doesn't work properly in setTimeout (keyboard doesn't appear).
         }
     }else{
-        MY_ELEM.pushBtn.src = quizManager.buttonImages[1].src;
-        setTimeout(() => { MY_ELEM.pushBtn.src = quizManager.buttonImages[2].src; }, 100);    
+        switchPushButton(BUTTON_STATE.pushed);
+        setTimeout(() => { switchPushButton(BUTTON_STATE.released); }, 100);
         setTimeout(() => { focusToAnsCol(); }, 500);
     }
     quizManager.cntPush = quizManager.cntPush+1;
@@ -362,19 +385,19 @@ const pushButton = () => {
 const myButtonAction = () => {
     if(quizManager.state === QUIZ_STATE.ButtonCheck){
         quizManager.state = QUIZ_STATE.Talk;
-        MY_ELEM.pushBtn.className = "";
+        myElem.pushBtn.className = "";
         buttonCheck(quizManager.btnCheckInterval.playSound);
         setTimeout(() => {
             player.playVideo();
-            MY_ELEM.ansBtn.disabled = false;
+            myElem.ansBtn.disabled = false;
             if(USER_OS !== 'other'){
                 quizManager.viewFuncArray.shift()();
-                MY_ELEM.text.innerHTML = "＜ 遊び方 ＞";
-                MY_ELEM.subText.innerHTML = "画面上の早押しボタンで<br>動画内のクイズに参加することができます";
+                myElem.text.innerHTML = "＜ 遊び方 ＞";
+                myElem.subText.innerHTML = "画面上の早押しボタンで<br>動画内のクイズに参加することができます";
             }else{
                 quizManager.viewFuncArray.shift()();
-                MY_ELEM.text.innerHTML = "＜ 遊び方 ＞"
-                MY_ELEM.subText.innerHTML = "スペースキーを早押しボタンにして<br>動画内のクイズに参加することができます";
+                myElem.text.innerHTML = "＜ 遊び方 ＞"
+                myElem.subText.innerHTML = "スペースキーを早押しボタンにして<br>動画内のクイズに参加することができます";
             }
         }, quizManager.btnCheckInterval.playVideo);
     }
@@ -387,10 +410,10 @@ const myButtonAction = () => {
 //
 const checkAnswer = () => {
     quizManager.correctBool = false;
-    MY_ELEM.ansCol.blur();
-    MY_ELEM.ansCol.disabled = true;
-    MY_ELEM.ansBtn.disabled = true;
-    const answer = MY_ELEM.ansCol.value;
+    myElem.ansCol.blur();
+    myElem.ansCol.disabled = true;
+    myElem.ansBtn.disabled = true;
+    const answer = myElem.ansCol.value;
     const length = quizManager.ansArray[quizManager.quesNum-1].length;
     for(let i = 0; i < length; i++){
         if(answer.valueOf() === quizManager.ansArray[quizManager.quesNum-1][i].valueOf()){
@@ -400,23 +423,23 @@ const checkAnswer = () => {
     if(quizManager.correctBool === true){
         playSndO();
         quizManager.cntO += 1;
-        MY_ELEM.text.innerHTML = "正解！";
+        myElem.text.innerHTML = "正解！";
         if(quizManager.jumpToAnsBool){ jumpToAnswerIndex(quizManager.ansIndex, quizManager.ansIndexStartTime); }
     }else{
         playSndX();
         quizManager.cntX += 1;
-        MY_ELEM.text.innerHTML = "不正解！"; //あと"+(quizManager.limPush-quizManager.cntPush)+"回解答できます。";
+        myElem.text.innerHTML = "不正解！"; //あと"+(quizManager.limPush-quizManager.cntPush)+"回解答できます。";
         if(quizManager.jumpToAnsBool){ jumpToAnswerIndex(quizManager.ansIndex, quizManager.ansIndexStartTime); }
     }
-    MY_ELEM.numOX.innerHTML  = "⭕️："+quizManager.cntO+"　❌："+quizManager.cntX;
+    myElem.numOX.innerHTML  = "⭕️："+quizManager.cntO+"　❌："+quizManager.cntX;
     if(window.orientation !== 90){
-        if(quizManager.correctBool === false && quizManager.limPush - quizManager.cntPush === 0){
-            MY_ELEM.pushBtn.src = quizManager.buttonImages[3].src;
+        if(quizManager.correctBool === true || quizManager.limPush - quizManager.cntPush === 0){
+            switchPushButton(BUTTON_STATE.disabled);
         }else{
-            MY_ELEM.pushBtn.src = quizManager.buttonImages[0].src;
+            switchPushButton(BUTTON_STATE.standby);
         }
     }else{
-        MY_ELEM.pushBtn.src = quizManager.buttonImages[3].src;
+        switchPushButton(BUTTON_STATE.disabled);
     }
     if(USER_OS !== 'other' && quizManager.hidePlayerBool === true){
         opposePlayer();
@@ -434,17 +457,17 @@ const myOrientationChangeEvent = () => {
         }
         if(Math.abs(window.orientation) !== 90){
             if(quizManager.state === QUIZ_STATE.MyAnswer){
-                MY_ELEM.pushBtn.src = quizManager.buttonImages[2].src;
+                switchPushButton(BUTTON_STATE.released);
             }else{
-                MY_ELEM.pushBtn.src = quizManager.buttonImages[0].src;
+                switchPushButton(BUTTON_STATE.standby);
             }
             if(quizManager.state === QUIZ_STATE.ButtonCheck){
-                MY_ELEM.text.innerHTML = "早押しボタンをタップして動画を開始する";
+                myElem.text.innerHTML = "早押しボタンをタップして動画を開始する";
             }
         }else{
-            MY_ELEM.pushBtn.src = quizManager.buttonImages[3].src;
+            switchPushButton(BUTTON_STATE.disabled);
             if(quizManager.state === QUIZ_STATE.ButtonCheck){
-                MY_ELEM.text.innerHTML = "端末を縦向きにしてクイズをはじめる";
+                myElem.text.innerHTML = "端末を縦向きにしてクイズをはじめる";
             }
             alert("このサイトはスマートフォン/タブレットを縦向きにしてお楽しみください。");
         }
@@ -554,7 +577,7 @@ const myIntervalEvent = () => {
         if(quizManager.state === QUIZ_STATE.MyAnswer){ // answer time managemant
             if(document.activeElement.id === "anscol" || quizManager.ansTime.elapsed !== 0){
                 quizManager.ansTime.elapsed += interval;
-                MY_ELEM.text.innerHTML = "のこり"+Math.floor((quizManager.ansTime.limit-quizManager.ansTime.elapsed)/1000+1)+"秒";
+                myElem.text.innerHTML = "のこり"+Math.floor((quizManager.ansTime.limit-quizManager.ansTime.elapsed)/1000+1)+"秒";
                 if(quizManager.ansTime.elapsed >= quizManager.ansTime.limit){
                     checkAnswer();
                     if(quizManager.correctBool === true || quizManager.limPush - quizManager.cntPush === 0){
@@ -567,7 +590,7 @@ const myIntervalEvent = () => {
             }
         }else{
             if(USER_OS === 'other' && document.activeElement.id === "player"){
-                instantFocusToElement(MY_ELEM.pushBtn); // preparation of js keydown event
+                instantFocusToElement(myElem.pushBtn); // preparation of js keydown event
             }
             quizManager.ansTime.elapsed = 0;
         }
@@ -578,7 +601,7 @@ const myOnClickEvent = () => {
     if(Number(index) === 0){ // jump to init question.
         let tmpTime = quizManager.firstQuesStartTime-0.1;
         if(quizManager.currTime.playing < tmpTime){
-            MY_ELEM.ansBtn.disabled = true;
+            myElem.ansBtn.disabled = true;
             quizManager.watchedTime = tmpTime;
             player.seekTo(tmpTime);
         }
@@ -599,82 +622,82 @@ const USER_OS = fetchOSType();
 const USER_BROWSER = fetchBrowserType();
 resizePlayer();
 //
-MY_ELEM.ansCol.id  = 'anscol';
-MY_ELEM.ansBtn.id  = 'ansbtn';
-MY_ELEM.pushBtn.id = 'pushbtn';
-MY_ELEM.divUI.id   = 'divui';
-MY_ELEM.divElem.id = 'divelem';
-MY_ELEM.divBtn.id  = 'divbtn';
+myElem.ansCol.id  = 'anscol';
+myElem.ansBtn.id  = 'ansbtn';
+myElem.divUI.id   = 'divui';
+myElem.divElem.id = 'divelem';
+myElem.divBtn.id  = 'divbtn';
 //
-MY_ELEM.ansCol.value     = "ここに解答を入力";
-MY_ELEM.ansBtn.innerHTML = "１問目まで移動";
-MY_ELEM.ansCol.disabled  = true;
-MY_ELEM.ansBtn.disabled  = true;
-MY_ELEM.numOX.innerHTML  = "⭕️："+quizManager.cntO+"　❌："+quizManager.cntX;
+myElem.ansCol.value     = "ここに解答を入力";
+myElem.ansBtn.innerHTML = "１問目まで移動";
+myElem.ansCol.disabled  = true;
+myElem.ansBtn.disabled  = true;
+myElem.numOX.innerHTML  = "⭕️："+quizManager.cntO+"　❌："+quizManager.cntX;
 if(USER_OS !== 'other'){
-    MY_ELEM.text.innerHTML = "早押しボタンをタップして動画を開始する";
+    myElem.text.innerHTML = "早押しボタンをタップして動画を開始する";
 }else{
-    MY_ELEM.text.innerHTML = "QuizBattle on YouTube";
-    MY_ELEM.pushBtn.tabIndex = 0; // set tabindex for adding focus
+    myElem.text.innerHTML = "QuizBattle on YouTube";
 }
 //
 document.styleSheets.item(0).insertRule('html { touch-action: manipulation; }'); //disable double tap gesture
 document.styleSheets.item(0).insertRule('body { text-align: center; margin: auto; background: #EFEFEF; }');
-document.styleSheets.item(0).insertRule('.blinkImg { animation: blinkImg 0.7s infinite alternate; }');
-document.styleSheets.item(0).insertRule('@keyframes blinkImg{ 0% { opacity: 0.3; } 100% { opacity: 1; }}');
-document.styleSheets.item(0).insertRule('.blinkText { animation: blinkText 0.7s infinite alternate; }');
-document.styleSheets.item(0).insertRule('@keyframes blinkText{ 0% { opacity: 0; } 100% { opacity: 1; }}');
+document.styleSheets.item(0).insertRule('.blinkImg   { animation: blinkImg 0.7s infinite alternate; }');
+document.styleSheets.item(0).insertRule('@keyframes blinkImg { 0% { opacity: 0.3; } 100% { opacity: 1; }}');
+document.styleSheets.item(0).insertRule('.blinkText  { animation: blinkText 0.7s infinite alternate; }');
+document.styleSheets.item(0).insertRule('@keyframes blinkText{ 0% { opacity: 0;   } 100% { opacity: 1; }}');
+document.styleSheets.item(0).insertRule('div#divelem { float: left; display: flex; align-items: center; justify-content: center; flex-direction: column; }');
+document.styleSheets.item(0).insertRule('div#divbtn  { overflow: hidden; position: relative; transform-origin: left top; }');
+document.styleSheets.item(0).insertRule('img#pushbtn { position: absolute; left: 0px; top: 0px; }');
 //
 if(USER_OS !== 'other'){
-    MY_ELEM.text.style.fontSize       = '42px';
-    MY_ELEM.text.style.lineHeight     = '60px';
-    MY_ELEM.text.style.fontWeight     = 'bold';
-    MY_ELEM.text.style.display        = 'block';
-    MY_ELEM.text.style.marginTop      = '32px';
-    MY_ELEM.text.style.marginBottom   = '32px';
-    MY_ELEM.text.style.padding        = '0px 10px';
-    MY_ELEM.subText.style.fontSize    = '42px';
-    MY_ELEM.subText.style.lineHeight  = '60px';
-    MY_ELEM.subText.style.display     = 'block';
-    MY_ELEM.ansCol.style.fontSize     = '50px';
-    MY_ELEM.ansCol.style.height       = '100px';
-    MY_ELEM.ansCol.style.textAlign    = 'center';
-    MY_ELEM.ansCol.style.marginBottom = '10px';
-    MY_ELEM.ansCol.style.marginLeft   = 'auto';
-    MY_ELEM.ansCol.style.marginRight  = 'auto';
-    MY_ELEM.ansCol.style.display      = 'block'
-    MY_ELEM.ansBtn.style.fontSize     = '42px';
-    MY_ELEM.ansBtn.style.width        = parseInt(MY_ELEM.ansBtn.style.fontSize, 10)*10+'px';
-    MY_ELEM.ansBtn.style.height       = parseInt(MY_ELEM.ansBtn.style.fontSize, 10)*2+'px';
-    MY_ELEM.ansBtn.style.marginBottom = '20px';
-    MY_ELEM.ansBtn.style.marginLeft   = 'auto';
-    MY_ELEM.ansBtn.style.marginRight  = 'auto';
-    MY_ELEM.ansBtn.style.display      = 'block';
-    MY_ELEM.numOX.style.fontSize      = '42px';
-    MY_ELEM.numOX.style.lineHeight    = '80px';
-    MY_ELEM.numOX.style.fontWeight    = 'bold';
-    MY_ELEM.numOX.style.display       = 'block';
+    myElem.text.style.fontSize       = '42px';
+    myElem.text.style.lineHeight     = '60px';
+    myElem.text.style.fontWeight     = 'bold';
+    myElem.text.style.display        = 'block';
+    myElem.text.style.marginTop      = '32px';
+    myElem.text.style.marginBottom   = '32px';
+    myElem.text.style.padding        = '0px 10px';
+    myElem.subText.style.fontSize    = '42px';
+    myElem.subText.style.lineHeight  = '60px';
+    myElem.subText.style.display     = 'block';
+    myElem.ansCol.style.fontSize     = '50px';
+    myElem.ansCol.style.height       = '100px';
+    myElem.ansCol.style.textAlign    = 'center';
+    myElem.ansCol.style.marginBottom = '10px';
+    myElem.ansCol.style.marginLeft   = 'auto';
+    myElem.ansCol.style.marginRight  = 'auto';
+    myElem.ansCol.style.display      = 'block'
+    myElem.ansBtn.style.fontSize     = '42px';
+    myElem.ansBtn.style.width        = parseInt(myElem.ansBtn.style.fontSize, 10)*10+'px';
+    myElem.ansBtn.style.height       = parseInt(myElem.ansBtn.style.fontSize, 10)*2+'px';
+    myElem.ansBtn.style.marginBottom = '20px';
+    myElem.ansBtn.style.marginLeft   = 'auto';
+    myElem.ansBtn.style.marginRight  = 'auto';
+    myElem.ansBtn.style.display      = 'block';
+    myElem.numOX.style.fontSize      = '42px';
+    myElem.numOX.style.lineHeight    = '80px';
+    myElem.numOX.style.fontWeight    = 'bold';
+    myElem.numOX.style.display       = 'block';
     //
     quizManager.viewFuncArray = [
         () => {
-            document.getElementsByTagName("body")[0].appendChild(MY_ELEM.text);
-            document.getElementsByTagName("body")[0].appendChild(MY_ELEM.ansBtn);
-            // document.getElementsByTagName("body")[0].appendChild(MY_ELEM.pushBtn);
-            document.getElementsByTagName("body")[0].appendChild(MY_ELEM.numOX);
-            document.getElementsByTagName("body")[0].appendChild(MY_ELEM.paramText);
+            document.querySelector('body').appendChild(myElem.text);
+            document.querySelector('body').appendChild(myElem.ansBtn);
+            // document.querySelector('body').appendChild(myElem.pushBtn);
+            document.querySelector('body').appendChild(myElem.numOX);
         },
         () => {
-            MY_ELEM.text.style.marginTop = '40px';
-            MY_ELEM.text.style.marginBottom = '20px';
-            MY_ELEM.subText.style.marginBottom = '40px';
-            MY_ELEM.subText.style.padding = '0px 10px';
-            document.getElementsByTagName("body")[0].insertBefore(MY_ELEM.subText, MY_ELEM.text.nextSibling);
+            myElem.text.style.marginTop = '40px';
+            myElem.text.style.marginBottom = '20px';
+            myElem.subText.style.marginBottom = '40px';
+            myElem.subText.style.padding = '0px 10px';
+            document.querySelector('body').insertBefore(myElem.subText, myElem.text.nextSibling);
         },
         () => {
-            MY_ELEM.text.style.marginTop    = '32px';
-            MY_ELEM.text.style.marginBottom = '32px';
-            MY_ELEM.text.parentNode.removeChild(MY_ELEM.subText);
-            document.getElementsByTagName("body")[0].insertBefore(MY_ELEM.ansCol, MY_ELEM.text.nextSibling);
+            myElem.text.style.marginTop    = '32px';
+            myElem.text.style.marginBottom = '32px';
+            myElem.text.parentNode.removeChild(myElem.subText);
+            document.querySelector('body').insertBefore(myElem.ansCol, myElem.text.nextSibling);
         },
     ];
     quizManager.viewFuncArray.shift()();
@@ -684,96 +707,98 @@ if(USER_OS !== 'other'){
     const divUIHeight  = playerHeight*0.9;
     const divUIWidth   = playerWidth;
     const divElemWidth = playerWidth*2/3;
-    const divBtnWidth  = playerWidth*1/3;
-    document.styleSheets.item(0).insertRule('body { width:'+playerWidth+'px; }');
-    document.styleSheets.item(0).insertRule('div#divui   { width:'+divUIWidth  +'px; height:'+divUIHeight+'px; }');
-    document.styleSheets.item(0).insertRule('div#divelem { width:'+divElemWidth+'px; height:'+divUIHeight+'px; float: left; display: flex; align-items: center; justify-content: center; flex-direction: column; }');
-    document.styleSheets.item(0).insertRule('div#divbtn  { width:'+divBtnWidth +'px; height:'+divUIHeight+'px; float: left; display: flex; align-items: center; justify-content: center; }');
-    document.getElementsByTagName("body")[0].appendChild(MY_ELEM.divUI);
-    MY_ELEM.divUI.appendChild(MY_ELEM.divElem);
-    MY_ELEM.divUI.appendChild(MY_ELEM.divBtn);
+    document.querySelector('body').style.width = playerWidth+'px';
+    myElem.divUI.style.width = divUIWidth+'px'; // set with an assignment to reference the value from elsewhere.
+    myElem.divUI.style.height = divUIHeight+'px';
+    myElem.divElem.style.width = divElemWidth+'px';
+    myElem.divElem.style.height = divUIHeight+'px';
     //
-    MY_ELEM.text.style.fontSize      = '25px';
-    MY_ELEM.text.style.lineHeight    = '45px';
-    MY_ELEM.text.style.fontWeight    = 'bold';
-    MY_ELEM.text.style.display       = 'block';
-    MY_ELEM.subText.style.fontSize   = '20px';
-    MY_ELEM.subText.style.lineHeight = '30px';
-    MY_ELEM.subText.style.display    = 'block';
-    MY_ELEM.ansCol.style.fontSize    = '23px';
-    MY_ELEM.ansCol.style.textAlign   = 'center';
-    MY_ELEM.ansCol.style.width       = divElemWidth*0.75+'px';
-    MY_ELEM.ansCol.style.margin      = '0px ' +(divElemWidth-parseInt(MY_ELEM.ansCol.style.width, 10))/2+'px 15px';
-    MY_ELEM.ansBtn.style.fontSize    = '23px';
-    MY_ELEM.ansBtn.style.width       = parseInt(MY_ELEM.ansBtn.style.fontSize, 10)*8+'px';
-    MY_ELEM.ansBtn.style.margin      = '0px '+(divElemWidth-parseInt(MY_ELEM.ansBtn.style.width, 10))/2+'px 20px';
-    MY_ELEM.numOX.style.fontSize     = '25px';
-    MY_ELEM.numOX.style.lineHeight   = '45px';
-    MY_ELEM.numOX.style.fontWeight   = 'bold';
-    MY_ELEM.numOX.style.display      = 'block';
+    myElem.text.style.fontSize      = '25px';
+    myElem.text.style.lineHeight    = '45px';
+    myElem.text.style.fontWeight    = 'bold';
+    myElem.text.style.display       = 'block';
+    myElem.subText.style.fontSize   = '20px';
+    myElem.subText.style.lineHeight = '30px';
+    myElem.subText.style.display    = 'block';
+    myElem.ansCol.style.fontSize    = '23px';
+    myElem.ansCol.style.textAlign   = 'center';
+    myElem.ansCol.style.width       = divElemWidth*0.75+'px';
+    myElem.ansCol.style.margin      = '0px ' +(divElemWidth-parseInt(myElem.ansCol.style.width, 10))/2+'px 15px';
+    myElem.ansBtn.style.fontSize    = '23px';
+    myElem.ansBtn.style.width       = parseInt(myElem.ansBtn.style.fontSize, 10)*8+'px';
+    myElem.ansBtn.style.margin      = '0px '+(divElemWidth-parseInt(myElem.ansBtn.style.width, 10))/2+'px 20px';
+    myElem.numOX.style.fontSize     = '25px';
+    myElem.numOX.style.lineHeight   = '45px';
+    myElem.numOX.style.fontWeight   = 'bold';
+    myElem.numOX.style.display      = 'block';
+    //
+    document.querySelector('body').appendChild(myElem.divUI);
+    myElem.divUI.appendChild(myElem.divElem);
     //
     quizManager.viewFuncArray = [
         () => {
-            MY_ELEM.text.style.margin  = '0px auto';
-            MY_ELEM.text.style.padding = '0px 40px';
-            document.getElementById("divelem").appendChild(MY_ELEM.text);
-            document.getElementById("divelem").appendChild(MY_ELEM.paramText);
+            myElem.text.style.margin  = '0px auto';
+            myElem.text.style.padding = '0px 40px';
+            document.getElementById("divelem").appendChild(myElem.text);
         },
         () => {
-            MY_ELEM.text.style.margin  = '0px auto 30px';
-            MY_ELEM.subText.style.margin  = '0px auto 50px';
-            MY_ELEM.subText.style.padding = '0px 40px';
-            document.getElementById("divelem").insertBefore(MY_ELEM.subText, MY_ELEM.text.nextSibling);
-            // document.getElementById("divbtn").appendChild(MY_ELEM.pushBtn);
+            myElem.text.style.margin  = '0px auto 30px';
+            myElem.subText.style.margin  = '0px auto 50px';
+            myElem.subText.style.padding = '0px 40px';
+            document.getElementById("divelem").insertBefore(myElem.subText, myElem.text.nextSibling);
+            // document.getElementById("divbtn").appendChild(myElem.pushBtn);
         },
         () => {
-            document.getElementById("divelem").insertBefore(MY_ELEM.ansBtn, MY_ELEM.subText.nextSibling);
+            document.getElementById("divelem").insertBefore(myElem.ansBtn, myElem.subText.nextSibling);
         },
         () => {
-            MY_ELEM.text.style.margin = '0px auto 15px';
-            MY_ELEM.text.parentNode.removeChild(MY_ELEM.subText);
-            document.getElementById("divelem").insertBefore(MY_ELEM.ansCol, MY_ELEM.text.nextSibling);
-            document.getElementById("divelem").appendChild(MY_ELEM.numOX);
+            myElem.text.style.margin = '0px auto 15px';
+            myElem.text.parentNode.removeChild(myElem.subText);
+            document.getElementById("divelem").insertBefore(myElem.ansCol, myElem.text.nextSibling);
+            document.getElementById("divelem").appendChild(myElem.numOX);
         },
     ];
     quizManager.viewFuncArray.shift()();
 }
 //
-const initAppearance = async () => {
+const initPageAppearance = () => {
+    /* append push button element */
     if(USER_OS !== "other"){
-        if(Math.abs(window.orientation) !== 90){
-            MY_ELEM.pushBtn.src = quizManager.buttonImages[0].src;
-            MY_ELEM.text.innerHTML = "早押しボタンをタップして動画を開始する";
-        }else{
-            MY_ELEM.pushBtn.src = quizManager.buttonImages[3].src;
-            MY_ELEM.text.innerHTML = "端末を縦向きにしてクイズをはじめる";
-            alert("このサイトはスマートフォン/タブレットを縦向きにしてお楽しみください。");
-        }
+        document.querySelector('body').appendChild(myElem.divBtn);
     }else{
-        MY_ELEM.pushBtn.src = quizManager.buttonImages[0].src;
-        if(detectTouchPanel() === true){
-            MY_ELEM.subText.innerHTML = "<span class='blinkText'>スペースキーを押して動画を開始する</span>";
-        }else{
-            MY_ELEM.subText.innerHTML = "<span class='blinkText'>スペースキーを押して動画を開始する</span>";
-        }
+        myElem.divUI.appendChild(myElem.divBtn);
     }
-    await MY_ELEM.pushBtn.decode().catch(() => alert("画像の読み込みに失敗しました。ページを再読み込みしてください。"));
+    document.getElementById("divbtn").appendChild(myElem.pushBtn);
+    //
     resizePlayer();
     resizePushButton(document.getElementById('player').clientHeight, getElemHeight());
-    if( USER_OS !== 'other' ){ 
-        MY_ELEM.pushBtn.className = "blinkImg";
-        document.getElementsByTagName("body")[0].appendChild(MY_ELEM.pushBtn);
-        // document.getElementsByTagName("body")[0].insertBefore(MY_ELEM.pushBtn, MY_ELEM.numOX);
-    } else {
-        document.getElementById("divbtn").appendChild(MY_ELEM.pushBtn); 
+    //
+    if(USER_OS !== "other"){
+        if(Math.abs(window.orientation) !== 90){
+            switchPushButton(BUTTON_STATE.standby);
+            myElem.text.innerHTML = "早押しボタンをタップして動画を開始する";
+        }else{
+            switchPushButton(BUTTON_STATE.disabled);
+            myElem.text.innerHTML = "端末を縦向きにしてクイズをはじめる";
+            alert("このサイトはスマートフォン/タブレットを縦向きにしてお楽しみください。");
+        }
+        myElem.pushBtn.className = "blinkImg";
+    }else{
+        switchPushButton(BUTTON_STATE.standby);
+        if(detectTouchPanel() === true){
+            myElem.subText.innerHTML = "<span class='blinkText'>スペースキーを押して動画を開始する</span>";
+        }else{
+            myElem.subText.innerHTML = "<span class='blinkText'>スペースキーを押して動画を開始する</span>";
+        }
         quizManager.viewFuncArray.shift()(); 
     }
 }
 //
 (async () => {
     /* load push button image */
-    const list = [PATH.btn1, PATH.btn2, PATH.btn3, PATH.btn4];
-    quizManager.buttonImages = await Promise.all(list.map(path => loadImage(path)));
+    myElem.pushBtn = await loadImage(PATH.button);
+    myElem.pushBtn.id = 'pushbtn';
+    myElem.pushBtn.tabIndex = 0; // set tabindex for adding focus
     //
     /* load audio data */
     const audioContext = new AudioContext();
@@ -787,7 +812,7 @@ const initAppearance = async () => {
     const responseText = await response2.text();
     quizManager.ansArray = csvToArray(responseText);
     //
-    await initAppearance();
+    initPageAppearance();
     quizManager.state = QUIZ_STATE.ButtonCheck;
     //
     window.addEventListener('orientationchange', myOrientationChangeEvent);
@@ -797,8 +822,8 @@ const initAppearance = async () => {
     document.addEventListener('compositionend',   () => { quizManager.composingBool = false; });
     player.addEventListener('onStateChange', myPlayerStateChangeEvent);
     document.onkeydown = myKeyDownEvent;
-    MY_ELEM.ansBtn.onclick = myOnClickEvent;
-    MY_ELEM.ansCol.onfocus = () => { MY_ELEM.ansCol.val = ""; }
+    myElem.ansBtn.onclick = myOnClickEvent;
+    myElem.ansCol.onfocus = () => { myElem.ansCol.val = ""; }
     setInterval(myIntervalEvent, interval = 10);
 })();
 //
@@ -811,7 +836,7 @@ quizManager.firstQuesStartTime = 16.24;
 quizManager.srtFuncArray = [
     () => {
         quizManager.viewFuncArray.shift()();
-        MY_ELEM.ansBtn.innerHTML = "解答を送信";
+        myElem.ansBtn.innerHTML = "解答を送信";
         /* 第1問 */
         quizManager.ansIndex = 2;
         quizManager.ansIndexStartTime = 26.78;
@@ -820,17 +845,17 @@ quizManager.srtFuncArray = [
         quizManager.quesNum = 1;
         quizManager.cntPush = 0;
         quizManager.correctBool = false;
-        MY_ELEM.text.innerHTML = "第"+quizManager.quesNum+"問";
-        MY_ELEM.ansCol.value = "ここに解答を入力";
-        MY_ELEM.ansCol.disabled = true;
-        MY_ELEM.ansBtn.disabled = true;
-        if(Math.abs(window.orientation) !== 90){ MY_ELEM.pushBtn.src = quizManager.buttonImages[0].src; }
+        myElem.text.innerHTML = "第"+quizManager.quesNum+"問";
+        myElem.ansCol.value = "ここに解答を入力";
+        myElem.ansCol.disabled = true;
+        myElem.ansBtn.disabled = true;
+        if(Math.abs(window.orientation) !== 90){ switchPushButton(BUTTON_STATE.standby); }
     },
     () => {
         quizManager.state = QUIZ_STATE.Talk;
-        MY_ELEM.ansCol.disabled = true;
-        MY_ELEM.ansBtn.disabled = true;
-        MY_ELEM.pushBtn.src = quizManager.buttonImages[3].src;
+        myElem.ansCol.disabled = true;
+        myElem.ansBtn.disabled = true;
+        switchPushButton(BUTTON_STATE.disabled);
     },
     () => {
         /* 第2問 */
@@ -841,17 +866,17 @@ quizManager.srtFuncArray = [
         quizManager.quesNum = 2;
         quizManager.cntPush = 0;
         quizManager.correctBool = false;
-        MY_ELEM.text.innerHTML = "第"+quizManager.quesNum+"問";
-        MY_ELEM.ansCol.value = "ここに解答を入力";
-        MY_ELEM.ansCol.disabled = true;
-        MY_ELEM.ansBtn.disabled = true;
-        if(Math.abs(window.orientation) !== 90){ MY_ELEM.pushBtn.src = quizManager.buttonImages[0].src; }
+        myElem.text.innerHTML = "第"+quizManager.quesNum+"問";
+        myElem.ansCol.value = "ここに解答を入力";
+        myElem.ansCol.disabled = true;
+        myElem.ansBtn.disabled = true;
+        if(Math.abs(window.orientation) !== 90){ switchPushButton(BUTTON_STATE.standby); }
     },
     () => {
         quizManager.state = QUIZ_STATE.Talk;
-        MY_ELEM.ansCol.disabled = true;
-        MY_ELEM.ansBtn.disabled = true;
-        MY_ELEM.pushBtn.src = quizManager.buttonImages[3].src;
+        myElem.ansCol.disabled = true;
+        myElem.ansBtn.disabled = true;
+        switchPushButton(BUTTON_STATE.disabled);
     },
     () => {
         /* 第3問 */
@@ -862,17 +887,17 @@ quizManager.srtFuncArray = [
         quizManager.quesNum = 3;
         quizManager.cntPush = 0;
         quizManager.correctBool = false;
-        MY_ELEM.text.innerHTML = "第"+quizManager.quesNum+"問";
-        MY_ELEM.ansCol.value = "ここに解答を入力";
-        MY_ELEM.ansCol.disabled = true;
-        MY_ELEM.ansBtn.disabled = true;
-        if(Math.abs(window.orientation) !== 90){ MY_ELEM.pushBtn.src = quizManager.buttonImages[0].src; }
+        myElem.text.innerHTML = "第"+quizManager.quesNum+"問";
+        myElem.ansCol.value = "ここに解答を入力";
+        myElem.ansCol.disabled = true;
+        myElem.ansBtn.disabled = true;
+        if(Math.abs(window.orientation) !== 90){ switchPushButton(BUTTON_STATE.standby); }
     },
     () => {
         quizManager.state = QUIZ_STATE.Talk;
-        MY_ELEM.ansCol.disabled = true;
-        MY_ELEM.ansBtn.disabled = true;
-        MY_ELEM.pushBtn.src = quizManager.buttonImages[3].src;
+        myElem.ansCol.disabled = true;
+        myElem.ansBtn.disabled = true;
+        switchPushButton(BUTTON_STATE.disabled);
     },
     () => {
         /* 第4問 */
@@ -883,17 +908,17 @@ quizManager.srtFuncArray = [
         quizManager.quesNum = 4;
         quizManager.cntPush = 0;
         quizManager.correctBool = false;
-        MY_ELEM.text.innerHTML = "第"+quizManager.quesNum+"問";
-        MY_ELEM.ansCol.value = "ここに解答を入力";
-        MY_ELEM.ansCol.disabled = true;
-        MY_ELEM.ansBtn.disabled = true;
-        if(Math.abs(window.orientation) !== 90){ MY_ELEM.pushBtn.src = quizManager.buttonImages[0].src; }
+        myElem.text.innerHTML = "第"+quizManager.quesNum+"問";
+        myElem.ansCol.value = "ここに解答を入力";
+        myElem.ansCol.disabled = true;
+        myElem.ansBtn.disabled = true;
+        if(Math.abs(window.orientation) !== 90){ switchPushButton(BUTTON_STATE.standby); }
     },
     () => {
         quizManager.state = QUIZ_STATE.Talk;
-        MY_ELEM.ansCol.disabled = true;
-        MY_ELEM.ansBtn.disabled = true;
-        MY_ELEM.pushBtn.src = quizManager.buttonImages[3].src;
+        myElem.ansCol.disabled = true;
+        myElem.ansBtn.disabled = true;
+        switchPushButton(BUTTON_STATE.disabled);
     },
     () => {
         /* 第5問 */
@@ -904,17 +929,17 @@ quizManager.srtFuncArray = [
         quizManager.quesNum = 5;
         quizManager.cntPush = 0;
         quizManager.correctBool = false;
-        MY_ELEM.text.innerHTML = "第"+quizManager.quesNum+"問";
-        MY_ELEM.ansCol.value = "ここに解答を入力";
-        MY_ELEM.ansCol.disabled = true;
-        MY_ELEM.ansBtn.disabled = true;
-        if(Math.abs(window.orientation) !== 90){ MY_ELEM.pushBtn.src = quizManager.buttonImages[0].src; }
+        myElem.text.innerHTML = "第"+quizManager.quesNum+"問";
+        myElem.ansCol.value = "ここに解答を入力";
+        myElem.ansCol.disabled = true;
+        myElem.ansBtn.disabled = true;
+        if(Math.abs(window.orientation) !== 90){ switchPushButton(BUTTON_STATE.standby); }
     },
     () => {
         quizManager.state = QUIZ_STATE.Talk;
-        MY_ELEM.ansCol.disabled = true;
-        MY_ELEM.ansBtn.disabled = true;
-        MY_ELEM.pushBtn.src = quizManager.buttonImages[3].src;
+        myElem.ansCol.disabled = true;
+        myElem.ansBtn.disabled = true;
+        switchPushButton(BUTTON_STATE.disabled);
     },
     () => {
         /* 第6問 */
@@ -925,17 +950,17 @@ quizManager.srtFuncArray = [
         quizManager.quesNum = 6;
         quizManager.cntPush = 0;
         quizManager.correctBool = false;
-        MY_ELEM.text.innerHTML = "第"+quizManager.quesNum+"問";
-        MY_ELEM.ansCol.value = "ここに解答を入力";
-        MY_ELEM.ansCol.disabled = true;
-        MY_ELEM.ansBtn.disabled = true;
-        if(Math.abs(window.orientation) !== 90){ MY_ELEM.pushBtn.src = quizManager.buttonImages[0].src; }
+        myElem.text.innerHTML = "第"+quizManager.quesNum+"問";
+        myElem.ansCol.value = "ここに解答を入力";
+        myElem.ansCol.disabled = true;
+        myElem.ansBtn.disabled = true;
+        if(Math.abs(window.orientation) !== 90){ switchPushButton(BUTTON_STATE.standby); }
     },
     () => {
         quizManager.state = QUIZ_STATE.Talk;
-        MY_ELEM.ansCol.disabled = true;
-        MY_ELEM.ansBtn.disabled = true;
-        MY_ELEM.pushBtn.src = quizManager.buttonImages[3].src;
+        myElem.ansCol.disabled = true;
+        myElem.ansBtn.disabled = true;
+        switchPushButton(BUTTON_STATE.disabled);
     },
     () => {
         /* 第7問 */
@@ -946,17 +971,17 @@ quizManager.srtFuncArray = [
         quizManager.quesNum = 7;
         quizManager.cntPush = 0;
         quizManager.correctBool = false;
-        MY_ELEM.text.innerHTML = "第"+quizManager.quesNum+"問";
-        MY_ELEM.ansCol.value = "ここに解答を入力";
-        MY_ELEM.ansCol.disabled = true;
-        MY_ELEM.ansBtn.disabled = true;
-        if(Math.abs(window.orientation) !== 90){ MY_ELEM.pushBtn.src = quizManager.buttonImages[0].src; }
+        myElem.text.innerHTML = "第"+quizManager.quesNum+"問";
+        myElem.ansCol.value = "ここに解答を入力";
+        myElem.ansCol.disabled = true;
+        myElem.ansBtn.disabled = true;
+        if(Math.abs(window.orientation) !== 90){ switchPushButton(BUTTON_STATE.standby); }
     },
     () => {
         quizManager.state = QUIZ_STATE.Talk;
-        MY_ELEM.ansCol.disabled = true;
-        MY_ELEM.ansBtn.disabled = true;
-        MY_ELEM.pushBtn.src = quizManager.buttonImages[3].src;
+        myElem.ansCol.disabled = true;
+        myElem.ansBtn.disabled = true;
+        switchPushButton(BUTTON_STATE.disabled);
     },
     () => {
         /* 第8問 */
@@ -967,17 +992,17 @@ quizManager.srtFuncArray = [
         quizManager.quesNum = 8;
         quizManager.cntPush = 0;
         quizManager.correctBool = false;
-        MY_ELEM.text.innerHTML = "第"+quizManager.quesNum+"問";
-        MY_ELEM.ansCol.value = "ここに解答を入力";
-        MY_ELEM.ansCol.disabled = true;
-        MY_ELEM.ansBtn.disabled = true;
-        if(Math.abs(window.orientation) !== 90){ MY_ELEM.pushBtn.src = quizManager.buttonImages[0].src; }
+        myElem.text.innerHTML = "第"+quizManager.quesNum+"問";
+        myElem.ansCol.value = "ここに解答を入力";
+        myElem.ansCol.disabled = true;
+        myElem.ansBtn.disabled = true;
+        if(Math.abs(window.orientation) !== 90){ switchPushButton(BUTTON_STATE.standby); }
     },
     () => {
         quizManager.state = QUIZ_STATE.Talk;
-        MY_ELEM.ansCol.disabled = true;
-        MY_ELEM.ansBtn.disabled = true;
-        MY_ELEM.pushBtn.src = quizManager.buttonImages[3].src;
+        myElem.ansCol.disabled = true;
+        myElem.ansBtn.disabled = true;
+        switchPushButton(BUTTON_STATE.disabled);
     },
     () => {
         /* 第9問 */
@@ -988,17 +1013,17 @@ quizManager.srtFuncArray = [
         quizManager.quesNum = 9;
         quizManager.cntPush = 0;
         quizManager.correctBool = false;
-        MY_ELEM.text.innerHTML = "第"+quizManager.quesNum+"問";
-        MY_ELEM.ansCol.value = "ここに解答を入力";
-        MY_ELEM.ansCol.disabled = true;
-        MY_ELEM.ansBtn.disabled = true;
-        if(Math.abs(window.orientation) !== 90){ MY_ELEM.pushBtn.src = quizManager.buttonImages[0].src; }
+        myElem.text.innerHTML = "第"+quizManager.quesNum+"問";
+        myElem.ansCol.value = "ここに解答を入力";
+        myElem.ansCol.disabled = true;
+        myElem.ansBtn.disabled = true;
+        if(Math.abs(window.orientation) !== 90){ switchPushButton(BUTTON_STATE.standby); }
     },
     () => {
         quizManager.state = QUIZ_STATE.Talk;
-        MY_ELEM.ansCol.disabled = true;
-        MY_ELEM.ansBtn.disabled = true;
-        MY_ELEM.pushBtn.src = quizManager.buttonImages[3].src;
+        myElem.ansCol.disabled = true;
+        myElem.ansBtn.disabled = true;
+        switchPushButton(BUTTON_STATE.disabled);
     },
     () => {
         /* 第10問 */
@@ -1009,17 +1034,17 @@ quizManager.srtFuncArray = [
         quizManager.quesNum = 10;
         quizManager.cntPush = 0;
         quizManager.correctBool = false;
-        MY_ELEM.text.innerHTML = "第"+quizManager.quesNum+"問";
-        MY_ELEM.ansCol.value = "ここに解答を入力";
-        MY_ELEM.ansCol.disabled = true;
-        MY_ELEM.ansBtn.disabled = true;
-        if(Math.abs(window.orientation) !== 90){ MY_ELEM.pushBtn.src = quizManager.buttonImages[0].src; }
+        myElem.text.innerHTML = "第"+quizManager.quesNum+"問";
+        myElem.ansCol.value = "ここに解答を入力";
+        myElem.ansCol.disabled = true;
+        myElem.ansBtn.disabled = true;
+        if(Math.abs(window.orientation) !== 90){ switchPushButton(BUTTON_STATE.standby); }
     },
     () => {
         quizManager.state = QUIZ_STATE.Talk;
-        MY_ELEM.ansCol.disabled = true;
-        MY_ELEM.ansBtn.disabled = true;
-        MY_ELEM.pushBtn.src = quizManager.buttonImages[3].src;
+        myElem.ansCol.disabled = true;
+        myElem.ansBtn.disabled = true;
+        switchPushButton(BUTTON_STATE.disabled);
     },
     () => {
         /* 第11問 */
@@ -1030,17 +1055,17 @@ quizManager.srtFuncArray = [
         quizManager.quesNum = 11;
         quizManager.cntPush = 0;
         quizManager.correctBool = false;
-        MY_ELEM.text.innerHTML = "第"+quizManager.quesNum+"問";
-        MY_ELEM.ansCol.value = "ここに解答を入力";
-        MY_ELEM.ansCol.disabled = true;
-        MY_ELEM.ansBtn.disabled = true;
-        if(Math.abs(window.orientation) !== 90){ MY_ELEM.pushBtn.src = quizManager.buttonImages[0].src; }
+        myElem.text.innerHTML = "第"+quizManager.quesNum+"問";
+        myElem.ansCol.value = "ここに解答を入力";
+        myElem.ansCol.disabled = true;
+        myElem.ansBtn.disabled = true;
+        if(Math.abs(window.orientation) !== 90){ switchPushButton(BUTTON_STATE.standby); }
     },
     () => {
         quizManager.state = QUIZ_STATE.Talk;
-        MY_ELEM.ansCol.disabled = true;
-        MY_ELEM.ansBtn.disabled = true;
-        MY_ELEM.pushBtn.src = quizManager.buttonImages[3].src;
+        myElem.ansCol.disabled = true;
+        myElem.ansBtn.disabled = true;
+        switchPushButton(BUTTON_STATE.disabled);
     },
     () => {
         /* 第12問 */
@@ -1051,17 +1076,17 @@ quizManager.srtFuncArray = [
         quizManager.quesNum = 12;
         quizManager.cntPush = 0;
         quizManager.correctBool = false;
-        MY_ELEM.text.innerHTML = "第"+quizManager.quesNum+"問";
-        MY_ELEM.ansCol.value = "ここに解答を入力";
-        MY_ELEM.ansCol.disabled = true;
-        MY_ELEM.ansBtn.disabled = true;
-        if(Math.abs(window.orientation) !== 90){ MY_ELEM.pushBtn.src = quizManager.buttonImages[0].src; }
+        myElem.text.innerHTML = "第"+quizManager.quesNum+"問";
+        myElem.ansCol.value = "ここに解答を入力";
+        myElem.ansCol.disabled = true;
+        myElem.ansBtn.disabled = true;
+        if(Math.abs(window.orientation) !== 90){ switchPushButton(BUTTON_STATE.standby); }
     },
     () => {
         quizManager.state = QUIZ_STATE.Talk;
-        MY_ELEM.ansCol.disabled = true;
-        MY_ELEM.ansBtn.disabled = true;
-        MY_ELEM.pushBtn.src = quizManager.buttonImages[3].src;
+        myElem.ansCol.disabled = true;
+        myElem.ansBtn.disabled = true;
+        switchPushButton(BUTTON_STATE.disabled);
     },
     () => {
         /* 第13問 */
@@ -1072,17 +1097,17 @@ quizManager.srtFuncArray = [
         quizManager.quesNum = 13;
         quizManager.cntPush = 0;
         quizManager.correctBool = false;
-        MY_ELEM.text.innerHTML = "第"+quizManager.quesNum+"問";
-        MY_ELEM.ansCol.value = "ここに解答を入力";
-        MY_ELEM.ansCol.disabled = true;
-        MY_ELEM.ansBtn.disabled = true;
-        if(Math.abs(window.orientation) !== 90){ MY_ELEM.pushBtn.src = quizManager.buttonImages[0].src; }
+        myElem.text.innerHTML = "第"+quizManager.quesNum+"問";
+        myElem.ansCol.value = "ここに解答を入力";
+        myElem.ansCol.disabled = true;
+        myElem.ansBtn.disabled = true;
+        if(Math.abs(window.orientation) !== 90){ switchPushButton(BUTTON_STATE.standby); }
     },
     () => {
         quizManager.state = QUIZ_STATE.Talk;
-        MY_ELEM.ansCol.disabled = true;
-        MY_ELEM.ansBtn.disabled = true;
-        MY_ELEM.pushBtn.src = quizManager.buttonImages[3].src;
+        myElem.ansCol.disabled = true;
+        myElem.ansBtn.disabled = true;
+        switchPushButton(BUTTON_STATE.disabled);
     },
     () => {
         /* 第14問 */
@@ -1093,17 +1118,17 @@ quizManager.srtFuncArray = [
         quizManager.quesNum = 14;
         quizManager.cntPush = 0;
         quizManager.correctBool = false;
-        MY_ELEM.text.innerHTML = "第"+quizManager.quesNum+"問";
-        MY_ELEM.ansCol.value = "ここに解答を入力";
-        MY_ELEM.ansCol.disabled = true;
-        MY_ELEM.ansBtn.disabled = true;
-        if(Math.abs(window.orientation) !== 90){ MY_ELEM.pushBtn.src = quizManager.buttonImages[0].src; }
+        myElem.text.innerHTML = "第"+quizManager.quesNum+"問";
+        myElem.ansCol.value = "ここに解答を入力";
+        myElem.ansCol.disabled = true;
+        myElem.ansBtn.disabled = true;
+        if(Math.abs(window.orientation) !== 90){ switchPushButton(BUTTON_STATE.standby); }
     },
     () => {
         quizManager.state = QUIZ_STATE.Talk;
-        MY_ELEM.ansCol.disabled = true;
-        MY_ELEM.ansBtn.disabled = true;
-        MY_ELEM.pushBtn.src = quizManager.buttonImages[3].src;
+        myElem.ansCol.disabled = true;
+        myElem.ansBtn.disabled = true;
+        switchPushButton(BUTTON_STATE.disabled);
     },
     () => {
         /* 第15問 */
@@ -1114,17 +1139,17 @@ quizManager.srtFuncArray = [
         quizManager.quesNum = 15;
         quizManager.cntPush = 0;
         quizManager.correctBool = false;
-        MY_ELEM.text.innerHTML = "第"+quizManager.quesNum+"問";
-        MY_ELEM.ansCol.value = "ここに解答を入力";
-        MY_ELEM.ansCol.disabled = true;
-        MY_ELEM.ansBtn.disabled = true;
-        if(Math.abs(window.orientation) !== 90){ MY_ELEM.pushBtn.src = quizManager.buttonImages[0].src; }
+        myElem.text.innerHTML = "第"+quizManager.quesNum+"問";
+        myElem.ansCol.value = "ここに解答を入力";
+        myElem.ansCol.disabled = true;
+        myElem.ansBtn.disabled = true;
+        if(Math.abs(window.orientation) !== 90){ switchPushButton(BUTTON_STATE.standby); }
     },
     () => {
         quizManager.state = QUIZ_STATE.Talk;
-        MY_ELEM.ansCol.disabled = true;
-        MY_ELEM.ansBtn.disabled = true;
-        MY_ELEM.pushBtn.src = quizManager.buttonImages[3].src;
+        myElem.ansCol.disabled = true;
+        myElem.ansBtn.disabled = true;
+        switchPushButton(BUTTON_STATE.disabled);
     },
     () => {
         /* 第16問 */
@@ -1135,17 +1160,17 @@ quizManager.srtFuncArray = [
         quizManager.quesNum = 16;
         quizManager.cntPush = 0;
         quizManager.correctBool = false;
-        MY_ELEM.text.innerHTML = "第"+quizManager.quesNum+"問";
-        MY_ELEM.ansCol.value = "ここに解答を入力";
-        MY_ELEM.ansCol.disabled = true;
-        MY_ELEM.ansBtn.disabled = true;
-        if(Math.abs(window.orientation) !== 90){ MY_ELEM.pushBtn.src = quizManager.buttonImages[0].src; }
+        myElem.text.innerHTML = "第"+quizManager.quesNum+"問";
+        myElem.ansCol.value = "ここに解答を入力";
+        myElem.ansCol.disabled = true;
+        myElem.ansBtn.disabled = true;
+        if(Math.abs(window.orientation) !== 90){ switchPushButton(BUTTON_STATE.standby); }
     },
     () => {
         quizManager.state = QUIZ_STATE.Talk;
-        MY_ELEM.ansCol.disabled = true;
-        MY_ELEM.ansBtn.disabled = true;
-        MY_ELEM.pushBtn.src = quizManager.buttonImages[3].src;
+        myElem.ansCol.disabled = true;
+        myElem.ansBtn.disabled = true;
+        switchPushButton(BUTTON_STATE.disabled);
     },
     () => {
         /* 第17問 */
@@ -1156,17 +1181,17 @@ quizManager.srtFuncArray = [
         quizManager.quesNum = 17;
         quizManager.cntPush = 0;
         quizManager.correctBool = false;
-        MY_ELEM.text.innerHTML = "第"+quizManager.quesNum+"問";
-        MY_ELEM.ansCol.value = "ここに解答を入力";
-        MY_ELEM.ansCol.disabled = true;
-        MY_ELEM.ansBtn.disabled = true;
-        if(Math.abs(window.orientation) !== 90){ MY_ELEM.pushBtn.src = quizManager.buttonImages[0].src; }
+        myElem.text.innerHTML = "第"+quizManager.quesNum+"問";
+        myElem.ansCol.value = "ここに解答を入力";
+        myElem.ansCol.disabled = true;
+        myElem.ansBtn.disabled = true;
+        if(Math.abs(window.orientation) !== 90){ switchPushButton(BUTTON_STATE.standby); }
     },
     () => {
         quizManager.state = QUIZ_STATE.Talk;
-        MY_ELEM.ansCol.disabled = true;
-        MY_ELEM.ansBtn.disabled = true;
-        MY_ELEM.pushBtn.src = quizManager.buttonImages[3].src;
+        myElem.ansCol.disabled = true;
+        myElem.ansBtn.disabled = true;
+        switchPushButton(BUTTON_STATE.disabled);
     },
     () => {
         /* 第18問 */
@@ -1177,17 +1202,17 @@ quizManager.srtFuncArray = [
         quizManager.quesNum = 18;
         quizManager.cntPush = 0;
         quizManager.correctBool = false;
-        MY_ELEM.text.innerHTML = "第"+quizManager.quesNum+"問";
-        MY_ELEM.ansCol.value = "ここに解答を入力";
-        MY_ELEM.ansCol.disabled = true;
-        MY_ELEM.ansBtn.disabled = true;
-        if(Math.abs(window.orientation) !== 90){ MY_ELEM.pushBtn.src = quizManager.buttonImages[0].src; }
+        myElem.text.innerHTML = "第"+quizManager.quesNum+"問";
+        myElem.ansCol.value = "ここに解答を入力";
+        myElem.ansCol.disabled = true;
+        myElem.ansBtn.disabled = true;
+        if(Math.abs(window.orientation) !== 90){ switchPushButton(BUTTON_STATE.standby); }
     },
     () => {
         quizManager.state = QUIZ_STATE.Talk;
-        MY_ELEM.ansCol.disabled = true;
-        MY_ELEM.ansBtn.disabled = true;
-        MY_ELEM.pushBtn.src = quizManager.buttonImages[3].src;
+        myElem.ansCol.disabled = true;
+        myElem.ansBtn.disabled = true;
+        switchPushButton(BUTTON_STATE.disabled);
     },
     () => {
         /* 第19問 */
@@ -1198,17 +1223,17 @@ quizManager.srtFuncArray = [
         quizManager.quesNum = 19;
         quizManager.cntPush = 0;
         quizManager.correctBool = false;
-        MY_ELEM.text.innerHTML = "第"+quizManager.quesNum+"問";
-        MY_ELEM.ansCol.value = "ここに解答を入力";
-        MY_ELEM.ansCol.disabled = true;
-        MY_ELEM.ansBtn.disabled = true;
-        if(Math.abs(window.orientation) !== 90){ MY_ELEM.pushBtn.src = quizManager.buttonImages[0].src; }
+        myElem.text.innerHTML = "第"+quizManager.quesNum+"問";
+        myElem.ansCol.value = "ここに解答を入力";
+        myElem.ansCol.disabled = true;
+        myElem.ansBtn.disabled = true;
+        if(Math.abs(window.orientation) !== 90){ switchPushButton(BUTTON_STATE.standby); }
     },
     () => {
         quizManager.state = QUIZ_STATE.Talk;
-        MY_ELEM.ansCol.disabled = true;
-        MY_ELEM.ansBtn.disabled = true;
-        MY_ELEM.pushBtn.src = quizManager.buttonImages[3].src;
+        myElem.ansCol.disabled = true;
+        myElem.ansBtn.disabled = true;
+        switchPushButton(BUTTON_STATE.disabled);
     },
     () => {
         /* 第20問 */
@@ -1219,17 +1244,17 @@ quizManager.srtFuncArray = [
         quizManager.quesNum = 20;
         quizManager.cntPush = 0;
         quizManager.correctBool = false;
-        MY_ELEM.text.innerHTML = "第"+quizManager.quesNum+"問";
-        MY_ELEM.ansCol.value = "ここに解答を入力";
-        MY_ELEM.ansCol.disabled = true;
-        MY_ELEM.ansBtn.disabled = true;
-        if(Math.abs(window.orientation) !== 90){ MY_ELEM.pushBtn.src = quizManager.buttonImages[0].src; }
+        myElem.text.innerHTML = "第"+quizManager.quesNum+"問";
+        myElem.ansCol.value = "ここに解答を入力";
+        myElem.ansCol.disabled = true;
+        myElem.ansBtn.disabled = true;
+        if(Math.abs(window.orientation) !== 90){ switchPushButton(BUTTON_STATE.standby); }
     },
     () => {
         quizManager.state = QUIZ_STATE.Talk;
-        MY_ELEM.ansCol.disabled = true;
-        MY_ELEM.ansBtn.disabled = true;
-        MY_ELEM.pushBtn.src = quizManager.buttonImages[3].src;
+        myElem.ansCol.disabled = true;
+        myElem.ansBtn.disabled = true;
+        switchPushButton(BUTTON_STATE.disabled);
     },
     () => {
         /* 第21問 */
@@ -1240,17 +1265,17 @@ quizManager.srtFuncArray = [
         quizManager.quesNum = 21;
         quizManager.cntPush = 0;
         quizManager.correctBool = false;
-        MY_ELEM.text.innerHTML = "第"+quizManager.quesNum+"問";
-        MY_ELEM.ansCol.value = "ここに解答を入力";
-        MY_ELEM.ansCol.disabled = true;
-        MY_ELEM.ansBtn.disabled = true;
-        if(Math.abs(window.orientation) !== 90){ MY_ELEM.pushBtn.src = quizManager.buttonImages[0].src; }
+        myElem.text.innerHTML = "第"+quizManager.quesNum+"問";
+        myElem.ansCol.value = "ここに解答を入力";
+        myElem.ansCol.disabled = true;
+        myElem.ansBtn.disabled = true;
+        if(Math.abs(window.orientation) !== 90){ switchPushButton(BUTTON_STATE.standby); }
     },
     () => {
         quizManager.state = QUIZ_STATE.Talk;
-        MY_ELEM.ansCol.disabled = true;
-        MY_ELEM.ansBtn.disabled = true;
-        MY_ELEM.pushBtn.src = quizManager.buttonImages[3].src;
+        myElem.ansCol.disabled = true;
+        myElem.ansBtn.disabled = true;
+        switchPushButton(BUTTON_STATE.disabled);
     },
     () => {
         /* 第22問 */
@@ -1261,17 +1286,17 @@ quizManager.srtFuncArray = [
         quizManager.quesNum = 22;
         quizManager.cntPush = 0;
         quizManager.correctBool = false;
-        MY_ELEM.text.innerHTML = "第"+quizManager.quesNum+"問";
-        MY_ELEM.ansCol.value = "ここに解答を入力";
-        MY_ELEM.ansCol.disabled = true;
-        MY_ELEM.ansBtn.disabled = true;
-        if(Math.abs(window.orientation) !== 90){ MY_ELEM.pushBtn.src = quizManager.buttonImages[0].src; }
+        myElem.text.innerHTML = "第"+quizManager.quesNum+"問";
+        myElem.ansCol.value = "ここに解答を入力";
+        myElem.ansCol.disabled = true;
+        myElem.ansBtn.disabled = true;
+        if(Math.abs(window.orientation) !== 90){ switchPushButton(BUTTON_STATE.standby); }
     },
     () => {
         quizManager.state = QUIZ_STATE.Talk;
-        MY_ELEM.ansCol.disabled = true;
-        MY_ELEM.ansBtn.disabled = true;
-        MY_ELEM.pushBtn.src = quizManager.buttonImages[3].src;
+        myElem.ansCol.disabled = true;
+        myElem.ansBtn.disabled = true;
+        switchPushButton(BUTTON_STATE.disabled);
     },
     () => {
         /* 第23問 */
@@ -1282,17 +1307,17 @@ quizManager.srtFuncArray = [
         quizManager.quesNum = 23;
         quizManager.cntPush = 0;
         quizManager.correctBool = false;
-        MY_ELEM.text.innerHTML = "第"+quizManager.quesNum+"問";
-        MY_ELEM.ansCol.value = "ここに解答を入力";
-        MY_ELEM.ansCol.disabled = true;
-        MY_ELEM.ansBtn.disabled = true;
-        if(Math.abs(window.orientation) !== 90){ MY_ELEM.pushBtn.src = quizManager.buttonImages[0].src; }
+        myElem.text.innerHTML = "第"+quizManager.quesNum+"問";
+        myElem.ansCol.value = "ここに解答を入力";
+        myElem.ansCol.disabled = true;
+        myElem.ansBtn.disabled = true;
+        if(Math.abs(window.orientation) !== 90){ switchPushButton(BUTTON_STATE.standby); }
     },
     () => {
         quizManager.state = QUIZ_STATE.Talk;
-        MY_ELEM.ansCol.disabled = true;
-        MY_ELEM.ansBtn.disabled = true;
-        MY_ELEM.pushBtn.src = quizManager.buttonImages[3].src;
+        myElem.ansCol.disabled = true;
+        myElem.ansBtn.disabled = true;
+        switchPushButton(BUTTON_STATE.disabled);
     },
     () => {
         /* 第24問 */
@@ -1303,17 +1328,17 @@ quizManager.srtFuncArray = [
         quizManager.quesNum = 24;
         quizManager.cntPush = 0;
         quizManager.correctBool = false;
-        MY_ELEM.text.innerHTML = "第"+quizManager.quesNum+"問";
-        MY_ELEM.ansCol.value = "ここに解答を入力";
-        MY_ELEM.ansCol.disabled = true;
-        MY_ELEM.ansBtn.disabled = true;
-        if(Math.abs(window.orientation) !== 90){ MY_ELEM.pushBtn.src = quizManager.buttonImages[0].src; }
+        myElem.text.innerHTML = "第"+quizManager.quesNum+"問";
+        myElem.ansCol.value = "ここに解答を入力";
+        myElem.ansCol.disabled = true;
+        myElem.ansBtn.disabled = true;
+        if(Math.abs(window.orientation) !== 90){ switchPushButton(BUTTON_STATE.standby); }
     },
     () => {
         quizManager.state = QUIZ_STATE.Talk;
-        MY_ELEM.ansCol.disabled = true;
-        MY_ELEM.ansBtn.disabled = true;
-        MY_ELEM.pushBtn.src = quizManager.buttonImages[3].src;
+        myElem.ansCol.disabled = true;
+        myElem.ansBtn.disabled = true;
+        switchPushButton(BUTTON_STATE.disabled);
     },
     () => {
         /* 第25問 */
@@ -1324,17 +1349,17 @@ quizManager.srtFuncArray = [
         quizManager.quesNum = 25;
         quizManager.cntPush = 0;
         quizManager.correctBool = false;
-        MY_ELEM.text.innerHTML = "第"+quizManager.quesNum+"問";
-        MY_ELEM.ansCol.value = "ここに解答を入力";
-        MY_ELEM.ansCol.disabled = true;
-        MY_ELEM.ansBtn.disabled = true;
-        if(Math.abs(window.orientation) !== 90){ MY_ELEM.pushBtn.src = quizManager.buttonImages[0].src; }
+        myElem.text.innerHTML = "第"+quizManager.quesNum+"問";
+        myElem.ansCol.value = "ここに解答を入力";
+        myElem.ansCol.disabled = true;
+        myElem.ansBtn.disabled = true;
+        if(Math.abs(window.orientation) !== 90){ switchPushButton(BUTTON_STATE.standby); }
     },
     () => {
         quizManager.state = QUIZ_STATE.Talk;
-        MY_ELEM.ansCol.disabled = true;
-        MY_ELEM.ansBtn.disabled = true;
-        MY_ELEM.pushBtn.src = quizManager.buttonImages[3].src;
+        myElem.ansCol.disabled = true;
+        myElem.ansBtn.disabled = true;
+        switchPushButton(BUTTON_STATE.disabled);
     },
     () => {
         /* 第26問 */
@@ -1345,17 +1370,17 @@ quizManager.srtFuncArray = [
         quizManager.quesNum = 26;
         quizManager.cntPush = 0;
         quizManager.correctBool = false;
-        MY_ELEM.text.innerHTML = "第"+quizManager.quesNum+"問";
-        MY_ELEM.ansCol.value = "ここに解答を入力";
-        MY_ELEM.ansCol.disabled = true;
-        MY_ELEM.ansBtn.disabled = true;
-        if(Math.abs(window.orientation) !== 90){ MY_ELEM.pushBtn.src = quizManager.buttonImages[0].src; }
+        myElem.text.innerHTML = "第"+quizManager.quesNum+"問";
+        myElem.ansCol.value = "ここに解答を入力";
+        myElem.ansCol.disabled = true;
+        myElem.ansBtn.disabled = true;
+        if(Math.abs(window.orientation) !== 90){ switchPushButton(BUTTON_STATE.standby); }
     },
     () => {
         quizManager.state = QUIZ_STATE.Talk;
-        MY_ELEM.ansCol.disabled = true;
-        MY_ELEM.ansBtn.disabled = true;
-        MY_ELEM.pushBtn.src = quizManager.buttonImages[3].src;
+        myElem.ansCol.disabled = true;
+        myElem.ansBtn.disabled = true;
+        switchPushButton(BUTTON_STATE.disabled);
     },
     () => {
         /* 第27問 */
@@ -1366,17 +1391,17 @@ quizManager.srtFuncArray = [
         quizManager.quesNum = 27;
         quizManager.cntPush = 0;
         quizManager.correctBool = false;
-        MY_ELEM.text.innerHTML = "第"+quizManager.quesNum+"問";
-        MY_ELEM.ansCol.value = "ここに解答を入力";
-        MY_ELEM.ansCol.disabled = true;
-        MY_ELEM.ansBtn.disabled = true;
-        if(Math.abs(window.orientation) !== 90){ MY_ELEM.pushBtn.src = quizManager.buttonImages[0].src; }
+        myElem.text.innerHTML = "第"+quizManager.quesNum+"問";
+        myElem.ansCol.value = "ここに解答を入力";
+        myElem.ansCol.disabled = true;
+        myElem.ansBtn.disabled = true;
+        if(Math.abs(window.orientation) !== 90){ switchPushButton(BUTTON_STATE.standby); }
     },
     () => {
         quizManager.state = QUIZ_STATE.Talk;
-        MY_ELEM.ansCol.disabled = true;
-        MY_ELEM.ansBtn.disabled = true;
-        MY_ELEM.pushBtn.src = quizManager.buttonImages[3].src;
+        myElem.ansCol.disabled = true;
+        myElem.ansBtn.disabled = true;
+        switchPushButton(BUTTON_STATE.disabled);
     },
     () => {
         /* 第28問 */
@@ -1387,17 +1412,17 @@ quizManager.srtFuncArray = [
         quizManager.quesNum = 28;
         quizManager.cntPush = 0;
         quizManager.correctBool = false;
-        MY_ELEM.text.innerHTML = "第"+quizManager.quesNum+"問";
-        MY_ELEM.ansCol.value = "ここに解答を入力";
-        MY_ELEM.ansCol.disabled = true;
-        MY_ELEM.ansBtn.disabled = true;
-        if(Math.abs(window.orientation) !== 90){ MY_ELEM.pushBtn.src = quizManager.buttonImages[0].src; }
+        myElem.text.innerHTML = "第"+quizManager.quesNum+"問";
+        myElem.ansCol.value = "ここに解答を入力";
+        myElem.ansCol.disabled = true;
+        myElem.ansBtn.disabled = true;
+        if(Math.abs(window.orientation) !== 90){ switchPushButton(BUTTON_STATE.standby); }
     },
     () => {
         quizManager.state = QUIZ_STATE.Talk;
-        MY_ELEM.ansCol.disabled = true;
-        MY_ELEM.ansBtn.disabled = true;
-        MY_ELEM.pushBtn.src = quizManager.buttonImages[3].src;
+        myElem.ansCol.disabled = true;
+        myElem.ansBtn.disabled = true;
+        switchPushButton(BUTTON_STATE.disabled);
     },
     () => {
         /* 第29問 */
@@ -1408,17 +1433,17 @@ quizManager.srtFuncArray = [
         quizManager.quesNum = 29;
         quizManager.cntPush = 0;
         quizManager.correctBool = false;
-        MY_ELEM.text.innerHTML = "第"+quizManager.quesNum+"問";
-        MY_ELEM.ansCol.value = "ここに解答を入力";
-        MY_ELEM.ansCol.disabled = true;
-        MY_ELEM.ansBtn.disabled = true;
-        if(Math.abs(window.orientation) !== 90){ MY_ELEM.pushBtn.src = quizManager.buttonImages[0].src; }
+        myElem.text.innerHTML = "第"+quizManager.quesNum+"問";
+        myElem.ansCol.value = "ここに解答を入力";
+        myElem.ansCol.disabled = true;
+        myElem.ansBtn.disabled = true;
+        if(Math.abs(window.orientation) !== 90){ switchPushButton(BUTTON_STATE.standby); }
     },
     () => {
         quizManager.state = QUIZ_STATE.Talk;
-        MY_ELEM.ansCol.disabled = true;
-        MY_ELEM.ansBtn.disabled = true;
-        MY_ELEM.pushBtn.src = quizManager.buttonImages[3].src;
+        myElem.ansCol.disabled = true;
+        myElem.ansBtn.disabled = true;
+        switchPushButton(BUTTON_STATE.disabled);
     },
     () => {
         /* 第30問 */
@@ -1429,17 +1454,17 @@ quizManager.srtFuncArray = [
         quizManager.quesNum = 30;
         quizManager.cntPush = 0;
         quizManager.correctBool = false;
-        MY_ELEM.text.innerHTML = "第"+quizManager.quesNum+"問";
-        MY_ELEM.ansCol.value = "ここに解答を入力";
-        MY_ELEM.ansCol.disabled = true;
-        MY_ELEM.ansBtn.disabled = true;
-        if(Math.abs(window.orientation) !== 90){ MY_ELEM.pushBtn.src = quizManager.buttonImages[0].src; }
+        myElem.text.innerHTML = "第"+quizManager.quesNum+"問";
+        myElem.ansCol.value = "ここに解答を入力";
+        myElem.ansCol.disabled = true;
+        myElem.ansBtn.disabled = true;
+        if(Math.abs(window.orientation) !== 90){ switchPushButton(BUTTON_STATE.standby); }
     },
     () => {
         quizManager.state = QUIZ_STATE.Talk;
-        MY_ELEM.ansCol.disabled = true;
-        MY_ELEM.ansBtn.disabled = true;
-        MY_ELEM.pushBtn.src = quizManager.buttonImages[3].src;
+        myElem.ansCol.disabled = true;
+        myElem.ansBtn.disabled = true;
+        switchPushButton(BUTTON_STATE.disabled);
     },
 ];
 

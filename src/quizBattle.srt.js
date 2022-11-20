@@ -683,7 +683,7 @@ if(USER_OS !== 'other'){
         () => {
             document.querySelector('body').appendChild(myElem.text);
             document.querySelector('body').appendChild(myElem.ansBtn);
-            // document.querySelector('body').appendChild(MY_ELEM.pushBtn);
+            // document.querySelector('body').appendChild(myElem.pushBtn);
             document.querySelector('body').appendChild(myElem.numOX);
         },
         () => {
@@ -746,7 +746,7 @@ if(USER_OS !== 'other'){
             myElem.subText.style.margin  = '0px auto 50px';
             myElem.subText.style.padding = '0px 40px';
             document.getElementById("divelem").insertBefore(myElem.subText, myElem.text.nextSibling);
-            // document.getElementById("divbtn").appendChild(MY_ELEM.pushBtn);
+            // document.getElementById("divbtn").appendChild(myElem.pushBtn);
         },
         () => {
             document.getElementById("divelem").insertBefore(myElem.ansBtn, myElem.subText.nextSibling);
@@ -922,7 +922,7 @@ quizManager.srtFuncArray = [
     },
     () => {
         /* 第5問 */
-        quizManager.ansIndex = 10;BUTTON_STATE
+        quizManager.ansIndex = 10;
         quizManager.ansIndexStartTime = 84.39;
         //
         quizManager.state = QUIZ_STATE.Question;
