@@ -126,16 +126,14 @@
 
 本ツールは、津田塾大学の栗原一貴先生による[srt.js](https://www.unryu.org/home/srtjs)を利用して開発しています。
 
-<a type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom" style="color: #c4302b;">プライバシーポリシー</a>
+<a type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom" style="color: #c4302b;"><strong>プライバシーポリシー</strong></a>
 
 <div class="offcanvas offcanvas-bottom" tabindex="-1" id="offcanvasBottom" aria-labelledby="offcanvasBottomLabel">
   <div class="offcanvas-header">
-    <h5 class="offcanvas-title" id="offcanvasBottomLabel">プライバシーポリシー</h5>
+    <h3 class="offcanvas-title" id="offcanvasBottomLabel"><strong>プライバシーポリシー</strong></h3>
     <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
   </div>
   <div class="offcanvas-body small">
-　　当サイトでは、Googleアナリティクスによりアクセス情報を解析しています。</br>
-　　アクセス情報の解析にはCookieを使用しています。また、アクセス情報の収集はCookieを無効にすることで拒否できます。</br>
-　　Google社のデータ収集・処理の仕組みについては、<a href="https://policies.google.com/technologies/partner-sites?hl=ja">こちら</a>をご覧ください。</br>
+当サイトでは、Googleアナリティクスによりアクセス情報を解析しています。アクセス情報の解析にはCookieを使用しています。また、アクセス情報の収集はCookieを無効にすることで拒否できます。Google社のデータ収集・処理の仕組みについては、<a href="https://policies.google.com/technologies/partner-sites?hl=ja">こちら</a>をご覧ください。
   </div>
 </div>
