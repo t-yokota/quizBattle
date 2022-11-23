@@ -2,23 +2,14 @@
     <img class="" src="https://raw.githubusercontent.com/t-yokota/quizBattle/master/docs/images/short-quiz-demo.gif" style="border-radius:12px">
 </div>
 
-<!-- # YouTube動画で早押しクイズをする -->
-
-<!-- スマホやPCでYouTube上のクイズ動画を見ながら、動画内で出題されたクイズに早押しで解答できるツールです。
-
-各端末のブラウザから（大体）利用できると思います。<br>
-※主な動作確認はChromeとSafariを用いて実施しています。 -->
-
 # **注意事項**
 
 **本ツールではブラウザ上でJavaScriptのプログラムを実行します。あらかじめご了承ください。** 利用中に正常に動作しなくなった場合は、ブラウザのタブを閉じるか、ページを再度読み込んでください。
 
 # **使い方**
 
-1. 以下のコンテンツの一覧から動画を選択して視聴ページに移動する **（初めにプログラムの実行に関する<font color="#c4302b">注意ポップアップ</font>が表示されます）**
+1. 以下のコンテンツの一覧から動画を選択して視聴ページに移動する <strong style="color: #c4302b;">（初めにプログラムの実行に関する注意ポップアップが表示されます）</strong>
 1. 動画の再生ボタンを押してクイズをはじめる
-
-<!-- # **コンテンツ** -->
 
 # **＜お試しクイズ＞**
 
@@ -134,3 +125,15 @@
 ---
 
 本ツールは、津田塾大学の栗原一貴先生による[srt.js](https://www.unryu.org/home/srtjs)を利用して開発しています。
+
+<button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">Toggle bottom offcanvas</button>
+
+<div class="offcanvas offcanvas-bottom" tabindex="-1" id="offcanvasBottom" aria-labelledby="offcanvasBottomLabel">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title" id="offcanvasBottomLabel">Offcanvas bottom</h5>
+    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body small">
+    ...
+  </div>
+</div>
