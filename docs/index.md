@@ -4,14 +4,14 @@
 
 # **注意事項**
 
-**本ツールではブラウザ上でJavaScriptのプログラムを実行します。あらかじめご了承ください。** 利用中に正常に動作しなくなった場合は、ブラウザのタブを閉じるか、ページを再度読み込んでください。
+本ツールではブラウザ上でJavaScriptのプログラムを実行します。あらかじめご了承ください。利用中に正常に動作しなくなった場合は、ブラウザのタブを閉じるか、ページを再度読み込んでください。
 
 # **使い方**
 
 1. 以下のコンテンツの一覧から動画を選択して視聴ページに移動する <strong style="color: #c4302b;">（初めにプログラムの実行に関する注意ポップアップが表示されます）</strong>
 1. 動画の再生ボタンを押してクイズをはじめる
 
-# **＜お試しクイズ＞**
+# **お試しクイズ**
 
 デモ用に作成した**1分30秒、全5問**の短いクイズ動画で遊べます<br>
 （動画は音声なし、早押しボタンの音が出ます）
@@ -33,7 +33,7 @@
     </tr>
 </table>
 
-# **＜abc the 12th＞**
+# **abc the 12th**
 
 **学生クイズ大会『abc the 12th』** の過去問に挑戦できます。<br>
 動画は、ラミィ([@quiz_reader](https://twitter.com/quiz_reader?s=20))さんがYouTubeに投稿されている問い読みの動画をお借りしています。
@@ -126,14 +126,16 @@
 
 本ツールは、津田塾大学の栗原一貴先生による[srt.js](https://www.unryu.org/home/srtjs)を利用して開発しています。
 
-<button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">Toggle bottom offcanvas</button>
+<a type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom" style="color: #c4302b;">プライバシーポリシー</a>
 
 <div class="offcanvas offcanvas-bottom" tabindex="-1" id="offcanvasBottom" aria-labelledby="offcanvasBottomLabel">
   <div class="offcanvas-header">
-    <h5 class="offcanvas-title" id="offcanvasBottomLabel">Offcanvas bottom</h5>
+    <h5 class="offcanvas-title" id="offcanvasBottomLabel">プライバシーポリシー</h5>
     <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
   </div>
   <div class="offcanvas-body small">
-    ...
+　　当サイトでは、Googleアナリティクスによりアクセス情報を解析しています。</br>
+　　アクセス情報の解析にはCookieを使用しています。また、アクセス情報の収集はCookieを無効にすることで拒否できます。</br>
+　　Google社のデータ収集・処理の仕組みについては、<a href="https://policies.google.com/technologies/partner-sites?hl=ja">こちら</a>をご覧ください。</br>
   </div>
 </div>
