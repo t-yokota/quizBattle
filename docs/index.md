@@ -20,7 +20,7 @@
 <table class="contents">
     <tr>
         <td>
-            <a href="https://t-yokota.github.io/srt.js/?v=E5200yjbvj8&surl=https://raw.githubusercontent.com/t-yokota/quizBattle/master/src/quizBattle.srt.js" target="_blank" rel="noopener noreferrer" onClick="gtag('event', 'screen_view', {'screen_name': 'quiz_page_sample'});">
+            <a href="https://t-yokota.github.io/srt.js/?v=E5200yjbvj8&surl=https://raw.githubusercontent.com/t-yokota/quizBattle/master/src/quizBattle.srt.js" target="_blank" rel="noopener noreferrer" onClick="gtag('event', 'page_view', {'page_title': 'quiz_page_sample'});">
                 <div class="sample-box">
                     <img class='thumbnail' src="https://i.ytimg.com/vi_webp/E5200yjbvj8/sddefault.webp" alt="お試しクイズ">
                     <img class='icon' src="https://raw.githubusercontent.com/t-yokota/quizBattle/master/docs/images/video_icon.png">
@@ -41,7 +41,7 @@
 <table class="contents">
     <tr>
         <td>
-            <a href="https://t-yokota.github.io/srt.js/?v=ue9b06lFQG0&surl=https://raw.githubusercontent.com/t-yokota/quizBattle/master/contents/lamy_abc_12th/content-1.srt.js" target="_blank" rel="noopener noreferrer" onClick="gtag('event', 'screen_view', {'screen_name': 'quiz_page_abc12th-1'});">
+            <a href="https://t-yokota.github.io/srt.js/?v=ue9b06lFQG0&surl=https://raw.githubusercontent.com/t-yokota/quizBattle/master/contents/lamy_abc_12th/content-1.srt.js" target="_blank" rel="noopener noreferrer" onClick="gtag('event', 'page_view', {'page_title': 'quiz_page_abc12th-1'});">
                 <div class="sample-box">
                     <img class='thumbnail' src="https://i.ytimg.com/vi_webp/ue9b06lFQG0/sddefault.webp" alt="【問い読み】クイズの問題を読む 第1回【abc the 12th】">
                     <img class='icon' src="https://raw.githubusercontent.com/t-yokota/quizBattle/master/docs/images/video_icon.png">
@@ -50,7 +50,7 @@
             </a>
         </td>
         <td>
-            <a href="https://t-yokota.github.io/srt.js/?v=Mlxs5v3bQK4&surl=https://raw.githubusercontent.com/t-yokota/quizBattle/master/contents/lamy_abc_12th/content-2.srt.js" target="_blank" rel="noopener noreferrer" onClick="gtag('event', 'screen_view', {'screen_name': 'quiz_page_abc12th-2'});">
+            <a href="https://t-yokota.github.io/srt.js/?v=Mlxs5v3bQK4&surl=https://raw.githubusercontent.com/t-yokota/quizBattle/master/contents/lamy_abc_12th/content-2.srt.js" target="_blank" rel="noopener noreferrer" onClick="gtag('event', 'page_view', {'page_title': 'quiz_page_abc12th-2'});">
                 <div class="sample-box">
                     <img class='thumbnail' src="https://i.ytimg.com/vi_webp/Mlxs5v3bQK4/sddefault.webp" alt="【問い読み】クイズの問題を読む 第2回【abc the 12th】">
                     <img class='icon' src="https://raw.githubusercontent.com/t-yokota/quizBattle/master/docs/images/video_icon.png">
@@ -61,7 +61,7 @@
     </tr>
     <tr>
         <td>
-            <a href="https://t-yokota.github.io/srt.js/?v=V6R8y2VRm0I&surl=https://raw.githubusercontent.com/t-yokota/quizBattle/master/contents/lamy_abc_12th/content-3.srt.js" target="_blank" rel="noopener noreferrer" onClick="gtag('event', 'screen_view', {'screen_name': 'quiz_page_abc12th-3'});">
+            <a href="https://t-yokota.github.io/srt.js/?v=V6R8y2VRm0I&surl=https://raw.githubusercontent.com/t-yokota/quizBattle/master/contents/lamy_abc_12th/content-3.srt.js" target="_blank" rel="noopener noreferrer" onClick="gtag('event', 'page_view', {'page_title': 'quiz_page_abc12th-3'});">
                 <div class="sample-box">
                     <img class='thumbnail' src="https://i.ytimg.com/vi_webp/V6R8y2VRm0I/sddefault.webp" alt="【問い読み】クイズの問題を読む 第3回【abc the 12th】">
                     <img class='icon' src="https://raw.githubusercontent.com/t-yokota/quizBattle/master/docs/images/video_icon.png">
