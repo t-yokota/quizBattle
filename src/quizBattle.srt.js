@@ -11,18 +11,18 @@ const PATH = {
     button : "https://github.com/t-yokota/quizBattle/raw/master/images/button.webp",
 };
 const QUIZ_STATE = {
-    Initializing : 0, // Introduction part for initializing.
-    ButtonCheck  : 1, // Waiting for button check.
-    Question     : 2, // Reading the question（button enabled）
-    MyAnswer     : 3, // Player has the right to answer (answer input and submission possible)
-    OthAnswer    : 4, // Others have the right to answer (button disabled)
-    Talk         : 5, // Talk time (button disabled)
+    Initializing : 'Initializing', // Introduction part for initializing.
+    ButtonCheck  : 'ButtonCheck', // Waiting for button check.
+    Question     : 'Question', // Reading the question（button enabled）
+    MyAnswer     : 'MyAnswer', // Player has the right to answer (answer input and submission possible)
+    OthersAnswer : 'OthersAnswer', // Others have the right to answer (button disabled)
+    Talk         : 'Talk', // Talk time (button disabled)
 };
 const BUTTON_STATE = {
-    standby  : 0,
-    pushed   : 1,
-    released : 2,
-    disabled : 3,
+    standby  : 'standby',
+    pushed   : 'pushed',
+    released : 'released',
+    disabled : 'disabled',
 }
 const VIDEO_STATE = {
     Playing : 1,
@@ -32,11 +32,16 @@ const KEY_CODE = {
     space : 32,
     enter : 13,
 };
+const ORIENTATION = {
+    portrait  : 0,
+    landscape : 90,
+};
 Object.freeze(PATH);
 Object.freeze(QUIZ_STATE);
 Object.freeze(BUTTON_STATE);
 Object.freeze(VIDEO_STATE);
 Object.freeze(KEY_CODE);
+Object.freeze(ORIENTATION);
 //
 const myElem = {
     text      : document.createElement("text"),
@@ -100,6 +105,13 @@ const quizManager = {
 };
 //
 /* FUNCTION */
+const isPageHidden = () => document.webkitHidden;
+const isPortraitOrientation = () => Math.abs(window.orientation) !== ORIENTATION.landscape;
+const isSpaceKeyPressed = (event) => event.keyCode === KEY_CODE.space;
+const isEnterKeyPressed = (event) => event.keyCode === KEY_CODE.enter;
+const isWithinPushButtonArea = (touchObject, { left, right, top, bottom }) =>
+    left < touchObject.pageX && touchObject.pageX < right && top < touchObject.pageY && touchObject.pageY < bottom;
+//
 /* Get information of user environment */
 const detectTouchPanel = () => {
     return window.ontouchstart === null;
@@ -215,7 +227,7 @@ const getElemHeight = () => {
 const resizePlayer = () => {
     let playerWidth, playerHeight;
     if(USER_OS !== 'other'){
-        if(Math.abs(window.orientation) !== 90){
+        if(isPortraitOrientation()){
             if(USER_OS === 'Android'){ playerWidth = window.innerWidth; } // In Android, clientWidth doesn't include scrollbar.
             if(USER_OS === 'iOS'){ playerWidth = document.documentElement.clientWidth; } // In iOS, innerWidth isn't static (it changes with device orientation).
             playerHeight = playerWidth/16*9;
@@ -244,7 +256,7 @@ const resizePlayer = () => {
 //
 const resizePushButton = (playerHeight, elemHeight) => {
     if(USER_OS !== "other"){
-        if(Math.abs(window.orientation) !== 90){
+        if(isPortraitOrientation()){
             const tmpDivBtnHeight = document.documentElement.clientHeight-playerHeight-elemHeight-20;
             const tmpDivBtnWidth  = myElem.pushBtn.naturalWidth*tmpDivBtnHeight/myElem.pushBtn.naturalHeight;
             if(tmpDivBtnWidth < document.documentElement.clientWidth){
@@ -432,7 +444,7 @@ const checkAnswer = () => {
         if(quizManager.jumpToAnsBool){ jumpToAnswerIndex(quizManager.ansIndex, quizManager.ansIndexStartTime); }
     }
     myElem.numOX.innerHTML  = "⭕️："+quizManager.cntO+"　❌："+quizManager.cntX;
-    if(window.orientation !== 90){
+    if(isPortraitOrientation()){
         if(quizManager.correctBool === true || quizManager.limPush - quizManager.cntPush === 0){
             switchPushButton(BUTTON_STATE.disabled);
         }else{
@@ -455,7 +467,7 @@ const myOrientationChangeEvent = () => {
                 hidePlayer();
             }
         }
-        if(Math.abs(window.orientation) !== 90){
+        if(isPortraitOrientation()){
             if(quizManager.state === QUIZ_STATE.MyAnswer){
                 switchPushButton(BUTTON_STATE.released);
             }else{
@@ -474,7 +486,6 @@ const myOrientationChangeEvent = () => {
     }, 800);
 }
 //
-const isPageHidden = () => document.webkitHidden;
 const myPageHiddenCheckEvent = () => {
     quizManager.pageHiddenBool = isPageHidden();
     if(!quizManager.pageHiddenBool){
@@ -483,11 +494,8 @@ const myPageHiddenCheckEvent = () => {
     }
 }
 //
-const isLandscapeOrientation = () => Math.abs(window.orientation) !== 90;
-const isSpaceKeyPressed = (event) => event.keyCode === KEY_CODE.space;
-const isEnterKeyPressed = (event) => event.keyCode === KEY_CODE.enter;
 const myKeyDownEvent = (event) => {
-    if(isLandscapeOrientation()){
+    if(isPortraitOrientation()){
         if(isSpaceKeyPressed(event)){
             myButtonAction();
         }
@@ -497,8 +505,6 @@ const myKeyDownEvent = (event) => {
     }
 }
 //
-const isWithinPushButtonArea = (touchObject, { left, right, top, bottom }) => 
-    left < touchObject.pageX && touchObject.pageX < right && top < touchObject.pageY && touchObject.pageY < bottom;
 const myTouchEvent = (event) => {
     if(isLandscapeOrientation()){
         const touchObject = event.changedTouches[0];
@@ -774,7 +780,7 @@ const initPageAppearance = () => {
     resizePushButton(document.getElementById('player').clientHeight, getElemHeight());
     //
     if(USER_OS !== "other"){
-        if(Math.abs(window.orientation) !== 90){
+        if(isPortraitOrientation()){
             switchPushButton(BUTTON_STATE.standby);
             myElem.text.innerHTML = "早押しボタンをタップして動画を開始する";
         }else{
@@ -849,7 +855,7 @@ quizManager.srtFuncArray = [
         myElem.ansCol.value = "ここに解答を入力";
         myElem.ansCol.disabled = true;
         myElem.ansBtn.disabled = true;
-        if(Math.abs(window.orientation) !== 90){ switchPushButton(BUTTON_STATE.standby); }
+        if(isPortraitOrientation()){ switchPushButton(BUTTON_STATE.standby); }
     },
     () => {
         quizManager.state = QUIZ_STATE.Talk;
@@ -870,7 +876,7 @@ quizManager.srtFuncArray = [
         myElem.ansCol.value = "ここに解答を入力";
         myElem.ansCol.disabled = true;
         myElem.ansBtn.disabled = true;
-        if(Math.abs(window.orientation) !== 90){ switchPushButton(BUTTON_STATE.standby); }
+        if(isPortraitOrientation()){ switchPushButton(BUTTON_STATE.standby); }
     },
     () => {
         quizManager.state = QUIZ_STATE.Talk;
@@ -891,7 +897,7 @@ quizManager.srtFuncArray = [
         myElem.ansCol.value = "ここに解答を入力";
         myElem.ansCol.disabled = true;
         myElem.ansBtn.disabled = true;
-        if(Math.abs(window.orientation) !== 90){ switchPushButton(BUTTON_STATE.standby); }
+        if(isPortraitOrientation()){ switchPushButton(BUTTON_STATE.standby); }
     },
     () => {
         quizManager.state = QUIZ_STATE.Talk;
@@ -912,7 +918,7 @@ quizManager.srtFuncArray = [
         myElem.ansCol.value = "ここに解答を入力";
         myElem.ansCol.disabled = true;
         myElem.ansBtn.disabled = true;
-        if(Math.abs(window.orientation) !== 90){ switchPushButton(BUTTON_STATE.standby); }
+        if(isPortraitOrientation()){ switchPushButton(BUTTON_STATE.standby); }
     },
     () => {
         quizManager.state = QUIZ_STATE.Talk;
@@ -933,7 +939,7 @@ quizManager.srtFuncArray = [
         myElem.ansCol.value = "ここに解答を入力";
         myElem.ansCol.disabled = true;
         myElem.ansBtn.disabled = true;
-        if(Math.abs(window.orientation) !== 90){ switchPushButton(BUTTON_STATE.standby); }
+        if(isPortraitOrientation()){ switchPushButton(BUTTON_STATE.standby); }
     },
     () => {
         quizManager.state = QUIZ_STATE.Talk;
