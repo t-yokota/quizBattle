@@ -474,37 +474,37 @@ const myOrientationChangeEvent = () => {
     }, 800);
 }
 //
+const isPageHidden = () => document.webkitHidden;
 const myPageHiddenCheckEvent = () => {
-    if(document.webkitHidden){
-        quizManager.pageHiddenBool = true;
-    }else{
-        quizManager.pageHiddenBool = false;
+    quizManager.pageHiddenBool = isPageHidden();
+    if(!quizManager.pageHiddenBool){
         quizManager.currTime.playing = player.getCurrentTime();
         quizManager.watchedTime  = quizManager.currTime.playing;
     }
 }
 //
+const isLandscapeOrientation = () => Math.abs(window.orientation) !== 90;
+const isSpaceKeyPressed = (event) => event.keyCode === KEY_CODE.space;
+const isEnterKeyPressed = (event) => event.keyCode === KEY_CODE.enter;
 const myKeyDownEvent = (event) => {
-    if(Math.abs(window.orientation) !== 90){
-        if(event.keyCode === KEY_CODE.space){
+    if(isLandscapeOrientation()){
+        if(isSpaceKeyPressed(event)){
             myButtonAction();
         }
-        if(event.keyCode === KEY_CODE.enter){ // for preventing new line in text area.
-            if(quizManager.composingBool === false){
-                return false;
-            }
+        if(isEnterKeyPressed(event) && !quizManager.composingBool){ // for preventing new line in text area.
+            return false;
         }
     }
 }
 //
+const isWithinPushButtonArea = (touchObject, { left, right, top, bottom }) => 
+    left < touchObject.pageX && touchObject.pageX < right && top < touchObject.pageY && touchObject.pageY < bottom;
 const myTouchEvent = (event) => {
-    if(Math.abs(window.orientation) !== 90){
+    if(isLandscapeOrientation()){
         const touchObject = event.changedTouches[0];
-        const { left, right, top, bottom } = getPushButtonArea()
-        if(left < touchObject.pageX && touchObject.pageX < right){
-            if(top < touchObject.pageY && touchObject.pageY < bottom){
-                myButtonAction();
-            }
+        const pushButtonArea = getPushButtonArea()
+        if(isWithinPushButtonArea(touchObject, pushButtonArea)){
+                 myButtonAction();
         }
     }
 }
