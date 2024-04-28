@@ -11,18 +11,18 @@ const PATH = {
     button : "https://github.com/t-yokota/quizBattle/raw/master/images/button.webp",
 };
 const QUIZ_STATE = {
-    Initializing : 'Initializing', // Introduction part for initializing.
-    ButtonCheck  : 'ButtonCheck', // Waiting for button check.
-    Question     : 'Question', // Reading the question（button enabled）
-    MyAnswer     : 'MyAnswer', // Player has the right to answer (answer input and submission possible)
-    OthersAnswer : 'OthersAnswer', // Others have the right to answer (button disabled)
-    Talk         : 'Talk', // Talk time (button disabled)
+    Initializing : 0, // Introduction part for initializing.
+    ButtonCheck  : 1, // Waiting for button check.
+    Question     : 2, // Reading the question（button enabled）
+    MyAnswer     : 3, // Player has the right to answer (answer input and submission possible)
+    OthersAnswer : 4, // Others have the right to answer (button disabled)
+    Talk         : 5, // Talk time (button disabled)
 };
 const BUTTON_STATE = {
-    standby  : 'standby',
-    pushed   : 'pushed',
-    released : 'released',
-    disabled : 'disabled',
+    standby  : 0,
+    pushed   : 1,
+    released : 2,
+    disabled : 3,
 }
 const VIDEO_STATE = {
     Playing : 1,
