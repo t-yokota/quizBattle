@@ -506,7 +506,7 @@ const myKeyDownEvent = (event) => {
 }
 //
 const myTouchEvent = (event) => {
-    if(isLandscapeOrientation()){
+    if(isPortraitOrientation()){
         const touchObject = event.changedTouches[0];
         const pushButtonArea = getPushButtonArea()
         if(isWithinPushButtonArea(touchObject, pushButtonArea)){
