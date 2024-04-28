@@ -11,12 +11,12 @@ const PATH = {
     button : "https://github.com/t-yokota/quizBattle/raw/master/images/button.webp",
 };
 const QUIZ_STATE = {
-    Initializing : 0, // 初期化中
-    ButtonCheck  : 1, // ボタンチェック待機
-    Question     : 2, // 問い読み中（早押し可能）
-    MyAnswer     : 3, // 自分が解答権を所持（解答入力・送信可能）
-    OthAnswer    : 4, // 他者が解答権を所持（早押し不可能）
-    Talk         : 5, // その他
+    Initializing : 0, // Introduction part for initializing.
+    ButtonCheck  : 1, // Waiting for button check.
+    Question     : 2, // Reading the question（button enabled）
+    MyAnswer     : 3, // Player has the right to answer (answer input and submission possible)
+    OthAnswer    : 4, // Others have the right to answer (button disabled)
+    Talk         : 5, // Talk time (button disabled)
 };
 const BUTTON_STATE = {
     standby  : 0,
@@ -837,7 +837,7 @@ quizManager.srtFuncArray = [
     () => {
         quizManager.viewFuncArray.shift()();
         myElem.ansBtn.innerHTML = "解答を送信";
-        /* 第1問 */
+        /* Question 1 */
         quizManager.ansIndex = 2;
         quizManager.ansIndexStartTime = 18.78;
         //
@@ -858,7 +858,7 @@ quizManager.srtFuncArray = [
         switchPushButton(BUTTON_STATE.disabled);
     },
     () => {
-        /* 第2問 */
+        /* Question 2 */
         quizManager.ansIndex = 4;
         quizManager.ansIndexStartTime = 33.93;
         //
@@ -879,7 +879,7 @@ quizManager.srtFuncArray = [
         switchPushButton(BUTTON_STATE.disabled);
     },
     () => {
-        /* 第3問 */
+        /* Question 3 */
         quizManager.ansIndex = 6;
         quizManager.ansIndexStartTime = 52.61;
         //
@@ -900,7 +900,7 @@ quizManager.srtFuncArray = [
         switchPushButton(BUTTON_STATE.disabled);
     },
     () => {
-        /* 第4問 */
+        /* Question 4 */
         quizManager.ansIndex = 8;
         quizManager.ansIndexStartTime = 67.5;
         //
@@ -921,7 +921,7 @@ quizManager.srtFuncArray = [
         switchPushButton(BUTTON_STATE.disabled);
     },
     () => {
-        /* 第5問 */
+        /* Question 5 */
         quizManager.ansIndex = 10;
         quizManager.ansIndexStartTime = 84.39;
         //
