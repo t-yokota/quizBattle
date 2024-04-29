@@ -125,6 +125,7 @@ const messages = {
         column: "ここに解答を入力",
         button: "解答を送信",
         remainedPush: (limit, count) => "あと"+(limit-count)+"回解答できます。",
+        numberOX: (cntO, cntX) => "⭕️："+cntO+"　❌："+cntX,
     },
     myAnswer: {
         correct: "正解！",
@@ -503,7 +504,7 @@ const checkAnswer = () => {
         myElem.text.innerHTML = messages.myAnswer.incorrect; // messages.question.remainedPush(quizManager.limPush, quizManager.cntPush);
         if(quizManager.jumpToAnsBool){ jumpToAnswerIndex(quizManager.ansIndex, quizManager.ansIndexStartTime); }
     }
-    myElem.numOX.innerHTML  = "⭕️："+quizManager.cntO+"　❌："+quizManager.cntX;
+    myElem.numOX.innerHTML = messages.question.numberOX(quizManager.cntO, quizManager.cntX);
     if(isPortraitOrientation()){
         if(quizManager.correctBool === true || quizManager.limPush - quizManager.cntPush === 0){
             switchPushButton(BUTTON_STATE.disabled);
@@ -696,7 +697,7 @@ myElem.ansCol.value     = messages.question.column;
 myElem.ansBtn.innerHTML = messages.talk.jump;
 myElem.ansCol.disabled  = true;
 myElem.ansBtn.disabled  = true;
-myElem.numOX.innerHTML  = "⭕️："+quizManager.cntO+"　❌："+quizManager.cntX;
+myElem.numOX.innerHTML  = messages.question.numberOX(quizManager.cntO, quizManager.cntX);
 if(isMobileDevice()){
     myElem.text.innerHTML = messages.buttonCheck.intro.mobile;
 }else{
@@ -721,8 +722,8 @@ if(isMobileDevice()){
     myElem.text.style.lineHeight     = '60px';
     myElem.text.style.fontWeight     = 'bold';
     myElem.text.style.display        = 'block';
-    myElem.text.style.marginTop      = '32px';
-    myElem.text.style.marginBottom   = '32px';
+    myElem.text.style.marginTop      = '52px';
+    myElem.text.style.marginBottom   = '52px';
     myElem.text.style.padding        = '0px 10px';
     myElem.subText.style.fontSize    = '42px';
     myElem.subText.style.lineHeight  = '60px';
@@ -761,8 +762,8 @@ if(isMobileDevice()){
             document.querySelector('body').insertBefore(myElem.subText, myElem.text.nextSibling);
         },
         () => {
-            myElem.text.style.marginTop    = '32px';
-            myElem.text.style.marginBottom = '32px';
+            myElem.text.style.marginTop    = '52px';
+            myElem.text.style.marginBottom = '52px';
             myElem.text.parentNode.removeChild(myElem.subText);
             document.querySelector('body').insertBefore(myElem.ansCol, myElem.text.nextSibling);
         },
