@@ -359,7 +359,11 @@ const jumpToAnswerIndex = (index, time) => {
 }
 //
 const buttonCheck = (responseInterval) => {
-    myElem.subText.innerHTML = "ボタンの動作確認中...";
+    if(USER_OS !== 'other'){
+        myElem.text.innerHTML = "ボタンの動作確認中...";
+    }else{
+        myElem.subText.innerHTML = "ボタンの動作確認中...";
+    }
     playSndPushBtn();
     if(USER_OS === 'iOS'){
         switchPushButton(BUTTON_STATE.released);
@@ -370,6 +374,11 @@ const buttonCheck = (responseInterval) => {
         }, 100);
     }
     setTimeout(() => {
+        if(USER_OS !== 'other'){
+            myElem.text.innerHTML = "OK!";
+        }else{
+            myElem.subText.innerHTML = "OK!";
+        }
         myElem.subText.innerHTML = "OK!";
         playSndO();
         switchPushButton(BUTTON_STATE.standby);
