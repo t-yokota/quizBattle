@@ -642,7 +642,7 @@ myElem.ansCol.disabled  = true;
 myElem.ansBtn.disabled  = true;
 myElem.numOX.innerHTML  = "⭕️："+quizManager.cntO+"　❌："+quizManager.cntX;
 if(USER_OS !== 'other'){
-    myElem.text.innerHTML = "早押しボタンをタップして動画を開始する";
+    myElem.text.innerHTML = "早押しボタンをタップして動画の再生を開始する";
 }else{
     myElem.text.innerHTML = "YouTube Quiz Battle";
 }
@@ -784,7 +784,7 @@ const initPageAppearance = () => {
     if(USER_OS !== "other"){
         if(isPortraitOrientation()){
             switchPushButton(BUTTON_STATE.standby);
-            myElem.text.innerHTML = "早押しボタンをタップして動画を開始する";
+            myElem.text.innerHTML = "早押しボタンをタップして動画の再生を開始する";
         }else{
             switchPushButton(BUTTON_STATE.disabled);
             myElem.text.innerHTML = "端末を縦向きにしてクイズをはじめる";
