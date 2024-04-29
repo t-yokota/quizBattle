@@ -106,9 +106,9 @@ const quizManager = {
 //
 /* FUNCTION */
 const isPageHidden = () => document.webkitHidden;
-const isPortraitOrientation = () => Math.abs(window.orientation) !== ORIENTATION.landscape;
 const isSpaceKeyPressed = (event) => event.keyCode === KEY_CODE.space;
 const isEnterKeyPressed = (event) => event.keyCode === KEY_CODE.enter;
+const isPortraitOrientation = () => Math.abs(window.orientation) !== ORIENTATION.landscape;
 const isWithinPushButtonArea = (touchObject, { left, right, top, bottom }) =>
     left < touchObject.pageX && touchObject.pageX < right && top < touchObject.pageY && touchObject.pageY < bottom;
 //
@@ -359,6 +359,7 @@ const jumpToAnswerIndex = (index, time) => {
 }
 //
 const buttonCheck = (responseInterval) => {
+    myElem.subText.innerHTML = "ボタンの動作確認中...";
     playSndPushBtn();
     if(USER_OS === 'iOS'){
         switchPushButton(BUTTON_STATE.released);
@@ -369,6 +370,7 @@ const buttonCheck = (responseInterval) => {
         }, 100);
     }
     setTimeout(() => {
+        myElem.subText.innerHTML = "OK!";
         playSndO();
         switchPushButton(BUTTON_STATE.standby);
     }, responseInterval);
@@ -405,7 +407,7 @@ const myButtonAction = () => {
             if(USER_OS !== 'other'){
                 quizManager.viewFuncArray.shift()();
                 myElem.text.innerHTML = "＜ 遊び方 ＞";
-                myElem.subText.innerHTML = "画面上の早押しボタンで<br>動画内のクイズに参加することができます";
+                myElem.subText.innerHTML = "画面上の早押しボタンを使って<br>動画内のクイズに参加することができます";
             }else{
                 quizManager.viewFuncArray.shift()();
                 myElem.text.innerHTML = "＜ 遊び方 ＞"
@@ -474,7 +476,7 @@ const myOrientationChangeEvent = () => {
                 switchPushButton(BUTTON_STATE.standby);
             }
             if(quizManager.state === QUIZ_STATE.ButtonCheck){
-                myElem.text.innerHTML = "早押しボタンをタップして動画を開始する";
+                myElem.text.innerHTML = "早押しボタンをタップして動画の再生を開始する";
             }
         }else{
             switchPushButton(BUTTON_STATE.disabled);
