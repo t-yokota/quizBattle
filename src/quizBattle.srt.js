@@ -157,7 +157,7 @@ const detectTouchPanel = () => {
     return window.ontouchstart === null;
 }
 //
-const fetchOSType = () => {
+const getOsType = () => {
     let osType = null;
     const ua = navigator.userAgent;
     if(ua.match(/Android/)){
@@ -178,7 +178,16 @@ const fetchOSType = () => {
     }
 }
 //
-const fetchBrowserType = () => {
+const getDeviceType = () => {
+    const os = getOsType();
+    return os === 'Android' || os === 'iOS' ? 'mobile' : 'other';
+}
+//
+const isMobileDevice = () => getDeviceType() === 'mobile';
+const isAndroid = () => getOsType() === 'Android';
+const isIOS = () => getOsType() === 'iOS';
+//
+const getBrowserType = () => {
     let brType = null;
     const ua = navigator.userAgent;
     if(ua.match(/Firefox/)){
@@ -251,7 +260,7 @@ const playSndX = () => {
 /* Set appearances */
 const getElemHeight = () => {
     let response = 0;
-    if(USER_OS !== 'other'){
+    if(isMobileDevice()){
         response += parseInt(myElem.text.style.lineHeight, 10);
         response += parseInt(myElem.text.style.marginTop, 10);
         response += parseInt(myElem.text.style.marginBottom, 10);
@@ -266,16 +275,16 @@ const getElemHeight = () => {
 //
 const resizePlayer = () => {
     let playerWidth, playerHeight;
-    if(USER_OS !== 'other'){
+    if(isMobileDevice()){
         if(isPortraitOrientation()){
-            if(USER_OS === 'Android'){ playerWidth = window.innerWidth; } // In Android, clientWidth doesn't include scrollbar.
-            if(USER_OS === 'iOS'){ playerWidth = document.documentElement.clientWidth; } // In iOS, innerWidth isn't static (it changes with device orientation).
+            if(isAndroid()){ playerWidth = window.innerWidth; } // In Android, clientWidth doesn't include scrollbar.
+            if(isIOS()){ playerWidth = document.documentElement.clientWidth; } // In iOS, innerWidth isn't static (it changes with device orientation).
             playerHeight = playerWidth/16*9;
         }else{
             playerWidth  = document.documentElement.clientWidth*2/3;
             playerHeight = playerWidth/16*9;
         }
-        if(USER_OS === 'Android' && USER_BROWSER === "Firefox"){ // set special width of anscol to prevent the window is zoomed when the focus moveds to anscol.
+        if(isAndroid() && getBrowserType() === "Firefox"){ // set special width of anscol to prevent the window is zoomed when the focus moveds to anscol.
             myElem.ansCol.style.width = playerWidth*0.98+'px';
         }else{
             myElem.ansCol.style.width = playerWidth*0.9+'px';
@@ -295,7 +304,7 @@ const resizePlayer = () => {
 }
 //
 const resizePushButton = (playerHeight, elemHeight) => {
-    if(USER_OS !== "other"){
+    if(isMobileDevice()){
         if(isPortraitOrientation()){
             const tmpDivBtnHeight = document.documentElement.clientHeight-playerHeight-elemHeight-20;
             const tmpDivBtnWidth  = myElem.pushBtn.naturalWidth*tmpDivBtnHeight/myElem.pushBtn.naturalHeight;
@@ -332,7 +341,7 @@ const getPushButtonArea = () => {
     let right  = myElem.divBtn.getBoundingClientRect().right;
     let top    = myElem.divBtn.getBoundingClientRect().top;
     let bottom = myElem.divBtn.getBoundingClientRect().bottom;
-    if(USER_OS === 'iOS'){ // In iOS, value of getBoundingClientRect is changed when the window is zoomed.
+    if(isIOS()){ // In iOS, value of getBoundingClientRect is changed when the window is zoomed.
         left   += window.pageXOffset;
         right  += window.pageXOffset;
         top    += window.pageYOffset;
@@ -399,13 +408,13 @@ const jumpToAnswerIndex = (index, time) => {
 }
 //
 const buttonCheck = (responseInterval) => {
-    if(USER_OS !== 'other'){
+    if(isMobileDevice()){
         myElem.text.innerHTML = messages.buttonCheck.checking;
     }else{
         myElem.subText.innerHTML = messages.buttonCheck.checking;
     }
     playSndPushBtn();
-    if(USER_OS === 'iOS'){
+    if(isIOS()){
         switchPushButton(BUTTON_STATE.released);
     }else{
         switchPushButton(BUTTON_STATE.pushed);
@@ -414,7 +423,7 @@ const buttonCheck = (responseInterval) => {
         }, 100);
     }
     setTimeout(() => {
-        if(USER_OS !== 'other'){
+        if(isMobileDevice()){
             myElem.text.innerHTML = messages.buttonCheck.success;
         }else{
             myElem.subText.innerHTML = messages.buttonCheck.success;
@@ -425,13 +434,14 @@ const buttonCheck = (responseInterval) => {
 }
 //
 const pushButton = () => {
-    if(USER_OS !== 'other' && quizManager.hidePlayerBool === true){
+    if(isMobileDevice() && quizManager.hidePlayerBool === true){
         hidePlayer();
     }
     playSndPushBtn();
-    if(USER_OS === 'iOS'){
+    if(isIOS()){
+        const browserType = getBrowserType();
         switchPushButton(BUTTON_STATE.released);
-        if(USER_BROWSER === 'Chrome' || USER_BROWSER === 'Edge' || USER_BROWSER === 'Smooz'){
+        if(browserType === 'Chrome' || browserType === 'Edge' || browserType === 'Smooz'){
                 setTimeout(() => { focusToAnsCol(); }, 500); // In above browsers, focus() doesn't work by the script below.
         }else{
             focusToAnsCol(); // In iOS, focus() doesn't work properly in setTimeout (keyboard doesn't appear).
@@ -452,7 +462,7 @@ const myButtonAction = () => {
         setTimeout(() => {
             player.playVideo();
             myElem.ansBtn.disabled = false;
-            if(USER_OS !== 'other'){
+            if(isMobileDevice()){
                 quizManager.viewFuncArray.shift()();
                 myElem.text.innerHTML = messages.talk.intro;
                 myElem.subText.innerHTML = messages.talk.introSub.mobile;
@@ -503,7 +513,7 @@ const checkAnswer = () => {
     }else{
         switchPushButton(BUTTON_STATE.disabled);
     }
-    if(USER_OS !== 'other' && quizManager.hidePlayerBool === true){
+    if(isMobileDevice() && quizManager.hidePlayerBool === true){
         opposePlayer();
     }
 }
@@ -513,7 +523,7 @@ const myOrientationChangeEvent = () => {
         resizePlayer();
         resizePushButton(document.getElementById('player').clientHeight, getElemHeight());
         if(quizManager.state === QUIZ_STATE.MyAnswer){
-            if(USER_OS !== 'other' && quizManager.hidePlayerBool === true){
+            if(isMobileDevice() && quizManager.hidePlayerBool === true){
                 hidePlayer();
             }
         }
@@ -645,7 +655,7 @@ const myIntervalEvent = () => {
                 }
             }
         }else{
-            if(USER_OS === 'other' && document.activeElement.id === "player"){
+            if(!isMobileDevice() && document.activeElement.id === "player"){
                 instantFocusToElement(myElem.pushBtn); // preparation of js keydown event
             }
             quizManager.ansTime.elapsed = 0;
@@ -674,8 +684,6 @@ const myOnClickEvent = () => {
 }
 //
 /* INITIALIZE */
-const USER_OS = fetchOSType();
-const USER_BROWSER = fetchBrowserType();
 resizePlayer();
 //
 myElem.ansCol.id  = 'anscol';
@@ -689,7 +697,7 @@ myElem.ansBtn.innerHTML = messages.talk.jump;
 myElem.ansCol.disabled  = true;
 myElem.ansBtn.disabled  = true;
 myElem.numOX.innerHTML  = "⭕️："+quizManager.cntO+"　❌："+quizManager.cntX;
-if(USER_OS !== 'other'){
+if(isMobileDevice()){
     myElem.text.innerHTML = messages.buttonCheck.intro.mobile;
 }else{
     myElem.text.innerHTML = "YouTube Quiz Battle";
@@ -708,7 +716,7 @@ const appendBlinkTag = (message) => {
     return `<span class='blinkText'>${message}</span>`;
 };
 //
-if(USER_OS !== 'other'){
+if(isMobileDevice()){
     myElem.text.style.fontSize       = '42px';
     myElem.text.style.lineHeight     = '60px';
     myElem.text.style.fontWeight     = 'bold';
@@ -822,7 +830,7 @@ if(USER_OS !== 'other'){
 //
 const initPageAppearance = () => {
     /* append push button element */
-    if(USER_OS !== "other"){
+    if(isMobileDevice()){
         document.querySelector('body').appendChild(myElem.divBtn);
     }else{
         myElem.divUI.appendChild(myElem.divBtn);
@@ -832,7 +840,7 @@ const initPageAppearance = () => {
     resizePlayer();
     resizePushButton(document.getElementById('player').clientHeight, getElemHeight());
     //
-    if(USER_OS !== "other"){
+    if(isMobileDevice()){
         if(isPortraitOrientation()){
             switchPushButton(BUTTON_STATE.standby);
             myElem.text.innerHTML = messages.buttonCheck.intro.mobile;
