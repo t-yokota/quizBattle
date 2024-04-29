@@ -103,6 +103,46 @@ const quizManager = {
     hidePlayerBool     : false,
     disableSeekbarBool : false,
 };
+const messages = {
+    alert: {
+        image: "画像ファイルの読み込みに失敗しました。ページを再読み込みしてください。",
+        sound: "音声ファイルの読み込みに失敗しました。ページを再読み込みしてください。",
+        answer: "正答データの読み込みに失敗しました。ページを再読み込みしてください。",
+        page: "ページの読み込みに失敗しました。ページを再読み込みしてください。",
+        orientation: "このサイトはスマートフォン/タブレットを縦向きにしてお楽しみください。",
+    },
+    buttonCheck: {
+        intro: {
+            mobile: "早押しボタンをタップして動画を再生する",
+            other:  "スペースキーを押して動画を再生する",
+        },
+        checking: "ボタンの動作確認中...",
+        success: "OK!",
+        orientation: "端末を縦向きにしてクイズをはじめる",
+    },
+    question: {
+        number: (number) => "第"+number+"問",
+        column: "ここに解答を入力",
+        button: "解答を送信",
+        remainedPush: (limit, count) => "あと"+(limit-count)+"回解答できます。",
+    },
+    myAnswer: {
+        correct: "正解！",
+        incorrect: "不正解！",
+        remainedTime: (limit, elapsed) => "のこり"+Math.floor((limit-elapsed)/1000+1)+"秒",
+    },
+    othersAnswer: {
+        intro: "他の方が解答中です。",
+    },
+    talk: {
+        intro: "＜ 遊び方 ＞",
+        introSub: {
+            mobile: "画面上の早押しボタンを使って<br>動画内のクイズに参加することができます",
+            other:  "スペースキーを早押しボタンにして<br>動画内のクイズに参加することができます",
+        },
+        jump: "１問目まで移動",
+    },
+}
 //
 /* FUNCTION */
 const isPageHidden = () => document.webkitHidden;
@@ -172,7 +212,7 @@ const fetchBrowserType = () => {
 const loadImage = async (path) => {
     const img = new Image();
     img.src = path;
-    await img.decode().catch(() => alert("画像の読み込みに失敗しました。ページを再読み込みしてください。"));
+    await img.decode().catch(() => alert(messages.alert.image));
     return img
 }
 //
@@ -360,9 +400,9 @@ const jumpToAnswerIndex = (index, time) => {
 //
 const buttonCheck = (responseInterval) => {
     if(USER_OS !== 'other'){
-        myElem.text.innerHTML = "ボタンの動作確認中...";
+        myElem.text.innerHTML = messages.buttonCheck.checking;
     }else{
-        myElem.subText.innerHTML = "ボタンの動作確認中...";
+        myElem.subText.innerHTML = messages.buttonCheck.checking;
     }
     playSndPushBtn();
     if(USER_OS === 'iOS'){
@@ -375,11 +415,10 @@ const buttonCheck = (responseInterval) => {
     }
     setTimeout(() => {
         if(USER_OS !== 'other'){
-            myElem.text.innerHTML = "OK!";
+            myElem.text.innerHTML = messages.buttonCheck.success;
         }else{
-            myElem.subText.innerHTML = "OK!";
+            myElem.subText.innerHTML = messages.buttonCheck.success;
         }
-        myElem.subText.innerHTML = "OK!";
         playSndO();
         switchPushButton(BUTTON_STATE.standby);
     }, responseInterval);
@@ -415,12 +454,12 @@ const myButtonAction = () => {
             myElem.ansBtn.disabled = false;
             if(USER_OS !== 'other'){
                 quizManager.viewFuncArray.shift()();
-                myElem.text.innerHTML = "＜ 遊び方 ＞";
-                myElem.subText.innerHTML = "画面上の早押しボタンを使って<br>動画内のクイズに参加することができます";
+                myElem.text.innerHTML = messages.talk.intro;
+                myElem.subText.innerHTML = messages.talk.introSub.mobile;
             }else{
                 quizManager.viewFuncArray.shift()();
-                myElem.text.innerHTML = "＜ 遊び方 ＞"
-                myElem.subText.innerHTML = "スペースキーを早押しボタンにして<br>動画内のクイズに参加することができます";
+                myElem.text.innerHTML = messages.talk.intro;
+                myElem.subText.innerHTML = messages.talk.introSub.other;
             }
         }, quizManager.btnCheckInterval.playVideo);
     }
@@ -446,12 +485,12 @@ const checkAnswer = () => {
     if(quizManager.correctBool === true){
         playSndO();
         quizManager.cntO += 1;
-        myElem.text.innerHTML = "正解！";
+        myElem.text.innerHTML = messages.myAnswer.correct;
         if(quizManager.jumpToAnsBool){ jumpToAnswerIndex(quizManager.ansIndex, quizManager.ansIndexStartTime); }
     }else{
         playSndX();
         quizManager.cntX += 1;
-        myElem.text.innerHTML = "不正解！"; //あと"+(quizManager.limPush-quizManager.cntPush)+"回解答できます。";
+        myElem.text.innerHTML = messages.myAnswer.incorrect; // messages.question.remainedPush(quizManager.limPush, quizManager.cntPush);
         if(quizManager.jumpToAnsBool){ jumpToAnswerIndex(quizManager.ansIndex, quizManager.ansIndexStartTime); }
     }
     myElem.numOX.innerHTML  = "⭕️："+quizManager.cntO+"　❌："+quizManager.cntX;
@@ -485,14 +524,14 @@ const myOrientationChangeEvent = () => {
                 switchPushButton(BUTTON_STATE.standby);
             }
             if(quizManager.state === QUIZ_STATE.ButtonCheck){
-                myElem.text.innerHTML = "早押しボタンをタップして動画の再生を開始する";
+                myElem.text.innerHTML = messages.buttonCheck.intro.mobile;
             }
         }else{
             switchPushButton(BUTTON_STATE.disabled);
             if(quizManager.state === QUIZ_STATE.ButtonCheck){
-                myElem.text.innerHTML = "端末を縦向きにしてクイズをはじめる";
+                myElem.text.innerHTML = messages.buttonCheck.orientation;
             }
-            alert("このサイトはスマートフォン/タブレットを縦向きにしてお楽しみください。");
+            alert(messages.alert.orientation);
         }
     }, 800);
 }
@@ -588,13 +627,13 @@ const myIntervalEvent = () => {
         if(quizManager.state === QUIZ_STATE.ButtonCheck){
             if(quizManager.currIndex > 0){
                 player.pauseVideo();
-                alert('ページの読み込みに失敗しました。ページを再読み込みしてください。');
+                alert(messages.alert.page);
             }
         }
         if(quizManager.state === QUIZ_STATE.MyAnswer){ // answer time managemant
             if(document.activeElement.id === "anscol" || quizManager.ansTime.elapsed !== 0){
                 quizManager.ansTime.elapsed += interval;
-                myElem.text.innerHTML = "のこり"+Math.floor((quizManager.ansTime.limit-quizManager.ansTime.elapsed)/1000+1)+"秒";
+                myElem.text.innerHTML = messages.myAnswer.remainedTime(quizManager.ansTime.limit, quizManager.ansTime.elapsed);
                 if(quizManager.ansTime.elapsed >= quizManager.ansTime.limit){
                     checkAnswer();
                     if(quizManager.correctBool === true || quizManager.limPush - quizManager.cntPush === 0){
@@ -645,13 +684,13 @@ myElem.divUI.id   = 'divui';
 myElem.divElem.id = 'divelem';
 myElem.divBtn.id  = 'divbtn';
 //
-myElem.ansCol.value     = "ここに解答を入力";
-myElem.ansBtn.innerHTML = "１問目まで移動";
+myElem.ansCol.value     = messages.question.column;
+myElem.ansBtn.innerHTML = messages.talk.jump;
 myElem.ansCol.disabled  = true;
 myElem.ansBtn.disabled  = true;
 myElem.numOX.innerHTML  = "⭕️："+quizManager.cntO+"　❌："+quizManager.cntX;
 if(USER_OS !== 'other'){
-    myElem.text.innerHTML = "早押しボタンをタップして動画の再生を開始する";
+    myElem.text.innerHTML = messages.buttonCheck.intro.mobile;
 }else{
     myElem.text.innerHTML = "YouTube Quiz Battle";
 }
@@ -665,6 +704,9 @@ document.styleSheets.item(0).insertRule('@keyframes blinkText{ 0% { opacity: 0; 
 document.styleSheets.item(0).insertRule('div#divelem { float: left; display: flex; align-items: center; justify-content: center; flex-direction: column; }');
 document.styleSheets.item(0).insertRule('div#divbtn  { overflow: hidden; position: relative; transform-origin: left top; }');
 document.styleSheets.item(0).insertRule('img#pushbtn { position: absolute; left: 0px; top: 0px; }');
+const appendBlinkTag = (message) => {
+    return `<span class='blinkText'>${message}</span>`;
+};
 //
 if(USER_OS !== 'other'){
     myElem.text.style.fontSize       = '42px';
@@ -793,19 +835,19 @@ const initPageAppearance = () => {
     if(USER_OS !== "other"){
         if(isPortraitOrientation()){
             switchPushButton(BUTTON_STATE.standby);
-            myElem.text.innerHTML = "早押しボタンをタップして動画の再生を開始する";
+            myElem.text.innerHTML = messages.buttonCheck.intro.mobile;
         }else{
             switchPushButton(BUTTON_STATE.disabled);
-            myElem.text.innerHTML = "端末を縦向きにしてクイズをはじめる";
-            alert("このサイトはスマートフォン/タブレットを縦向きにしてお楽しみください。");
+            myElem.text.innerHTML = messages.buttonCheck.orientation;
+            alert(messages.alert.orientation);
         }
         myElem.pushBtn.className = "blinkImg";
     }else{
         switchPushButton(BUTTON_STATE.standby);
         if(detectTouchPanel() === true){
-            myElem.subText.innerHTML = "<span class='blinkText'>スペースキーを押して動画を開始する</span>";
+            myElem.subText.innerHTML = appendBlinkTag(messages.buttonCheck.intro.other);
         }else{
-            myElem.subText.innerHTML = "<span class='blinkText'>スペースキーを押して動画を開始する</span>";
+            myElem.subText.innerHTML = appendBlinkTag(messages.buttonCheck.intro.other);
         }
         quizManager.viewFuncArray.shift()(); 
     }
@@ -819,13 +861,13 @@ const initPageAppearance = () => {
     //
     /* load audio data */
     const audioContext = new AudioContext();
-    const response1 = await fetch(PATH.sound).catch(() => alert("サウンドの読み込みに失敗しました。ページを再読み込みしてください。"));
+    const response1 = await fetch(PATH.sound).catch(() => alert(messages.alert.audio));
     const responseBuffer = await response1.arrayBuffer();
     quizManager.audioBuffer = await audioContext.decodeAudioData(responseBuffer);
     prepareAudioBufferNode();
     //
     /* load answer file */
-    const response2 = await fetch(PATH.answer).catch(() => alert("外部ファイルの読み込みに失敗しました。ページを再読み込みしてください。"));
+    const response2 = await fetch(PATH.answer).catch(() => alert(messages.alert.answer));
     const responseText = await response2.text();
     quizManager.ansArray = csvToArray(responseText);
     //
@@ -853,7 +895,7 @@ quizManager.firstQuesStartTime = 4.01;
 quizManager.srtFuncArray = [
     () => {
         quizManager.viewFuncArray.shift()();
-        myElem.ansBtn.innerHTML = "解答を送信";
+        myElem.ansBtn.innerHTML = messages.question.button;
         /* Question 1 */
         quizManager.ansIndex = 2;
         quizManager.ansIndexStartTime = 18.78;
@@ -862,8 +904,8 @@ quizManager.srtFuncArray = [
         quizManager.quesNum = 1;
         quizManager.cntPush = 0;
         quizManager.correctBool = false;
-        myElem.text.innerHTML = "第"+quizManager.quesNum+"問";
-        myElem.ansCol.value = "ここに解答を入力";
+        myElem.text.innerHTML = messages.question.number(quizManager.quesNum);
+        myElem.ansCol.value = messages.question.column;
         myElem.ansCol.disabled = true;
         myElem.ansBtn.disabled = true;
         if(isPortraitOrientation()){ switchPushButton(BUTTON_STATE.standby); }
@@ -883,8 +925,8 @@ quizManager.srtFuncArray = [
         quizManager.quesNum = 2;
         quizManager.cntPush = 0;
         quizManager.correctBool = false;
-        myElem.text.innerHTML = "第"+quizManager.quesNum+"問";
-        myElem.ansCol.value = "ここに解答を入力";
+        myElem.text.innerHTML = messages.question.number(quizManager.quesNum);
+        myElem.ansCol.value = messages.question.column;
         myElem.ansCol.disabled = true;
         myElem.ansBtn.disabled = true;
         if(isPortraitOrientation()){ switchPushButton(BUTTON_STATE.standby); }
@@ -904,8 +946,8 @@ quizManager.srtFuncArray = [
         quizManager.quesNum = 3;
         quizManager.cntPush = 0;
         quizManager.correctBool = false;
-        myElem.text.innerHTML = "第"+quizManager.quesNum+"問";
-        myElem.ansCol.value = "ここに解答を入力";
+        myElem.text.innerHTML = messages.question.number(quizManager.quesNum);
+        myElem.ansCol.value = messages.question.column;
         myElem.ansCol.disabled = true;
         myElem.ansBtn.disabled = true;
         if(isPortraitOrientation()){ switchPushButton(BUTTON_STATE.standby); }
@@ -925,8 +967,8 @@ quizManager.srtFuncArray = [
         quizManager.quesNum = 4;
         quizManager.cntPush = 0;
         quizManager.correctBool = false;
-        myElem.text.innerHTML = "第"+quizManager.quesNum+"問";
-        myElem.ansCol.value = "ここに解答を入力";
+        myElem.text.innerHTML = messages.question.number(quizManager.quesNum);
+        myElem.ansCol.value = messages.question.column;
         myElem.ansCol.disabled = true;
         myElem.ansBtn.disabled = true;
         if(isPortraitOrientation()){ switchPushButton(BUTTON_STATE.standby); }
@@ -946,8 +988,8 @@ quizManager.srtFuncArray = [
         quizManager.quesNum = 5;
         quizManager.cntPush = 0;
         quizManager.correctBool = false;
-        myElem.text.innerHTML = "第"+quizManager.quesNum+"問";
-        myElem.ansCol.value = "ここに解答を入力";
+        myElem.text.innerHTML = messages.question.number(quizManager.quesNum);
+        myElem.ansCol.value = messages.question.column;
         myElem.ansCol.disabled = true;
         myElem.ansBtn.disabled = true;
         if(isPortraitOrientation()){ switchPushButton(BUTTON_STATE.standby); }
