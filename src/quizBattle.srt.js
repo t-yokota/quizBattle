@@ -146,15 +146,18 @@ const messages = {
 }
 //
 /* FUNCTION */
+/* Get informations of user environment */
+const isMobileDevice = () => getDeviceType() === 'mobile';
+const isIOS = () => getOsType() === 'iOS';
+const isAndroid = () => getOsType() === 'Android';
 const isPageHidden = () => document.webkitHidden;
+const isTouchAvailable = () => window.ontouchstart === null;
 const isSpaceKeyPressed = (event) => event.keyCode === KEY_CODE.space;
 const isEnterKeyPressed = (event) => event.keyCode === KEY_CODE.enter;
 const isPortraitOrientation = () => Math.abs(window.orientation) !== ORIENTATION.landscape;
-const isTouchAvailable = () => window.ontouchstart === null;
 const isWithinPushButtonArea = (touchObject, { left, right, top, bottom }) =>
     left < touchObject.pageX && touchObject.pageX < right && top < touchObject.pageY && touchObject.pageY < bottom;
 //
-/* Get information of user environment */
 const getOsType = () => {
     let osType = null;
     const ua = navigator.userAgent;
@@ -180,10 +183,6 @@ const getDeviceType = () => {
     const os = getOsType();
     return os === 'Android' || os === 'iOS' ? 'mobile' : 'other';
 }
-//
-const isMobileDevice = () => getDeviceType() === 'mobile';
-const isAndroid = () => getOsType() === 'Android';
-const isIOS = () => getOsType() === 'iOS';
 //
 const getBrowserType = () => {
     let brType = null;
@@ -256,19 +255,22 @@ const playSndX = () => {
 }
 //
 /* Set appearances */
-const getElemHeight = () => {
+const getPlayerHeight = () => document.getElementById('player').clientHeight;
+const getTotalUiHeightExceptPushButton = () => getTotalElemHeight(['text', 'ansCol', 'ansBtn', 'numOX']);
+//
+const getTotalElemHeight = (elements) => {
     let response = 0;
     if(isMobileDevice()){
-        response += parseInt(myElem.text.style.lineHeight, 10);
-        response += parseInt(myElem.text.style.marginTop, 10);
-        response += parseInt(myElem.text.style.marginBottom, 10);
-        response += parseInt(myElem.ansCol.style.height, 10);
-        response += parseInt(myElem.ansCol.style.marginBottom, 10);
-        response += parseInt(myElem.ansBtn.style.height, 10);
-        response += parseInt(myElem.ansBtn.style.marginBottom, 10);
-        response += parseInt(myElem.numOX.style.lineHeight, 10);
+        const properties = ['height', 'paddingTop', 'paddingBottom', 'borderTop', 'borderBottom', 'marginTop', 'marginBottom'];
+        elements.forEach(elem => {
+            properties.forEach(prop => {
+                const value = parseInt(myElem[elem].style[prop], 10) || 0;
+                response += value;
+            });
+        });
     }
-    return response
+    console.log(response);
+    return response;
 }
 //
 const resizePlayer = () => {
@@ -301,10 +303,10 @@ const resizePlayer = () => {
     player.setSize(playerWidth, playerHeight);
 }
 //
-const resizePushButton = (playerHeight, elemHeight) => {
+const resizePushButton = (playerHeight, uiHeight) => {
     if(isMobileDevice()){
         if(isPortraitOrientation()){
-            const tmpDivBtnHeight = document.documentElement.clientHeight-playerHeight-elemHeight-20;
+            const tmpDivBtnHeight = document.documentElement.clientHeight-playerHeight-uiHeight-20;
             const tmpDivBtnWidth  = myElem.pushBtn.naturalWidth*tmpDivBtnHeight/myElem.pushBtn.naturalHeight;
             if(tmpDivBtnWidth < document.documentElement.clientWidth){
                 if(tmpDivBtnHeight <= playerHeight){
@@ -369,13 +371,8 @@ const switchPushButton = (button_state) => {
     }
 }
 //
-const hidePlayer = () => {
-    player.setSize(0, 0);
-}
-//
-const opposePlayer = () => {
-    resizePlayer();
-}
+const hidePlayer = () => player.setSize(0, 0);
+const opposePlayer = () => resizePlayer();
 //
 /* Event functions */
 const updateWatchedTime = (currentPlayingTime, watchedTime) => {
@@ -406,11 +403,14 @@ const jumpToAnswerIndex = (index, time) => {
 }
 //
 const buttonCheck = (responseInterval) => {
-    if(isMobileDevice()){
-        myElem.text.innerHTML = messages.buttonCheck.checking;
-    }else{
-        myElem.subText.innerHTML = messages.buttonCheck.checking;
+    const updateMessage = (message) => {
+        if(isMobileDevice()){
+            myElem.text.innerHTML = message;
+        }else{
+            myElem.subText.innerHTML = message;
+        }
     }
+    updateMessage(messages.buttonCheck.checking);
     playSndPushBtn();
     if(isIOS()){
         switchPushButton(BUTTON_STATE.released);
@@ -421,11 +421,7 @@ const buttonCheck = (responseInterval) => {
         }, 100);
     }
     setTimeout(() => {
-        if(isMobileDevice()){
-            myElem.text.innerHTML = messages.buttonCheck.success;
-        }else{
-            myElem.subText.innerHTML = messages.buttonCheck.success;
-        }
+        updateMessage(messages.buttonCheck.success);
         playSndO();
         switchPushButton(BUTTON_STATE.standby);
     }, responseInterval);
@@ -513,7 +509,7 @@ const checkAnswer = () => {
 const myOrientationChangeEvent = () => {
     setTimeout(() => {
         resizePlayer();
-        resizePushButton(document.getElementById('player').clientHeight, getElemHeight());
+        resizePushButton(getPlayerHeight(), getTotalUiHeightExceptPushButton());
         if(quizManager.state === QUIZ_STATE.MyAnswer){
             if(isMobileDevice() && quizManager.hidePlayerBool === true){
                 hidePlayer();
@@ -677,8 +673,11 @@ const myOnClickEvent = () => {
 /* INITIALIZE */
 resizePlayer();
 //
+myElem.text.id    = 'text';
+myElem.subText.id = 'subtext';
 myElem.ansCol.id  = 'anscol';
 myElem.ansBtn.id  = 'ansbtn';
+myElem.numOX.id   = 'numox';
 myElem.divUI.id   = 'divui';
 myElem.divElem.id = 'divelem';
 myElem.divBtn.id  = 'divbtn';
@@ -704,6 +703,7 @@ const appendBlinkTag = (message) => {
 //
 if(isMobileDevice()){
     myElem.text.style.fontSize       = '42px';
+    myElem.text.style.height         = '60px';
     myElem.text.style.lineHeight     = '60px';
     myElem.text.style.fontWeight     = 'bold';
     myElem.text.style.display        = 'block';
@@ -728,6 +728,7 @@ if(isMobileDevice()){
     myElem.ansBtn.style.marginRight  = 'auto';
     myElem.ansBtn.style.display      = 'block';
     myElem.numOX.style.fontSize      = '42px';
+    myElem.numOX.style.height        = '80px';
     myElem.numOX.style.lineHeight    = '80px';
     myElem.numOX.style.fontWeight    = 'bold';
     myElem.numOX.style.display       = 'block';
@@ -736,7 +737,7 @@ if(isMobileDevice()){
         () => {
             document.querySelector('body').appendChild(myElem.text);
             document.querySelector('body').appendChild(myElem.ansBtn);
-            // document.querySelector('body').appendChild(myElem.pushBtn);
+            // document.querySelector('body').appendChild(myElem.pushBtn); // append pushbutton element in initPageAppearance()
             document.querySelector('body').appendChild(myElem.numOX);
         },
         () => {
@@ -760,6 +761,7 @@ if(isMobileDevice()){
     const divUIHeight  = playerHeight*0.9;
     const divUIWidth   = playerWidth;
     const divElemWidth = playerWidth*2/3;
+    //
     document.querySelector('body').style.width = playerWidth+'px';
     myElem.divUI.style.width = divUIWidth+'px'; // set with an assignment to reference the value from elsewhere.
     myElem.divUI.style.height = divUIHeight+'px';
@@ -799,7 +801,7 @@ if(isMobileDevice()){
             myElem.subText.style.margin  = '0px auto 50px';
             myElem.subText.style.padding = '0px 40px';
             document.getElementById("divelem").insertBefore(myElem.subText, myElem.text.nextSibling);
-            // document.getElementById("divbtn").appendChild(myElem.pushBtn);
+            // document.getElementById("divbtn").appendChild(myElem.pushBtn); // append pushbutton element in initPageAppearance()
         },
         () => {
             document.getElementById("divelem").insertBefore(myElem.ansBtn, myElem.subText.nextSibling);
@@ -824,7 +826,7 @@ const initPageAppearance = () => {
     document.getElementById("divbtn").appendChild(myElem.pushBtn);
     //
     resizePlayer();
-    resizePushButton(document.getElementById('player').clientHeight, getElemHeight());
+    resizePushButton(getPlayerHeight(), getTotalUiHeightExceptPushButton());
     //
     if(isMobileDevice()){
         if(isPortraitOrientation()){
@@ -881,6 +883,28 @@ const initPageAppearance = () => {
     setInterval(myIntervalEvent, interval = 10);
 })();
 //
+/* STATE CONTROL */
+const setQuestionState = (quesNum, ansIndex, ansIndexStartTime) => {
+    quizManager.ansIndex = ansIndex;
+    quizManager.ansIndexStartTime = ansIndexStartTime;
+    quizManager.state = QUIZ_STATE.Question;
+    quizManager.quesNum = quesNum;
+    quizManager.cntPush = 0;
+    quizManager.correctBool = false;
+    myElem.text.innerHTML = messages.question.number(quizManager.quesNum);
+    myElem.ansCol.value = messages.question.column;
+    myElem.ansCol.disabled = true;
+    myElem.ansBtn.disabled = true;
+    if(isPortraitOrientation()){ switchPushButton(BUTTON_STATE.standby); }
+};
+//
+const setTalkState = () => {
+    quizManager.state = QUIZ_STATE.Talk;
+    myElem.ansCol.disabled = true;
+    myElem.ansBtn.disabled = true;
+    switchPushButton(BUTTON_STATE.disabled);
+};
+//
 //---------------------------------------------------------------------------------------------------------------
 /* set functions executed in each subtitle */
 quizManager.jumpToAnsBool = true;
@@ -892,108 +916,38 @@ quizManager.srtFuncArray = [
         quizManager.viewFuncArray.shift()();
         myElem.ansBtn.innerHTML = messages.question.button;
         /* Question 1 */
-        quizManager.ansIndex = 2;
-        quizManager.ansIndexStartTime = 18.78;
-        //
-        quizManager.state = QUIZ_STATE.Question;
-        quizManager.quesNum = 1;
-        quizManager.cntPush = 0;
-        quizManager.correctBool = false;
-        myElem.text.innerHTML = messages.question.number(quizManager.quesNum);
-        myElem.ansCol.value = messages.question.column;
-        myElem.ansCol.disabled = true;
-        myElem.ansBtn.disabled = true;
-        if(isPortraitOrientation()){ switchPushButton(BUTTON_STATE.standby); }
+        setQuestionState(1, 2, 18.78);
     },
     () => {
-        quizManager.state = QUIZ_STATE.Talk;
-        myElem.ansCol.disabled = true;
-        myElem.ansBtn.disabled = true;
-        switchPushButton(BUTTON_STATE.disabled);
+        setTalkState();
     },
     () => {
         /* Question 2 */
-        quizManager.ansIndex = 4;
-        quizManager.ansIndexStartTime = 33.93;
-        //
-        quizManager.state = QUIZ_STATE.Question;
-        quizManager.quesNum = 2;
-        quizManager.cntPush = 0;
-        quizManager.correctBool = false;
-        myElem.text.innerHTML = messages.question.number(quizManager.quesNum);
-        myElem.ansCol.value = messages.question.column;
-        myElem.ansCol.disabled = true;
-        myElem.ansBtn.disabled = true;
-        if(isPortraitOrientation()){ switchPushButton(BUTTON_STATE.standby); }
+        setQuestionState(2, 4, 33.93);
     },
     () => {
-        quizManager.state = QUIZ_STATE.Talk;
-        myElem.ansCol.disabled = true;
-        myElem.ansBtn.disabled = true;
-        switchPushButton(BUTTON_STATE.disabled);
+        setTalkState();
     },
     () => {
         /* Question 3 */
-        quizManager.ansIndex = 6;
-        quizManager.ansIndexStartTime = 52.61;
-        //
-        quizManager.state = QUIZ_STATE.Question;
-        quizManager.quesNum = 3;
-        quizManager.cntPush = 0;
-        quizManager.correctBool = false;
-        myElem.text.innerHTML = messages.question.number(quizManager.quesNum);
-        myElem.ansCol.value = messages.question.column;
-        myElem.ansCol.disabled = true;
-        myElem.ansBtn.disabled = true;
-        if(isPortraitOrientation()){ switchPushButton(BUTTON_STATE.standby); }
+        setQuestionState(3, 6, 52.61);
     },
     () => {
-        quizManager.state = QUIZ_STATE.Talk;
-        myElem.ansCol.disabled = true;
-        myElem.ansBtn.disabled = true;
-        switchPushButton(BUTTON_STATE.disabled);
+        setTalkState();
     },
     () => {
         /* Question 4 */
-        quizManager.ansIndex = 8;
-        quizManager.ansIndexStartTime = 67.5;
-        //
-        quizManager.state = QUIZ_STATE.Question;
-        quizManager.quesNum = 4;
-        quizManager.cntPush = 0;
-        quizManager.correctBool = false;
-        myElem.text.innerHTML = messages.question.number(quizManager.quesNum);
-        myElem.ansCol.value = messages.question.column;
-        myElem.ansCol.disabled = true;
-        myElem.ansBtn.disabled = true;
-        if(isPortraitOrientation()){ switchPushButton(BUTTON_STATE.standby); }
+        setQuestionState(4, 8, 67.5);
     },
     () => {
-        quizManager.state = QUIZ_STATE.Talk;
-        myElem.ansCol.disabled = true;
-        myElem.ansBtn.disabled = true;
-        switchPushButton(BUTTON_STATE.disabled);
+        setTalkState();
     },
     () => {
         /* Question 5 */
-        quizManager.ansIndex = 10;
-        quizManager.ansIndexStartTime = 84.39;
-        //
-        quizManager.state = QUIZ_STATE.Question;
-        quizManager.quesNum = 5;
-        quizManager.cntPush = 0;
-        quizManager.correctBool = false;
-        myElem.text.innerHTML = messages.question.number(quizManager.quesNum);
-        myElem.ansCol.value = messages.question.column;
-        myElem.ansCol.disabled = true;
-        myElem.ansBtn.disabled = true;
-        if(isPortraitOrientation()){ switchPushButton(BUTTON_STATE.standby); }
+        setQuestionState(5, 10, 84.39);
     },
     () => {
-        quizManager.state = QUIZ_STATE.Talk;
-        myElem.ansCol.disabled = true;
-        myElem.ansBtn.disabled = true;
-        switchPushButton(BUTTON_STATE.disabled);
+        setTalkState();
     },
 ];
 
