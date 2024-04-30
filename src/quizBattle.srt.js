@@ -111,7 +111,8 @@ const messages = {
         orientation: "このサイトはスマートフォン/タブレットを縦向きにしてお楽しみください。",
     },
     buttonCheck: {
-        intro: {
+        title: "YouTube Quiz Battle",
+        description: {
             mobile: "早押しボタンをタップして動画を再生する",
             other:  "スペースキーを押して動画を再生する",
         },
@@ -132,15 +133,15 @@ const messages = {
         remainedTime: (limit, elapsed) => "のこり"+Math.floor((limit-elapsed)/1000+1)+"秒",
     },
     othersAnswer: {
-        intro: "他の方が解答中です。",
+        description: "他の方が解答中です。",
     },
-    talk: {
-        intro: "＜ 遊び方 ＞",
-        introSub: {
+    intro: {
+        title: "＜ 遊び方 ＞",
+        description: {
             mobile: "画面上の早押しボタンを使って<br>動画内のクイズに参加することができます",
             other:  "スペースキーを早押しボタンにして<br>動画内のクイズに参加することができます",
         },
-        jump: "１問目まで移動",
+        button: "１問目まで移動",
     },
 }
 //
@@ -149,14 +150,11 @@ const isPageHidden = () => document.webkitHidden;
 const isSpaceKeyPressed = (event) => event.keyCode === KEY_CODE.space;
 const isEnterKeyPressed = (event) => event.keyCode === KEY_CODE.enter;
 const isPortraitOrientation = () => Math.abs(window.orientation) !== ORIENTATION.landscape;
+const isTouchAvailable = () => window.ontouchstart === null;
 const isWithinPushButtonArea = (touchObject, { left, right, top, bottom }) =>
     left < touchObject.pageX && touchObject.pageX < right && top < touchObject.pageY && touchObject.pageY < bottom;
 //
 /* Get information of user environment */
-const detectTouchPanel = () => {
-    return window.ontouchstart === null;
-}
-//
 const getOsType = () => {
     let osType = null;
     const ua = navigator.userAgent;
@@ -169,7 +167,7 @@ const getOsType = () => {
     }else if(ua.match(/iPad/)) {
         osType = "iOS"; // iPad OS
         return osType;
-    }else if(ua.match(/Macintosh/) && detectTouchPanel() === true){
+    }else if(ua.match(/Macintosh/) && isTouchAvailable()){
         osType = 'iOS'; // iPad OS with Safari
         return osType;
     }else{
@@ -462,15 +460,9 @@ const myButtonAction = () => {
         setTimeout(() => {
             player.playVideo();
             myElem.ansBtn.disabled = false;
-            if(isMobileDevice()){
-                quizManager.viewFuncArray.shift()();
-                myElem.text.innerHTML = messages.talk.intro;
-                myElem.subText.innerHTML = messages.talk.introSub.mobile;
-            }else{
-                quizManager.viewFuncArray.shift()();
-                myElem.text.innerHTML = messages.talk.intro;
-                myElem.subText.innerHTML = messages.talk.introSub.other;
-            }
+            quizManager.viewFuncArray.shift()();
+            myElem.text.innerHTML = messages.intro.title;
+            myElem.subText.innerHTML = messages.intro.description[getDeviceType()];
         }, quizManager.btnCheckInterval.playVideo);
     }
     if(quizManager.state === QUIZ_STATE.Question){
@@ -534,7 +526,7 @@ const myOrientationChangeEvent = () => {
                 switchPushButton(BUTTON_STATE.standby);
             }
             if(quizManager.state === QUIZ_STATE.ButtonCheck){
-                myElem.text.innerHTML = messages.buttonCheck.intro.mobile;
+                myElem.text.innerHTML = messages.buttonCheck.description[getDeviceType()];
             }
         }else{
             switchPushButton(BUTTON_STATE.disabled);
@@ -692,15 +684,10 @@ myElem.divElem.id = 'divelem';
 myElem.divBtn.id  = 'divbtn';
 //
 myElem.ansCol.value     = messages.question.column;
-myElem.ansBtn.innerHTML = messages.talk.jump;
+myElem.ansBtn.innerHTML = messages.intro.button;
 myElem.ansCol.disabled  = true;
 myElem.ansBtn.disabled  = true;
 myElem.numOX.innerHTML  = messages.question.numberOX(quizManager.cntO, quizManager.cntX);
-if(isMobileDevice()){
-    myElem.text.innerHTML = messages.buttonCheck.intro.mobile;
-}else{
-    myElem.text.innerHTML = "YouTube Quiz Battle";
-}
 //
 document.styleSheets.item(0).insertRule('html { touch-action: manipulation; }'); //disable double tap gesture
 document.styleSheets.item(0).insertRule('body { text-align: center; margin: auto; background: #EFEFEF; }');
@@ -842,7 +829,7 @@ const initPageAppearance = () => {
     if(isMobileDevice()){
         if(isPortraitOrientation()){
             switchPushButton(BUTTON_STATE.standby);
-            myElem.text.innerHTML = messages.buttonCheck.intro.mobile;
+            myElem.text.innerHTML = messages.buttonCheck.description[getDeviceType()];
         }else{
             switchPushButton(BUTTON_STATE.disabled);
             myElem.text.innerHTML = messages.buttonCheck.orientation;
@@ -851,10 +838,11 @@ const initPageAppearance = () => {
         myElem.pushBtn.className = "blinkImg";
     }else{
         switchPushButton(BUTTON_STATE.standby);
-        if(detectTouchPanel() === true){
-            myElem.subText.innerHTML = appendBlinkTag(messages.buttonCheck.intro.other);
+        myElem.text.innerHTML = messages.buttonCheck.title;
+        if(isTouchAvailable()){
+            myElem.subText.innerHTML = appendBlinkTag(messages.buttonCheck.description[getDeviceType()]);
         }else{
-            myElem.subText.innerHTML = appendBlinkTag(messages.buttonCheck.intro.other);
+            myElem.subText.innerHTML = appendBlinkTag(messages.buttonCheck.description[getDeviceType()]);
         }
         quizManager.viewFuncArray.shift()(); 
     }
