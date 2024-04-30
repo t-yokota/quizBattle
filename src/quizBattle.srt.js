@@ -97,7 +97,6 @@ const quizManager = {
     ansIndexStartTime  : 0,
     firstQuesStartTime : 0,
     //
-    pageHiddenBool     : false,
     composingBool      : false,
     jumpToAnsBool      : false,
     hidePlayerBool     : false,
@@ -548,8 +547,7 @@ const myOrientationChangeEvent = () => {
 }
 //
 const myPageHiddenCheckEvent = () => {
-    quizManager.pageHiddenBool = isPageHidden();
-    if(!quizManager.pageHiddenBool){
+    if(!isPageHidden()){
         quizManager.currTime.playing = player.getCurrentTime();
         quizManager.watchedTime  = quizManager.currTime.playing;
     }
@@ -612,7 +610,7 @@ const myPlayerStateChangeEvent = () => {
 }
 //
 const myIntervalEvent = () => {
-    if(quizManager.pageHiddenBool === false){
+    if(!isPageHidden()){
         if(player.getPlayerState() === VIDEO_STATE.Playing){
             quizManager.currTime.playing = player.getCurrentTime();
             quizManager.watchedTime = updateWatchedTime(quizManager.currTime.playing, quizManager.watchedTime);
