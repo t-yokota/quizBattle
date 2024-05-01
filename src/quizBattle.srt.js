@@ -89,11 +89,11 @@ const quizManager = {
         elapsed : 0,     // [ms]
     },
     currTime : {
-        playing : 0, // be updated during the video is playing
-        stopped : 0, // be updated when the video is stopped
+        playing : 0, // It is updated during the video is playing
+        stopped : 0, // It is updated when the video is stopped
     },
     watchedTime        : 0,
-    diffTime           : 0, // difference between watchedTime and currentTime
+    diffTime           : 0, // Difference between watchedTime and currentTime
     ansIndexStartTime  : 0,
     firstQuesStartTime : 0,
     //
@@ -205,10 +205,10 @@ const getBrowserType = () => {
     }else if(ua.match(/Smooz/)){
         brType = "Smooz";
         return brType;
-    }else if(ua.match(/CriOS/) || ua.match(/Chrome/)){ //Chrome or Others ...
+    }else if(ua.match(/CriOS/) || ua.match(/Chrome/)){ // Chrome or Others ...
         brType = "Chrome";
         return brType;
-    }else{ //Safari, Firefox(iOS), Brave or Others ...
+    }else{ // Safari, Firefox(iOS), Brave or Others ...
         brType = "Other";
         return brType;
     }
@@ -269,7 +269,6 @@ const getTotalElemHeight = (elements) => {
             });
         });
     }
-    console.log(response);
     return response;
 }
 //
@@ -284,7 +283,7 @@ const resizePlayer = () => {
             playerWidth  = document.documentElement.clientWidth*2/3;
             playerHeight = playerWidth/16*9;
         }
-        if(isAndroid() && getBrowserType() === "Firefox"){ // set special width of anscol to prevent the window is zoomed when the focus moveds to anscol.
+        if(isAndroid() && getBrowserType() === "Firefox"){ // Set special width of anscol to prevent the window is zoomed when the focus moveds to anscol.
             myElem.ansCol.style.width = playerWidth*0.98+'px';
         }else{
             myElem.ansCol.style.width = playerWidth*0.9+'px';
@@ -383,7 +382,7 @@ const updateWatchedTime = (currentPlayingTime, watchedTime) => {
 }
 //
 const instantFocusToElement = (focusUsableElement) => {
-    focusUsableElement.disabled = false;  // set focus is in a js element for preparing keydown event.
+    focusUsableElement.disabled = false;  // Set focus is in a js element for enabling keydown event.
     focusUsableElement.focus();
     focusUsableElement.blur();
     focusUsableElement.disabled = true;
@@ -546,7 +545,7 @@ const myKeyDownEvent = (event) => {
         if(isSpaceKeyPressed(event)){
             myButtonAction();
         }
-        if(isEnterKeyPressed(event) && !quizManager.composingBool){ // for preventing new line in text area.
+        if(isEnterKeyPressed(event) && !quizManager.composingBool){ // For preventing new line in text area.
             return false;
         }
     }
@@ -566,7 +565,7 @@ const myPlayerStateChangeEvent = () => {
     if(player.getPlayerState() === VIDEO_STATE.Playing){
         quizManager.currTime.playing = player.getCurrentTime();
         quizManager.watchedTime = updateWatchedTime(quizManager.currTime.playing, quizManager.watchedTime);
-        if(quizManager.state === QUIZ_STATE.MyAnswer){ // check answer if the video is restarted manually without sending answer.
+        if(quizManager.state === QUIZ_STATE.MyAnswer){ // Check answer if the video is restarted manually without sending answer.
             player.pauseVideo();
             checkAnswer();
             if(quizManager.correctBool === true || quizManager.limPush - quizManager.cntPush === 0){
@@ -576,7 +575,7 @@ const myPlayerStateChangeEvent = () => {
             }
             player.playVideo();
         }
-        if(quizManager.disableSeekbarBool === true){ // prevent to jump playback position by seekbar.
+        if(quizManager.disableSeekbarBool === true){ // Prevent to jump playback position by seekbar.
             quizManager.diffTime = Math.abs(quizManager.currTime.playing - quizManager.watchedTime);
             if(quizManager.diffTime > 1.0){
                 player.seekTo(quizManager.watchedTime);
@@ -585,7 +584,7 @@ const myPlayerStateChangeEvent = () => {
     }
     if(player.getPlayerState() === VIDEO_STATE.Stopped){
         quizManager.currTime.stopped = player.getCurrentTime();
-        if(quizManager.disableSeekbarBool === true){ // prevent to jump video playback position by seekbar and prevent to pause video during each question.
+        if(quizManager.disableSeekbarBool === true){ // Prevent to jump video playback position by seekbar and prevent to pause video during each question.
             quizManager.diffTime = Math.abs(quizManager.currTime.stopped - quizManager.watchedTime);
             if(quizManager.diffTime > 1.0){
                 player.seekTo(quizManager.watchedTime);
@@ -602,10 +601,10 @@ const myIntervalEvent = () => {
         if(player.getPlayerState() === VIDEO_STATE.Playing){
             quizManager.currTime.playing = player.getCurrentTime();
             quizManager.watchedTime = updateWatchedTime(quizManager.currTime.playing, quizManager.watchedTime);
-            if(quizManager.state === QUIZ_STATE.ButtonCheck){ // prevent to play video before button check.
+            if(quizManager.state === QUIZ_STATE.ButtonCheck){ // Prevent to play video before button check.
                 player.pauseVideo();
             }
-            if(quizManager.state !== QUIZ_STATE.MyAnswer){ // execute srt function in each sections of subtitle.
+            if(quizManager.state !== QUIZ_STATE.MyAnswer){ // Execute srt function in each sections of subtitle.
                 if(quizManager.disableSeekbarBool === true){
                     if(Number(index) - quizManager.currIndex === 1){
                         quizManager.srtFuncArray.shift()();
@@ -627,7 +626,7 @@ const myIntervalEvent = () => {
                 alert(messages.alert.page);
             }
         }
-        if(quizManager.state === QUIZ_STATE.MyAnswer){ // answer time managemant
+        if(quizManager.state === QUIZ_STATE.MyAnswer){ // Answer time managemant
             if(document.activeElement.id === "anscol" || quizManager.ansTime.elapsed !== 0){
                 quizManager.ansTime.elapsed += interval;
                 myElem.text.innerHTML = messages.myAnswer.remainedTime(quizManager.ansTime.limit, quizManager.ansTime.elapsed);
@@ -643,7 +642,7 @@ const myIntervalEvent = () => {
             }
         }else{
             if(!isMobileDevice() && document.activeElement.id === "player"){
-                instantFocusToElement(myElem.pushBtn); // preparation of js keydown event
+                instantFocusToElement(myElem.pushBtn); // Preparation of js keydown event
             }
             quizManager.ansTime.elapsed = 0;
         }
@@ -651,7 +650,7 @@ const myIntervalEvent = () => {
 }
 //
 const myOnClickEvent = () => {
-    if(Number(index) === 0){ // jump to init question.
+    if(Number(index) === 0){ // Jump to init question.
         let tmpTime = quizManager.firstQuesStartTime-0.1;
         if(quizManager.currTime.playing < tmpTime){
             myElem.ansBtn.disabled = true;
@@ -659,7 +658,7 @@ const myOnClickEvent = () => {
             player.seekTo(tmpTime);
         }
     }
-    if(quizManager.state === QUIZ_STATE.MyAnswer){ // send answer.
+    if(quizManager.state === QUIZ_STATE.MyAnswer){ // Send answer.
         checkAnswer();
         if(quizManager.correctBool === true || quizManager.limPush - quizManager.cntPush === 0){
             quizManager.state = QUIZ_STATE.Talk;
@@ -688,7 +687,7 @@ myElem.ansCol.disabled  = true;
 myElem.ansBtn.disabled  = true;
 myElem.numOX.innerHTML  = messages.question.numberOX(quizManager.cntO, quizManager.cntX);
 //
-document.styleSheets.item(0).insertRule('html { touch-action: manipulation; }'); //disable double tap gesture
+document.styleSheets.item(0).insertRule('html { touch-action: manipulation; }'); // Disable double tap gesture
 document.styleSheets.item(0).insertRule('body { text-align: center; margin: auto; background: #EFEFEF; }');
 document.styleSheets.item(0).insertRule('.blinkImg   { animation: blinkImg 0.7s infinite alternate; }');
 document.styleSheets.item(0).insertRule('@keyframes blinkImg { 0% { opacity: 0.3; } 100% { opacity: 1; }}');
@@ -737,7 +736,7 @@ if(isMobileDevice()){
         () => {
             document.querySelector('body').appendChild(myElem.text);
             document.querySelector('body').appendChild(myElem.ansBtn);
-            // document.querySelector('body').appendChild(myElem.pushBtn); // append pushbutton element in initPageAppearance()
+            // document.querySelector('body').appendChild(myElem.pushBtn); // Append push button element in initPageAppearance()
             document.querySelector('body').appendChild(myElem.numOX);
         },
         () => {
@@ -763,7 +762,7 @@ if(isMobileDevice()){
     const divElemWidth = playerWidth*2/3;
     //
     document.querySelector('body').style.width = playerWidth+'px';
-    myElem.divUI.style.width = divUIWidth+'px'; // set with an assignment to reference the value from elsewhere.
+    myElem.divUI.style.width = divUIWidth+'px'; // Set with an assignment to reference the value from elsewhere.
     myElem.divUI.style.height = divUIHeight+'px';
     myElem.divElem.style.width = divElemWidth+'px';
     myElem.divElem.style.height = divUIHeight+'px';
@@ -801,7 +800,7 @@ if(isMobileDevice()){
             myElem.subText.style.margin  = '0px auto 50px';
             myElem.subText.style.padding = '0px 40px';
             document.getElementById("divelem").insertBefore(myElem.subText, myElem.text.nextSibling);
-            // document.getElementById("divbtn").appendChild(myElem.pushBtn); // append pushbutton element in initPageAppearance()
+            // document.getElementById("divbtn").appendChild(myElem.pushBtn); // Append push button element in initPageAppearance()
         },
         () => {
             document.getElementById("divelem").insertBefore(myElem.ansBtn, myElem.subText.nextSibling);
@@ -817,7 +816,7 @@ if(isMobileDevice()){
 }
 //
 const initPageAppearance = () => {
-    /* append push button element */
+    /* Append push button element */
     if(isMobileDevice()){
         document.querySelector('body').appendChild(myElem.divBtn);
     }else{
@@ -851,19 +850,19 @@ const initPageAppearance = () => {
 }
 //
 (async () => {
-    /* load push button image */
+    /* Load push button image */
     myElem.pushBtn = await loadImage(PATH.button);
     myElem.pushBtn.id = 'pushbtn';
-    myElem.pushBtn.tabIndex = 0; // set tabindex for adding focus
+    myElem.pushBtn.tabIndex = 0; // Set tabindex for adding focus
     //
-    /* load audio data */
+    /* Load audio data */
     const audioContext = new AudioContext();
     const response1 = await fetch(PATH.sound).catch(() => alert(messages.alert.audio));
     const responseBuffer = await response1.arrayBuffer();
     quizManager.audioBuffer = await audioContext.decodeAudioData(responseBuffer);
     prepareAudioBufferNode();
     //
-    /* load answer file */
+    /* Load answer file */
     const response2 = await fetch(PATH.answer).catch(() => alert(messages.alert.answer));
     const responseText = await response2.text();
     quizManager.ansArray = csvToArray(responseText);
@@ -906,7 +905,7 @@ const setTalkState = () => {
 };
 //
 //---------------------------------------------------------------------------------------------------------------
-/* set functions executed in each subtitle */
+/* Set functions executed in each subtitle */
 quizManager.jumpToAnsBool = true;
 quizManager.hidePlayerBool = true;
 quizManager.disableSeekbarBool = false;
